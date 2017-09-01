@@ -17,5 +17,14 @@
 #include <memory.h>
 #include <tchar.h>
 
+//전역 변수
+extern HWND g_hWnd;
+extern bool g_isLButtonDown;
+extern bool g_isRButtonDown;
+extern bool g_isLButtonUp;
+extern bool g_isRButtonUp;
+extern int g_MouseWheel;
+extern POINT g_ptMouse;
+
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.

@@ -22,6 +22,8 @@ HWND g_hWnd;
 POINT g_ptMouse;
 bool g_isLButtonDown = false;
 bool g_isRButtonDown = false;
+bool g_isLButtonUp = false;
+bool g_isRButtonUp = false;
 int g_MouseWheel = 0;
 
 //###########################################
