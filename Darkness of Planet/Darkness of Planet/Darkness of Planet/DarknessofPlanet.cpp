@@ -4,12 +4,28 @@
 #include "stdafx.h"
 #include "DarknessofPlanet.h"
 
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+
+//###########################################
+//				전역 변수 추가 하시오
+//###########################################
+//대원's 전역 변수
+HWND g_hWnd;
+//cMainGame g_pMainGame;
+
+POINT g_ptMouse;
+bool g_isLButtonDown = false;
+bool g_isRButtonDown = false;
+int g_MouseWheel = 0;
+
+//###########################################
+
 
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);
