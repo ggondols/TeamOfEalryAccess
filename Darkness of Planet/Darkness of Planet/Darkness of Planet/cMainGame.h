@@ -11,8 +11,9 @@ public:
 
 	virtual HRESULT Setup();
 	virtual void Release();
-	virtual void Render();
 	virtual void Update();
+	virtual void Render();
+	
 
 };
 

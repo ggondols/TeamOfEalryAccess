@@ -50,7 +50,7 @@ cGameNode * cSceneManager::addScene(string sceneName, cGameNode * scene)
 	return scene;
 }
 
-HRESULT cSceneManager::chageScene(string sceneName)
+HRESULT cSceneManager::changeScene(string sceneName)
 {
 	mapSceneIter find = _mSceneList.find(sceneName);
 

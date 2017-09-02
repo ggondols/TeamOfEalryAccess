@@ -54,8 +54,9 @@ extern int g_MouseWheel;
 
 
 //## 메니저 디파인 여기 ##//
-#define DEVICEMANAGER cDeviceManager::getSingleton()
 #define SCENEMANAGER cSceneManager::getSingleton()
+#define DEVICEMANAGER cDeviceManager::getSingleton()
+
 
 //## 디바이스 메크로##//
 #define GETDEVICE cDeviceManager::getSingleton()->GetDevice()

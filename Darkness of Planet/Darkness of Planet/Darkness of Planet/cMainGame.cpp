@@ -15,10 +15,11 @@ cMainGame::~cMainGame()
 
 HRESULT cMainGame::Setup()
 {
+	cGameNode::Setup(true);
 
 	SCENEMANAGER->addScene("cJustTestScene.h", new cJustTestScene);
 
-	SCENEMANAGER->chageScene("cJustTestScene");
+	SCENEMANAGER->changeScene("cJustTestScene");
 
 	return S_OK;
 }
@@ -26,8 +27,14 @@ HRESULT cMainGame::Setup()
 void cMainGame::Release()
 {
 	cGameNode::Release();
+}
 
+void cMainGame::Update()
+{
+	cGameNode::Update();
 
+	SCENEMANAGER->Update();
+	//AUTORELEASEPOOL->Drain();
 }
 
 void cMainGame::Render()
@@ -35,19 +42,11 @@ void cMainGame::Render()
 	GETDEVICE->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(47, 121, 112), 1.0f, 1);
 	GETDEVICE->BeginScene();
 
-	//SCENEMANAGER->Render();
+	SCENEMANAGER->Render();
 	//TIMEMANAGER->Render();
 
 	GETDEVICE->EndScene();
 	GETDEVICE->Present(0, 0, 0, 0);
 
-}
-
-void cMainGame::Update()
-{
-	cGameNode::Update();
-
-	//SCENEMANAGER->Update();
-	//AUTORELEASEPOOL->Drain();
 }
 

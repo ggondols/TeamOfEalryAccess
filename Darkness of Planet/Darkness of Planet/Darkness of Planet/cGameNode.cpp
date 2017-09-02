@@ -27,7 +27,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 	//여기에 메니저 셋업
 	if (_managerInit)
 	{
-		DEVICEMANAGER->Setup();
+		//DEVICEMANAGER->Setup();
 		SCENEMANAGER->Setup();
 	}
 

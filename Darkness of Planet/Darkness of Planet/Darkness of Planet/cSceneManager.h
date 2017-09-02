@@ -34,7 +34,7 @@ public:
 
 	cGameNode* addScene(string sceneName, cGameNode* scene);
 
-	HRESULT chageScene(string sceneName);
+	HRESULT changeScene(string sceneName);
 
 	friend DWORD CALLBACK loadingThread(LPVOID prc);
 
