@@ -83,7 +83,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			//TIMEMANAGER->Update(60.0f);
+			TIMEMANAGER->Update(60.0f);
 			g_pMainGame.Update();
 			g_pMainGame.Render();
 		}

@@ -94,10 +94,10 @@
       <Filter>테스트용 폴더</Filter>
     </ClInclude>
     <ClInclude Include="cTimeManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>#3D Framework\Manager\TimeManager</Filter>
     </ClInclude>
     <ClInclude Include="cTimer.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>#3D Framework\Manager\TimeManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,14 +122,14 @@
     <ClCompile Include="cJustTestScene.cpp">
       <Filter>테스트용 폴더</Filter>
     </ClCompile>
-    <ClCompile Include="cTimeManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cTimer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="commonFunction.cpp">
       <Filter>MainGame\GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimeManager.cpp">
+      <Filter>#3D Framework\Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimer.cpp">
+      <Filter>#3D Framework\Manager\TimeManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
