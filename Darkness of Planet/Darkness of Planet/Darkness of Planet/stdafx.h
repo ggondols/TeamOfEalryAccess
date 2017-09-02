@@ -52,10 +52,12 @@ extern int g_MouseWheel;
 #define SAFE_DELETE(p) if(p){delete (p); p=NULL;}
 #define SAFE_DELETE_ARRAY(p) if(p) { delete[] (p) ; p =NULL;}
 
-//## 디바이스 메크로##//
-#define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
 
 //## 메니저 디파인 여기 ##//
+#define DEVICEMANAGER cDeviceManager::getSingleton()
+
+//## 디바이스 메크로##//
+#define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
 
 
 //## SYNTHESIZE 

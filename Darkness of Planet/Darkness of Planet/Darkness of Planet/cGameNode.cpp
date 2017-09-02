@@ -30,7 +30,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 
 	}
 
-	/*D3DXMATRIXA16 matWorld;
+	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -49,7 +49,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		1000);
 	GETDEVICE->SetTransform(D3DTS_PROJECTION, &matProj);
 
-	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);*/
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
 
 	return S_OK;
 }
@@ -60,7 +60,8 @@ void cGameNode::Release()
 	//메니저 릴리즈
 	if (_managerInit)
 	{
-
+		DEVICEMANAGER->Destroy();
+		DEVICEMANAGER->releaseSingleton();
 	}
 }
 
