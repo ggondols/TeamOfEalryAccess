@@ -69,6 +69,9 @@
     <ClInclude Include="commonFunction.h">
       <Filter>MainGame\GameMain</Filter>
     </ClInclude>
+    <ClInclude Include="cSingletonBase.h">
+      <Filter>#3D Framework\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
