@@ -53,7 +53,7 @@ extern int g_MouseWheel;
 #define SAFE_DELETE_ARRAY(p) if(p) { delete[] (p) ; p =NULL;}
 
 //## 디바이스 메크로##//
-
+#define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
 
 //## 메니저 디파인 여기 ##//
 
@@ -92,6 +92,7 @@ public: virtual void Set##funName(varType var){\
 
 
 // 유틸리티 헤더
+#include "cDeviceManager.h"
 
 // 메니저 헤더
 
