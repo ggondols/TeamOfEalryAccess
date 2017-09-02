@@ -52,6 +52,9 @@
     <Filter Include="테스트용 폴더">
       <UniqueIdentifier>{3b88c983-182b-4d0d-9c47-4d5a494c297d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\TimeManager">
+      <UniqueIdentifier>{3912a80f-4cdb-4655-8d47-f80d0585f667}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -90,6 +93,12 @@
     <ClInclude Include="cJustTestScene.h">
       <Filter>테스트용 폴더</Filter>
     </ClInclude>
+    <ClInclude Include="cTimeManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cTimer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -112,6 +121,15 @@
     </ClCompile>
     <ClCompile Include="cJustTestScene.cpp">
       <Filter>테스트용 폴더</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimeManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="commonFunction.cpp">
+      <Filter>MainGame\GameMain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

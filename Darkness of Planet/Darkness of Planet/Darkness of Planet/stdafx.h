@@ -96,6 +96,7 @@ public: virtual void Set##funName(varType var){\
 
 
 // 유틸리티 헤더
+#include "commonFunction.h"
 
 
 // 메니저 헤더

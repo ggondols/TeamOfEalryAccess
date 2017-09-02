@@ -154,6 +154,8 @@
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingletonBase.h" />
+    <ClInclude Include="cTimeManager.h" />
+    <ClInclude Include="cTimer.h" />
     <ClInclude Include="DarknessofPlanet.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -166,6 +168,8 @@
     <ClCompile Include="cJustTestScene.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cTimeManager.cpp" />
+    <ClCompile Include="cTimer.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -173,6 +177,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="commonFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc" />

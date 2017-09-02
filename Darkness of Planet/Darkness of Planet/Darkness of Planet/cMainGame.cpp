@@ -17,8 +17,10 @@ HRESULT cMainGame::Setup()
 {
 	cGameNode::Setup(true);
 
+	//씬 생성하고
 	SCENEMANAGER->addScene("cJustTestScene.h", new cJustTestScene);
 
+	//여기서 씬 교체
 	SCENEMANAGER->changeScene("cJustTestScene");
 
 	return S_OK;
