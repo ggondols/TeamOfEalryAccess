@@ -45,7 +45,7 @@ void cMainGame::Render()
 	GETDEVICE->BeginScene();
 
 	SCENEMANAGER->Render();
-	//TIMEMANAGER->Render();
+	TIMEMANAGER->Render();
 
 	GETDEVICE->EndScene();
 	GETDEVICE->Present(0, 0, 0, 0);
