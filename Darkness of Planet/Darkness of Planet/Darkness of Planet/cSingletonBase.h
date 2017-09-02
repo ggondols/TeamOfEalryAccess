@@ -1,13 +1,13 @@
 #pragma once
 
 template <typename T>
-class singletonBase
+class cSingletonBase
 {
 protected:
 	static T* singleton;
 
-	singletonBase(void) {};
-	~singletonBase(void) {};
+	cSingletonBase(void) {};
+	~cSingletonBase(void) {};
 
 public:
 	//인스턴스 가져온다
@@ -27,11 +27,11 @@ public:
 
 //싱글톤 초기화한다
 template <typename T>
-T* singletonBase<T>::singleton = 0;
+T* cSingletonBase<T>::singleton = 0;
 
 //값 가져오기
 template <typename T>
-T* singletonBase<T>::getSingleton(void)
+T* cSingletonBase<T>::getSingleton(void)
 {
 	if (!singleton) singleton = new T;
 	return singleton;

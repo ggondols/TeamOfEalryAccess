@@ -148,6 +148,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cGameNode.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cSingletonBase.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="commonFunction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cGameNode.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />
