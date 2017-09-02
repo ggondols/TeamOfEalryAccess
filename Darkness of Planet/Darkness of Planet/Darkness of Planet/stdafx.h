@@ -60,7 +60,7 @@ extern int g_MouseWheel;
 
 
 //## 디바이스 메크로##//
-#define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
+#define GETDEVICE cDeviceManager::getSingleton()->GetDevice()																																						//드래곤볼 5성구
 
 
 //## SYNTHESIZE 

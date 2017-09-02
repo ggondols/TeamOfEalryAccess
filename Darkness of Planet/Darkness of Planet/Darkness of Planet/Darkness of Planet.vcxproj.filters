@@ -55,6 +55,9 @@
     <Filter Include="#3D Framework\Manager\TimeManager">
       <UniqueIdentifier>{3912a80f-4cdb-4655-8d47-f80d0585f667}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Geometry\드래곤볼 2성 구">
+      <UniqueIdentifier>{b166b968-20eb-435f-98fc-56ba3e711b46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

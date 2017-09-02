@@ -11,6 +11,7 @@ cJustTestScene::~cJustTestScene()
 
 HRESULT cJustTestScene::Setup()
 {
+	//µå ·¡°ï º¼ 1¼º gu
 	return S_OK;
 }
 

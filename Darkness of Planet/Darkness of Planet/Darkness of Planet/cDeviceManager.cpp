@@ -54,4 +54,13 @@ void cDeviceManager::Destroy(void)
 	SAFE_RELEASE(m_pD3D);
 	ULONG ul = m_pD3DDevice->Release();// SAFE_RELEASE(m_pD3DDevice);
 	//	assert(ul == 0 && "삭제되지 않은 COM 객체가 있습니다.");
+	//드																																																																			//드
+	//래																																																																		   //래
+	//곤																																																																		   //곤
+	//볼																																																																		   //볼
+	//6																																																																			//7
+	//성																																																																		   //성
+	//구																																																																		   //구
+
+
 }

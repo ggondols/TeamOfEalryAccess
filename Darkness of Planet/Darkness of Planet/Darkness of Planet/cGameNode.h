@@ -20,7 +20,7 @@ public:
 	
 	//bool About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-	//virtual INT_PTR CALLBACK  About(HWND, UINT, WPARAM, LPARAM);
+	//virtual INT_PTR CALLBACK  About(HWND, UINT, WPARAM, LPARAM); 드래곤볼 3성구
 
 
 };
