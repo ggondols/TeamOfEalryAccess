@@ -27,14 +27,14 @@
     <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DarknessofPlanet.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cGameNode.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="cMainGame.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cGameNode.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="DarknessofPlanet.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

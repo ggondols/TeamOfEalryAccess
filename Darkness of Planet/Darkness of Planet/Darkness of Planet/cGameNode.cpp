@@ -56,6 +56,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 
 void cGameNode::Release()
 {
+
 	//메니저 릴리즈
 	if (_managerInit)
 	{

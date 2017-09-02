@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "cMainGame.h"
+
+
 cMainGame::cMainGame()
 {
 }
@@ -12,17 +14,22 @@ cMainGame::~cMainGame()
 
 HRESULT cMainGame::Setup()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void cMainGame::Release()
 {
+	cGameNode::Release();
+
 }
 
 void cMainGame::Render()
 {
+	
 }
 
 void cMainGame::Update()
 {
+	
 }
+

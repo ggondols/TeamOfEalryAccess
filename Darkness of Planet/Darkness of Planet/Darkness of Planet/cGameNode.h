@@ -18,7 +18,7 @@ public:
 
 	virtual LRESULT MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 	
-	bool About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+	//bool About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 	//virtual INT_PTR CALLBACK  About(HWND, UINT, WPARAM, LPARAM);
 
