@@ -29,6 +29,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 	{
 		//DEVICEMANAGER->Setup();
 		SCENEMANAGER->Setup();
+		TIMEMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -66,6 +67,9 @@ void cGameNode::Release()
 
 		SCENEMANAGER->Release();
 		SCENEMANAGER->releaseSingleton();
+
+		TIMEMANAGER->Release();
+		TIMEMANAGER->releaseSingleton();
 	}
 }
 
