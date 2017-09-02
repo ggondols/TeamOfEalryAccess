@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cGameNode.h" />
+    <ClInclude Include="cJustTestScene.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingletonBase.h" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cGameNode.cpp" />
+    <ClCompile Include="cJustTestScene.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />

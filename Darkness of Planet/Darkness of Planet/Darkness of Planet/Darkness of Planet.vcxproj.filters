@@ -84,6 +84,9 @@
     <ClInclude Include="cSceneManager.h">
       <Filter>#3D Framework\Manager\SceneManager</Filter>
     </ClInclude>
+    <ClInclude Include="cJustTestScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="cSceneManager.cpp">
       <Filter>#3D Framework\Manager\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cJustTestScene.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
