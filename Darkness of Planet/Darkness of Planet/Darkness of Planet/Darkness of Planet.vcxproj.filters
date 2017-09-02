@@ -49,6 +49,9 @@
     <Filter Include="#3D Framework\Manager\SceneManager">
       <UniqueIdentifier>{87ec93cd-4438-46dd-b6d1-6e172ed3f58f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="테스트용 폴더">
+      <UniqueIdentifier>{3b88c983-182b-4d0d-9c47-4d5a494c297d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -85,7 +88,7 @@
       <Filter>#3D Framework\Manager\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="cJustTestScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>테스트용 폴더</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +111,7 @@
       <Filter>#3D Framework\Manager\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="cJustTestScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>테스트용 폴더</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

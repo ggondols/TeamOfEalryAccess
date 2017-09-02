@@ -27,7 +27,8 @@ HRESULT cGameNode::Setup(bool managerInit)
 	//여기에 메니저 셋업
 	if (_managerInit)
 	{
-
+		DEVICEMANAGER->Setup();
+		SCENEMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -62,6 +63,9 @@ void cGameNode::Release()
 	{
 		DEVICEMANAGER->Destroy();
 		DEVICEMANAGER->releaseSingleton();
+
+		SCENEMANAGER->Release();
+		SCENEMANAGER->releaseSingleton();
 	}
 }
 

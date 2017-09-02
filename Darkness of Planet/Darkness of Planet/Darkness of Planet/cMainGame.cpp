@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cMainGame.h"
+#include "cJustTestScene.h"
 
 
 cMainGame::cMainGame()
@@ -14,13 +15,18 @@ cMainGame::~cMainGame()
 
 HRESULT cMainGame::Setup()
 {
-	
+
+	SCENEMANAGER->addScene("cJustTestScene.h", new cJustTestScene);
+
+	SCENEMANAGER->chageScene("cJustTestScene");
+
 	return S_OK;
 }
 
 void cMainGame::Release()
 {
 	cGameNode::Release();
+
 
 }
 
