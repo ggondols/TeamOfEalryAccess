@@ -13,42 +13,75 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="#3D Framework">
+      <UniqueIdentifier>{c046b80d-406a-42a4-b64b-c7f594ae440b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager">
+      <UniqueIdentifier>{5244b2e8-bb79-4bff-9aca-93a0414e3532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Geometry">
+      <UniqueIdentifier>{9f235dab-89cb-41aa-9478-989cdfd9be7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Camera">
+      <UniqueIdentifier>{b3c38766-28af-48f1-9658-7301dcdfed75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Grid">
+      <UniqueIdentifier>{9cbf0329-b6ac-498f-b506-111d00f48d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame">
+      <UniqueIdentifier>{eb93fe87-d578-48f2-a88a-f9b666e8554a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Window">
+      <UniqueIdentifier>{7976c4a6-f905-4e58-bbf8-4804bc34ebcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\기타">
+      <UniqueIdentifier>{97a722a2-ce22-49a4-9fa3-cb5c4b442a5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\기타">
+      <UniqueIdentifier>{cd6b64b8-9520-429b-b008-f99a6731964f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\GameMain">
+      <UniqueIdentifier>{f4ce75ba-c581-4a4b-807a-4805b0a85559}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="DarknessofPlanet.h">
+      <Filter>MainGame\Window</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>MainGame\Window</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\기타</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일\기타</Filter>
     </ClInclude>
     <ClInclude Include="cGameNode.h">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\GameMain</Filter>
     </ClInclude>
     <ClInclude Include="cMainGame.h">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\GameMain</Filter>
     </ClInclude>
-    <ClInclude Include="DarknessofPlanet.h">
-      <Filter>소스 파일</Filter>
+    <ClInclude Include="commonFunction.h">
+      <Filter>MainGame\GameMain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="DarknessofPlanet.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\Window</Filter>
     </ClCompile>
-    <ClCompile Include="cMainGame.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>MainGame\Window</Filter>
     </ClCompile>
     <ClCompile Include="cGameNode.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="cMainGame.cpp">
+      <Filter>MainGame\GameMain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
