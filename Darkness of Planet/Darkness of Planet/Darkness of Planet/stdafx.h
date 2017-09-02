@@ -55,6 +55,7 @@ extern int g_MouseWheel;
 
 //## 메니저 디파인 여기 ##//
 #define DEVICEMANAGER cDeviceManager::getSingleton()
+#define SCENEMANAGER cSceneManager::getSingleton()
 
 //## 디바이스 메크로##//
 #define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
@@ -94,9 +95,11 @@ public: virtual void Set##funName(varType var){\
 
 
 // 유틸리티 헤더
-#include "cDeviceManager.h"
+
 
 // 메니저 헤더
+#include "cDeviceManager.h"
+#include "cSceneManager.h"
 
 // 전역 싱글톤 클래스(디파인)
 

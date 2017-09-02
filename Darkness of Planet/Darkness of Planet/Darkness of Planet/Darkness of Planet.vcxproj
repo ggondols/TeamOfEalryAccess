@@ -151,6 +151,7 @@
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cGameNode.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingletonBase.h" />
     <ClInclude Include="DarknessofPlanet.h" />
     <ClInclude Include="resource.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cGameNode.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

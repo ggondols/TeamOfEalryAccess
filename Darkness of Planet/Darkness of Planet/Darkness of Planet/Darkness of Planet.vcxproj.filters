@@ -46,6 +46,9 @@
     <Filter Include="#3D Framework\Manager\DeviceManager">
       <UniqueIdentifier>{482d59c9-6b60-4129-bd86-f5a2198c784a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\SceneManager">
+      <UniqueIdentifier>{87ec93cd-4438-46dd-b6d1-6e172ed3f58f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -78,6 +81,9 @@
     <ClInclude Include="cDeviceManager.h">
       <Filter>#3D Framework\Manager\DeviceManager</Filter>
     </ClInclude>
+    <ClInclude Include="cSceneManager.h">
+      <Filter>#3D Framework\Manager\SceneManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -94,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="cDeviceManager.cpp">
       <Filter>#3D Framework\Manager\DeviceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneManager.cpp">
+      <Filter>#3D Framework\Manager\SceneManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

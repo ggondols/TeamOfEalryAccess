@@ -14,6 +14,7 @@ cMainGame::~cMainGame()
 
 HRESULT cMainGame::Setup()
 {
+	
 	return S_OK;
 }
 
