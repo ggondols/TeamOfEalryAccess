@@ -243,6 +243,9 @@
     <ClInclude Include="cHeightMap.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="cUIObject.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -369,6 +372,9 @@
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="cHeightMap.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="cUIObject.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
   </ItemGroup>
