@@ -41,7 +41,7 @@ extern int g_MouseWheel;
 #include <assert.h>
 #include <list>
 #include <string>
-
+#include <functional>  //////바인드 함수를 이용하기 위한 헤더
 
 
 //필요한 Define은 여기서 선언 합니다.
@@ -177,4 +177,5 @@ struct ST_PN_VERTEX
 
 typedef void(*CALLBACK_FUNCTION)(void);
 typedef void(*CALLBACK_FUNCTION_PARAMETER)(void*);
+typedef std::function<void()> CallbackBindFunction; // pFunc 이라는 타입선언. 이것은 함수포인터 방식에서의 typedef int(*pFunc)(int); 에 해당함.
 
