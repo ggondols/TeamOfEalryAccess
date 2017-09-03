@@ -63,6 +63,9 @@ extern int g_MouseWheel;
 
 //## 일반적인 클래스 메크로##//
 #define RND cRandomFunction::getSingleton()
+
+#define OBJECTPOOL cObjectPool::getSingleton()
+
 //## 디바이스 메크로##//
 #define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
 
@@ -116,7 +119,7 @@ public: virtual void Set##funName(varType var){\
 
 
 // 전역 싱글톤 클래스(디파인)
-
+#include "cObjectPool.h"
 
 // 일반 클래스 헤더(싱글톤 버전1 : 템플릿)
 #include "cRandomFunction.h"

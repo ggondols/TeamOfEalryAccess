@@ -5,16 +5,14 @@
 cObject::cObject()
 	: m_nRefCount(1)
 {
-	//
-	//g_pObjectPool->AddObject(this);
+	OBJECTPOOL->AddObject(this);
 }
 
 
 cObject::~cObject()
 {
 	assert(m_nRefCount <= 0 && "릴리즈 하지 않은 오브젝트가 있음");
-	//
-	//g_pObjectPool->RemoveObject(this);
+	OBJECTPOOL->RemoveObject(this);
 }
 
 void cObject::AddRef()
@@ -27,12 +25,12 @@ void cObject::Release()
 	--m_nRefCount;
 	if (m_nRefCount <= 0)
 	{
-		//delete this;
+		delete this;
 	}
 }
 
 cObject * cObject::AutoRelase()
 {
-	//g_pAutoReleasePool->AddObject(this);
+	OBJECTPOOL->AddObject(this);
 	return this;
 }
