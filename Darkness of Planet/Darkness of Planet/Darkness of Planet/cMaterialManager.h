@@ -23,13 +23,13 @@ public:
 	void Setup();
 	void Release();
 	
-	void SetRed(D3DMATERIAL9& mat);
-	void SetGreen(D3DMATERIAL9& mat);
-	void SetBlue(D3DMATERIAL9& mat);
-	void SetWhite(D3DMATERIAL9& mat);
-	void SetBlack(D3DMATERIAL9& mat);
-	void SetGray(D3DMATERIAL9& mat);
-	void SetGrayWhite(D3DMATERIAL9& mat);
+	void SetRed(OUT D3DMATERIAL9& mat);
+	void SetGreen(OUT D3DMATERIAL9& mat);
+	void SetBlue(OUT D3DMATERIAL9& mat);
+	void SetWhite(OUT D3DMATERIAL9& mat);
+	void SetBlack(OUT D3DMATERIAL9& mat);
+	void SetGray(OUT D3DMATERIAL9& mat);
+	void SetGrayWhite(OUT D3DMATERIAL9& mat);
 	void SetCustomMaterial(OUT D3DMATERIAL9& mat, D3DCOLORVALUE Ambient, D3DCOLORVALUE Diffuse, D3DCOLORVALUE Specular, D3DCOLORVALUE Emissive,float power);
 	D3DMATERIAL9 GetRed() { return m_mRedmaterial; }
 	D3DMATERIAL9 GetGreen() { return m_mGreenmaterial; }
