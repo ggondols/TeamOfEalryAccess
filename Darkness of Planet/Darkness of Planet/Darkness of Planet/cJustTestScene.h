@@ -1,8 +1,11 @@
 #pragma once
 #include "cGameNode.h"
+#include "HankcCamera.h"
 
 class cJustTestScene : public cGameNode
 {
+private:
+	Hank::cCamera *m_pCamera;
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();
