@@ -162,6 +162,7 @@
     <ClInclude Include="cSingletonBase.h" />
     <ClInclude Include="cTaeYeongCube.h" />
     <ClInclude Include="cTaeYeongCubeTexture.h" />
+    <ClInclude Include="cTaeYeongHPbar.h" />
     <ClInclude Include="cTaeYeongKeyShare.h" />
     <ClInclude Include="cTaeYeongMoveSequence.h" />
     <ClInclude Include="cTaeYeongPyramid.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cTaeYeongCube.cpp" />
     <ClCompile Include="cTaeYeongCubeTexture.cpp" />
+    <ClCompile Include="cTaeYeongHPbar.cpp" />
     <ClCompile Include="cTaeYeongKeyShare.cpp" />
     <ClCompile Include="cTaeYeongMoveSequence.cpp" />
     <ClCompile Include="cTaeYeongPyramid.cpp" />
