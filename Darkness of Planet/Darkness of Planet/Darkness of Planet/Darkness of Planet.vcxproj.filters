@@ -153,6 +153,9 @@
     <ClInclude Include="cTaeYeongPyramid.h">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClInclude>
+    <ClInclude Include="cTaeYeongKeyShare.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -207,6 +210,9 @@
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
     <ClCompile Include="cTaeYeongPyramid.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaeYeongKeyShare.cpp">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
   </ItemGroup>
