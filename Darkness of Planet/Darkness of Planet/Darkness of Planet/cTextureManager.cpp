@@ -11,7 +11,7 @@ cTextureManager::~cTextureManager()
 {
 }
 
-LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(const char* szFullPath)
+LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(IN const char* szFullPath)
 {
 	if (m_mapTexture.find(szFullPath) == m_mapTexture.end())
 	{
@@ -48,12 +48,12 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(const char* szFullPath)
 	return m_mapTexture[szFullPath];
 }
 
-LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(const string & szFullPath)
+LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(IN const string & szFullPath)
 {
 	return GetTexture(szFullPath.c_str());
 }
 
-LPDIRECT3DTEXTURE9 cTextureManager::GetTextureEx(const char* szFullPath, OUT D3DXIMAGE_INFO* pImageInfo)
+LPDIRECT3DTEXTURE9 cTextureManager::GetTextureEx(IN const char* szFullPath, OUT D3DXIMAGE_INFO* pImageInfo)
 {
 	if (m_mapTexture.find(szFullPath) == m_mapTexture.end())
 	{
@@ -86,7 +86,7 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTextureEx(const char* szFullPath, OUT D3D
 	return m_mapTexture[szFullPath];
 }
 
-LPDIRECT3DTEXTURE9 cTextureManager::GetTextureEx(const string& sFullPath, OUT D3DXIMAGE_INFO* pImageInfo)
+LPDIRECT3DTEXTURE9 cTextureManager::GetTextureEx(IN const string& sFullPath, OUT D3DXIMAGE_INFO* pImageInfo)
 {
 	return GetTextureEx(sFullPath.c_str(), pImageInfo);
 }

@@ -11,17 +11,17 @@ class cTextureManager : public cSingletonBase<cTextureManager>
 {
 private:
 	map<string, LPDIRECT3DTEXTURE9> m_mapTexture;
-	map<string, D3DXIMAGE_INFO>		m_mapImageInfo;
+	map<string, D3DXIMAGE_INFO>		m_mapImageInfo;//텍스쳐 EX용 이미지 인포 저장
 
 public:
 	cTextureManager();
 	~cTextureManager();
 
-	LPDIRECT3DTEXTURE9 GetTexture(const char* szFullPath);
-	LPDIRECT3DTEXTURE9 GetTexture(const string& szFullPath);
+	LPDIRECT3DTEXTURE9 GetTexture(IN const char* szFullPath);
+	LPDIRECT3DTEXTURE9 GetTexture(IN const string& szFullPath);
 
-	LPDIRECT3DTEXTURE9 GetTextureEx(const char* szFullPath, OUT D3DXIMAGE_INFO* pImageInfo);
-	LPDIRECT3DTEXTURE9 GetTextureEx(const string& sFullPath, OUT D3DXIMAGE_INFO* pImageInfo);
+	LPDIRECT3DTEXTURE9 GetTextureEx(IN const char* szFullPath, OUT D3DXIMAGE_INFO* pImageInfo); 
+	LPDIRECT3DTEXTURE9 GetTextureEx(IN const string& sFullPath, OUT D3DXIMAGE_INFO* pImageInfo);
 	void Destroy();
 };
 
