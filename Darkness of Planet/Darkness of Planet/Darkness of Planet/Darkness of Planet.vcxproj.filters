@@ -82,6 +82,9 @@
     <Filter Include="소스 파일\TaeYeongDelete">
       <UniqueIdentifier>{f568e5bc-ac15-4014-95fd-42172f89d482}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\여현구 임시저장소">
+      <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -168,6 +171,9 @@
     <ClInclude Include="cTaeYeongHPbar.h">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClInclude>
+    <ClInclude Include="cFont.h">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -238,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="cTaeYeongHPbar.cpp">
       <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="cFont.cpp">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

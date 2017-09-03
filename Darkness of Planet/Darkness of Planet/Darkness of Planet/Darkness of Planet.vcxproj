@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cDeviceManager.h" />
+    <ClInclude Include="cFont.h" />
     <ClInclude Include="cGameNode.h" />
     <ClInclude Include="cJustTestScene.h" />
     <ClInclude Include="cKeyManager.h" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cDeviceManager.cpp" />
+    <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cGameNode.cpp" />
     <ClCompile Include="cJustTestScene.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
