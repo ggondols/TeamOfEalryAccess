@@ -67,6 +67,9 @@
     <Filter Include="#3D Framework\Manager\MaterialManager">
       <UniqueIdentifier>{9fb193c2-f373-4f7c-938e-147edfb16ef6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\cNormalSetting">
+      <UniqueIdentifier>{0b09b278-be20-41d1-b30e-3ea0842e2c6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -117,6 +120,9 @@
     <ClInclude Include="cMaterialManager.h">
       <Filter>#3D Framework\Manager\MaterialManager</Filter>
     </ClInclude>
+    <ClInclude Include="cNormalSetting.h">
+      <Filter>#3D Framework\cNormalSetting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -154,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="cMaterialManager.cpp">
       <Filter>#3D Framework\Manager\MaterialManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cNormalSetting.cpp">
+      <Filter>#3D Framework\cNormalSetting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
