@@ -64,9 +64,6 @@
     <Filter Include="#3D Framework\Manager\KeyManager">
       <UniqueIdentifier>{b33f59c6-b717-42ee-b2c1-1148751b9cf1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\MaterialMake">
-      <UniqueIdentifier>{f767db00-d257-4af0-9e58-3f3feb088e95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="#3D Framework\Manager\MaterialManager">
       <UniqueIdentifier>{9fb193c2-f373-4f7c-938e-147edfb16ef6}</UniqueIdentifier>
     </Filter>
@@ -117,8 +114,8 @@
     <ClInclude Include="cKeyManager.h">
       <Filter>#3D Framework\Manager\KeyManager</Filter>
     </ClInclude>
-    <ClInclude Include="cMaterialMake.h">
-      <Filter>#3D Framework\MaterialMake</Filter>
+    <ClInclude Include="cMaterialManager.h">
+      <Filter>#3D Framework\Manager\MaterialManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,8 +152,8 @@
     <ClCompile Include="cKeyManager.cpp">
       <Filter>#3D Framework\Manager\KeyManager</Filter>
     </ClCompile>
-    <ClCompile Include="cMaterialMake.cpp">
-      <Filter>#3D Framework\MaterialMake</Filter>
+    <ClCompile Include="cMaterialManager.cpp">
+      <Filter>#3D Framework\Manager\MaterialManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
