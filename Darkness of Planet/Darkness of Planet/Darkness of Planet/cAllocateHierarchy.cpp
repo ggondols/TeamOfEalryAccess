@@ -65,7 +65,7 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 		std::string sFilename(pMaterials[i].pTextureFilename);
 		//std::string sFullPath = m_sFolder + sFilename;
 		std::string sFullPath = sFilename;
-		LPDIRECT3DTEXTURE9 pTex = TEXTUREMANAGER->insertTexture(sFullPath);
+		LPDIRECT3DTEXTURE9 pTex = TEXTUREMANAGER->GetTexture(sFullPath);
 		pBoneMesh->vecTexture.push_back(pTex);
 	}
 

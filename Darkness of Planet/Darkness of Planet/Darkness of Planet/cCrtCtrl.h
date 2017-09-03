@@ -16,6 +16,7 @@ public:
 	cCrtCtrl(void);
 	~cCrtCtrl(void);
 
+	
 	void Update(iMap* pMap = NULL);
 	D3DXVECTOR3* GetPosition();
 };

@@ -29,7 +29,6 @@ public:
 		return rand() % (toNum - fromNum + 1) + fromNum;
 	}
 
-	//숙제 1번!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//getFloat 범위 : 0.0 ~ 1.0 실수
 	float getFloat(void)
 	{
