@@ -1,11 +1,10 @@
 #include "StdAfx.h"
 #include "cGameObject.h"
 
-
 cGameObject::cGameObject(void)
 	: m_vPos(0, 0, 0)
 	, m_vDir(0, 0, 1)
-	//, m_pAction(NULL)
+	, m_pAction(NULL)
 	, m_vPrevPosition(0, 0, 0)
 	, m_isDirection(false)
 {
@@ -14,17 +13,17 @@ cGameObject::cGameObject(void)
 
 cGameObject::~cGameObject(void)
 {
-	//SAFE_RELEASE(m_pAction);
+	SAFE_RELEASE(m_pAction);
 }
 
 void cGameObject::Update()
 {
 	m_vPrevPosition = m_vPos;
 
-	/*if (m_pAction)
+	if (m_pAction)
 	{
 		m_pAction->Update();
-	}*/
+	}
 
 	if (m_isDirection)
 	{
