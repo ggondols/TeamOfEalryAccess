@@ -100,9 +100,27 @@
     <Filter Include="#3D Framework\Manager\SkinnedMeshManager">
       <UniqueIdentifier>{dd197b68-75f0-4d74-9dbc-efc8d0223a40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Object">
+      <UniqueIdentifier>{7da2dcf7-b166-4792-878c-5708fc086f90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#00 Post It!">
+      <UniqueIdentifier>{3ecbac35-6010-4b2f-a815-f2e3f22cf23e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#00 Post It!\Write here">
+      <UniqueIdentifier>{9b9588de-52ba-471b-9584-d729a6c594a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#00 Post It!\Write here\09-04-2017">
+      <UniqueIdentifier>{4f3dbeeb-e0d4-4e44-a26e-18dc4bbf5865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#00 Post It!\Write here\작업중 이슈 기록할것">
+      <UniqueIdentifier>{8c748c47-9c15-476e-97b2-95cee0579f3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="[Hank]공지.txt">
+      <Filter>#00 Post It!\Write here\09-04-2017</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DarknessofPlanet.h">
@@ -216,9 +234,6 @@
     <ClInclude Include="cAction.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="cGameObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="iMap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -230,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="cSkinnedMeshManager.h">
       <Filter>#3D Framework\Manager\SkinnedMeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>#3D Framework\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +347,6 @@
     <ClCompile Include="cAction.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="iMap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -343,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="cSkinnedMeshManager.cpp">
       <Filter>#3D Framework\Manager\SkinnedMeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>#3D Framework\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
