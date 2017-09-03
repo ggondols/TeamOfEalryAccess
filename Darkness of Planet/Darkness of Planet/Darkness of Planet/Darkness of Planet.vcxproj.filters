@@ -97,6 +97,9 @@
     <Filter Include="#3D Framework\Mesh\Hank">
       <UniqueIdentifier>{5a27e493-e1b5-44ee-9131-8d32f59ac2bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\SkinnedMeshManager">
+      <UniqueIdentifier>{dd197b68-75f0-4d74-9dbc-efc8d0223a40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -226,7 +229,7 @@
       <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClInclude>
     <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>#3D Framework\Mesh\Hank</Filter>
+      <Filter>#3D Framework\Manager\SkinnedMeshManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,7 +342,7 @@
       <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClCompile>
     <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>#3D Framework\Mesh\Hank</Filter>
+      <Filter>#3D Framework\Manager\SkinnedMeshManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
