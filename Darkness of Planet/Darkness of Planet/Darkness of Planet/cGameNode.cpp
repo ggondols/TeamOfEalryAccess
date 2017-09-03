@@ -30,6 +30,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		//DEVICEMANAGER->Setup();
 		SCENEMANAGER->Setup();
 		TIMEMANAGER->Setup();
+		KEYMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -64,12 +65,15 @@ void cGameNode::Release()
 	{
 		DEVICEMANAGER->Destroy();
 		DEVICEMANAGER->releaseSingleton();
-
+	
 		SCENEMANAGER->Release();
 		SCENEMANAGER->releaseSingleton();
 
 		TIMEMANAGER->Release();
 		TIMEMANAGER->releaseSingleton();
+		
+		KEYMANAGER->Release();
+		KEYMANAGER->releaseSingleton();
 	}
 }
 

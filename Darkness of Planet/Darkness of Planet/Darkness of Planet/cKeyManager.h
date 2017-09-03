@@ -7,13 +7,14 @@
 ////////// 키 매니저 ///////////////////////////////////
 //////키 누르는거 관리하는 매니저 입니다 ///////////////
 ////////////////////////////////////////////////////////
-class cKeyManager:public cSingletonBase <cDeviceManager>
+class cKeyManager:public cSingletonBase <cKeyManager>
 {
 private:
 	bitset<KEYMAX> _keyUp;
 	bitset<KEYMAX> _keyDown;
 public:
-	HRESULT init(void);
+	void Release();
+	HRESULT Setup(void);
 	void release(void);
 
 	//한번만 눌렀을때..
@@ -34,6 +35,7 @@ public:
 	void setKeyDown(int key, bool state) { _keyDown.set(key, state); }
 	void setKeyUp(int key, bool state) { _keyUp.set(key, state); }
 
+	
 	cKeyManager();
 	~cKeyManager();
 };

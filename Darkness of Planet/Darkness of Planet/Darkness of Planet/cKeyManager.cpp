@@ -2,6 +2,7 @@
 #include "cKeyManager.h"
 
 
+
 cKeyManager::cKeyManager()
 {
 }
@@ -11,7 +12,7 @@ cKeyManager::~cKeyManager()
 {
 }
 
-HRESULT cKeyManager::init(void)
+HRESULT cKeyManager::Setup(void)
 {
 	for (int i = 0; i < KEYMAX; i++)
 	{
@@ -21,9 +22,6 @@ HRESULT cKeyManager::init(void)
 	return S_OK;
 }
 
-void cKeyManager::release(void)
-{
-}
 
 //한번만 눌렀을때..
 bool cKeyManager::isOnceKeyDown(int key)
@@ -71,3 +69,7 @@ bool cKeyManager::isToggleKey(int key)
 }
 
 
+void cKeyManager::Release()
+{
+	//딱히 필요 없는것 같습니다?
+}
