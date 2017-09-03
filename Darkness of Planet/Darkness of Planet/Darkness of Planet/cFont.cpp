@@ -63,7 +63,7 @@ void cFont::Render()
 	Font.lfUnderline = false;
 	Font.lfStrikeOut = false;
 	Font.lfCharSet = DEFAULT_CHARSET;
-	strcpy(Font.lfFaceName, "Times New Roman");
+	strcpy_s(Font.lfFaceName, "Times New Roman");
 	// 글꼴 스타일 
 
 	// 글팔을 만들고 장치 컨텍스트로 글꼴을 선택한다.

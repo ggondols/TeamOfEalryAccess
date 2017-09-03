@@ -174,6 +174,9 @@
     <ClInclude Include="cFont.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="cTaeYeongMinHeap.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">

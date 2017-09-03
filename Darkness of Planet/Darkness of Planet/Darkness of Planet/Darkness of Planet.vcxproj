@@ -165,6 +165,7 @@
     <ClInclude Include="cTaeYeongCubeTexture.h" />
     <ClInclude Include="cTaeYeongHPbar.h" />
     <ClInclude Include="cTaeYeongKeyShare.h" />
+    <ClInclude Include="cTaeYeongMinHeap.h" />
     <ClInclude Include="cTaeYeongMoveSequence.h" />
     <ClInclude Include="cTaeYeongPyramid.h" />
     <ClInclude Include="cTaeYeongTile.h" />
