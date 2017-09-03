@@ -163,6 +163,7 @@
     <ClInclude Include="cTaeYeongCube.h" />
     <ClInclude Include="cTaeYeongCubeTexture.h" />
     <ClInclude Include="cTaeYeongKeyShare.h" />
+    <ClInclude Include="cTaeYeongMoveSequence.h" />
     <ClInclude Include="cTaeYeongPyramid.h" />
     <ClInclude Include="cTaeYeongTile.h" />
     <ClInclude Include="cTaeYeongUIInterface.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="cTaeYeongCube.cpp" />
     <ClCompile Include="cTaeYeongCubeTexture.cpp" />
     <ClCompile Include="cTaeYeongKeyShare.cpp" />
+    <ClCompile Include="cTaeYeongMoveSequence.cpp" />
     <ClCompile Include="cTaeYeongPyramid.cpp" />
     <ClCompile Include="cTaeYeongTile.cpp" />
     <ClCompile Include="cTaeYeongUIInterface.cpp" />
