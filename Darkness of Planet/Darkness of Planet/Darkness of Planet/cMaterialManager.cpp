@@ -74,6 +74,18 @@ void cMaterialManager::SetGrayWhite(D3DMATERIAL9 & mat)
 	mat.Power = 5.0f;
 }
 
+void cMaterialManager::SetCustomMaterial(OUT D3DMATERIAL9 & mat, D3DCOLORVALUE Ambient, D3DCOLORVALUE Diffuse, D3DCOLORVALUE Specular, D3DCOLORVALUE Emissive, float power)
+{
+	////////// 외부 클래스에서 머티리얼 만들어서 사용
+	//////////혹시 몰라서 만들어놈(별로 쓸모 없을듯)
+	mat.Ambient = Ambient;
+	mat.Diffuse = Diffuse;
+	mat.Specular = Specular;
+	mat.Emissive = Emissive;
+	mat.Power = power;
+
+}
+
 
 void cMaterialManager::Setup()
 {

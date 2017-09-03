@@ -29,7 +29,8 @@ public:
 	void SetWhite(D3DMATERIAL9& mat);
 	void SetBlack(D3DMATERIAL9& mat);
 	void SetGray(D3DMATERIAL9& mat);
-	void SetGrayWhite(D3DMATERIAL9 & mat);
+	void SetGrayWhite(D3DMATERIAL9& mat);
+	void SetCustomMaterial(OUT D3DMATERIAL9& mat, D3DCOLORVALUE Ambient, D3DCOLORVALUE Diffuse, D3DCOLORVALUE Specular, D3DCOLORVALUE Emissive,float power);
 	D3DMATERIAL9 GetRed() { return m_mRedmaterial; }
 	D3DMATERIAL9 GetGreen() { return m_mGreenmaterial; }
 	D3DMATERIAL9 GetBlue() { return m_mBluematerial; }
