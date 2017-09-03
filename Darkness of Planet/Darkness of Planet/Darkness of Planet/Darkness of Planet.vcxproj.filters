@@ -156,6 +156,15 @@
     <ClInclude Include="cTaeYeongKeyShare.h">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClInclude>
+    <ClInclude Include="cTaeYeongUIInterface.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
+    <ClInclude Include="cTaeYoengMoveOnce.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
+    <ClInclude Include="cTaeYeongMoveSequence.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -213,6 +222,15 @@
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
     <ClCompile Include="cTaeYeongKeyShare.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaeYeongUIInterface.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaeYoengMoveOnce.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaeYeongMoveSequence.cpp">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
   </ItemGroup>
