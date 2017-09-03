@@ -157,6 +157,7 @@
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMaterialManager.h" />
     <ClInclude Include="cNormalSetting.h" />
+    <ClInclude Include="cRandomFunction.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingletonBase.h" />
     <ClInclude Include="cTimeManager.h" />

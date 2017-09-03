@@ -59,6 +59,9 @@ extern int g_MouseWheel;
 #define TIMEMANAGER	cTimeManager::getSingleton()
 #define KEYMANAGER cKeyManager::getSingleton()
 #define MATERIALMANAGER cMaterialManager::getSingleton()
+
+//## 일반적인 클래스 메크로##//
+#define RND cRandomFunction::getSingleton()
 //## 디바이스 메크로##//
 #define GETDEVICE cDeviceManager::getSingleton()->GetDevice()																																						//드래곤볼 5성구
 
@@ -106,13 +109,15 @@ public: virtual void Set##funName(varType var){\
 #include "cTimeManager.h"
 #include "cKeyManager.h"
 #include "cMaterialManager.h"
+
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 
 
 // 전역 싱글톤 클래스(디파인)
 
 
-
+// 일반 클래스 헤더(싱글톤 버전1 : 템플릿)
+#include "cRandomFunction.h"
 
 
 // 1. Position 정점의 좌표 x,y,z(float)			: D3DFVF_XYZ
@@ -177,5 +182,5 @@ struct ST_PN_VERTEX
 
 typedef void(*CALLBACK_FUNCTION)(void);
 typedef void(*CALLBACK_FUNCTION_PARAMETER)(void*);
-typedef std::function<void()> CallbackBindFunction; // pFunc 이라는 타입선언. 이것은 함수포인터 방식에서의 typedef int(*pFunc)(int); 에 해당함.
+typedef std::function<void()> CallbackBindFunction; // 이것은 함수포인터 방식에서의 typedef void(*pFunc)(void); 에 해당함.
 

@@ -70,6 +70,9 @@
     <Filter Include="#3D Framework\cNormalSetting">
       <UniqueIdentifier>{0b09b278-be20-41d1-b30e-3ea0842e2c6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\RandomFunction">
+      <UniqueIdentifier>{46840382-1082-4e4b-9dc9-ad9ad52d5f49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -122,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="cNormalSetting.h">
       <Filter>#3D Framework\cNormalSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="cRandomFunction.h">
+      <Filter>#3D Framework\RandomFunction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
