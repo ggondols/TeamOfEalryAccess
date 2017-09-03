@@ -159,6 +159,7 @@
     <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
+    <ClInclude Include="cHeightMap.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectPool.h" />
     <ClInclude Include="cSkinnedMesh.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />
+    <ClCompile Include="cHeightMap.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectPool.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
