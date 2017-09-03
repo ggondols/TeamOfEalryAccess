@@ -53,7 +53,7 @@ void cFont::Update()
 void cFont::Render()
 {
 	HDC hdc = CreateCompatibleDC(0);
-	// 글꼴의 특생융 정의하는 LOGFONT 구죠체를 채운다.
+	// 글꼴의 특생융 정의하는 LOGFONT 구조체를 채운다.
 	LOGFONT Font;
 	ZeroMemory(&Font, sizeof(LOGFONT));
 	Font.lfHeight = 25;
@@ -63,8 +63,7 @@ void cFont::Render()
 	Font.lfUnderline = false;
 	Font.lfStrikeOut = false;
 	Font.lfCharSet = DEFAULT_CHARSET;
-#pragma warning(disable : 4996) // strcpy 오류 무시용 대원's 추가
-	strcpy(Font.lfFaceName, "Times New Roman");
+	strcpy_s(Font.lfFaceName, "Times New Roman");
 	// 글꼴 스타일 
 
 	// 글팔을 만들고 장치 컨텍스트로 글꼴을 선택한다.

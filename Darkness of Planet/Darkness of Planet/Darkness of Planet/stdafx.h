@@ -51,7 +51,7 @@ extern int g_MouseWheel;
 #define SAFE_RELEASE(p) if(p){(p)->Release(); (p)=NULL;}
 #define SAFE_DELETE(p) if(p){delete (p); p=NULL;}
 #define SAFE_DELETE_ARRAY(p) if(p) { delete[] (p) ; p =NULL;}
-
+#define INF 999999.f
 
 //## 메니저 디파인 여기 ##//
 #define SCENEMANAGER cSceneManager::getSingleton()
@@ -178,6 +178,24 @@ struct ST_PN_VERTEX
 
 	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL };
 };
+
+/////////////////////////////// 
+//////김태영 전용 구조체///////
+enum Nodetype { WALL, PASS };
+struct Node
+{
+	D3DXVECTOR3		st_position;
+	Nodetype		st_type;
+	Node*			st_parent;
+	vector<Node*>	st_neighbor;
+	float			m_vecH;
+	float			m_vecG;
+	float			m_vecF;
+	bool			m_vecClose;
+	int				m_iIndex;
+};
+
+///////////////////////////////
 
 
 //콜백 타입 정의
