@@ -186,6 +186,9 @@
     <ClInclude Include="cTaeYeongAstar.h">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClInclude>
+    <ClInclude Include="HankcGrid.h">
+      <Filter>#3D Framework\Camera\Hank</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="cTaeYeongAstar.cpp">
       <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="HankcGrid.cpp">
+      <Filter>#3D Framework\Camera\Hank</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

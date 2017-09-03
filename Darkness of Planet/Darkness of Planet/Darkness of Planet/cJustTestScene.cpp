@@ -12,13 +12,16 @@ cJustTestScene::~cJustTestScene()
 HRESULT cJustTestScene::Setup()
 {
 	m_pCamera = new Hank::cCamera;
+	m_pGrid = new Hank::cGrid;
 	m_pCamera->Setup();
-	//드 래곤 볼 1성 gu        ////////////찾았습니다  김태영
+	m_pGrid->Setup();
+
 	return S_OK;
 }
 
 void cJustTestScene::Release()
 {
+	m_pGrid->Release();
 }
 
 void cJustTestScene::Update()
@@ -28,6 +31,6 @@ void cJustTestScene::Update()
 
 void cJustTestScene::Render()
 {
-	
+	m_pGrid->Render();
 }
 
