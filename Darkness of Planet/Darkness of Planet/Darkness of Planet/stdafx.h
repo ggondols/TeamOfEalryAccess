@@ -126,8 +126,6 @@ public: virtual void Set##funName(varType var){\
 #include "cRandomFunction.h"
 #include "cAction.h"
 #include "cGameObject.h"
-#include "cUIObject.h"
-
 
 // 1. Position 정점의 좌표 x,y,z(float)			: D3DFVF_XYZ
 // 2. RHW (float)                               : D3DFVF_XYZRHW (D3DFVF_XYZ 또는 D3DFVF_NORMAL과 같이 사용불가)
@@ -299,6 +297,7 @@ struct Node
 
 ///////////////////////////////
 
+#include "cUIObject.h"
 
 //콜백 타입 정의
 
