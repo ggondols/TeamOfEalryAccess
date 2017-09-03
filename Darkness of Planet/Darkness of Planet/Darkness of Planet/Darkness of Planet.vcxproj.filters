@@ -147,6 +147,9 @@
     <ClInclude Include="cTaeYeongCubeTexture.h">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClInclude>
+    <ClInclude Include="cTaeYeongTile.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -195,6 +198,9 @@
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
     <ClCompile Include="cTaeYeongCubeTexture.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaeYeongTile.cpp">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
   </ItemGroup>

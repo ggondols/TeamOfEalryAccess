@@ -162,6 +162,7 @@
     <ClInclude Include="cSingletonBase.h" />
     <ClInclude Include="cTaeYeongCube.h" />
     <ClInclude Include="cTaeYeongCubeTexture.h" />
+    <ClInclude Include="cTaeYeongTile.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cTimer.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cTaeYeongCube.cpp" />
     <ClCompile Include="cTaeYeongCubeTexture.cpp" />
+    <ClCompile Include="cTaeYeongTile.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cTimer.cpp" />
