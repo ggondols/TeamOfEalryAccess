@@ -161,6 +161,7 @@
     <ClInclude Include="cRandomFunction.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingletonBase.h" />
+    <ClInclude Include="cTaeYeongAstar.h" />
     <ClInclude Include="cTaeYeongCube.h" />
     <ClInclude Include="cTaeYeongCubeTexture.h" />
     <ClInclude Include="cTaeYeongHPbar.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="cMaterialManager.cpp" />
     <ClCompile Include="cNormalSetting.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cTaeYeongAstar.cpp" />
     <ClCompile Include="cTaeYeongCube.cpp" />
     <ClCompile Include="cTaeYeongCubeTexture.cpp" />
     <ClCompile Include="cTaeYeongHPbar.cpp" />
