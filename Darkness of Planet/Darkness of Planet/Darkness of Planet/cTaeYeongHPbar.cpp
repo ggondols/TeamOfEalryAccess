@@ -210,7 +210,7 @@ void cTaeYeongHPbar::Render()
 	D3DXMatrixIdentity(&World_matrix);
 	D3DXMatrixTranslation(&Trans, m_vPosition.x, m_fHeight, m_vPosition.z);
 
-	//float y = g_Camera->getAngleY() - D3DX_PI / 2;
+	//float y = g_Camera->getAngleY() - D3DX_PI / 2; ////////원래는 이걸써야하나 카메라  클래스가 없어서 대체
 	float y = 0;
 	D3DXMatrixRotationY(&rotation, y);
 	World_matrix = rotation*m_HPStatus*Trans;
