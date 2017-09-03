@@ -125,6 +125,7 @@ public: virtual void Set##funName(varType var){\
 // 일반 클래스 헤더(싱글톤 버전1 : 템플릿)
 #include "cRandomFunction.h"
 #include "cAction.h"
+#include "cGameObject.h"
 
 
 // 1. Position 정점의 좌표 x,y,z(float)			: D3DFVF_XYZ
