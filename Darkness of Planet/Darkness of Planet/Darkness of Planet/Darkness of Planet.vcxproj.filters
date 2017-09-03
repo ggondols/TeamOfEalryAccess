@@ -88,6 +88,12 @@
     <Filter Include="#3D Framework\Camera\Hank">
       <UniqueIdentifier>{6e4922f9-6329-4c34-819e-55c28043e855}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Geometry\7성구는 6성구랑 같이 있었다 ㅋㅋ">
+      <UniqueIdentifier>{e67149da-cc89-4c7f-ab41-ac13aa9a9b8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Mesh">
+      <UniqueIdentifier>{da90e018-f4c4-470d-8bdf-1a2c38a2595d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
