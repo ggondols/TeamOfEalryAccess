@@ -10,13 +10,13 @@ cTaeYeongAstar::cTaeYeongAstar()
 cTaeYeongAstar::~cTaeYeongAstar()
 {
 }
-//void cTaeYeongAstar::Setup(vector<vector<Node>>* Node)
-//{
-//
-//	m_Node = Node;
-//	m_distance = D3DXVec3Length(&((*m_Node)[0][0].st_position - (*m_Node)[0][1].st_position));
-//}
-//
+void cTaeYeongAstar::Setup(vector<vector<Node>>* Node)
+{
+
+	m_Node = Node;
+	m_distance = D3DXVec3Length(&((*m_Node)[0][0].st_position - (*m_Node)[0][1].st_position));
+}
+
 //vector<D3DXVECTOR3> cTaeYeongAstar::FindWay(int StartX, int StartZ, int LastX, int LastZ)
 //{
 //	m_Way.clear();
