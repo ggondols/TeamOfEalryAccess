@@ -179,6 +179,83 @@ struct ST_PN_VERTEX
 	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL };
 };
 
+struct ST_PN_CUBE
+{
+	vector<ST_PN_VERTEX>	m_vecVertex;
+
+	ST_PN_CUBE(float fCubeSize = 1.0f)
+	{
+		vector<D3DXVECTOR3>	vecVertex;
+		vector<DWORD>		vecIndex;
+		vecVertex.push_back(D3DXVECTOR3(-fCubeSize, -fCubeSize, -fCubeSize));
+		vecVertex.push_back(D3DXVECTOR3(-fCubeSize,  fCubeSize, -fCubeSize));
+		vecVertex.push_back(D3DXVECTOR3( fCubeSize,  fCubeSize, -fCubeSize));
+		vecVertex.push_back(D3DXVECTOR3( fCubeSize, -fCubeSize, -fCubeSize));
+		vecVertex.push_back(D3DXVECTOR3(-fCubeSize, -fCubeSize,  fCubeSize));
+		vecVertex.push_back(D3DXVECTOR3(-fCubeSize,  fCubeSize,  fCubeSize));
+		vecVertex.push_back(D3DXVECTOR3( fCubeSize,  fCubeSize,  fCubeSize));
+		vecVertex.push_back(D3DXVECTOR3( fCubeSize, -fCubeSize,  fCubeSize));
+
+		vector<D3DXVECTOR3> vecNormal;
+		vecNormal.push_back(D3DXVECTOR3(0, 0, -1));
+		vecNormal.push_back(D3DXVECTOR3(0, 0, 1));
+		vecNormal.push_back(D3DXVECTOR3(-1, 0, 0));
+		vecNormal.push_back(D3DXVECTOR3(1, 0, 0));
+		vecNormal.push_back(D3DXVECTOR3(0, 1, 0));
+		vecNormal.push_back(D3DXVECTOR3(0, -1, 0));
+
+		//앞
+		vecIndex.push_back(0);
+		vecIndex.push_back(1);
+		vecIndex.push_back(2);
+		vecIndex.push_back(0);
+		vecIndex.push_back(2);
+		vecIndex.push_back(3);
+		//뒤
+		vecIndex.push_back(4);
+		vecIndex.push_back(6);
+		vecIndex.push_back(5);
+		vecIndex.push_back(4);
+		vecIndex.push_back(7);
+		vecIndex.push_back(6);
+		//좌
+		vecIndex.push_back(4);
+		vecIndex.push_back(5);
+		vecIndex.push_back(1);
+		vecIndex.push_back(4);
+		vecIndex.push_back(1);
+		vecIndex.push_back(0);
+		//우
+		vecIndex.push_back(3);
+		vecIndex.push_back(2);
+		vecIndex.push_back(6);
+		vecIndex.push_back(3);
+		vecIndex.push_back(6);
+		vecIndex.push_back(7);
+		//상
+		vecIndex.push_back(1);
+		vecIndex.push_back(5);
+		vecIndex.push_back(6);
+		vecIndex.push_back(1);
+		vecIndex.push_back(6);
+		vecIndex.push_back(2);
+		//하
+		vecIndex.push_back(4);
+		vecIndex.push_back(0);
+		vecIndex.push_back(3);
+		vecIndex.push_back(4);
+		vecIndex.push_back(3);
+		vecIndex.push_back(7);
+
+		for (size_t i = 0; i < vecIndex.size(); ++i)
+		{
+			D3DXVECTOR3 p = vecVertex[vecIndex[i]];
+			D3DXVECTOR3 n = vecNormal[i / 6];
+			m_vecVertex.push_back(ST_PN_VERTEX(p, n));
+		}
+	}
+};
+
 /////////////////////////////// 
 //////김태영 전용 구조체///////
 enum Nodetype { WALL, PASS };
