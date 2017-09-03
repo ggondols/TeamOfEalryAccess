@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -159,6 +159,7 @@
     <ClInclude Include="cNormalSetting.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingletonBase.h" />
+    <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cTimer.h" />
     <ClInclude Include="DarknessofPlanet.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="cMaterialManager.cpp" />
     <ClCompile Include="cNormalSetting.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cTimer.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />

@@ -70,6 +70,12 @@
     <Filter Include="#3D Framework\cNormalSetting">
       <UniqueIdentifier>{0b09b278-be20-41d1-b30e-3ea0842e2c6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Geometry\4성, 6구 지움 여현구">
+      <UniqueIdentifier>{1389bdcc-0528-4a2a-a995-e4a43ff662b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\TextureManager">
+      <UniqueIdentifier>{ef4ce708-67ee-4e80-a4b3-c5f6299fc964}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -123,6 +129,9 @@
     <ClInclude Include="cNormalSetting.h">
       <Filter>#3D Framework\cNormalSetting</Filter>
     </ClInclude>
+    <ClInclude Include="cTextureManager.h">
+      <Filter>#3D Framework\Manager\TextureManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -163,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="cNormalSetting.cpp">
       <Filter>#3D Framework\cNormalSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextureManager.cpp">
+      <Filter>#3D Framework\Manager\TextureManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
