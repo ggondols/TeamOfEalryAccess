@@ -115,8 +115,9 @@ public: virtual void Set##funName(varType var){\
 #include "cMaterialManager.h"
 #include "cTextureManager.h"
 
-// 매니저 헤더(싱글톤 버전2 : 매크로)
 
+// 매니저 헤더(싱글톤 버전2 : 매크로)
+#include "cSkinnedMeshManager.h"
 
 // 전역 싱글톤 클래스(디파인)
 #include "cObjectPool.h"

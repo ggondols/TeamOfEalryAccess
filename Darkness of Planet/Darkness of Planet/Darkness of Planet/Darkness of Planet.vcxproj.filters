@@ -91,8 +91,11 @@
     <Filter Include="#3D Framework\정현 임시저장">
       <UniqueIdentifier>{86781eaa-cd60-4832-bfea-16772179d822}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\Mesh\Hank Mesh">
-      <UniqueIdentifier>{3cb736fe-c4fb-4a87-abf0-4dca962d836d}</UniqueIdentifier>
+    <Filter Include="#3D Framework\Mesh">
+      <UniqueIdentifier>{da90e018-f4c4-470d-8bdf-1a2c38a2595d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Mesh\Hank">
+      <UniqueIdentifier>{5a27e493-e1b5-44ee-9131-8d32f59ac2bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -204,14 +207,26 @@
     <ClInclude Include="cCrtCtrl.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="cAutoReleasePool.h">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="cAction.h">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="iMap.h">
-      <Filter>#3D Framework\정현 임시저장</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
-      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
+      <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClInclude>
     <ClInclude Include="cSkinnedMesh.h">
-      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
+      <Filter>#3D Framework\Mesh\Hank</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMeshManager.h">
+      <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -305,14 +320,26 @@
     <ClCompile Include="cCrtCtrl.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
+    <ClCompile Include="cAutoReleasePool.cpp">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cAction.cpp">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="iMap.cpp">
-      <Filter>#3D Framework\정현 임시저장</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
+      <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClCompile>
     <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
+      <Filter>#3D Framework\Mesh\Hank</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMeshManager.cpp">
+      <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
