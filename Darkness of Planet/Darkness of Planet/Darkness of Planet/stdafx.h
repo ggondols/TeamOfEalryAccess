@@ -57,7 +57,7 @@ extern int g_MouseWheel;
 #define SCENEMANAGER cSceneManager::getSingleton()
 #define DEVICEMANAGER cDeviceManager::getSingleton()
 #define TIMEMANAGER	cTimeManager::getSingleton()
-
+#define KEYMANAGER cKeyManager::getSingleton()
 
 //## 디바이스 메크로##//
 #define GETDEVICE cDeviceManager::getSingleton()->GetDevice()																																						//드래곤볼 5성구
@@ -104,7 +104,7 @@ public: virtual void Set##funName(varType var){\
 #include "cDeviceManager.h"
 #include "cSceneManager.h"
 #include "cTimeManager.h"
-
+#include "cKeyManager.h"
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 
 

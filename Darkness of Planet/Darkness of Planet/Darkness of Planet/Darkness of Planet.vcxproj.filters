@@ -58,6 +58,12 @@
     <Filter Include="#3D Framework\Geometry\드래곤볼 2성 구">
       <UniqueIdentifier>{b166b968-20eb-435f-98fc-56ba3e711b46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Geometry\드래곤볼 2성 구\찾았다 김태영">
+      <UniqueIdentifier>{b2c7ef59-4da9-4033-abf2-0dc7d5a1e1db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\KeyManager">
+      <UniqueIdentifier>{b33f59c6-b717-42ee-b2c1-1148751b9cf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -102,6 +108,9 @@
     <ClInclude Include="cTimer.h">
       <Filter>#3D Framework\Manager\TimeManager</Filter>
     </ClInclude>
+    <ClInclude Include="cKeyManager.h">
+      <Filter>#3D Framework\Manager\KeyManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -133,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="cTimer.cpp">
       <Filter>#3D Framework\Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cKeyManager.cpp">
+      <Filter>#3D Framework\Manager\KeyManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
