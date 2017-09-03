@@ -79,6 +79,9 @@
     <Filter Include="#3D Framework\Geometry\3성, 4성,  5성, 6구 지움 여현구">
       <UniqueIdentifier>{1389bdcc-0528-4a2a-a995-e4a43ff662b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\TaeYeongDelete">
+      <UniqueIdentifier>{f568e5bc-ac15-4014-95fd-42172f89d482}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -138,6 +141,9 @@
     <ClInclude Include="cTextureManager.h">
       <Filter>#3D Framework\Manager\TextureManager</Filter>
     </ClInclude>
+    <ClInclude Include="cTaeYeongCube.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -181,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="cTextureManager.cpp">
       <Filter>#3D Framework\Manager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaeYeongCube.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
