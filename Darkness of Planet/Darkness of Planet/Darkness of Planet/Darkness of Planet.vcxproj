@@ -148,9 +148,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="[Hank]공지.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cActionSeq.h" />
     <ClInclude Include="cCrtCtrl.h" />
     <ClInclude Include="cAction.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
@@ -195,6 +195,7 @@
     <ClInclude Include="commonFunction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cActionSeq.cpp" />
     <ClCompile Include="cCrtCtrl.cpp" />
     <ClCompile Include="cAction.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
