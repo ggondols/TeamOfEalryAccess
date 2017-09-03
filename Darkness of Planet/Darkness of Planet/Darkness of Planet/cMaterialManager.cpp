@@ -90,12 +90,12 @@ void cMaterialManager::SetCustomMaterial(OUT D3DMATERIAL9 & mat, D3DCOLORVALUE A
 void cMaterialManager::Setup()
 {
 	SetRed(m_mRedmaterial);
-	SetRed(m_mGreenmaterial);
-	SetRed(m_mBluematerial);
-	SetRed(m_mWhitematerial);
-	SetRed(m_mBlackmaterial);
-	SetRed(m_mGraymaterial);
-	SetRed(m_mGrayWhitematerial);
+	SetGreen(m_mGreenmaterial);
+	SetBlue(m_mBluematerial);
+	SetWhite(m_mWhitematerial);
+	SetBlack(m_mBlackmaterial);
+	SetGray(m_mGraymaterial);
+	SetGrayWhite(m_mGrayWhitematerial);
 	
 
 
