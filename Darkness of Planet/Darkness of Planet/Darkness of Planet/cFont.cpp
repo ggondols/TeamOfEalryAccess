@@ -53,7 +53,7 @@ void cFont::Update()
 void cFont::Render()
 {
 	HDC hdc = CreateCompatibleDC(0);
-	// 글꼴의 특생융 정의하는 LOGFONT 구죠체를 채운다.
+	// 글꼴의 특생융 정의하는 LOGFONT 구조체를 채운다.
 	LOGFONT Font;
 	ZeroMemory(&Font, sizeof(LOGFONT));
 	Font.lfHeight = 25;
