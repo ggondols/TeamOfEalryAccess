@@ -180,6 +180,9 @@
     <ClInclude Include="HankcCamera.h">
       <Filter>#3D Framework\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="cTaeYeongMinHeap.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
     <ClInclude Include="cTaeYeongAstar.h">
       <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClInclude>
@@ -257,10 +260,11 @@
     <ClCompile Include="cFont.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cTaeYeongAstar.cpp">
-      <Filter>소스 파일\TaeYeongDelete</Filter>
     <ClCompile Include="HankcCamera.cpp">
       <Filter>#3D Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaeYeongAstar.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
