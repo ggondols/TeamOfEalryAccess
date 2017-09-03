@@ -165,6 +165,7 @@
     <ClInclude Include="cTaeYeongKeyShare.h" />
     <ClInclude Include="cTaeYeongPyramid.h" />
     <ClInclude Include="cTaeYeongTile.h" />
+    <ClInclude Include="cTaeYeongUIInterface.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cTimer.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="cTaeYeongKeyShare.cpp" />
     <ClCompile Include="cTaeYeongPyramid.cpp" />
     <ClCompile Include="cTaeYeongTile.cpp" />
+    <ClCompile Include="cTaeYeongUIInterface.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cTimer.cpp" />
