@@ -198,29 +198,9 @@
     <ClInclude Include="cObjectPool.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
-<<<<<<< .mine
-    <ClInclude Include="cCtrCtrl.h">
+    <ClInclude Include="cCrtCtrl.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
-
-
-
-=======
-    <ClInclude Include="cGameObject.h">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="cAutoReleasePool.h">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
->>>>>>> .theirs
-    </ClInclude>
-<<<<<<< .mine
-
-
-
-=======
-    <ClInclude Include="cAction.h">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
-    </ClInclude>
->>>>>>> .theirs
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -310,29 +290,9 @@
     <ClCompile Include="cObjectPool.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-<<<<<<< .mine
-    <ClCompile Include="cCtrCtrl.cpp">
+    <ClCompile Include="cCrtCtrl.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
-
-
-
-=======
-    <ClCompile Include="cGameObject.cpp">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cAutoReleasePool.cpp">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
->>>>>>> .theirs
-    </ClCompile>
-<<<<<<< .mine
-
-
-
-=======
-    <ClCompile Include="cAction.cpp">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
-    </ClCompile>
->>>>>>> .theirs
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc">

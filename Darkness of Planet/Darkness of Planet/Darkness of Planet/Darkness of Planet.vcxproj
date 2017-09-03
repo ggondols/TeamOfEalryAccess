@@ -150,9 +150,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cAction.h" />
-    <ClInclude Include="cAutoReleasePool.h" />
-<ClInclude Include="cCtrCtrl.h" />    <ClInclude Include="cObject.h" />
+    <ClInclude Include="cCrtCtrl.h" />
+    <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectPool.h" />
     <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -188,15 +187,7 @@
     <ClInclude Include="commonFunction.h" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< .mine
-    <ClCompile Include="cCtrCtrl.cpp" />
-
-
-=======
-    <ClCompile Include="cAction.cpp" />
-    <ClCompile Include="cAutoReleasePool.cpp" />
-    <ClCompile Include="cGameObject.cpp" />
->>>>>>> .theirs
+    <ClCompile Include="cCrtCtrl.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectPool.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
