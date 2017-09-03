@@ -201,6 +201,9 @@
     <ClInclude Include="cCrtCtrl.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="iMap.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -291,6 +294,9 @@
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
     <ClCompile Include="cCrtCtrl.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="iMap.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
   </ItemGroup>
