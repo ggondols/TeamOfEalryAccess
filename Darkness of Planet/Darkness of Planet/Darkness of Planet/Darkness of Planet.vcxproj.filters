@@ -85,6 +85,9 @@
     <Filter Include="#3D Framework\여현구 임시저장소">
       <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Camera\Hank">
+      <UniqueIdentifier>{6e4922f9-6329-4c34-819e-55c28043e855}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -174,6 +177,9 @@
     <ClInclude Include="cFont.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="HankcCamera.h">
+      <Filter>#3D Framework\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -247,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="cFont.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="HankcCamera.cpp">
+      <Filter>#3D Framework\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

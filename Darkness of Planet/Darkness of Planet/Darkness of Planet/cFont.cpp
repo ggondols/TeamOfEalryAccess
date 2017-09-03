@@ -63,6 +63,7 @@ void cFont::Render()
 	Font.lfUnderline = false;
 	Font.lfStrikeOut = false;
 	Font.lfCharSet = DEFAULT_CHARSET;
+#pragma warning(disable : 4996) // strcpy 오류 무시용 대원's 추가
 	strcpy(Font.lfFaceName, "Times New Roman");
 	// 글꼴 스타일 
 

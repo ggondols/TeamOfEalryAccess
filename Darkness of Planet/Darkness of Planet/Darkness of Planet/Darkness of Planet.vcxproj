@@ -150,6 +150,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFont.h" />
     <ClInclude Include="cGameNode.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="commonFunction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HankcCamera.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cGameNode.cpp" />
