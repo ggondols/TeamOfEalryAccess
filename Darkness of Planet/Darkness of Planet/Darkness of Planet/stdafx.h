@@ -59,11 +59,12 @@ extern int g_MouseWheel;
 #define TIMEMANAGER	cTimeManager::getSingleton()
 #define KEYMANAGER cKeyManager::getSingleton()
 #define MATERIALMANAGER cMaterialManager::getSingleton()
+#define TEXTUREMANAGER cTextureManager::getSingleton()
 
 //## 일반적인 클래스 메크로##//
 #define RND cRandomFunction::getSingleton()
 //## 디바이스 메크로##//
-#define GETDEVICE cDeviceManager::getSingleton()->GetDevice()																																						//드래곤볼 5성구
+#define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
 
 
 //## SYNTHESIZE 
@@ -109,6 +110,7 @@ public: virtual void Set##funName(varType var){\
 #include "cTimeManager.h"
 #include "cKeyManager.h"
 #include "cMaterialManager.h"
+#include "cTextureManager.h"
 
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 

@@ -82,6 +82,9 @@ void cGameNode::Release()
 
 		RND->Release();
 		RND->releaseSingleton();
+
+		TEXTUREMANAGER->Destroy();
+		TEXTUREMANAGER->releaseSingleton();
 		
 	}
 }

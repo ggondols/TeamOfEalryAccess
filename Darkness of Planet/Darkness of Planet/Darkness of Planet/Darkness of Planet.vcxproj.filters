@@ -73,11 +73,11 @@
     <Filter Include="#3D Framework\RandomFunction">
       <UniqueIdentifier>{46840382-1082-4e4b-9dc9-ad9ad52d5f49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\Geometry\4성, 6구 지움 여현구">
-      <UniqueIdentifier>{1389bdcc-0528-4a2a-a995-e4a43ff662b4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="#3D Framework\Manager\TextureManager">
       <UniqueIdentifier>{ef4ce708-67ee-4e80-a4b3-c5f6299fc964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Geometry\3성, 4성,  5성, 6구 지움 여현구">
+      <UniqueIdentifier>{1389bdcc-0528-4a2a-a995-e4a43ff662b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

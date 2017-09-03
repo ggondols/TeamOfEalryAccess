@@ -1,9 +1,11 @@
 #pragma once
 #include "cSingletonBase.h"
+
 class cTextureManager : public cSingletonBase<cTextureManager>
 {
 private:
 	map<string, LPDIRECT3DTEXTURE9> m_mapTexture;
+
 public:
 	cTextureManager();
 	~cTextureManager();
