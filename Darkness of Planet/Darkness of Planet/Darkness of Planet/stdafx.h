@@ -185,6 +185,15 @@ struct ST_PN_VERTEX
 	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL };
 };
 
+struct ST_SPHERE
+{
+	D3DXVECTOR3		p;
+	float			r;
+	bool			isPicked;
+	ST_SPHERE() {}
+	ST_SPHERE(D3DXVECTOR3 _p, float _r, bool _i = false) : p(_p), r(_r), isPicked(_i) {}
+};
+
 struct ST_PN_CUBE
 {
 	vector<ST_PN_VERTEX>	m_vecVertex;

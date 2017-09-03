@@ -237,6 +237,9 @@
     <ClInclude Include="cActionMove.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="cFrustum.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -357,6 +360,9 @@
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="cActionMove.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="cFrustum.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
   </ItemGroup>
