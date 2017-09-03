@@ -1,18 +1,14 @@
 #pragma once
-
-class cActionSeq
+class cActionRepeat
 	: public cAction
 	, public iActionDelegate
 {
 protected:
-	vector<cAction*>	m_vecAction;
-	int					m_nCurrActionIndex;
+	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
 
 public:
-	cActionSeq(void);
-	virtual ~cActionSeq(void);
-
-	virtual void AddAction(cAction* pAction);
+	cActionRepeat(void);
+	virtual ~cActionRepeat(void);
 
 	// cAction override
 	virtual void Start() override;
