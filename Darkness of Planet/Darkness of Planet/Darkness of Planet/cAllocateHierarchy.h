@@ -1,4 +1,9 @@
 #pragma once
+//############# 20170904 ############
+// cSkinnedMesh, cSkinnedMeshManager, cAllocateHierarchy 추가
+// 대원's
+//###################################
+
 
 struct ST_BONE : public D3DXFRAME
 {

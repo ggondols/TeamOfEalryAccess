@@ -1,5 +1,10 @@
 #pragma once
 
+//############# 20170904 ############
+// cSkinnedMesh, cSkinnedMeshManager, cAllocateHierarchy 추가
+// 대원's
+//###################################
+
 #define SKINMANAGER cSkinnedMeshManager::GetInstance()
 
 class cSkinnedMesh;
