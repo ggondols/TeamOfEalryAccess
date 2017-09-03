@@ -1,5 +1,7 @@
 #pragma once
 #include "cTaeYeongMinHeap.h"
+
+///////////Astar ¿Ãµø
 class cTaeYeongAstar
 {
 private:
