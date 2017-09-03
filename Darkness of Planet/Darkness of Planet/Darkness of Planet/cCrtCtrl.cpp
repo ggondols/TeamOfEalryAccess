@@ -15,7 +15,7 @@ cCrtCtrl::~cCrtCtrl()
 {
 }
 
-void cCrtCtrl::Update(iMap* pMap = NULL)
+void cCrtCtrl::Update(iMap* pMap/* = NULL*/)
 {
 	D3DXVECTOR3 vPos = m_vPos;
 
