@@ -189,6 +189,9 @@
     <ClInclude Include="HankcGrid.h">
       <Filter>#3D Framework\Camera\Hank</Filter>
     </ClInclude>
+    <ClInclude Include="cObject.h">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -271,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="HankcGrid.cpp">
       <Filter>#3D Framework\Camera\Hank</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject.cpp">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
