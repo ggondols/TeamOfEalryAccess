@@ -105,6 +105,7 @@ public: virtual void Set##funName(varType var){\
 #include "cSceneManager.h"
 #include "cTimeManager.h"
 #include "cKeyManager.h"
+// 
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 
 
