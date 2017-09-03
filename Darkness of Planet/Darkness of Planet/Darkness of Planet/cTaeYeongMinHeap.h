@@ -1,6 +1,8 @@
 #pragma once
 #include "stdafx.h"
 template<typename T>
+
+/////////////자리가 이동됨
 class cTaeYeongMinHeap
 {
 private:
