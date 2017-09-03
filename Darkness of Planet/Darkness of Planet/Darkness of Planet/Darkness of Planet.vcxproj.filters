@@ -88,11 +88,8 @@
     <Filter Include="#3D Framework\Camera\Hank">
       <UniqueIdentifier>{6e4922f9-6329-4c34-819e-55c28043e855}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\Geometry\7성구는 6성구랑 같이 있었다 ㅋㅋ">
-      <UniqueIdentifier>{e67149da-cc89-4c7f-ab41-ac13aa9a9b8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="#3D Framework\Mesh">
-      <UniqueIdentifier>{da90e018-f4c4-470d-8bdf-1a2c38a2595d}</UniqueIdentifier>
+    <Filter Include="#3D Framework\정현 임시저장">
+      <UniqueIdentifier>{86781eaa-cd60-4832-bfea-16772179d822}</UniqueIdentifier>
     </Filter>
     <Filter Include="#3D Framework\Mesh\Hank Mesh">
       <UniqueIdentifier>{3cb736fe-c4fb-4a87-abf0-4dca962d836d}</UniqueIdentifier>
@@ -204,14 +201,11 @@
     <ClInclude Include="cObjectPool.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="cGameObject.h">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    <ClInclude Include="cCrtCtrl.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
-    <ClInclude Include="cAutoReleasePool.h">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
-    </ClInclude>
-    <ClInclude Include="cAction.h">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    <ClInclude Include="iMap.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
@@ -308,14 +302,11 @@
     <ClCompile Include="cObjectPool.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    <ClCompile Include="cCrtCtrl.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
-    <ClCompile Include="cAutoReleasePool.cpp">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
-    </ClCompile>
-    <ClCompile Include="cAction.cpp">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    <ClCompile Include="iMap.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>#3D Framework\Mesh\Hank Mesh</Filter>

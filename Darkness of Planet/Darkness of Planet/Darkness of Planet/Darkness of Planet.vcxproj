@@ -150,6 +150,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cCrtCtrl.h" />
     <ClInclude Include="cAction.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
@@ -185,12 +186,14 @@
     <ClInclude Include="cTimer.h" />
     <ClInclude Include="DarknessofPlanet.h" />
     <ClInclude Include="HankcGrid.h" />
+    <ClInclude Include="iMap.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="commonFunction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cCrtCtrl.cpp" />
     <ClCompile Include="cAction.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
@@ -223,6 +226,7 @@
     <ClCompile Include="cTimer.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />
     <ClCompile Include="HankcGrid.cpp" />
+    <ClCompile Include="iMap.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
