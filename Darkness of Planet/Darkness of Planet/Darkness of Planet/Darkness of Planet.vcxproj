@@ -148,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="[Hank]공지.txt" />
+    <Text Include="[Hank 09-04] 공지.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCrtCtrl.h" />

@@ -118,7 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="[Hank]공지.txt">
+    <Text Include="[Hank 09-04] 공지.txt">
       <Filter>#00 Post It!\Write here\09-04-2017</Filter>
     </Text>
   </ItemGroup>
