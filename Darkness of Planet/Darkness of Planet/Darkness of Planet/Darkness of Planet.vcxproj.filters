@@ -201,10 +201,13 @@
     <ClInclude Include="cObjectPool.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="cAutoReleasePool.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cGameObject.h">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="cAutoReleasePool.h">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="cAction.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
   </ItemGroup>
@@ -296,10 +299,13 @@
     <ClCompile Include="cObjectPool.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cAutoReleasePool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cGameObject.cpp">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cAutoReleasePool.cpp">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cAction.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
