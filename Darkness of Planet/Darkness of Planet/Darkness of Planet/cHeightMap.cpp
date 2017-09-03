@@ -139,13 +139,51 @@ void cHeightMap::Load(char* szFolder,
 	m_stMtl.Ambient = m_stMtl.Diffuse = m_stMtl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 }
 
+bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
+{
+	if (x < 0 || z < 0 || x > m_nTile || z > m_nTile)
+		return false;
+
+	//  1--3
+	//  |\ |
+	//  | \|
+	//  0--2 
+	int nX = x;
+	int nZ = z;
+
+	float fDeltaX = x - nX;
+	float fDeltaZ = z - nZ;
+
+	int _0 = (nZ + 0) * (m_nTile + 1) + nX + 0;
+	int _1 = (nZ + 1) * (m_nTile + 1) + nX + 0;
+	int _2 = (nZ + 0) * (m_nTile + 1) + nX + 1;
+	int _3 = (nZ + 1) * (m_nTile + 1) + nX + 1;
+
+	if (fDeltaX + fDeltaZ < 1.0f)
+	{
+		D3DXVECTOR3 _01 = m_vecVertex[_1] - m_vecVertex[_0];
+		D3DXVECTOR3 _02 = m_vecVertex[_2] - m_vecVertex[_0];
+		y = (_01 * fDeltaZ + _02 * fDeltaX).y + m_vecVertex[_0].y;
+	}
+	else
+	{
+		D3DXVECTOR3 _31 = m_vecVertex[_1] - m_vecVertex[_3];
+		D3DXVECTOR3 _32 = m_vecVertex[_2] - m_vecVertex[_3];
+		fDeltaX = 1 - fDeltaX;
+		fDeltaZ = 1 - fDeltaZ;
+		y = (_31 * fDeltaX + _32 * fDeltaZ).y + m_vecVertex[_3].y;
+	}
+
+	return true;
+}
+
 void cHeightMap::Render()
 {
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
-	//g_pD3DDevice->SetTexture(0, g_pTextureManager->GetTexture(m_sTexture));
-	GETDEVICE->SetTexture(0, 0);
+	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture(m_sTexture));
+	//GETDEVICE->SetTexture(0, 0);
 	GETDEVICE->SetMaterial(&m_stMtl);
 	GETDEVICE->SetFVF(m_pMesh->GetFVF());
 	m_pMesh->DrawSubset(0);

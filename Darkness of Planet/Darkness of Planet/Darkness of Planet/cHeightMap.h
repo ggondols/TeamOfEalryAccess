@@ -1,5 +1,7 @@
 #pragma once
-class cHeightMap
+#include "iMap.h"
+
+class cHeightMap : public iMap
 {
 private:
 	LPD3DXMESH			m_pMesh;
@@ -16,6 +18,8 @@ public:
 		char* szTexture,
 		DWORD dwBytesPerPixel = 1);
 
-	void Render();
+	// iMap override
+	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
+	virtual void Render() override;
 };
 
