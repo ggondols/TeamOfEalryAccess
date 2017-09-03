@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cObject.h" />
+    <ClInclude Include="cObjectPool.h" />
     <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFont.h" />
@@ -186,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cObject.cpp" />
+    <ClCompile Include="cObjectPool.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFont.cpp" />

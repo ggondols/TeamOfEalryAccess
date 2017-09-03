@@ -5,6 +5,7 @@
 cObject::cObject()
 	: m_nRefCount(1)
 {
+	//
 	//g_pObjectPool->AddObject(this);
 }
 
@@ -12,7 +13,7 @@ cObject::cObject()
 cObject::~cObject()
 {
 	assert(m_nRefCount <= 0 && "릴리즈 하지 않은 오브젝트가 있음");
-
+	//
 	//g_pObjectPool->RemoveObject(this);
 }
 
