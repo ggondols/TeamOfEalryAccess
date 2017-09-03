@@ -194,6 +194,15 @@ struct ST_SPHERE
 	ST_SPHERE(D3DXVECTOR3 _p, float _r, bool _i = false) : p(_p), r(_r), isPicked(_i) {}
 };
 
+struct ST_SIZE
+{
+	float			fWidth;
+	float			fHeight;
+
+	ST_SIZE() : fWidth(0.0f), fHeight(0.0f) {}
+	ST_SIZE(float _w, float _h) : fWidth(_w), fHeight(_h) {}
+};
+
 struct ST_PN_CUBE
 {
 	vector<ST_PN_VERTEX>	m_vecVertex;
