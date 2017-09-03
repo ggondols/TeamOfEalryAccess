@@ -53,6 +53,45 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(const string & szFullPath)
 	return GetTexture(szFullPath.c_str());
 }
 
+LPDIRECT3DTEXTURE9 cTextureManager::GetTextureEx(const char* szFullPath, OUT D3DXIMAGE_INFO* pImageInfo)
+{
+	if (m_mapTexture.find(szFullPath) == m_mapTexture.end())
+	{
+		D3DXCreateTextureFromFileEx(
+			GETDEVICE,
+			szFullPath,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT,
+			0,
+			D3DFMT_UNKNOWN,
+			D3DPOOL_MANAGED,
+			D3DX_FILTER_NONE,
+			D3DX_DEFAULT,
+			0,
+			&m_mapImageInfo[szFullPath],
+			NULL,
+			&m_mapTexture[szFullPath]);
+	}
+	else if (m_mapImageInfo.find(szFullPath) == m_mapImageInfo.end())
+	{
+		assert(true && "이미 로드된 적이 있음.");
+	}
+
+	if (pImageInfo)
+	{
+		*pImageInfo = m_mapImageInfo[szFullPath];
+	}
+
+	return m_mapTexture[szFullPath];
+}
+
+LPDIRECT3DTEXTURE9 cTextureManager::GetTextureEx(const string& sFullPath, OUT D3DXIMAGE_INFO* pImageInfo)
+{
+	return GetTextureEx(sFullPath.c_str(), pImageInfo);
+}
+
+
 void cTextureManager::Destroy()
 {
 	for each(auto it in m_mapTexture)
