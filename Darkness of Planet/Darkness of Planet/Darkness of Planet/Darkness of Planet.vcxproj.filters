@@ -231,6 +231,9 @@
     <ClInclude Include="cActionSeq.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="cActionRepeat.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -345,6 +348,9 @@
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="cActionSeq.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="cActionRepeat.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
   </ItemGroup>

@@ -150,6 +150,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cActionRepeat.h" />
     <ClInclude Include="cActionSeq.h" />
     <ClInclude Include="cCrtCtrl.h" />
     <ClInclude Include="cAction.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="commonFunction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cActionRepeat.cpp" />
     <ClCompile Include="cActionSeq.cpp" />
     <ClCompile Include="cCrtCtrl.cpp" />
     <ClCompile Include="cAction.cpp" />
