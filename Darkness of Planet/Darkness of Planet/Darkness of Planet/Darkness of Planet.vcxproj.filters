@@ -91,6 +91,9 @@
     <Filter Include="#3D Framework\정현 임시저장">
       <UniqueIdentifier>{86781eaa-cd60-4832-bfea-16772179d822}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Mesh\Hank Mesh">
+      <UniqueIdentifier>{3cb736fe-c4fb-4a87-abf0-4dca962d836d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -204,6 +207,12 @@
     <ClInclude Include="iMap.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -298,6 +307,12 @@
     </ClCompile>
     <ClCompile Include="iMap.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>#3D Framework\Mesh\Hank Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
