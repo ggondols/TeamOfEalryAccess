@@ -150,6 +150,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectPool.h" />
     <ClInclude Include="HankcCamera.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="commonFunction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectPool.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
