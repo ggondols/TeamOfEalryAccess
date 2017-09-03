@@ -70,6 +70,9 @@
     <Filter Include="#3D Framework\cNormalSetting">
       <UniqueIdentifier>{0b09b278-be20-41d1-b30e-3ea0842e2c6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\RandomFunction">
+      <UniqueIdentifier>{46840382-1082-4e4b-9dc9-ad9ad52d5f49}</UniqueIdentifier>
+    </Filter>
     <Filter Include="#3D Framework\Geometry\4성, 6구 지움 여현구">
       <UniqueIdentifier>{1389bdcc-0528-4a2a-a995-e4a43ff662b4}</UniqueIdentifier>
     </Filter>
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="cNormalSetting.h">
       <Filter>#3D Framework\cNormalSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="cRandomFunction.h">
+      <Filter>#3D Framework\RandomFunction</Filter>
     </ClInclude>
     <ClInclude Include="cTextureManager.h">
       <Filter>#3D Framework\Manager\TextureManager</Filter>
