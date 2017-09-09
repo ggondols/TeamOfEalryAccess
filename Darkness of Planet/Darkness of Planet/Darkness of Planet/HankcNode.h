@@ -7,15 +7,16 @@ struct BoundingSquare
 	float m_fSizeZ;
 	D3DXVECTOR3 m_vCenterPos;
 };
+
 enum INTERFACETYPE
 {
 	E_INTER_NODE,
 	E_INTER_NODE_POS,
 	E_INTER_END,
 };
+
 class nInterface
 {
-public:
 public:
 	INTERFACETYPE m_InterType;
 	virtual INTERFACETYPE GetInterType(void) PURE;
@@ -27,10 +28,12 @@ public:
 	D3DXVECTOR3 m_vPos;
 	vector<D3DXVECTOR3> m_vecVertex;
 };
+
+//노드가 가지고 있을 충돌체 정보 리스트
 class nNodeBoundInfo
 {
 public:
-	vector<BoundingSquare*> m_vecBounding;
+	list<BoundingSquare*> m_vecBounding;
 };
 
 class HankcNode : nInterface
@@ -44,7 +47,7 @@ public:
 	//link function
 	nInterface *m_pInterface;
 	nPositionInfo *m_vPosList;	
-	nNodeBoundInfo *m_pInfo;
+	nNodeBoundInfo *m_pBoundInfo;
 
 
 public:
