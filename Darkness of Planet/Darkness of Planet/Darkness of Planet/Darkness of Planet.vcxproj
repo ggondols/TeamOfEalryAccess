@@ -194,6 +194,7 @@
     <ClInclude Include="cTimer.h" />
     <ClInclude Include="DarknessofPlanet.h" />
     <ClInclude Include="HankcGrid.h" />
+    <ClInclude Include="HankcNode.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="cTimer.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />
     <ClCompile Include="HankcGrid.cpp" />
+    <ClCompile Include="HankcNode.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

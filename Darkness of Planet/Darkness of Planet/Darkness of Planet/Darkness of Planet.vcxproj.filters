@@ -97,6 +97,12 @@
     <Filter Include="#3D Framework\Mesh\Hank">
       <UniqueIdentifier>{5a27e493-e1b5-44ee-9131-8d32f59ac2bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\GridNode">
+      <UniqueIdentifier>{4290e2da-e85b-415b-80e8-673c51ddc946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\GridNode\Hank">
+      <UniqueIdentifier>{9fd58d24-31d9-473b-abb3-56b40ffa2485}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -213,9 +219,6 @@
     <ClInclude Include="cAction.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="cGameObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClInclude>
@@ -248,6 +251,12 @@
     </ClInclude>
     <ClInclude Include="cUIButton.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="HankcNode.h">
+      <Filter>#3D Framework\GridNode\Hank</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>#3D Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -347,9 +356,6 @@
     <ClCompile Include="cAction.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClCompile>
@@ -382,6 +388,12 @@
     </ClCompile>
     <ClCompile Include="cUIButton.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="HankcNode.cpp">
+      <Filter>#3D Framework\GridNode\Hank</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>#3D Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
