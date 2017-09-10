@@ -53,10 +53,10 @@ void cJustTestScene::Update()
 	{
 		/*m_vecSkinnedMesh[0]->SetPosition(*m_pCrtCtrl->GetPosition());
 		m_vecSkinnedMesh[0]->SetAngle(m_pCrtCtrl->getAngle());*/
-		D3DXMATRIX rotation;
-		D3DXMatrixRotationY(&rotation, m_pCtrl->getAngle());
+		
+		
 		m_pSkinnedMesh->SetPosition(*m_pCtrl->GetPosition());
-		m_pSkinnedMesh->SetRotationMatrix(rotation);
+		m_pSkinnedMesh->SetRotationAngle(m_pCtrl->getAngle());
 		
 		if (m_pCtrl->getMoving())
 		{

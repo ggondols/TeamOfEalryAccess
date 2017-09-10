@@ -12,6 +12,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pEffect(NULL)
 	, m_vPosition(0, 0, 0)
 	, m_fAngle(0.0f)
+	, m_fRotationAngle(0.0f)
 
 {
 	TeicSkinnedMesh* pSkinnedMesh = SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
@@ -27,7 +28,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 		pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
 		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
 		&m_pAnimController);
-	D3DXMatrixIdentity(&m_Rotation);
+
 	D3DXMatrixIdentity(&m_Move);
 	m_iCurrentAniNum = 0;
 	m_Starttime = 0;
@@ -63,7 +64,7 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 
 {
 	D3DXMatrixIdentity(&m_Move);
-	D3DXMatrixIdentity(&m_Rotation);
+
 	m_iNum = 0;
 }
 
@@ -150,9 +151,11 @@ void TeicSkinnedMesh::UpdateAndRender()
 	{
 		D3DXMATRIXA16 mat;
 		D3DXMATRIX    scal;
+		D3DXMATRIX    rotation;
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 		D3DXMatrixScaling(&scal, 0.05, 0.05, 0.05);
-		mat = scal* m_Rotation*mat;
+		D3DXMatrixRotationY(&rotation, m_fAngle);
+		mat = scal* rotation*mat;
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
 	}

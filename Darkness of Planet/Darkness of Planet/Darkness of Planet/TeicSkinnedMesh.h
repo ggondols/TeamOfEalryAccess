@@ -7,7 +7,7 @@ struct ST_BONE;
 //#		2017-09-11								#	
 //#     SetPosition으로 위치를					#
 //#		SetRotationMatrix로 회전 매트릭스 셋팅  #
-//#												#	
+//#		SetCallbackfunction로 콜백 셋팅			#	
 //#												#
 //#					Made by 태영				#
 //###############################################
@@ -23,7 +23,7 @@ private:
 	D3DXMATRIX*					m_pmWorkingPalette;
 	LPD3DXEFFECT				m_pEffect;
 	D3DXMATRIX					m_Move;
-	D3DXMATRIX					m_Rotation;
+	
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
@@ -43,8 +43,9 @@ private:
 	int m_iHp;
 	int m_iShield;
 	int m_iAttack;
-	int			m_Tracknum;
+	int	m_Tracknum;
 	int	m_iNum;
+	float						m_fRotationAngle;
 public:
 	float m_fZealotdiffer;
 	
@@ -54,7 +55,7 @@ public:
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move) { m_Move = move; }
 	void SetRandomTrackPosition(); // 테스트용
-	void SetRotationMatrix(D3DXMATRIX ro) { m_Rotation = ro; }
+	void SetRotationAngle(float angle) { m_fAngle = angle; }
 	D3DXVECTOR3* GetPositionPointer() { return  &m_vPosition; }
 	void SetAnimation(int num);
 	void ChangeAnimation(int num);
