@@ -72,7 +72,6 @@ public:
 class HankcNodeRow
 {
 public:
-
 	vector<HankcNode> m_vRow;
 
 public:
@@ -87,4 +86,10 @@ class HankcGrid
 {
 public:
 	vector<HankcNodeRow> m_vCol;
+
+public:
+	HankcNodeRow* operator [] (int col)
+	{
+		return &m_vCol[col];
+	}
 };
