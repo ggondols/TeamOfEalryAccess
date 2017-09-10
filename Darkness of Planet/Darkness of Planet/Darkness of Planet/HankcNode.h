@@ -60,10 +60,9 @@ public:
 	nPositionInfo *m_vPosList;	
 	nNodeBoundInfo *m_pBoundInfo;
 
-
 public:
-
-	HankcNode();
+	
+	HankcNode(int fx, int fz, int size);
 	~HankcNode();
 };
 
