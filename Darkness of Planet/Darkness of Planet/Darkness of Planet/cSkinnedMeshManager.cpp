@@ -33,3 +33,17 @@ cSkinnedMesh* cSkinnedMeshManager::GetSkinnedMesh( char* szFolder, char* szFilen
 	}
 	return m_mapSkinnedMesh[sFullPath];
 }
+
+TeicSkinnedMesh * cSkinnedMeshManager::GetTeiSkinnedMesh(char * szFolder, char * szFilename)
+{
+	std::string sFullPath(szFolder);
+	sFullPath += std::string(szFilename);
+
+	if (m_mapSkinnedMesh.find(sFullPath) == m_mapSkinnedMesh.end())
+	{
+		cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh();
+		pSkinnedMesh->Load(szFolder, szFilename);
+		m_mapSkinnedMesh[sFullPath] = pSkinnedMesh;
+	}
+	return m_mapTeiSkinnedMesh[sFullPath];
+}
