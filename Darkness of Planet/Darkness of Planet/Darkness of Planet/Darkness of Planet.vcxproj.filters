@@ -106,6 +106,9 @@
     <Filter Include="#3D Framework\Control">
       <UniqueIdentifier>{05bdc2f7-7bff-4fb7-bb25-56837bfeda1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Mesh\Tei">
+      <UniqueIdentifier>{a42e4cdd-39aa-4ffa-8e84-6c3b2aae9fa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -264,6 +267,9 @@
     <ClInclude Include="TeicPhysicsCrtCtrl.h">
       <Filter>#3D Framework\Control</Filter>
     </ClInclude>
+    <ClInclude Include="TeicSkinnedMesh.h">
+      <Filter>#3D Framework\Mesh\Tei</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -403,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp">
       <Filter>#3D Framework\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicSkinnedMesh.cpp">
+      <Filter>#3D Framework\Mesh\Tei</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -201,6 +201,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="commonFunction.h" />
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
+    <ClInclude Include="TeicSkinnedMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cActionMove.cpp" />
@@ -254,6 +255,7 @@
     </ClCompile>
     <ClCompile Include="commonFunction.cpp" />
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
+    <ClCompile Include="TeicSkinnedMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc" />
