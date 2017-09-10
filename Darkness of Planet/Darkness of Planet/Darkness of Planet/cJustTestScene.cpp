@@ -29,7 +29,9 @@ HRESULT cJustTestScene::Setup()
 	cHeightMap* pHeightMap = new cHeightMap;
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pHeightMap;
-	//D3D::SetLight();
+	D3D::SetLight();
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
+	GETDEVICE->LightEnable(0, true);
 	return S_OK;
 }
 
@@ -57,7 +59,7 @@ void cJustTestScene::Render()
 {
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
-	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
+	
 	if (m_pSkinnedMesh) m_pSkinnedMesh->UpdateAndRender();
 }
 
