@@ -3,11 +3,16 @@
 #include "HankcCamera.h"
 #include "HankcGrid.h"
 
+class iMap;
+
 class cJustTestScene : public cGameNode
 {
 private:
 	Hank::cCamera *m_pCamera;
 	Hank::cGrid *m_pGrid;
+
+	iMap*			m_pMap;
+
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();

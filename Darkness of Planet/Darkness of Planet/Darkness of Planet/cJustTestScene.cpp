@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "cJustTestScene.h"
+#include "iMap.h"
+#include "cHeightMap.h"
 
 cJustTestScene::cJustTestScene()
+	: m_pMap(NULL)
 {
 }
 
@@ -15,6 +18,9 @@ HRESULT cJustTestScene::Setup()
 	m_pGrid = new Hank::cGrid;
 	m_pCamera->Setup();
 	m_pGrid->Setup();
+	cHeightMap* pHeightMap = new cHeightMap;
+	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
+	m_pMap = pHeightMap;
 
 	return S_OK;
 }
@@ -22,6 +28,7 @@ HRESULT cJustTestScene::Setup()
 void cJustTestScene::Release()
 {
 	m_pGrid->Release();
+	SAFE_DELETE(m_pMap);
 }
 
 void cJustTestScene::Update()
@@ -32,5 +39,6 @@ void cJustTestScene::Update()
 void cJustTestScene::Render()
 {
 	m_pGrid->Render();
+	if (m_pMap) m_pMap->Render();
 }
 
