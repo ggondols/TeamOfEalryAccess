@@ -103,6 +103,9 @@
     <Filter Include="#3D Framework\GridNode\Hank">
       <UniqueIdentifier>{9fd58d24-31d9-473b-abb3-56b40ffa2485}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Control">
+      <UniqueIdentifier>{05bdc2f7-7bff-4fb7-bb25-56837bfeda1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -258,6 +261,9 @@
     <ClInclude Include="cGameObject.h">
       <Filter>#3D Framework</Filter>
     </ClInclude>
+    <ClInclude Include="TeicPhysicsCrtCtrl.h">
+      <Filter>#3D Framework\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -394,6 +400,9 @@
     </ClCompile>
     <ClCompile Include="cGameObject.cpp">
       <Filter>#3D Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicPhysicsCrtCtrl.cpp">
+      <Filter>#3D Framework\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

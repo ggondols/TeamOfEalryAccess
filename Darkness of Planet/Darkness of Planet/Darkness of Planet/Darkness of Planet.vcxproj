@@ -200,6 +200,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="commonFunction.h" />
+    <ClInclude Include="TeicPhysicsCrtCtrl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cActionMove.cpp" />
@@ -252,6 +253,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="commonFunction.cpp" />
+    <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc" />
