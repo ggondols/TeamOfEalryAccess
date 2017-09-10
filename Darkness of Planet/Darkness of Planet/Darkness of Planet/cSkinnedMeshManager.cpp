@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "cSkinnedMeshManager.h"
 #include "cSkinnedMesh.h"
-
+#include "TeicSkinnedMesh.h"
 cSkinnedMeshManager::cSkinnedMeshManager(void)
 {
 }
@@ -39,11 +39,11 @@ TeicSkinnedMesh * cSkinnedMeshManager::GetTeiSkinnedMesh(char * szFolder, char *
 	std::string sFullPath(szFolder);
 	sFullPath += std::string(szFilename);
 
-	if (m_mapSkinnedMesh.find(sFullPath) == m_mapSkinnedMesh.end())
+	if (m_mapTeiSkinnedMesh.find(sFullPath) == m_mapTeiSkinnedMesh.end())
 	{
-		cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh();
+		TeicSkinnedMesh* pSkinnedMesh = new TeicSkinnedMesh();
 		pSkinnedMesh->Load(szFolder, szFilename);
-		m_mapSkinnedMesh[sFullPath] = pSkinnedMesh;
+		m_mapTeiSkinnedMesh[sFullPath] = pSkinnedMesh;
 	}
 	return m_mapTeiSkinnedMesh[sFullPath];
 }

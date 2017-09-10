@@ -151,7 +151,7 @@ void TeicSkinnedMesh::UpdateAndRender()
 		D3DXMATRIXA16 mat;
 		D3DXMATRIX    scal;
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&scal, 0.1, 0.1, 0.1);
+		D3DXMatrixScaling(&scal, 0.05, 0.05, 0.05);
 		mat = scal* m_Rotation*mat;
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
