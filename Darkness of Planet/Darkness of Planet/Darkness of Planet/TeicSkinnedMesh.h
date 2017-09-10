@@ -6,7 +6,7 @@ struct ST_BONE;
 //#		스킨드 메쉬 클래스 입니다.              #
 //#		2017-09-11								#	
 //#     SetPosition으로 위치를					#
-//#		SetRotationMatrix로 회전 매트릭스 셋팅  #
+//#		SetRotationAngle로 회전 매트릭스 셋팅   #
 //#		SetCallbackfunction로 콜백 셋팅			#	
 //#												#
 //#					Made by 태영				#
