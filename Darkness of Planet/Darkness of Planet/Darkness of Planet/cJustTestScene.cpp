@@ -30,6 +30,8 @@ HRESULT cJustTestScene::Setup()
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pHeightMap;
 
+	D3D::SetLight();
+
 	return S_OK;
 }
 
@@ -54,7 +56,12 @@ void cJustTestScene::CallbackOn(int n)
 
 void cJustTestScene::Render()
 {
+
 	m_pGrid->Render();
+
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
+	GETDEVICE->LightEnable(0, true);
+
 	if (m_pMap) m_pMap->Render();
 }
 

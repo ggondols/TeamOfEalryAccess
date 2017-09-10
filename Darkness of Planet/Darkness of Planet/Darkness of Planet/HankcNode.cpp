@@ -30,11 +30,11 @@ nPositionInfo::nPositionInfo(int fx, int fz, int size)
 
 	m_vPos.x = fx * size;
 	m_vPos.y = 0;
-	m_vPos.z = -fz * size;
+	m_vPos.z = fz * size;
 
 	m_vCenterPos.x = fx * size + (size / 2);
 	m_vCenterPos.y = 0;
-	m_vCenterPos.z = -fz * size + (size / 2);
+	m_vCenterPos.z = fz * size + (size / 2);
 
 	m_vecVertex.push_back(nodeVertex[0]);
 	m_vecVertex.push_back(nodeVertex[1]);
