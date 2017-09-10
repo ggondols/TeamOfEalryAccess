@@ -37,7 +37,11 @@ class nPositionInfo
 {
 public:
 	D3DXVECTOR3 m_vPos;
+	D3DXVECTOR3 m_vCenterPos;
 	vector<D3DXVECTOR3> m_vecVertex;
+public:
+	nPositionInfo(int fx, int fz, int size);
+	~nPositionInfo();
 };
 
 //노드가 가지고 있을 충돌체 정보 리스트
