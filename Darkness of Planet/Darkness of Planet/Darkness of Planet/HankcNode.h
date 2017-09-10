@@ -66,3 +66,25 @@ public:
 	HankcNode();
 	~HankcNode();
 };
+
+
+//열정보
+class HankcNodeRow
+{
+public:
+
+	vector<HankcNode> m_vRow;
+
+public:
+	HankcNode* operator [] (int row)
+	{
+		return &m_vRow[row];
+	}
+};
+
+//행열
+class HankcGrid
+{
+public:
+	vector<HankcNodeRow> m_vCol;
+};
