@@ -14,7 +14,7 @@ private:
 
 	iMap*					m_pMap;
 	TeicPhysicsCrtCtrl*		m_pCtrl;
-	TeicSkinnedMesh*			m_pSkinnedMesh;
+	TeicSkinnedMesh*		m_pSkinnedMesh;
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();
