@@ -90,6 +90,18 @@ void TeicCollisionMove::Stop()
 	m_Start = false;
 }
 
+void TeicCollisionMove::SetFrom(D3DXVECTOR3 from)
+{
+	m_From = from;
+	m_From.y = 0;
+}
+
+void TeicCollisionMove::SetTo(D3DXVECTOR3 to)
+{
+	m_To = to;
+	m_To.y = 0;
+}
+
 void TeicCollisionMove::Update()
 {
 	if (!m_Start)return;
