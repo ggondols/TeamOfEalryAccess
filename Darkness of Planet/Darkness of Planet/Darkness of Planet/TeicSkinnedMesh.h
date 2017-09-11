@@ -45,7 +45,8 @@ private:
 	int m_iAttack;
 	int	m_Tracknum;
 	int	m_iNum;
-	float						m_fRotationAngle;
+	
+	D3DXMATRIX					m_RotationMat;
 public:
 	float m_fZealotdiffer;
 	
@@ -55,7 +56,8 @@ public:
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move) { m_Move = move; }
 	void SetRandomTrackPosition(); // 테스트용
-	void SetRotationAngle(float angle) { m_fAngle = angle; }
+	void SetRotationAngle(float angle); 
+	void SetRotationMatrix(D3DXMATRIX rotation) { m_RotationMat = rotation; }
 	D3DXVECTOR3* GetPositionPointer() { return  &m_vPosition; }
 	void SetAnimation(int num);
 	void ChangeAnimation(int num);

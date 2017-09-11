@@ -12,7 +12,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pEffect(NULL)
 	, m_vPosition(0, 0, 0)
 	, m_fAngle(0.0f)
-	, m_fRotationAngle(0.0f)
+	
 
 {
 	TeicSkinnedMesh* pSkinnedMesh = SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
@@ -54,6 +54,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	m_iAttack = 0;
 	m_fZealotdiffer = 0.0f;
 	m_iNum = 0;
+	D3DXMatrixIdentity(&m_RotationMat);
 }
 TeicSkinnedMesh::TeicSkinnedMesh()
 	: m_pRootFrame(NULL)
@@ -151,11 +152,11 @@ void TeicSkinnedMesh::UpdateAndRender()
 	{
 		D3DXMATRIXA16 mat;
 		D3DXMATRIX    scal;
-		D3DXMATRIX    rotation;
+	
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 		D3DXMatrixScaling(&scal, 0.05, 0.05, 0.05);
-		D3DXMatrixRotationY(&rotation, m_fAngle);
-		mat = scal* rotation*mat;
+	
+		mat = scal* m_RotationMat*mat;
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
 	}
@@ -416,6 +417,13 @@ void TeicSkinnedMesh::Blending()
 void TeicSkinnedMesh::SetRandomTrackPosition()
 {
 	m_pAnimController->SetTrackPosition(0, (rand() % 100) / 10.0f);
+}
+
+void TeicSkinnedMesh::SetRotationAngle(float angle)
+{
+	
+	D3DXMatrixRotationY(&m_RotationMat, angle);
+	
 }
 
 void TeicSkinnedMesh::SetAnimation(int num)
