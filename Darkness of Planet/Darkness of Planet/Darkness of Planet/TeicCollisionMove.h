@@ -29,16 +29,17 @@ class TeicCollisionMove : public cAction
 private:
 	SYNTHESIZE(D3DXVECTOR3, m_From, From);
 	SYNTHESIZE(D3DXVECTOR3, m_To, To);
-	SYNTHESIZE(float, m_Speed, Speed);
+	SYNTHESIZE(float, m_Speed, Speed); //////////1초에 얼마나 가냐?
 	SYNTHESIZE(TeicSkinnedMesh*, m_pSkinnedTarget, SkinnedTarget);
 	D3DXVECTOR3 m_previous;
 	D3DXVECTOR3 m_present;
 //	D3DXMATRIX  m_RotationMat;
 
 	bool		m_Start;
-	float		m_fStarttime;
-	float		m_fDistance;
 
+	float		m_fTotalDistance;
+	float		m_fNowDistance;
+	float		m_fElapsedDistance;
 	CallbackBindFunction	m_Callback;
 public:
 	void SetCallback(CallbackBindFunction func);
