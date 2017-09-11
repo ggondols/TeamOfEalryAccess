@@ -38,8 +38,8 @@ void cHeightMap::Load(char* szFolder,
 	m_nTile = nRow - 1;
 	vector<ST_PNT_VERTEX> vecVertex(nNumVertex);
 	m_vecVertex.resize(nNumVertex);
-	//for (int z = 0; z < nRow; ++z)
-	for (int z = nRow - 1; z >= 0; --z)
+	for (int z = 0; z < nRow; ++z)
+	//for (int z = nRow - 1; z >= 0; --z)
 	{
 		for (int x = 0; x < nCol; ++x)
 		{
@@ -142,7 +142,9 @@ void cHeightMap::Load(char* szFolder,
 
 bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 {
-	if (x < 0 || z < 0 || x > m_nTile || z > m_nTile)
+	/*if (x < 0 || z < 0 || x > m_nTile || z > m_nTile)
+		return false;*/
+	if (x < 0 || z > 0 || x > m_nTile || z < -m_nTile)
 		return false;
 
 	//  1--3
@@ -150,10 +152,10 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 	//  | \|
 	//  0--2 
 	int nX = x;
-	int nZ = z;
+	int nZ = z + m_nTile - 1;
 
 	float fDeltaX = x - nX;
-	float fDeltaZ = z - nZ;
+	float fDeltaZ = (z + m_nTile- 1) - nZ;
 
 	int _0 = (nZ + 0) * (m_nTile + 1) + nX + 0;
 	int _1 = (nZ + 1) * (m_nTile + 1) + nX + 0;
@@ -185,6 +187,7 @@ void cHeightMap::Render()
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture(m_sTexture));
 	//GETDEVICE->SetTexture(0, 0);
+	
 	GETDEVICE->SetMaterial(&m_stMtl);
 	GETDEVICE->SetFVF(m_pMesh->GetFVF());
 	m_pMesh->DrawSubset(0);
