@@ -4,7 +4,7 @@
 #include "cHeightMap.h"
 #include "TeicPhysicsCrtCtrl.h"
 
-//드래곤볼 0성구
+
 cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
 	, m_pCtrl(NULL)
