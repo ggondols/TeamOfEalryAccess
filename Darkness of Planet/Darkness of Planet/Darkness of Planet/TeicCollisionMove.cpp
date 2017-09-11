@@ -21,6 +21,7 @@ TeicCollisionMove::TeicCollisionMove()
 	m_present = D3DXVECTOR3(0, 0, 0);
 
 	m_Start = false;
+	m_bCollision = false;
 
 	m_fTotalDistance = 0.0f;
 	m_fElapsedDistance = 0.0f;
@@ -92,6 +93,7 @@ void TeicCollisionMove::Stop()
 void TeicCollisionMove::Update()
 {
 	if (!m_Start)return;
+	if (m_bCollision)return;
 	if (TIMEMANAGER->getFrame() < 50)return;
 
 	m_fElapsedDistance = m_Speed / TIMEMANAGER->getFrame();

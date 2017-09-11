@@ -27,6 +27,18 @@ cTaeYoengMoveOnce::~cTaeYoengMoveOnce()
 }
 
 
+void cTaeYoengMoveOnce::SetTo(D3DXVECTOR3 to)
+{
+	m_To = to; 
+	m_To.y = 0;
+}
+
+void cTaeYoengMoveOnce::SetFrom(D3DXVECTOR3 from)
+{
+	 m_From = from;
+	 m_From.y = 0;
+}
+
 void cTaeYoengMoveOnce::SetCallback(CallbackBindFunction func)
 {
 	m_Callback = std::move(func);
