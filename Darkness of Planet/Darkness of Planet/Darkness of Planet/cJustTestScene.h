@@ -3,6 +3,7 @@
 #include "HankcCamera.h"
 #include "HankcGrid.h"
 #include "TeicSkinnedMesh.h"
+#include "TeicCollisionMove.h"
 class iMap;
 class TeicPhysicsCrtCtrl;
 
@@ -15,6 +16,7 @@ private:
 	iMap*					m_pMap;
 	TeicPhysicsCrtCtrl*		m_pCtrl;
 	TeicSkinnedMesh*		m_pSkinnedMesh;
+	TeicCollisionMove*      m_pCollisionMove;
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();

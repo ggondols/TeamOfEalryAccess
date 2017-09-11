@@ -23,7 +23,9 @@ HRESULT cJustTestScene::Setup()
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, this, 0));
-
+	m_pCollisionMove = new TeicCollisionMove;
+	m_pCollisionMove->SetSkinnedTarget(m_pSkinnedMesh);
+	m_pCollisionMove->SetCallback(bind(&cJustTestScene::CallbackOn, this, 1));
 	m_pCamera->Setup(m_pCtrl->GetPosition());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
@@ -47,8 +49,8 @@ void cJustTestScene::Release()
 void cJustTestScene::Update()
 {
 	m_pCtrl->Update();
-	m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
 	m_pCamera->Update();
+	m_pCollisionMove->Update();
 	if (m_pSkinnedMesh != NULL)
 	{
 		/*m_vecSkinnedMesh[0]->SetPosition(*m_pCrtCtrl->GetPosition());
@@ -57,6 +59,14 @@ void cJustTestScene::Update()
 		
 		m_pSkinnedMesh->SetPosition(*m_pCtrl->GetPosition());
 		m_pSkinnedMesh->SetRotationAngle(m_pCtrl->getAngle());
+		if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+		{
+			m_pCollisionMove->SetFrom(m_pSkinnedMesh->GetPosition());
+			m_pCollisionMove->SetTo(D3DXVECTOR3(RND->getFromFloatTo(0, 100), 0, RND->getFromFloatTo(0, -100)));
+			//m_pCollisionMove->SetTo(D3DXVECTOR3(5, 0, -5));
+
+			m_pCollisionMove->Start();
+		}
 		
 		if (m_pCtrl->getMoving())
 		{
@@ -81,6 +91,9 @@ void cJustTestScene::Update()
 			}
 		}
 	}
+	m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
+
+	//m_pMap->GetHeight(m_pSkinnedMesh->GetPositionPointer()->x, m_pSkinnedMesh->GetPositionPointer()->y, m_pSkinnedMesh->GetPositionPointer()->z);
 }
 
 void cJustTestScene::CallbackOn(int n)
@@ -95,6 +108,10 @@ void cJustTestScene::CallbackOn(int n)
 		{
 			m_pCtrl->setAttacking(false);
 		}
+	}
+	else if (n == 1)
+	{
+
 	}
 }
 

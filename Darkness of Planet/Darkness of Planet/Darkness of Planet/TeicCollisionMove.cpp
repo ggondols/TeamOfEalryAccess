@@ -53,7 +53,7 @@ void TeicCollisionMove::CalRotation()
 
 	D3DXVECTOR3 vDirection = m_previous - m_present;
 
-	if (D3DXVec3LengthSq(&vDirection) <= D3DX_16F_EPSILON)
+	if (D3DXVec3LengthSq(&vDirection) <= 0.00001)
 		return;
 
 	D3DXVec3Normalize(&vDirection, &vDirection);
@@ -64,7 +64,9 @@ void TeicCollisionMove::CalRotation()
 		&vDirection,
 		&D3DXVECTOR3(0, 1, 0));
 	D3DXMatrixTranspose(&matR, &matR);
-
+	D3DXMATRIX	skinnedRot;
+	D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
+	matR = matR* skinnedRot;
 	if (m_pSkinnedTarget)
 	{
 		m_pSkinnedTarget->SetRotationMatrix(matR);
@@ -77,9 +79,9 @@ void TeicCollisionMove::Start()
 	m_Start = true;
 
 	m_fTotalDistance = D3DXVec3Length(&(m_To - m_From));
-	m_fElapsedDistance = m_Speed / TIMEMANAGER->getFrame();
+	m_fElapsedDistance = m_Speed / 60.0f;
 	m_fNowDistance = 0.0f;
-	TIMEMANAGER->getElapsedTime();
+	
 }
 
 void TeicCollisionMove::Stop()
@@ -90,26 +92,37 @@ void TeicCollisionMove::Stop()
 void TeicCollisionMove::Update()
 {
 	if (!m_Start)return;
-
+	if (TIMEMANAGER->getFrame() < 50)return;
 
 	m_fElapsedDistance = m_Speed / TIMEMANAGER->getFrame();
 	m_fNowDistance += m_fElapsedDistance;
 	float t = m_fNowDistance / m_fTotalDistance;
 	D3DXVec3Lerp(&m_present, &m_From, &m_To, t);
 	
+	
 
 
-
-	CalRotation();
+	
 	if (t >= 1)
 	{
 		m_present = m_To;
 		m_Start = false;
+		if (m_pSkinnedTarget)
+		{
+			m_pSkinnedTarget->SetPosition(m_present);
+		}
+		CalRotation();
 		if (m_Callback)
 		{
 			m_Callback();
 		}
+		return;
 
 	}
+	if (m_pSkinnedTarget)
+	{
+		m_pSkinnedTarget->SetPosition(m_present);
+	}
+	CalRotation();
 	m_previous = m_present;
 }
