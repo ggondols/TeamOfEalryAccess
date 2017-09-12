@@ -8,6 +8,7 @@ CRITICAL_SECTION cs;
 
 DWORD WINAPI ThFunc1(LPVOID lpParam)
 {
+	cJustTestScene* temp = (cJustTestScene*)lpParam;
 
 
 	EnterCriticalSection(&cs);
@@ -16,7 +17,7 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			cJustTestScene* temp = (cJustTestScene*)lpParam;
+			
 			TeicEnemy* pSkinnedMesh = new TeicEnemy;
 			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
@@ -36,7 +37,7 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 		}
 	}
 
-
+	temp->m_bThread = true;
 	LeaveCriticalSection(&cs);
 
 
@@ -48,6 +49,7 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
+	, m_bThread(false)
 {
 }
 
@@ -142,42 +144,47 @@ void cJustTestScene::Update()
 	if (TIMEMANAGER->getWorldTime() > 25 - m_fTime)
 	{
 		m_fTime = INF;
-		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+		if (m_bThread)
 		{
-			m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
-			m_vecEnemyCollisionMove[i]->SetTo(m_pCharacter->GetPosition());
-			m_vecEnemyCollisionMove[i]->Start();
+			for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+			{
+				m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
+				m_vecEnemyCollisionMove[i]->SetTo(m_pCharacter->GetPosition());
+				m_vecEnemyCollisionMove[i]->Start();
 
+			}
 		}
 	}
 
 	m_pCamera->Update();
 	
-	for (int i = 0; i < m_vecEnemy.size(); i++)
+	if (m_bThread)
 	{
-		m_vecEnemy[i]->SetCollision( false);
-	}
-	for (int i = 0; i < m_vecEnemy.size(); i++)
-	{
-		for (int j = i+1; j < m_vecEnemy.size(); j++)
+		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]);
+			m_vecEnemy[i]->SetCollision(false);
 		}
-	}
-	for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
-	{
-		m_vecEnemyCollisionMove[i]->Update();
-
-
-		if (m_vecEnemyCollisionMove[i]->m_bStart)
+		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			if (m_vecEnemy[i]->GetAninum() != 1)
+			for (int j = i + 1; j < m_vecEnemy.size(); j++)
 			{
-				m_vecEnemy[i]->SetAnimation(1);
+				CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]);
+			}
+		}
+		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+		{
+			m_vecEnemyCollisionMove[i]->Update();
+
+
+			if (m_vecEnemyCollisionMove[i]->m_bStart)
+			{
+				if (m_vecEnemy[i]->GetAninum() != 1)
+				{
+					m_vecEnemy[i]->SetAnimation(1);
+				}
 			}
 		}
 	}
-	
 	//m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
 	m_pCharacter->Update();
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);

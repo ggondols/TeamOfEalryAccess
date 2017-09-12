@@ -22,7 +22,9 @@ private:
 
 	      
 	float					m_fTime;
+	
 public:
+	bool					m_bThread;
 	vector<TeicEnemy*>	m_vecEnemy;
 	vector<TeicCollisionMove*>  m_vecEnemyCollisionMove;
 public:
