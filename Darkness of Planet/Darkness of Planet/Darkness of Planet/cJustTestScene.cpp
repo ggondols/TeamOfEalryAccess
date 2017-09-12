@@ -4,122 +4,224 @@
 #include "cHeightMap.h"
 #include "TeicPhysicsCrtCtrl.h"
 
+CRITICAL_SECTION cs;
+
+DWORD WINAPI ThFunc1(LPVOID lpParam)
+{
+
+
+	EnterCriticalSection(&cs);
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			cJustTestScene* temp = (cJustTestScene*)lpParam;
+			TeicEnemy* pSkinnedMesh = new TeicEnemy;
+			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
+			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
+			//	pSkinnedMesh->SetPosition(D3DXVECTOR3(0,0,0));
+
+			pSkinnedMesh->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, temp, 1));
+
+
+			temp->m_vecEnemy.push_back(pSkinnedMesh);
+			TeicCollisionMove* tempmove;
+			tempmove = new TeicCollisionMove;
+			tempmove->SetSkinnedTarget(pSkinnedMesh->GetSkinnedMesh());
+			tempmove->SetCallback(bind(&cJustTestScene::CallbackOn, temp, 2));
+			tempmove->SetSpeed(5);
+			temp->m_vecEnemyCollisionMove.push_back(tempmove);
+
+		}
+	}
+
+
+	LeaveCriticalSection(&cs);
+
+
+
+
+	return 0;
+}
+
 cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
-	, m_pCtrl(NULL)
+	, m_pNode(NULL)
 {
 }
 
 cJustTestScene::~cJustTestScene()
 {
+	SAFE_DELETE(m_pNode);
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pMap);
+	SAFE_DELETE(m_pCharacter);
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		SAFE_DELETE(m_vecEnemy[i]);
+		SAFE_RELEASE(m_vecEnemyCollisionMove[i]);
+		
+	}
 }
 
 HRESULT cJustTestScene::Setup()
 {
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
-	m_pCtrl = new TeicPhysicsCrtCtrl;
-	m_pSkinnedMesh = new TeicSkinnedMesh("object/xFile/Wolf/", "Wolf.X");
-	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
-	m_pSkinnedMesh->SetRandomTrackPosition();
-	m_pSkinnedMesh->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, this, 0));
+	
+	m_pCharacter = new TeicCharacter;
+	m_pCharacter->Setup("object/xFile/tiger/", "tiger.X");
+	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
+	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
+	m_pCharacter->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, this, 0));
 
-	m_pCamera->Setup(m_pCtrl->GetPosition());
+	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pHeightMap;
+
+
+	m_pNode = new HankcGrid;
+//////////////////여기서 부터 다시
+
 	D3D::SetLight();
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 	GETDEVICE->LightEnable(0, true);
-
-	//노드 생성 부분
-	int sizeX = 10;
-	int sizeZ = 10;
-
-	m_pNodeGrid.m_vCol.resize(sizeZ);
-	for (int i = 0; i < sizeZ; i++)
-	{
-		//m_pNodeGrid.m_vCol[i].m_vRow.resize(sizeX);
-		for (int j = 0; j < sizeX; j++)
-		{
-			//HankcNode temp(i, j, 1);
-			//m_pNodeGrid.m_vCol[i].m_vRow[j] = temp; //동적 할당용 
-			m_pNodeGrid.m_vCol[i].m_vRow.push_back(HankcNode(i, j, 1)); //정적 할당용
-			//코드 수정이 필요
-		}
-	}
-
+	InitializeCriticalSection(&cs);
+	m_fTime = 0.0f;
 	return S_OK;
 }
 
 void cJustTestScene::Release()
 {
 	m_pGrid->Release();
-	SAFE_DELETE(m_pCtrl);
+	
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pSkinnedMesh);
+	SAFE_DELETE(m_pCharacter);
 }
 
 void cJustTestScene::Update()
 {
-	m_pCtrl->Update();
-	m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
-	m_pCamera->Update();
-	if (m_pSkinnedMesh != NULL)
+	
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 10.0f)
 	{
-		/*m_vecSkinnedMesh[0]->SetPosition(*m_pCrtCtrl->GetPosition());
-		m_vecSkinnedMesh[0]->SetAngle(m_pCrtCtrl->getAngle());*/
-		
-		
-		m_pSkinnedMesh->SetPosition(*m_pCtrl->GetPosition());
-		m_pSkinnedMesh->SetRotationAngle(m_pCtrl->getAngle());
-		
-		if (m_pCtrl->getMoving())
-		{
+		m_fTime = 10.0f;
+		DWORD dwThID1;
+		HANDLE hThreads;
 
-			if (m_pSkinnedMesh->GetAninum() != 9)
-			{
-				m_pSkinnedMesh->SetAnimation(9);
-			}
-		}
-		else if (m_pCtrl->getAttacking())
+		unsigned long ulStackSize = 0;
+		dwThID1 = 0;
+		hThreads = NULL;
+		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
+		ResumeThread(hThreads);
+	}
+
+	if (TIMEMANAGER->getWorldTime() > 25 - m_fTime)
+	{
+		m_fTime = INF;
+		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
 		{
-			if (m_pSkinnedMesh->GetAninum() != 1)
-			{
-				m_pSkinnedMesh->SetAnimation(1);
-			}
+			m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
+			m_vecEnemyCollisionMove[i]->SetTo(m_pCharacter->GetPosition());
+			m_vecEnemyCollisionMove[i]->Start();
+
 		}
-		else
+	}
+
+	m_pCamera->Update();
+	
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_vecEnemy[i]->SetCollision( false);
+	}
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		for (int j = i+1; j < m_vecEnemy.size(); j++)
 		{
-			if (m_pSkinnedMesh->GetAninum() != 0)
+			CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]);
+		}
+	}
+	for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+	{
+		m_vecEnemyCollisionMove[i]->Update();
+
+
+		if (m_vecEnemyCollisionMove[i]->m_bStart)
+		{
+			if (m_vecEnemy[i]->GetAninum() != 1)
 			{
-				m_pSkinnedMesh->SetAnimation(0);
+				m_vecEnemy[i]->SetAnimation(1);
 			}
 		}
+	}
+	
+	//m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
+	m_pCharacter->Update();
+	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_pMap->GetHeight(m_vecEnemy[i]->GetPositionPointer()->x, m_vecEnemy[i]->GetPositionPointer()->y, m_vecEnemy[i]->GetPositionPointer()->z);
+
 	}
 }
 
-void cJustTestScene::CallbackOn(int n)
+void cJustTestScene::CallbackOn(int number)
 {
-	if (n == 0)
+	//////0 캐릭터   1 적   2  적 움직임
+	if (number == 0)
 	{
-		if (m_pSkinnedMesh->GetAninum() == 9)
+		if (m_pCharacter->GetAninum() == 1)
 		{
-			m_pCtrl->setMoving(false);
+			m_pCharacter->SetMoving(false);
 		}
-		if (m_pSkinnedMesh->GetAninum() == 1)
+		if (m_pCharacter->GetAninum() == 3)
 		{
-			m_pCtrl->setAttacking(false);
+			m_pCharacter->SetAttacking(false);
 		}
 	}
+	else if (number == 1)
+	{
+
+	}
+}
+
+bool cJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
+{
+	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < 1.5)
+	{
+		float Adist = D3DXVec3Length(&(A->GetPosition() - m_pCharacter->GetPosition()));
+		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_pCharacter->GetPosition()));
+		if (Adist < Bdist)
+		{
+			B->SetCollision( true);
+		}
+		else
+		{
+			A->SetCollision(true);
+		}
+		return true;
+	}
+
+
+	return false;
 }
 
 void cJustTestScene::Render()
 {
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
-	if (m_pSkinnedMesh) m_pSkinnedMesh->UpdateAndRender();
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	/*for each (auto p in m_vecEnemy)
+	{
+		p->UpdateAndRender();
+	}*/
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_vecEnemy[i]->UpdateAndRender();
+	}
 }
 

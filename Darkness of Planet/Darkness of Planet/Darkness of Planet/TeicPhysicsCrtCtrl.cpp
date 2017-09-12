@@ -33,14 +33,14 @@ void TeicPhysicsCrtCtrl::Update()
 		if (KEYMANAGER->isStayKeyDown('W'))
 		{
 
-			m_fAcceleration += 0.01f;
+			m_fAcceleration += 0.001f;
 			m_bMoving = true;
 
 
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
-			m_fAcceleration -= 0.01f;
+			m_fAcceleration -= 0.001f;
 			//m_vPos = m_vPos + m_vDir * m_fSpeed;
 
 		}
@@ -60,10 +60,10 @@ void TeicPhysicsCrtCtrl::Update()
 	}
 
 
-	m_fAcceleration -= 0.0025f;
-	if (m_fAcceleration > 0.01) m_fAcceleration = 0.01f;
+	m_fAcceleration -= 0.00025f;
+	if (m_fAcceleration > 0.001) m_fAcceleration = 0.001f;
 	m_fSpeed += m_fAcceleration;
-	if (m_fSpeed > 1)m_fSpeed = 1;
+	if (m_fSpeed > 0.1)m_fSpeed = 0.1;
 	if (m_fSpeed < 0)
 	{
 		m_fSpeed = 0;

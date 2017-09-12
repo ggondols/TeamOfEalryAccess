@@ -109,6 +109,21 @@
     <Filter Include="#3D Framework\Mesh\Tei">
       <UniqueIdentifier>{a42e4cdd-39aa-4ffa-8e84-6c3b2aae9fa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Action">
+      <UniqueIdentifier>{2df8f6be-e50f-4860-b628-0184d05a9777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Action\Tei">
+      <UniqueIdentifier>{13c09e9f-6656-4563-acf7-fb36bab03f9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\FontManager">
+      <UniqueIdentifier>{f2eed02a-4814-4af3-8c18-6976e7d59862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Character">
+      <UniqueIdentifier>{19214674-42a4-4500-a898-cfe5379506c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Enemy">
+      <UniqueIdentifier>{cbf35020-b400-444d-8832-1fa16fc43661}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -222,9 +237,6 @@
     <ClInclude Include="cAutoReleasePool.h">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="cAction.h">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
-    </ClInclude>
     <ClInclude Include="cAllocateHierarchy.h">
       <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClInclude>
@@ -269,6 +281,27 @@
     </ClInclude>
     <ClInclude Include="TeicSkinnedMesh.h">
       <Filter>#3D Framework\Mesh\Tei</Filter>
+    </ClInclude>
+    <ClInclude Include="cAction.h">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicCollisionMove.h">
+      <Filter>#3D Framework\Action\Tei</Filter>
+    </ClInclude>
+    <ClInclude Include="cUITextView.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="cUIImageView.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="cFontManager.h">
+      <Filter>#3D Framework\Manager\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicCharacter.h">
+      <Filter>#3D Framework\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicEnemy.h">
+      <Filter>#3D Framework\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -365,9 +398,6 @@
     <ClCompile Include="cAutoReleasePool.cpp">
       <Filter>#3D Framework\여현구 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cAction.cpp">
-      <Filter>#3D Framework\여현구 임시저장소</Filter>
-    </ClCompile>
     <ClCompile Include="cAllocateHierarchy.cpp">
       <Filter>#3D Framework\Mesh\Hank</Filter>
     </ClCompile>
@@ -412,6 +442,27 @@
     </ClCompile>
     <ClCompile Include="TeicSkinnedMesh.cpp">
       <Filter>#3D Framework\Mesh\Tei</Filter>
+    </ClCompile>
+    <ClCompile Include="cAction.cpp">
+      <Filter>#3D Framework\여현구 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicCollisionMove.cpp">
+      <Filter>#3D Framework\Action\Tei</Filter>
+    </ClCompile>
+    <ClCompile Include="cUITextView.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="cUIImageView.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="cFontManager.cpp">
+      <Filter>#3D Framework\Manager\FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicCharacter.cpp">
+      <Filter>#3D Framework\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicEnemy.cpp">
+      <Filter>#3D Framework\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

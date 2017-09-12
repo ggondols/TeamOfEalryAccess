@@ -16,7 +16,7 @@ class TeicSkinnedMesh
 {
 	friend class cSkinnedMeshManager;
 
-private:
+protected:
 	//하나만 생성
 	ST_BONE*					m_pRootFrame;
 	DWORD						m_dwWorkingPaletteSize;
@@ -45,7 +45,9 @@ private:
 	int m_iAttack;
 	int	m_Tracknum;
 	int	m_iNum;
-	float						m_fRotationAngle;
+	
+	D3DXMATRIX					m_RotationMat;
+	bool m_bCollision;
 public:
 	float m_fZealotdiffer;
 	
@@ -55,8 +57,10 @@ public:
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move) { m_Move = move; }
 	void SetRandomTrackPosition(); // 테스트용
-	void SetRotationAngle(float angle) { m_fAngle = angle; }
+	void SetRotationAngle(float angle); 
+	void SetRotationMatrix(D3DXMATRIX rotation) { m_RotationMat = rotation; }
 	D3DXVECTOR3* GetPositionPointer() { return  &m_vPosition; }
+	
 	void SetAnimation(int num);
 	void ChangeAnimation(int num);
 
@@ -65,7 +69,7 @@ public:
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
-private:
+protected:
 	
 	void Load(char* szFolder, char* szFilename);
 	LPD3DXEFFECT LoadEffect(char* szFilename);

@@ -157,6 +157,7 @@
     <ClInclude Include="cAction.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
+    <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cHeightMap.h" />
@@ -165,7 +166,9 @@
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cUIButton.h" />
+    <ClInclude Include="cUIImageView.h" />
     <ClInclude Include="cUIObject.h" />
+    <ClInclude Include="cUITextView.h" />
     <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFont.h" />
@@ -200,6 +203,9 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="commonFunction.h" />
+    <ClInclude Include="TeicCharacter.h" />
+    <ClInclude Include="TeicCollisionMove.h" />
+    <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
     <ClInclude Include="TeicSkinnedMesh.h" />
   </ItemGroup>
@@ -211,6 +217,7 @@
     <ClCompile Include="cAction.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
+    <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cHeightMap.cpp" />
@@ -219,7 +226,9 @@
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cUIButton.cpp" />
+    <ClCompile Include="cUIImageView.cpp" />
     <ClCompile Include="cUIObject.cpp" />
+    <ClCompile Include="cUITextView.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFont.cpp" />
@@ -254,6 +263,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="commonFunction.cpp" />
+    <ClCompile Include="TeicCharacter.cpp" />
+    <ClCompile Include="TeicCollisionMove.cpp" />
+    <ClCompile Include="TeicEnemy.cpp" />
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
     <ClCompile Include="TeicSkinnedMesh.cpp" />
   </ItemGroup>

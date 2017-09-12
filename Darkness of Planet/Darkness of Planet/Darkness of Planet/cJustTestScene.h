@@ -2,24 +2,29 @@
 #include "cGameNode.h"
 #include "HankcCamera.h"
 #include "HankcGrid.h"
+#include "TeicCharacter.h"
+#include "TeicEnemy.h"
+#include "TeicCollisionMove.h"
 #include "HankcNode.h"
-#include "TeicSkinnedMesh.h"
+
 class iMap;
-class TeicPhysicsCrtCtrl;
+
 
 class cJustTestScene : public cGameNode
 {
 private:
 	Hank::cCamera*			m_pCamera;
 	Hank::cGrid*			m_pGrid;
-
+	HankcGrid*				m_pNode;
 	iMap*					m_pMap;
-	TeicPhysicsCrtCtrl*		m_pCtrl;
-	TeicSkinnedMesh*		m_pSkinnedMesh;
-
-	HankcGrid				m_pNodeGrid;
-
 	
+	TeicCharacter*		m_pCharacter;
+
+	      
+	float					m_fTime;
+public:
+	vector<TeicEnemy*>	m_vecEnemy;
+	vector<TeicCollisionMove*>  m_vecEnemyCollisionMove;
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();
@@ -28,5 +33,6 @@ public:
 	virtual void Release();
 	virtual void Render();
 	virtual void Update();
-	void CallbackOn(int n);
+	void CallbackOn(int number);
+	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 };
