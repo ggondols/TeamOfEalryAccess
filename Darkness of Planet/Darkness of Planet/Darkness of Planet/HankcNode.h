@@ -51,7 +51,7 @@ public:
 	list<BoundingSquare*> m_vecBounding;
 };
 
-class HankcNode// : nInterface
+class HankcNode : nInterface
 {
 public:
 	int m_nFrameX;
@@ -60,7 +60,7 @@ public:
 	
 public:
 	//link function
-	//nInterface *m_pInterface;
+	nInterface *m_pInterface;
 	nPositionInfo *m_vPosList;	
 	nNodeBoundInfo *m_pBoundInfo;
 
@@ -70,7 +70,7 @@ public:
 	HankcNode(int fx, int fz, int size);
 	~HankcNode();
 
-	//virtual INTERFACETYPE GetInterType(void) {return E_INTER_END;};
+	virtual INTERFACETYPE GetInterType(void) {return E_INTER_END;};
 };
 
 
@@ -78,7 +78,7 @@ public:
 class HankcNodeRow
 {
 public:
-	vector<HankcNode> m_vRow;
+	vector<HankcNode*> m_vRow;
 
 public:
 	HankcNodeRow();
@@ -86,7 +86,7 @@ public:
 
 	HankcNode* operator [] (int row)
 	{
-		return &m_vRow[row];
+		return m_vRow[row];
 	}
 };
 

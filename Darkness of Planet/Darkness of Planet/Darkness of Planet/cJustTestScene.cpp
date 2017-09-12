@@ -83,8 +83,21 @@ HRESULT cJustTestScene::Setup()
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pHeightMap;
 
-
+	//노드 추가 합니다.
 	m_pNode = new HankcGrid;
+	int sizeX = 10;
+	int sizeZ = 10;
+	m_pNode->m_vCol.resize(sizeZ);
+	for (int i = 0; i < sizeZ; i++)
+	{
+		m_pNode->m_vCol[i].m_vRow.resize(sizeX);
+		for (int j = 0; j < sizeX; j++)
+		{
+			HankcNode* temp = new HankcNode(i, j, 1);
+			m_pNode->m_vCol[i].m_vRow[j] = temp;
+		}
+	}
+
 //////////////////여기서 부터 다시
 
 	D3D::SetLight();
@@ -92,6 +105,12 @@ HRESULT cJustTestScene::Setup()
 	GETDEVICE->LightEnable(0, true);
 	InitializeCriticalSection(&cs);
 	m_fTime = 0.0f;
+
+
+
+	
+
+
 	return S_OK;
 }
 
