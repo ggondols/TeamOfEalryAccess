@@ -1,6 +1,6 @@
 #pragma once
 #include "TeicSkinnedMesh.h"
-
+class TeicPhysicsCrtCtrl;
 //###############################################
 //#												#
 //#		이동,위치,스케일,콜백이 적용된          #
@@ -19,7 +19,7 @@ private:
 	TeicSkinnedMesh*	m_pSkinnedMesh;
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
-
+	TeicPhysicsCrtCtrl*		m_pCtrl;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);
@@ -35,8 +35,11 @@ public:
 	void SetPosition(D3DXVECTOR3 position);
 	void SetAnimation(int num);
 	int GetAninum();
-
-	
+	void Update();
+	void SetMoving(bool on);
+	bool GetMoving();
+	void SetAttacking(bool on);
+	bool GetAttacking();
 	
 public:
 

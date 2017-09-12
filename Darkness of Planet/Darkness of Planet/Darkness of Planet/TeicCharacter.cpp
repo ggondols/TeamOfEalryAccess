@@ -1,18 +1,20 @@
 #include "stdafx.h"
 #include "TeicCharacter.h"
-
+#include "TeicPhysicsCrtCtrl.h"
 
 
 TeicCharacter::TeicCharacter()
 {
 	m_Callback = NULL;
 	m_pSkinnedMesh = NULL;
+	m_pCtrl = NULL;
 }
 
 
 TeicCharacter::~TeicCharacter()
 {
-	
+	SAFE_DELETE(m_pCtrl);
+	SAFE_DELETE(m_pSkinnedMesh);
 }
 
 void TeicCharacter::Setup(char* Foldername, char* Filename)
@@ -21,8 +23,8 @@ void TeicCharacter::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicCharacter::CallbackOn, this, 0));
-
-
+	m_pCtrl = new TeicPhysicsCrtCtrl;
+	
 }
 
 void TeicCharacter::CallbackOn(int n)
@@ -105,5 +107,60 @@ int TeicCharacter::GetAninum()
 	}
 
 	return 0;
+}
+
+void TeicCharacter::Update()
+{
+	m_pCtrl->Update();
+	if (m_pCtrl != NULL)
+	{
+
+		SetPosition(*m_pCtrl->GetPosition());
+		SetRotationAngle(m_pCtrl->getAngle());
+
+
+		if (m_pCtrl->getMoving())
+		{
+
+			if (GetAninum() != 1)
+			{
+				SetAnimation(1);
+			}
+		}
+		else if (m_pCtrl->getAttacking())
+		{
+			if (GetAninum() != 3)
+			{
+				SetAnimation(3);
+			}
+		}
+		else
+		{
+			if (GetAninum() != 0)
+			{
+				SetAnimation(0);
+			}
+		}
+	}
+}
+
+void TeicCharacter::SetMoving(bool on)
+{
+	m_pCtrl->setMoving(on);
+}
+
+bool TeicCharacter::GetMoving()
+{
+	return m_pCtrl->getMoving();
+}
+
+void TeicCharacter::SetAttacking(bool on)
+{
+	m_pCtrl->setAttacking(on);
+}
+
+bool TeicCharacter::GetAttacking()
+{
+	return m_pCtrl->getAttacking();
 }
 

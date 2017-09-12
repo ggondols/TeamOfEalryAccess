@@ -47,7 +47,7 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
-	, m_pCtrl(NULL)
+	
 {
 }
 
@@ -59,7 +59,7 @@ HRESULT cJustTestScene::Setup()
 {
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
-	m_pCtrl = new TeicPhysicsCrtCtrl;
+	
 	m_pCharacter = new TeicCharacter;
 	m_pCharacter->Setup("object/xFile/tiger/", "tiger.X");
 	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
@@ -82,7 +82,7 @@ HRESULT cJustTestScene::Setup()
 void cJustTestScene::Release()
 {
 	m_pGrid->Release();
-	SAFE_DELETE(m_pCtrl);
+	
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pCharacter);
@@ -90,7 +90,7 @@ void cJustTestScene::Release()
 
 void cJustTestScene::Update()
 {
-
+	
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 10.0f)
 	{
 		m_fTime = 10.0f;
@@ -115,7 +115,7 @@ void cJustTestScene::Update()
 
 		}
 	}
-	m_pCtrl->Update();
+
 	m_pCamera->Update();
 	
 	for (int i = 0; i < m_vecEnemy.size(); i++)
@@ -142,38 +142,9 @@ void cJustTestScene::Update()
 			}
 		}
 	}
-	if (m_pCharacter != NULL)
-	{
-
-		m_pCharacter->SetPosition(*m_pCtrl->GetPosition());
-		m_pCharacter->SetRotationAngle(m_pCtrl->getAngle());
-
-
-		if (m_pCtrl->getMoving())
-		{
-
-			if (m_pCharacter->GetAninum() != 1)
-			{
-				m_pCharacter->SetAnimation(1);
-			}
-		}
-		else if (m_pCtrl->getAttacking())
-		{
-			if (m_pCharacter->GetAninum() != 3)
-			{
-				m_pCharacter->SetAnimation(3);
-			}
-		}
-		else
-		{
-			if (m_pCharacter->GetAninum() != 0)
-			{
-				m_pCharacter->SetAnimation(0);
-			}
-		}
-	}
+	
 	//m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
-
+	m_pCharacter->Update();
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -189,11 +160,11 @@ void cJustTestScene::CallbackOn(int number)
 	{
 		if (m_pCharacter->GetAninum() == 1)
 		{
-			m_pCtrl->setMoving(false);
+			m_pCharacter->SetMoving(false);
 		}
 		if (m_pCharacter->GetAninum() == 3)
 		{
-			m_pCtrl->setAttacking(false);
+			m_pCharacter->SetAttacking(false);
 		}
 	}
 	else if (number == 1)

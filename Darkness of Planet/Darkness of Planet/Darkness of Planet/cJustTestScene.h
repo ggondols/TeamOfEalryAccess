@@ -6,7 +6,7 @@
 #include "TeicEnemy.h"
 #include "TeicCollisionMove.h"
 class iMap;
-class TeicPhysicsCrtCtrl;
+
 
 class cJustTestScene : public cGameNode
 {
@@ -15,7 +15,7 @@ private:
 	Hank::cGrid*			m_pGrid;
 
 	iMap*					m_pMap;
-	TeicPhysicsCrtCtrl*		m_pCtrl;
+	
 	TeicCharacter*		m_pCharacter;
 
 	      
