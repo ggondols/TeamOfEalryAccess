@@ -12,7 +12,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pEffect(NULL)
 	, m_vPosition(0, 0, 0)
 	, m_fAngle(0.0f)
-	
+	, m_bCollision(false)
 
 {
 	TeicSkinnedMesh* pSkinnedMesh = SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);

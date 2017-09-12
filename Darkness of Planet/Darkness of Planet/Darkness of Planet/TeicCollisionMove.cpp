@@ -20,8 +20,8 @@ TeicCollisionMove::TeicCollisionMove()
 	m_previous = D3DXVECTOR3(0, 0, 0);
 	m_present = D3DXVECTOR3(0, 0, 0);
 
-	m_Start = false;
-	m_bCollision = false;
+	m_bStart = false;
+
 
 	m_fTotalDistance = 0.0f;
 	m_fElapsedDistance = 0.0f;
@@ -77,7 +77,7 @@ void TeicCollisionMove::CalRotation()
 
 void TeicCollisionMove::Start()
 {
-	m_Start = true;
+	m_bStart = true;
 
 	m_fTotalDistance = D3DXVec3Length(&(m_To - m_From));
 	m_fElapsedDistance = m_Speed / 60.0f;
@@ -87,7 +87,7 @@ void TeicCollisionMove::Start()
 
 void TeicCollisionMove::Stop()
 {
-	m_Start = false;
+	m_bStart = false;
 }
 
 void TeicCollisionMove::SetFrom(D3DXVECTOR3 from)
@@ -104,8 +104,12 @@ void TeicCollisionMove::SetTo(D3DXVECTOR3 to)
 
 void TeicCollisionMove::Update()
 {
-	if (!m_Start)return;
-	if (m_bCollision)return;
+	if (!m_bStart)return;
+	if (m_pSkinnedTarget)
+	{
+		if (m_pSkinnedTarget->m_bCollision)return;
+	}
+	
 	if (TIMEMANAGER->getFrame() < 50)return;
 
 	m_fElapsedDistance = m_Speed / TIMEMANAGER->getFrame();
@@ -120,7 +124,7 @@ void TeicCollisionMove::Update()
 	if (t >= 1)
 	{
 		m_present = m_To;
-		m_Start = false;
+		m_bStart = false;
 		if (m_pSkinnedTarget)
 		{
 			m_pSkinnedTarget->SetPosition(m_present);

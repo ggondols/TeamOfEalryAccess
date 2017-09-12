@@ -17,10 +17,11 @@ private:
 	TeicPhysicsCrtCtrl*		m_pCtrl;
 	TeicSkinnedMesh*		m_pCharacter;
 
-	TeicCollisionMove*      m_pCollisionMove;
+	      
 	float					m_fTime;
 public:
 	vector<TeicSkinnedMesh*>	m_vecEnemy;
+	vector<TeicCollisionMove*>  m_vecEnemyCollisionMove;
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();
@@ -30,4 +31,5 @@ public:
 	virtual void Render();
 	virtual void Update();
 	void CallbackOn(int number);
+	bool CollisionCheck(TeicSkinnedMesh* A, TeicSkinnedMesh* B);
 };

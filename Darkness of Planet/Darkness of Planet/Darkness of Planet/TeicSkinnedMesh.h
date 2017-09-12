@@ -47,6 +47,7 @@ private:
 	int	m_iNum;
 	
 	D3DXMATRIX					m_RotationMat;
+	bool m_bCollision;
 public:
 	float m_fZealotdiffer;
 	

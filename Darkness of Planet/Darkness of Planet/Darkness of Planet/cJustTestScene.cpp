@@ -17,16 +17,24 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 		for (int j = 0; j < 10; j++)
 		{
 			cJustTestScene* temp = (cJustTestScene*)lpParam;
-			TeicSkinnedMesh* pSkinnedMesh = new TeicSkinnedMesh("object/xFile/tiger/", "tiger.X");
-			pSkinnedMesh->SetPosition(D3DXVECTOR3(100+10*j, 0, 20*i));
+			TeicSkinnedMesh* pSkinnedMesh = new TeicSkinnedMesh("object/xFile/wolf/", "wolf.X");
+			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
+			//	pSkinnedMesh->SetPosition(D3DXVECTOR3(0,0,0));
 			pSkinnedMesh->SetRandomTrackPosition();
 			pSkinnedMesh->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, temp, 1));
 
 
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
+			TeicCollisionMove* tempmove;
+			tempmove = new TeicCollisionMove;
+			tempmove->SetSkinnedTarget(pSkinnedMesh);
+			tempmove->SetCallback(bind(&cJustTestScene::CallbackOn, temp, 2));
+			tempmove->SetSpeed(5);
+			temp->m_vecEnemyCollisionMove.push_back(tempmove);
+
 		}
 	}
-	
+
 
 	LeaveCriticalSection(&cs);
 
@@ -55,9 +63,7 @@ HRESULT cJustTestScene::Setup()
 	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pCharacter->SetRandomTrackPosition();
 	m_pCharacter->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, this, 0));
-	m_pCollisionMove = new TeicCollisionMove;
-	m_pCollisionMove->SetSkinnedTarget(m_pCharacter);
-	m_pCollisionMove->SetCallback(bind(&cJustTestScene::CallbackOn, this, 2));
+
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
@@ -83,9 +89,9 @@ void cJustTestScene::Release()
 void cJustTestScene::Update()
 {
 
-	if (TIMEMANAGER->getWorldTime() > m_fTime+10.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 10.0f)
 	{
-		m_fTime = 100000000000;
+		m_fTime = 10.0f;
 		DWORD dwThID1;
 		HANDLE hThreads;
 
@@ -96,41 +102,64 @@ void cJustTestScene::Update()
 		ResumeThread(hThreads);
 	}
 
+	if (TIMEMANAGER->getWorldTime() > 25 - m_fTime)
+	{
+		m_fTime = INF;
+		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+		{
+			m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
+			m_vecEnemyCollisionMove[i]->SetTo(m_pCharacter->GetPosition());
+			m_vecEnemyCollisionMove[i]->Start();
 
+		}
+	}
 	m_pCtrl->Update();
 	m_pCamera->Update();
-	m_pCollisionMove->Update();
+	
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_vecEnemy[i]->m_bCollision = false;
+	}
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		for (int j = i+1; j < m_vecEnemy.size(); j++)
+		{
+			CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]);
+		}
+	}
+	for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+	{
+		m_vecEnemyCollisionMove[i]->Update();
+
+
+		if (m_vecEnemyCollisionMove[i]->m_bStart)
+		{
+			if (m_vecEnemy[i]->GetAninum() != 1)
+			{
+				m_vecEnemy[i]->SetAnimation(1);
+			}
+		}
+	}
 	if (m_pCharacter != NULL)
 	{
-		/*m_vecSkinnedMesh[0]->SetPosition(*m_pCrtCtrl->GetPosition());
-		m_vecSkinnedMesh[0]->SetAngle(m_pCrtCtrl->getAngle());*/
-		
-		
-		/*m_pCharacter->SetPosition(*m_pCtrl->GetPosition());
-		m_pCharacter->SetRotationAngle(m_pCtrl->getAngle());*/
-		if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
-		{
-			m_pCollisionMove->SetSpeed(5);
-			m_pCollisionMove->SetFrom(m_pCharacter->GetPosition());
-			m_pCollisionMove->SetTo(D3DXVECTOR3(RND->getFromFloatTo(0, 100), 0, RND->getFromFloatTo(0, -100)));
-			//m_pCollisionMove->SetTo(D3DXVECTOR3(5, 0, -5));
 
-			m_pCollisionMove->Start();
-		}
-		
+		m_pCharacter->SetPosition(*m_pCtrl->GetPosition());
+		m_pCharacter->SetRotationAngle(m_pCtrl->getAngle());
+
+
 		if (m_pCtrl->getMoving())
 		{
 
-			if (m_pCharacter->GetAninum() != 9)
+			if (m_pCharacter->GetAninum() != 1)
 			{
-				m_pCharacter->SetAnimation(9);
+				m_pCharacter->SetAnimation(1);
 			}
 		}
 		else if (m_pCtrl->getAttacking())
 		{
-			if (m_pCharacter->GetAninum() != 1)
+			if (m_pCharacter->GetAninum() != 3)
 			{
-				m_pCharacter->SetAnimation(1);
+				m_pCharacter->SetAnimation(3);
 			}
 		}
 		else
@@ -144,6 +173,11 @@ void cJustTestScene::Update()
 	//m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
 
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_pMap->GetHeight(m_vecEnemy[i]->GetPositionPointer()->x, m_vecEnemy[i]->GetPositionPointer()->y, m_vecEnemy[i]->GetPositionPointer()->z);
+
+	}
 }
 
 void cJustTestScene::CallbackOn(int number)
@@ -151,11 +185,11 @@ void cJustTestScene::CallbackOn(int number)
 	//////0 캐릭터   1 적   2  적 움직임
 	if (number == 0)
 	{
-		if (m_pCharacter->GetAninum() == 9)
+		if (m_pCharacter->GetAninum() == 1)
 		{
 			m_pCtrl->setMoving(false);
 		}
-		if (m_pCharacter->GetAninum() == 1)
+		if (m_pCharacter->GetAninum() == 3)
 		{
 			m_pCtrl->setAttacking(false);
 		}
@@ -166,10 +200,39 @@ void cJustTestScene::CallbackOn(int number)
 	}
 }
 
+bool cJustTestScene::CollisionCheck(TeicSkinnedMesh * A, TeicSkinnedMesh * B)
+{
+	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < 1.5)
+	{
+		float Adist = D3DXVec3Length(&(A->GetPosition() - m_pCharacter->GetPosition()));
+		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_pCharacter->GetPosition()));
+		if (Adist < Bdist)
+		{
+			B->m_bCollision = true;
+		}
+		else
+		{
+			A->m_bCollision = true;
+		}
+		return true;
+	}
+
+
+	return false;
+}
+
 void cJustTestScene::Render()
 {
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	/*for each (auto p in m_vecEnemy)
+	{
+		p->UpdateAndRender();
+	}*/
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_vecEnemy[i]->UpdateAndRender();
+	}
 }
 

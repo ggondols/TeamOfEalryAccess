@@ -36,12 +36,12 @@ private:
 	D3DXVECTOR3 m_To;
 	SYNTHESIZE(float, m_Speed, Speed); //////////1초에 얼마나 가냐?
 	SYNTHESIZE(TeicSkinnedMesh*, m_pSkinnedTarget, SkinnedTarget);
-	SYNTHESIZE(bool, m_bCollision, Collision);
+	
 	D3DXVECTOR3 m_previous;
 	D3DXVECTOR3 m_present;
 //	D3DXMATRIX  m_RotationMat;
 
-	bool		m_Start;
+	bool		m_bStart;
 
 	float		m_fTotalDistance;
 	float		m_fNowDistance;
