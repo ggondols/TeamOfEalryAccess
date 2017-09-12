@@ -20,7 +20,7 @@ HRESULT cJustTestScene::Setup()
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 	m_pCtrl = new TeicPhysicsCrtCtrl;
-	m_pSkinnedMesh = new TeicSkinnedMesh("object/xFile/Wolf/", "Wolf.X");
+	m_pSkinnedMesh = new TeicSkinnedMesh("object/xFile/wolf/", "wolf.X");
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, this, 0));
