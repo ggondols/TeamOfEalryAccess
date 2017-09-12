@@ -33,7 +33,7 @@ void HankcNode::InitFrame(int fx, int fz)
 HankcNode::~HankcNode()
 {
 	SAFE_DELETE(m_vPosList);
-	SAFE_DELETE(m_pInterface);
+//	SAFE_DELETE(m_pInterface);
 	SAFE_DELETE(m_pBoundInfo);
 }
 
