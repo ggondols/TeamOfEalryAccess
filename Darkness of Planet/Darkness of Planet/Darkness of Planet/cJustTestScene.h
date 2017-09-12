@@ -2,7 +2,7 @@
 #include "cGameNode.h"
 #include "HankcCamera.h"
 #include "HankcGrid.h"
-#include "TeicSkinnedMesh.h"
+#include "TeicCharacter.h"
 #include "TeicCollisionMove.h"
 class iMap;
 class TeicPhysicsCrtCtrl;
@@ -15,7 +15,7 @@ private:
 
 	iMap*					m_pMap;
 	TeicPhysicsCrtCtrl*		m_pCtrl;
-	TeicSkinnedMesh*		m_pCharacter;
+	TeicCharacter*		m_pCharacter;
 
 	      
 	float					m_fTime;

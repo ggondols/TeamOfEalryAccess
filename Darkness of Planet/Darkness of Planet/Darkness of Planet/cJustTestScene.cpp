@@ -12,7 +12,7 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 	EnterCriticalSection(&cs);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -59,9 +59,10 @@ HRESULT cJustTestScene::Setup()
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 	m_pCtrl = new TeicPhysicsCrtCtrl;
-	m_pCharacter = new TeicSkinnedMesh("object/xFile/tiger/", "tiger.X");
+	m_pCharacter = new TeicCharacter;
+	m_pCharacter->Setup("object/xFile/tiger/", "tiger.X");
 	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
-	m_pCharacter->SetRandomTrackPosition();
+	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, this, 0));
 
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());

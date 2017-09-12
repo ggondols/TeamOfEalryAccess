@@ -118,6 +118,9 @@
     <Filter Include="#3D Framework\Manager\FontManager">
       <UniqueIdentifier>{f2eed02a-4814-4af3-8c18-6976e7d59862}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Character">
+      <UniqueIdentifier>{19214674-42a4-4500-a898-cfe5379506c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -291,6 +294,9 @@
     <ClInclude Include="cFontManager.h">
       <Filter>#3D Framework\Manager\FontManager</Filter>
     </ClInclude>
+    <ClInclude Include="TeicCharacter.h">
+      <Filter>#3D Framework\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -445,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="cFontManager.cpp">
       <Filter>#3D Framework\Manager\FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicCharacter.cpp">
+      <Filter>#3D Framework\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
