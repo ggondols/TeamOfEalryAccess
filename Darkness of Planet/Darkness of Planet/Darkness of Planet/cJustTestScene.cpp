@@ -87,8 +87,8 @@ HRESULT cJustTestScene::Setup()
 
 	//노드 추가 합니다.
 	m_pNode = new HankcGrid;
-	int sizeX = 10;
-	int sizeZ = 10;
+	int sizeX = 257;
+	int sizeZ = 257;
 	m_pNode->m_vCol.resize(sizeZ);
 	for (int i = 0; i < sizeZ; i++)
 	{
@@ -99,7 +99,7 @@ HRESULT cJustTestScene::Setup()
 			m_pNode->m_vCol[i].m_vRow[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
 		}
 	}
-	m_pNode[0][0];
+	
 
 //////////////////여기서 부터 다시
 
@@ -150,7 +150,8 @@ void cJustTestScene::Update()
 			for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
 			{
 				m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
-				m_vecEnemyCollisionMove[i]->SetTo(m_pCharacter->GetPosition());
+				
+				m_vecEnemyCollisionMove[i]->SetTo(m_pNode->m_vCol[m_pCharacter->GetNodeNum().x].m_vRow[m_pCharacter->GetNodeNum().y].m_vPosList->m_vCenterPos);
 				m_vecEnemyCollisionMove[i]->Start();
 
 			}
