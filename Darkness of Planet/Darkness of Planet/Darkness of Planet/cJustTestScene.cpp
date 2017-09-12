@@ -17,17 +17,18 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 		for (int j = 0; j < 10; j++)
 		{
 			cJustTestScene* temp = (cJustTestScene*)lpParam;
-			TeicSkinnedMesh* pSkinnedMesh = new TeicSkinnedMesh("object/xFile/wolf/", "wolf.X");
+			TeicEnemy* pSkinnedMesh = new TeicEnemy;
+			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
 			//	pSkinnedMesh->SetPosition(D3DXVECTOR3(0,0,0));
-			pSkinnedMesh->SetRandomTrackPosition();
+
 			pSkinnedMesh->SetCallbackfunction(bind(&cJustTestScene::CallbackOn, temp, 1));
 
 
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 			TeicCollisionMove* tempmove;
 			tempmove = new TeicCollisionMove;
-			tempmove->SetSkinnedTarget(pSkinnedMesh);
+			tempmove->SetSkinnedTarget(pSkinnedMesh->GetSkinnedMesh());
 			tempmove->SetCallback(bind(&cJustTestScene::CallbackOn, temp, 2));
 			tempmove->SetSpeed(5);
 			temp->m_vecEnemyCollisionMove.push_back(tempmove);
@@ -119,7 +120,7 @@ void cJustTestScene::Update()
 	
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-		m_vecEnemy[i]->m_bCollision = false;
+		m_vecEnemy[i]->SetCollision( false);
 	}
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -201,7 +202,7 @@ void cJustTestScene::CallbackOn(int number)
 	}
 }
 
-bool cJustTestScene::CollisionCheck(TeicSkinnedMesh * A, TeicSkinnedMesh * B)
+bool cJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
 	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < 1.5)
 	{
@@ -209,11 +210,11 @@ bool cJustTestScene::CollisionCheck(TeicSkinnedMesh * A, TeicSkinnedMesh * B)
 		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_pCharacter->GetPosition()));
 		if (Adist < Bdist)
 		{
-			B->m_bCollision = true;
+			B->SetCollision( true);
 		}
 		else
 		{
-			A->m_bCollision = true;
+			A->SetCollision(true);
 		}
 		return true;
 	}

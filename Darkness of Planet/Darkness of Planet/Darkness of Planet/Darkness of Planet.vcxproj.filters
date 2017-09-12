@@ -121,6 +121,9 @@
     <Filter Include="#3D Framework\Character">
       <UniqueIdentifier>{19214674-42a4-4500-a898-cfe5379506c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Enemy">
+      <UniqueIdentifier>{cbf35020-b400-444d-8832-1fa16fc43661}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -297,6 +300,9 @@
     <ClInclude Include="TeicCharacter.h">
       <Filter>#3D Framework\Character</Filter>
     </ClInclude>
+    <ClInclude Include="TeicEnemy.h">
+      <Filter>#3D Framework\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -454,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="TeicCharacter.cpp">
       <Filter>#3D Framework\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicEnemy.cpp">
+      <Filter>#3D Framework\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

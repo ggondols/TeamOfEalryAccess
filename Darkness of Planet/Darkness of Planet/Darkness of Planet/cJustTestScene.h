@@ -3,6 +3,7 @@
 #include "HankcCamera.h"
 #include "HankcGrid.h"
 #include "TeicCharacter.h"
+#include "TeicEnemy.h"
 #include "TeicCollisionMove.h"
 class iMap;
 class TeicPhysicsCrtCtrl;
@@ -20,7 +21,7 @@ private:
 	      
 	float					m_fTime;
 public:
-	vector<TeicSkinnedMesh*>	m_vecEnemy;
+	vector<TeicEnemy*>	m_vecEnemy;
 	vector<TeicCollisionMove*>  m_vecEnemyCollisionMove;
 public:
 	cJustTestScene();
@@ -31,5 +32,5 @@ public:
 	virtual void Render();
 	virtual void Update();
 	void CallbackOn(int number);
-	bool CollisionCheck(TeicSkinnedMesh* A, TeicSkinnedMesh* B);
+	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 };

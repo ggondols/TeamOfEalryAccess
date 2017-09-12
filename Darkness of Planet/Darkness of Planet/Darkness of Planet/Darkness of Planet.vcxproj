@@ -205,6 +205,7 @@
     <ClInclude Include="commonFunction.h" />
     <ClInclude Include="TeicCharacter.h" />
     <ClInclude Include="TeicCollisionMove.h" />
+    <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
     <ClInclude Include="TeicSkinnedMesh.h" />
   </ItemGroup>
@@ -264,6 +265,7 @@
     <ClCompile Include="commonFunction.cpp" />
     <ClCompile Include="TeicCharacter.cpp" />
     <ClCompile Include="TeicCollisionMove.cpp" />
+    <ClCompile Include="TeicEnemy.cpp" />
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
     <ClCompile Include="TeicSkinnedMesh.cpp" />
   </ItemGroup>
