@@ -5,6 +5,8 @@
 #include "TeicCharacter.h"
 #include "TeicEnemy.h"
 #include "TeicCollisionMove.h"
+#include "HankcNode.h"
+
 class iMap;
 
 
@@ -13,7 +15,7 @@ class cJustTestScene : public cGameNode
 private:
 	Hank::cCamera*			m_pCamera;
 	Hank::cGrid*			m_pGrid;
-
+	HankcGrid*				m_pNode;
 	iMap*					m_pMap;
 	
 	TeicCharacter*		m_pCharacter;

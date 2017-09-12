@@ -47,12 +47,23 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
-	
+	, m_pNode(NULL)
 {
 }
 
 cJustTestScene::~cJustTestScene()
 {
+	SAFE_DELETE(m_pNode);
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pMap);
+	SAFE_DELETE(m_pCharacter);
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		SAFE_DELETE(m_vecEnemy[i]);
+		SAFE_RELEASE(m_vecEnemyCollisionMove[i]);
+		
+	}
 }
 
 HRESULT cJustTestScene::Setup()
@@ -71,6 +82,11 @@ HRESULT cJustTestScene::Setup()
 	cHeightMap* pHeightMap = new cHeightMap;
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pHeightMap;
+
+
+	m_pNode = new HankcGrid;
+//////////////////여기서 부터 다시
+
 	D3D::SetLight();
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 	GETDEVICE->LightEnable(0, true);
