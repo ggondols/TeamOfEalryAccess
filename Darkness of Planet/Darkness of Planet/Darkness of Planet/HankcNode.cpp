@@ -2,14 +2,30 @@
 #include "HankcNode.h"
 
 HankcNode::HankcNode()
+	: m_pBoundInfo(NULL)
+	, m_vPosList(NULL)
+	, m_nFrameX(0)
+	, m_nFrameZ(0)
+	, m_nIndex(-1)
 {
 }
 
-HankcNode::HankcNode(int fx, int fz, int size)
-	: m_pBoundInfo(NULL)
-	, m_vPosList(NULL)
+
+bool HankcNode::InitPosition(int size)
 {
-	m_vPosList = new nPositionInfo(fx, fz, size);
+	m_vPosList = new nPositionInfo(m_nFrameX, 0, m_nFrameZ, size);
+	
+	if (m_vPosList)
+		return true;
+	else
+		return false;
+}
+
+void HankcNode::InitFrame(int fx, int fz)
+{
+	m_nFrameX = fx;
+	m_nFrameZ = fz;
+
 
 
 }
@@ -21,7 +37,7 @@ HankcNode::~HankcNode()
 	SAFE_DELETE(m_pBoundInfo);
 }
 
-nPositionInfo::nPositionInfo(int fx, int fz, int size)
+nPositionInfo::nPositionInfo(int fx,int fy, int fz, int size)
 {
 	vector<D3DXVECTOR3> nodeVertex;
 

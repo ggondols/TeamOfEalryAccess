@@ -95,10 +95,11 @@ HRESULT cJustTestScene::Setup()
 		m_pNode->m_vCol[i].m_vRow.resize(sizeX);
 		for (int j = 0; j < sizeX; j++)
 		{
-			HankcNode* temp = new HankcNode(i, j, 1);
-			m_pNode->m_vCol[i].m_vRow[j] = temp;
+			m_pNode->m_vCol[i].m_vRow[j].InitFrame(i, j); // 일반 노드만 생성합니다.
+			m_pNode->m_vCol[i].m_vRow[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
 		}
 	}
+	m_pNode[0][0];
 
 //////////////////여기서 부터 다시
 
