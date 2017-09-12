@@ -15,8 +15,12 @@ private:
 
 	iMap*					m_pMap;
 	TeicPhysicsCrtCtrl*		m_pCtrl;
-	TeicSkinnedMesh*		m_pSkinnedMesh;
+	TeicSkinnedMesh*		m_pCharacter;
+
 	TeicCollisionMove*      m_pCollisionMove;
+	float					m_fTime;
+public:
+	vector<TeicSkinnedMesh*>	m_vecEnemy;
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();
@@ -25,5 +29,5 @@ public:
 	virtual void Release();
 	virtual void Render();
 	virtual void Update();
-	void CallbackOn(int n);
+	void CallbackOn(int number);
 };
