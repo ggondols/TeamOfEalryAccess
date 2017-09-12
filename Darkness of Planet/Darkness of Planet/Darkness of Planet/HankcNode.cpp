@@ -2,6 +2,8 @@
 #include "HankcNode.h"
 
 HankcNode::HankcNode(int fx, int fz, int size)
+	: m_pBoundInfo(NULL)
+	, m_vPosList(NULL)
 {
 	m_vPosList = new nPositionInfo(fx, fz, size);
 
@@ -10,8 +12,8 @@ HankcNode::HankcNode(int fx, int fz, int size)
 
 HankcNode::~HankcNode()
 {
-	SAFE_DELETE(m_vPosList);
-	SAFE_DELETE(m_pInterface);
+	//SAFE_DELETE(m_vPosList);
+	//SAFE_DELETE(m_pInterface);
 	SAFE_DELETE(m_pBoundInfo);
 }
 
@@ -48,4 +50,20 @@ nPositionInfo::nPositionInfo(int fx, int fz, int size)
 nPositionInfo::~nPositionInfo()
 {
 	
+}
+
+HankcNodeRow::HankcNodeRow()
+{
+}
+
+HankcNodeRow::~HankcNodeRow()
+{
+}
+
+HankcGrid::HankcGrid()
+{
+}
+
+HankcGrid::~HankcGrid()
+{
 }

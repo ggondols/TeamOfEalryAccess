@@ -32,6 +32,24 @@ HRESULT cJustTestScene::Setup()
 	D3D::SetLight();
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 	GETDEVICE->LightEnable(0, true);
+
+	//노드 생성 부분
+	int sizeX = 10;
+	int sizeZ = 10;
+
+	m_pNodeGrid.m_vCol.resize(sizeZ);
+	for (int i = 0; i < sizeZ; i++)
+	{
+		//m_pNodeGrid.m_vCol[i].m_vRow.resize(sizeX);
+		for (int j = 0; j < sizeX; j++)
+		{
+			//HankcNode temp(i, j, 1);
+			//m_pNodeGrid.m_vCol[i].m_vRow[j] = temp; //동적 할당용 
+			m_pNodeGrid.m_vCol[i].m_vRow.push_back(HankcNode(i, j, 1)); //정적 할당용
+			//코드 수정이 필요
+		}
+	}
+
 	return S_OK;
 }
 

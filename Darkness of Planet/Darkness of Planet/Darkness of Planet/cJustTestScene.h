@@ -2,6 +2,7 @@
 #include "cGameNode.h"
 #include "HankcCamera.h"
 #include "HankcGrid.h"
+#include "HankcNode.h"
 #include "TeicSkinnedMesh.h"
 class iMap;
 class TeicPhysicsCrtCtrl;
@@ -15,6 +16,10 @@ private:
 	iMap*					m_pMap;
 	TeicPhysicsCrtCtrl*		m_pCtrl;
 	TeicSkinnedMesh*		m_pSkinnedMesh;
+
+	HankcGrid				m_pNodeGrid;
+
+	
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();
