@@ -5,8 +5,8 @@ class HankcNode;
 
 
 //
-//	행: Col,  Z,  i
-//	열: Row,  X,  j
+//	열: Col,  Z,  i
+//	행: Row,  X,  j
 //
 class TeicAstar
 {
@@ -14,14 +14,12 @@ private:
 
 	HankcGrid* m_Node;
 	vector<vector<bool>>		m_vecClose;
-//	vector<vector<float>>		m_vecClose;
-//	vector<vector<float>>		m_vecClose;
-//	vector<vector<float>>		m_vecClose;
-//	vector<vector<HankcNode*>>	m_vecParent;
-
-		
-	
+	vector<vector<float>>		m_vecF;
+	vector<vector<float>>		m_vecG;
+	vector<vector<float>>		m_vecH;
+	vector<vector<HankcNode*>>	m_vecParent;
 	vector<HankcNode*>		 m_Selected;
+
 	vector<D3DXVECTOR3>  m_Way;
 	float			     m_distance;
 public:

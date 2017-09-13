@@ -105,14 +105,14 @@ HRESULT cJustTestScene::Setup()
 	m_pNode = new HankcGrid;
 	int sizeX = 257;
 	int sizeZ = 257;
-	m_pNode->m_vCol.resize(sizeZ);
+	m_pNode->m_vRow.resize(sizeZ);
 	for (int i = 0; i < sizeZ; i++)
 	{
-		m_pNode->m_vCol[i].m_vRow.resize(sizeX);
+		m_pNode->m_vRow[i].m_vCol.resize(sizeX);
 		for (int j = 0; j < sizeX; j++)
 		{
-			m_pNode->m_vCol[i].m_vRow[j].InitFrame(i, j); // 일반 노드만 생성합니다.
-			m_pNode->m_vCol[i].m_vRow[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
+			m_pNode->m_vRow[i].m_vCol[j].InitFrame(i, j); // 일반 노드만 생성합니다.
+			m_pNode->m_vRow[i].m_vCol[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
 		}
 	}
 
@@ -169,7 +169,7 @@ void cJustTestScene::Update()
 			{
 				m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
 				
-				m_vecEnemyCollisionMove[i]->SetTo(m_pNode->m_vCol[m_pCharacter->GetNodeNum().y].m_vRow[m_pCharacter->GetNodeNum().x].m_vPosList->m_vCenterPos);
+				m_vecEnemyCollisionMove[i]->SetTo(m_pNode->m_vRow[m_pCharacter->GetNodeNum().y].m_vCol[m_pCharacter->GetNodeNum().x].m_vPosList->m_vCenterPos);
 				m_vecEnemyCollisionMove[i]->Start();
 
 			}

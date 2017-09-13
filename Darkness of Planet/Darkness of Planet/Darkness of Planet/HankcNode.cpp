@@ -72,18 +72,19 @@ nPositionInfo::~nPositionInfo()
 	
 }
 
-HankcNodeRow::HankcNodeRow()
-{
-}
-
-HankcNodeRow::~HankcNodeRow()
-{
-}
 
 HankcGrid::HankcGrid()
 {
 }
 
 HankcGrid::~HankcGrid()
+{
+}
+
+HankcNodeCol::HankcNodeCol()
+{
+}
+
+HankcNodeCol::~HankcNodeCol()
 {
 }

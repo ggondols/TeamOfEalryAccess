@@ -15,6 +15,20 @@ TeicAstar::~TeicAstar()
 //
 //	m_Node = Node;
 //	
+//	m_vecClose.resize(m_Node->m_vCol.size());
+//	m_vecF.resize(m_Node->m_vCol.size());
+//	m_vecG.resize(m_Node->m_vCol.size());
+//	m_vecH.resize(m_Node->m_vCol.size());
+//	m_vecParent.resize(m_Node->m_vCol.size());
+//	for (int i = 0; i < m_vecClose.size(); i++)
+//	{
+//		m_vecClose[i].resize(m_Node->m_vCol[i].m_vRow.size(), false);
+//		m_vecF[i].resize(m_Node->m_vCol[i].m_vRow.size(), INF);
+//		m_vecG[i].resize(m_Node->m_vCol[i].m_vRow.size(), INF);
+//		m_vecH[i].resize(m_Node->m_vCol[i].m_vRow.size(), INF);
+//		m_vecParent[i].resize(m_Node->m_vCol[i].m_vRow.size(),NULL);
+//	}
+//	
 //}
 //
 //vector<D3DXVECTOR3> TeicAstar::FindWay(int StartX, int StartZ, int LastX, int LastZ)
@@ -71,7 +85,7 @@ TeicAstar::~TeicAstar()
 //		if (!now)
 //			break;
 //		now->m_vecClose = true;
-//		if (now->m_vecH <0.00001)
+//		if (now->m_vecH < 0.00001)
 //		{
 //			break;
 //		}
@@ -192,8 +206,8 @@ TeicAstar::~TeicAstar()
 //
 //	return temp;
 //}
-//
-//
-//
-//
-//
+
+
+
+
+
