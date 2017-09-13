@@ -80,6 +80,10 @@ HRESULT cJustTestScene::Setup()
 	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
 	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
 
+	cUIImageView* pInventoryImage = new cUIImageView;
+	pInventoryImage->SetTexture("./UI/inventory.png");
+	UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
+
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 
@@ -150,6 +154,13 @@ void cJustTestScene::Update()
 {
 	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
 	pAim->SetTexture("./UI/aimNormal.png");
+
+	if (KEYMANAGER->isOnceKeyDown('I'))
+	{
+		bool bShowInventory = UIOBJECTMANAGER->CheckShowState("inventory");
+		UIOBJECTMANAGER->SetShowState("inventory", !bShowInventory);
+	}
+
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 	{
 		pAim->SetTexture("./UI/aimHit.png");
