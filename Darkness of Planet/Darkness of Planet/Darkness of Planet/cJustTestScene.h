@@ -22,6 +22,7 @@ private:
 	
 	
 	cUIObject*			m_pUITest;
+	cUIObject*			m_pUITest2;
 	LPD3DXSPRITE		m_pSprite;
 	      
 	float					m_fTime;
