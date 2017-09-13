@@ -25,8 +25,9 @@ private:
 	cUIObject*			m_pUITest2;
 	LPD3DXSPRITE		m_pSprite;
 	      
-	float					m_fTime;
-	float					m_fTime2;
+	float					m_fTime;   /// 쓰레드 시작
+	float					m_fTime2;  ///  쓰레드 완료
+	float					m_fTime3;
 public:
 	HankcGrid*				m_pNode;
 	TeicCharacter*		m_pCharacter;
@@ -47,4 +48,6 @@ public:
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 	void ChangeGridInfo();
+	void TargetOn();
+	float EnemyPlayerDistance(TeicEnemy* ene);
 };

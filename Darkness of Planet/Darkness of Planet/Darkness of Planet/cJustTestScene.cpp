@@ -163,7 +163,7 @@ HRESULT cJustTestScene::Setup()
 	InitializeCriticalSection(&cs);
 	m_fTime = 0.0f;
 	m_fTime2 = 0.0f;
-
+	m_fTime3 = 0.0f;
 
 
 
@@ -184,15 +184,10 @@ void cJustTestScene::Release()
 
 void cJustTestScene::Update()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.0f)
 	{
-		if (m_bThread)
-		{
-			for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
-			{
-				m_vecEnemyCollisionMove[i]->SetClear();
-			}
-		}
+		m_fTime3 = TIMEMANAGER->getWorldTime();
+		//TargetOn();
 	}
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
@@ -214,23 +209,10 @@ void cJustTestScene::Update()
 
 			if (m_bThread)
 			{
-				
-				
-
-
-
 				for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
 				{
 					m_vecEnemyCollisionMove[i]->Start();
-
-
 				}
-
-
-
-
-
-
 			}
 		}
 	}
@@ -347,6 +329,44 @@ void cJustTestScene::ChangeGridInfo()
 		}
 	}
 
+}
+
+void cJustTestScene::TargetOn()
+{
+	if (m_bThread)
+	{
+		for (int i = 0; i < 1; i++)
+		{
+			if (EnemyPlayerDistance(m_vecEnemy[i]) < 10.0f)
+			{
+				m_vecEnemyCollisionMove[i]->SetClear();
+
+				m_vecEnemyWay[i] =m_pAstar->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
+				m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
+
+				for (int j = 0; j < m_vecEnemyWay[i].size(); j++)
+				{
+					if (j + 1 >= m_vecEnemyWay[i].size())break;
+					TeicCollisionMove* tempmove;
+					tempmove = new TeicCollisionMove;
+					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
+					tempmove->SetSpeed(5);
+					tempmove->SetFrom(m_vecEnemyWay[i][j]);
+					tempmove->SetTo(m_vecEnemyWay[i][j + 1]);
+					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+				}
+				m_EnemyTarget = m_vecEnemyWay[i][m_vecEnemyWay[i].size() - 1];
+				m_vecEnemyCollisionMove[i]->Start();
+			}
+		}
+	}
+}
+
+float cJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
+{
+	float length;
+	length= D3DXVec3Length(&(ene->GetPosition() - m_pCharacter->GetPosition()));
+	return length;
 }
 
 void cJustTestScene::Render()
