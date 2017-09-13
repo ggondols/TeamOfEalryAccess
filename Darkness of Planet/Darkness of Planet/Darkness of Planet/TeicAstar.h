@@ -18,15 +18,16 @@ private:
 	vector<vector<float>>		m_vecG;
 	vector<vector<float>>		m_vecH;
 	vector<vector<HankcNode*>>	m_vecParent;
-	vector<HankcNode*>		 m_Selected;
+	vector<HankcNode*>			m_vecSelected;
 
 	vector<D3DXVECTOR3>  m_Way;
 	float			     m_distance;
+	HankcNode* FindLow(vector<HankcNode*>& selected);
 public:
 	void Setup(HankcGrid* Node);
 	vector<D3DXVECTOR3> FindWay(int StartX, int StartZ, int LastX, int LastZ);
 	vector<D3DXVECTOR3> SetWay(int Start, int Last);
-	HankcGrid* FindLow(vector<HankcGrid*>& selected);
+	
 
 public:
 	TeicAstar();

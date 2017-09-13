@@ -6,7 +6,10 @@ TeicEnemy::TeicEnemy()
 {
 	m_Callback = NULL;
 	m_pSkinnedMesh = NULL;
-
+	POINT temp;
+	temp.x = temp.y = 0;
+	m_PresentGrid = temp;
+	m_PreviousGrid = temp;
 }
 
 
@@ -22,7 +25,10 @@ void TeicEnemy::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicEnemy::CallbackOn, this, 0));
 
-
+	m_BoundingBox.m_fSizeX = 1;
+	m_BoundingBox.m_fSizeY = 1;
+	m_BoundingBox.m_fSizeZ = 1;
+	m_BoundingBox.m_vCenterPos = m_pSkinnedMesh->GetPosition();
 }
 
 void TeicEnemy::CallbackOn(int n)
@@ -46,7 +52,11 @@ void TeicEnemy::SetAttackCallbackfunction(CallbackBindFunction function)
 
 void TeicEnemy::UpdateAndRender()
 {
-	if (m_pSkinnedMesh)m_pSkinnedMesh->UpdateAndRender();
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->UpdateAndRender();
+		m_BoundingBox.m_vCenterPos = m_pSkinnedMesh->GetPosition();
+	}
 }
 
 void TeicEnemy::SetAnimationIndex(int nIndex)
