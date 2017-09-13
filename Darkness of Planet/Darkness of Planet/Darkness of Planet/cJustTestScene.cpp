@@ -115,8 +115,8 @@ HRESULT cJustTestScene::Setup()
 			m_pNode->m_vCol[i].m_vRow[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
 		}
 	}
-	
-	//////	m_pNode->m_vCol[0].m_vRow[0].m_InterType = ;
+
+//	m_pNode->m_vCol[0].m_vRow[0].m_pBoundInfo
 //////////////////여기서 부터 다시
 
 	D3D::SetLight();
@@ -169,7 +169,7 @@ void cJustTestScene::Update()
 			{
 				m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
 				
-				m_vecEnemyCollisionMove[i]->SetTo(m_pNode->m_vCol[m_pCharacter->GetNodeNum().x].m_vRow[m_pCharacter->GetNodeNum().y].m_vPosList->m_vCenterPos);
+				m_vecEnemyCollisionMove[i]->SetTo(m_pNode->m_vCol[m_pCharacter->GetNodeNum().y].m_vRow[m_pCharacter->GetNodeNum().x].m_vPosList->m_vCenterPos);
 				m_vecEnemyCollisionMove[i]->Start();
 
 			}

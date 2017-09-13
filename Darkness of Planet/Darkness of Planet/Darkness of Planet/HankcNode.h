@@ -10,7 +10,10 @@
 //#												#
 //#					Made by Hank				#
 //###############################################
-
+//
+//	За: Col,  Z,  i
+//	ї­: Row,  X,  j
+//
 struct BoundingSquare
 {
 	float m_fSizeX;

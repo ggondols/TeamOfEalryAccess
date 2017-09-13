@@ -21,7 +21,7 @@ bool HankcNode::InitPosition(int size)
 		return false;
 }
 
-void HankcNode::InitFrame(int fx, int fz)
+void HankcNode::InitFrame(int fz, int fx)
 {
 	m_nFrameX = fx;
 	m_nFrameZ = fz;
