@@ -312,7 +312,9 @@
     <ClInclude Include="TeicAstar.h">
       <Filter>#3D Framework\Astar\Tei</Filter>
     </ClInclude>
-  </ItemGroup>
+    <ClInclude Include="UIObjectManager.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
       <Filter>MainGame\Window</Filter>
@@ -476,7 +478,9 @@
     <ClCompile Include="TeicAstar.cpp">
       <Filter>#3D Framework\Astar\Tei</Filter>
     </ClCompile>
-  </ItemGroup>
+    <ClCompile Include="UIObjectManager.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc">
       <Filter>리소스 파일</Filter>

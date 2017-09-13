@@ -89,6 +89,9 @@ void cGameNode::Release()
 		
 		FONTMANAGER->Destroy();
 		FONTMANAGER->releaseSingleton();
+
+		UIOBJECTMANAGER->Destroy();
+		UIOBJECTMANAGER->releaseSingleton();
 	}
 }
 

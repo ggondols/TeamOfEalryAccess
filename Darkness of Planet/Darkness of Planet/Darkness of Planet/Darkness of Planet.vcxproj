@@ -209,6 +209,7 @@
     <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
     <ClInclude Include="TeicSkinnedMesh.h" />
+    <ClInclude Include="UIObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cActionMove.cpp" />
@@ -270,6 +271,7 @@
     <ClCompile Include="TeicEnemy.cpp" />
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
     <ClCompile Include="TeicSkinnedMesh.cpp" />
+    <ClCompile Include="UIObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc" />
