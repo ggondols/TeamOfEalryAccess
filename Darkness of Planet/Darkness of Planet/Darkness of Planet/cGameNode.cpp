@@ -34,6 +34,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		KEYMANAGER->Setup();
 		MATERIALMANAGER->Setup();
 		RND->Setup();
+		UIOBJECTMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;

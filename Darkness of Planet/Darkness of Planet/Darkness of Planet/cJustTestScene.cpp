@@ -52,42 +52,17 @@ cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
 	, m_bThread(false)
-	, m_pUITest(NULL)
-	, m_pSprite(NULL){
+{
 }
 
 cJustTestScene::~cJustTestScene()
 {
-	SAFE_DELETE(m_pNode);
-	SAFE_DELETE(m_pCamera);
-	SAFE_DELETE(m_pGrid);
-	SAFE_DELETE(m_pMap);
-	SAFE_DELETE(m_pCharacter);
-	for (int i = 0; i < m_vecEnemy.size(); i++)
-	{
-		SAFE_DELETE(m_vecEnemy[i]);
-		SAFE_RELEASE(m_vecEnemyCollisionMove[i]);
-		
-	}
 }
 
 HRESULT cJustTestScene::Setup()
 {
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
-
-	D3DXCreateSprite(GETDEVICE, &m_pSprite);
-	cUIImageView* pImageView = new cUIImageView;
-	pImageView->SetTexture("NULL");
-	m_pUITest = pImageView;
-
-	cUITextView* pTextView = new cUITextView;
-	pTextView->SetText("UI 텍스트 출력 실험용..");
-	pTextView->SetSize(ST_SIZE(312, 200));
-	pTextView->SetPosition(100, 100);
-	pTextView->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	pTextView->SetTag(0);
-	m_pUITest->AddChild(pTextView);
 
 	m_pCharacter = new TeicCharacter;
 	m_pCharacter->Setup("object/xFile/tiger/", "tiger.X");
@@ -136,12 +111,20 @@ HRESULT cJustTestScene::Setup()
 void cJustTestScene::Release()
 {
 	m_pGrid->Release();
-	
+
+	SAFE_DELETE(m_pNode);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pCharacter);
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pUITest);
+	SAFE_RELEASE(m_pUITest2);
+	SAFE_DELETE(m_pCharacter);
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		SAFE_DELETE(m_vecEnemy[i]);
+		SAFE_RELEASE(m_vecEnemyCollisionMove[i]);
+	}
 }
 
 void cJustTestScene::Update()
@@ -214,7 +197,7 @@ void cJustTestScene::Update()
 
 	}
 
-	if (m_pUITest) m_pUITest->Update();
+	UIOBJECTMANAGER->Update();
 }
 
 void cJustTestScene::CallbackOn(int number)
@@ -272,6 +255,6 @@ void cJustTestScene::Render()
 		m_vecEnemy[i]->UpdateAndRender();
 	}
 
-	if (m_pUITest) m_pUITest->Render(m_pSprite);
+	UIOBJECTMANAGER->Render();
 }
 
