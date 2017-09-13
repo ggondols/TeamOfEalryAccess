@@ -62,7 +62,6 @@ cJustTestScene::~cJustTestScene()
 HRESULT cJustTestScene::Setup()
 {
 	D3DVIEWPORT9 viewport;
-	//ST_SIZE imageSize;
 	GETDEVICE->GetViewport(&viewport);
 	cUIImageView* pAimImage = new cUIImageView;
 	pAimImage->SetTexture("./UI/aimNormal.png");
@@ -70,7 +69,7 @@ HRESULT cJustTestScene::Setup()
 	pAimImage->SetIsCenter(true);
 	pAimImage->SetScale(0.1f, 0.1f);
 
-	UIOBJECTMANAGER->AddRoot("aimTest", pAimImage);
+	UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, true);
 
 	cUIImageView* pLifeImageDown = new cUIImageView;
 	pLifeImageDown->SetTexture("./UI/lifeBarDown.bmp");
@@ -78,12 +77,8 @@ HRESULT cJustTestScene::Setup()
 	cUIImageView* pLifeImageUp = new cUIImageView;
 	pLifeImageUp->SetTexture("./UI/lifeBarUp.bmp");
 
-	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown);
+	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
 	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
-	/*cUIObject* child = UIOBJECTMANAGER->FindRoot("lifeTest")->GetChildByTag(1);
-	child->SetSize(ST_SIZE(300, child->GetSize().fHeight));*/
-	/*cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
-	pAim->SetTexture("./UI/aimHit.png");*/
 
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;

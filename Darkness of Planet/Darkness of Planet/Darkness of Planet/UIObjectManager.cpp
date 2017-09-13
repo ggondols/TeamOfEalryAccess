@@ -13,12 +13,13 @@ UIObjectManager::~UIObjectManager()
 {
 }
 
-void UIObjectManager::AddRoot(string key, cUIObject * root)
+void UIObjectManager::AddRoot(string key, cUIObject * root, bool isShow /*= false*/)
 {
 	cUIObject* findUI = FindRoot(key);
 	if (!findUI)
 	{
 		m_mapUIObject.insert(make_pair(key, root));
+		m_mapUIShowState.insert(make_pair(key, isShow));
 	}
 }
 
@@ -32,16 +33,38 @@ void UIObjectManager::AddChild(string key, cUIObject * child)
 	}
 }
 
+void UIObjectManager::SetShowState(string key, bool isShow)
+{
+	m_mapShowStateIter = m_mapUIShowState.find(key);
+
+	if (m_mapShowStateIter != m_mapUIShowState.end())
+	{
+		m_mapShowStateIter->second = isShow;
+	}
+}
+
 cUIObject * UIObjectManager::FindRoot(string key)
 {
-	m_mapIter = m_mapUIObject.find(key);
+	m_mapUIObjectIter = m_mapUIObject.find(key);
 
-	if (m_mapIter != m_mapUIObject.end())
+	if (m_mapUIObjectIter != m_mapUIObject.end())
 	{
-		return m_mapIter->second;
+		return m_mapUIObjectIter->second;
 	}
 
 	return nullptr;
+}
+
+bool UIObjectManager::CheckShowState(string key)
+{
+	m_mapShowStateIter = m_mapUIShowState.find(key);
+
+	if (m_mapShowStateIter != m_mapUIShowState.end())
+	{
+		return m_mapShowStateIter->second;
+	}
+
+	return false;
 }
 
 void UIObjectManager::Setup()
@@ -61,7 +84,10 @@ void UIObjectManager::Render()
 {
 	for each(auto p in m_mapUIObject)
 	{
-		p.second->Render(m_pSprite);
+		if (CheckShowState(p.first))
+		{
+			p.second->Render(m_pSprite);
+		}
 	}
 }
 
