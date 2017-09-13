@@ -116,7 +116,7 @@ HRESULT cJustTestScene::Setup()
 		}
 	}
 	
-
+	//////	m_pNode->m_vCol[0].m_vRow[0].m_InterType = ;
 //////////////////여기서 부터 다시
 
 	D3D::SetLight();
