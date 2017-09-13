@@ -160,6 +160,13 @@ void cJustTestScene::Update()
 		pAim->SetTexture("./UI/aimHit.png");
 	}
 
+	if (KEYMANAGER->isOnceKeyDown('H'))
+	{
+		cUIObject* child = UIOBJECTMANAGER->FindRoot("lifeTest")->GetChildByTag(1);
+		child->SetSize(ST_SIZE(child->GetSize().fWidth - 20 > 0? child->GetSize().fWidth - 20 : 0,
+			child->GetSize().fHeight));
+	}
+
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 10.0f)
 	{
 		m_fTime = 10.0f;
