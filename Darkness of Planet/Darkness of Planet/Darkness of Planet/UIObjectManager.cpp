@@ -27,6 +27,7 @@ void UIObjectManager::AddChild(string key, cUIObject * child)
 	cUIObject* findUI = FindRoot(key);
 	if (findUI)
 	{
+		child->SetTag(findUI->GetChildSize() + 1);
 		findUI->AddChild(child);
 	}
 }
@@ -46,30 +47,6 @@ cUIObject * UIObjectManager::FindRoot(string key)
 void UIObjectManager::Setup()
 {
 	D3DXCreateSprite(GETDEVICE, &m_pSprite);
-
-	cUIImageView* pImageView = new cUIImageView;
-	pImageView->SetTexture("NULL");
-	AddRoot("test1", pImageView);
-
-	cUITextView* pTextView = new cUITextView;
-	pTextView->SetText("UI 텍스트 출력 실험용..");
-	pTextView->SetSize(ST_SIZE(312, 200));
-	pTextView->SetPosition(100, 100);
-	pTextView->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	pTextView->SetTag(0);
-	AddChild("test1", pTextView);
-
-	cUIImageView* pImageView2 = new cUIImageView;
-	pImageView2->SetTexture("NULL");
-	AddRoot("test2", pImageView2);
-
-	cUITextView* pTextView2 = new cUITextView;
-	pTextView2->SetText("UI 텍스트 출력 실험용2..");
-	pTextView2->SetSize(ST_SIZE(312, 200));
-	pTextView2->SetPosition(200, 200);
-	pTextView2->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	pTextView2->SetTag(1);
-	AddChild("test2", pTextView2);
 }
 
 void UIObjectManager::Update()

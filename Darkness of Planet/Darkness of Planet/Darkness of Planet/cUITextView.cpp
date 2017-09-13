@@ -9,7 +9,6 @@ cUITextView::cUITextView(void)
 {
 }
 
-
 cUITextView::~cUITextView(void)
 {
 }
