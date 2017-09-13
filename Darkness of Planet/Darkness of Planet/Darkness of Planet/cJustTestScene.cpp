@@ -10,6 +10,7 @@ CRITICAL_SECTION cs;
 
 DWORD WINAPI ThFunc1(LPVOID lpParam)
 {
+	cJustTestScene* temp = (cJustTestScene*)lpParam;
 
 
 	EnterCriticalSection(&cs);
@@ -18,7 +19,7 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			cJustTestScene* temp = (cJustTestScene*)lpParam;
+			
 			TeicEnemy* pSkinnedMesh = new TeicEnemy;
 			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
@@ -38,7 +39,7 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 		}
 	}
 
-
+	temp->m_bThread = true;
 	LeaveCriticalSection(&cs);
 
 
@@ -49,13 +50,25 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
+	, m_pNode(NULL)
+	, m_bThread(false)
 	, m_pUITest(NULL)
-	, m_pSprite(NULL)
-{
+	, m_pSprite(NULL){
 }
 
 cJustTestScene::~cJustTestScene()
 {
+	SAFE_DELETE(m_pNode);
+	SAFE_DELETE(m_pCamera);
+	SAFE_DELETE(m_pGrid);
+	SAFE_DELETE(m_pMap);
+	SAFE_DELETE(m_pCharacter);
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		SAFE_DELETE(m_vecEnemy[i]);
+		SAFE_RELEASE(m_vecEnemyCollisionMove[i]);
+		
+	}
 }
 
 HRESULT cJustTestScene::Setup()
@@ -87,11 +100,36 @@ HRESULT cJustTestScene::Setup()
 	cHeightMap* pHeightMap = new cHeightMap;
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
 	m_pMap = pHeightMap;
+
+	//노드 추가 합니다.
+	m_pNode = new HankcGrid;
+	int sizeX = 257;
+	int sizeZ = 257;
+	m_pNode->m_vCol.resize(sizeZ);
+	for (int i = 0; i < sizeZ; i++)
+	{
+		m_pNode->m_vCol[i].m_vRow.resize(sizeX);
+		for (int j = 0; j < sizeX; j++)
+		{
+			m_pNode->m_vCol[i].m_vRow[j].InitFrame(i, j); // 일반 노드만 생성합니다.
+			m_pNode->m_vCol[i].m_vRow[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
+		}
+	}
+	
+
+//////////////////여기서 부터 다시
+
 	D3D::SetLight();
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 	GETDEVICE->LightEnable(0, true);
 	InitializeCriticalSection(&cs);
 	m_fTime = 0.0f;
+
+
+
+	
+
+
 	return S_OK;
 }
 
@@ -125,42 +163,48 @@ void cJustTestScene::Update()
 	if (TIMEMANAGER->getWorldTime() > 25 - m_fTime)
 	{
 		m_fTime = INF;
-		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+		if (m_bThread)
 		{
-			m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
-			m_vecEnemyCollisionMove[i]->SetTo(m_pCharacter->GetPosition());
-			m_vecEnemyCollisionMove[i]->Start();
+			for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+			{
+				m_vecEnemyCollisionMove[i]->SetFrom(m_vecEnemy[i]->GetPosition());
+				
+				m_vecEnemyCollisionMove[i]->SetTo(m_pNode->m_vCol[m_pCharacter->GetNodeNum().x].m_vRow[m_pCharacter->GetNodeNum().y].m_vPosList->m_vCenterPos);
+				m_vecEnemyCollisionMove[i]->Start();
 
+			}
 		}
 	}
 
 	m_pCamera->Update();
 	
-	for (int i = 0; i < m_vecEnemy.size(); i++)
+	if (m_bThread)
 	{
-		m_vecEnemy[i]->SetCollision( false);
-	}
-	for (int i = 0; i < m_vecEnemy.size(); i++)
-	{
-		for (int j = i+1; j < m_vecEnemy.size(); j++)
+		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]);
+			m_vecEnemy[i]->SetCollision(false);
 		}
-	}
-	for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
-	{
-		m_vecEnemyCollisionMove[i]->Update();
-
-
-		if (m_vecEnemyCollisionMove[i]->m_bStart)
+		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			if (m_vecEnemy[i]->GetAninum() != 1)
+			for (int j = i + 1; j < m_vecEnemy.size(); j++)
 			{
-				m_vecEnemy[i]->SetAnimation(1);
+				CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]);
+			}
+		}
+		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
+		{
+			m_vecEnemyCollisionMove[i]->Update();
+
+
+			if (m_vecEnemyCollisionMove[i]->m_bStart)
+			{
+				if (m_vecEnemy[i]->GetAninum() != 1)
+				{
+					m_vecEnemy[i]->SetAnimation(1);
+				}
 			}
 		}
 	}
-	
 	//m_pMap->GetHeight(m_pCtrl->GetPosition()->x, m_pCtrl->GetPosition()->y, m_pCtrl->GetPosition()->z);
 	m_pCharacter->Update();
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);

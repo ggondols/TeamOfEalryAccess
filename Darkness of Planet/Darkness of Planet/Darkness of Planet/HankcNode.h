@@ -40,7 +40,7 @@ public:
 	D3DXVECTOR3 m_vCenterPos;
 	vector<D3DXVECTOR3> m_vecVertex;
 public:
-	nPositionInfo(int fx, int fz, int size);
+	nPositionInfo(int fx, int fy, int fz, int size);
 	~nPositionInfo();
 };
 
@@ -66,8 +66,12 @@ public:
 
 public:
 	
-	HankcNode(int fx, int fz, int size);
+	HankcNode();	
+	bool InitPosition(int size);
+	void InitFrame(int fx, int fz);
 	~HankcNode();
+
+	virtual INTERFACETYPE GetInterType(void) {return E_INTER_END;};
 };
 
 
@@ -78,9 +82,12 @@ public:
 	vector<HankcNode> m_vRow;
 
 public:
-	HankcNode* operator [] (int row)
+	HankcNodeRow();
+	~HankcNodeRow();
+
+	HankcNode& operator[] (int row)
 	{
-		return &m_vRow[row];
+		return m_vRow[row];
 	}
 };
 
@@ -91,8 +98,11 @@ public:
 	vector<HankcNodeRow> m_vCol;
 
 public:
-	HankcNodeRow* operator [] (int col)
+	HankcGrid();
+	~HankcGrid();
+
+	HankcNodeRow& operator[] (int col)
 	{
-		return &m_vCol[col];
+		return m_vCol[col];
 	}
 };

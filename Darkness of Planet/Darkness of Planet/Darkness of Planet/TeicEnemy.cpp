@@ -120,3 +120,20 @@ bool TeicEnemy::GetCollision()
 	return false;
 }
 
+POINT TeicEnemy::GetNodeNum()
+{
+	POINT temp;
+	if (m_pSkinnedMesh)
+	{
+		D3DXVECTOR3 pos = m_pSkinnedMesh->GetPosition();
+		pos.y = 0;
+		temp.x = pos.x;
+		temp.y = -(pos.z);
+		return temp;
+	}
+
+	temp.x = 0;
+	temp.y = 0;
+	return temp;
+}
+

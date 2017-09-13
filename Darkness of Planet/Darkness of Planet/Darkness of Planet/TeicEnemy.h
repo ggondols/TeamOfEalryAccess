@@ -38,7 +38,7 @@ public:
 	TeicSkinnedMesh* GetSkinnedMesh() {return m_pSkinnedMesh;}
 	void SetCollision(bool on);
 	bool GetCollision();
-
+	POINT GetNodeNum();
 public:
 	TeicEnemy();
 	~TeicEnemy();
