@@ -7,6 +7,7 @@
 #include "TeicCollisionMove.h"
 class iMap;
 
+class cUIObject;
 
 class cJustTestScene : public cGameNode
 {
@@ -17,7 +18,8 @@ private:
 	iMap*					m_pMap;
 	
 	TeicCharacter*		m_pCharacter;
-
+	cUIObject*			m_pUITest;
+	LPD3DXSPRITE		m_pSprite;
 	      
 	float					m_fTime;
 public:

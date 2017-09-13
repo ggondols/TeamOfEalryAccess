@@ -3,6 +3,8 @@
 #include "iMap.h"
 #include "cHeightMap.h"
 #include "TeicPhysicsCrtCtrl.h"
+#include "cUIImageView.h"
+#include "cUITextView.h"
 
 CRITICAL_SECTION cs;
 
@@ -47,7 +49,8 @@ DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 cJustTestScene::cJustTestScene()
 	: m_pMap(NULL)
-	
+	, m_pUITest(NULL)
+	, m_pSprite(NULL)
 {
 }
 
@@ -59,7 +62,20 @@ HRESULT cJustTestScene::Setup()
 {
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
-	
+
+	D3DXCreateSprite(GETDEVICE, &m_pSprite);
+	cUIImageView* pImageView = new cUIImageView;
+	pImageView->SetTexture("NULL");
+	m_pUITest = pImageView;
+
+	cUITextView* pTextView = new cUITextView;
+	pTextView->SetText("UI 텍스트 출력 실험용..");
+	pTextView->SetSize(ST_SIZE(312, 200));
+	pTextView->SetPosition(100, 100);
+	pTextView->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
+	pTextView->SetTag(0);
+	m_pUITest->AddChild(pTextView);
+
 	m_pCharacter = new TeicCharacter;
 	m_pCharacter->Setup("object/xFile/tiger/", "tiger.X");
 	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
@@ -86,6 +102,8 @@ void cJustTestScene::Release()
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pCharacter);
+	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(m_pUITest);
 }
 
 void cJustTestScene::Update()
@@ -151,6 +169,8 @@ void cJustTestScene::Update()
 		m_pMap->GetHeight(m_vecEnemy[i]->GetPositionPointer()->x, m_vecEnemy[i]->GetPositionPointer()->y, m_vecEnemy[i]->GetPositionPointer()->z);
 
 	}
+
+	if (m_pUITest) m_pUITest->Update();
 }
 
 void cJustTestScene::CallbackOn(int number)
@@ -207,5 +227,7 @@ void cJustTestScene::Render()
 	{
 		m_vecEnemy[i]->UpdateAndRender();
 	}
+
+	if (m_pUITest) m_pUITest->Render(m_pSprite);
 }
 

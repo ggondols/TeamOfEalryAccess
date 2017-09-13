@@ -6,6 +6,7 @@ cGameNode::cGameNode()
 	:_managerInit(FALSE)
 {
 }
+
 cGameNode::~cGameNode()
 {
 
