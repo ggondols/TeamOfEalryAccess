@@ -65,7 +65,7 @@ HRESULT cJustTestScene::Setup()
 	//ST_SIZE imageSize;
 	GETDEVICE->GetViewport(&viewport);
 	cUIImageView* pAimImage = new cUIImageView;
-	pAimImage->SetTexture("./UI/aim.png");
+	pAimImage->SetTexture("./UI/aimNormal.png");
 	pAimImage->SetPosition(viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
 	pAimImage->SetIsCenter(true);
 	pAimImage->SetScale(0.1f, 0.1f);
@@ -82,6 +82,8 @@ HRESULT cJustTestScene::Setup()
 	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
 	/*cUIObject* child = UIOBJECTMANAGER->FindRoot("lifeTest")->GetChildByTag(1);
 	child->SetSize(ST_SIZE(300, child->GetSize().fHeight));*/
+	/*cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
+	pAim->SetTexture("./UI/aimHit.png");*/
 
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
@@ -151,7 +153,13 @@ void cJustTestScene::Release()
 
 void cJustTestScene::Update()
 {
-	
+	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
+	pAim->SetTexture("./UI/aimNormal.png");
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	{
+		pAim->SetTexture("./UI/aimHit.png");
+	}
+
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 10.0f)
 	{
 		m_fTime = 10.0f;
