@@ -1,4 +1,5 @@
 #pragma once
+
 #include "cGameNode.h"
 #include "HankcCamera.h"
 #include "HankcGrid.h"
@@ -11,20 +12,20 @@
 class iMap;
 
 class cUIObject;
-
-class cJustTestScene : public cGameNode
+class LDYcJustTestScene:public cGameNode
 {
+
 private:
 	Hank::cCamera*			m_pCamera;
 	Hank::cGrid*			m_pGrid;
-	
+
 	iMap*					m_pMap;
-	
-	
+
+
 	cUIObject*			m_pUITest;
 	cUIObject*			m_pUITest2;
 	LPD3DXSPRITE		m_pSprite;
-	      
+
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
@@ -49,6 +50,7 @@ public:
 	void TargetOn();
 	float EnemyPlayerDistance(TeicEnemy* ene);
 public:
-	cJustTestScene();
-	virtual ~cJustTestScene();
+	LDYcJustTestScene();
+	~LDYcJustTestScene();
 };
+

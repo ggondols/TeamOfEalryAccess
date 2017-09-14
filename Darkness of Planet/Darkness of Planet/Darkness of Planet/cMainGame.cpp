@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "cMainGame.h"
 #include "cJustTestScene.h"
-
-
+#include "TeicJustTestScene.h"
+#include "LDYcJustTestScene.h"
+#include "LJHcJustTestScene.h"
+#include "HankcJustTestScene.h"
 cMainGame::cMainGame()
 {
 }
@@ -19,7 +21,13 @@ HRESULT cMainGame::Setup()
 
 	//씬 생성하고
 	SCENEMANAGER->addScene("cJustTestScene", new cJustTestScene);
+	SCENEMANAGER->addScene("TeicJustTestScene", new TeicJustTestScene);
+	SCENEMANAGER->addScene("LDYcJustTestScene", new LDYcJustTestScene);
+	SCENEMANAGER->addScene("LJHcJustTestScene", new LJHcJustTestScene);
+	SCENEMANAGER->addScene("HankcJustTestScene", new HankcJustTestScene);
 
+
+	//////////////////커밋 전에 항상 저스트 테스트 씬으로 바꾸세요~~
 	//여기서 씬 교체
 	SCENEMANAGER->changeScene("cJustTestScene");
 

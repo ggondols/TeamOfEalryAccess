@@ -315,6 +315,21 @@
     <ClInclude Include="TeicMoveSequence.h">
       <Filter>#3D Framework\Action\Tei</Filter>
     </ClInclude>
+    <ClInclude Include="UIObjectManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicJustTestScene.h">
+      <Filter>테스트용 폴더</Filter>
+    </ClInclude>
+    <ClInclude Include="LDYcJustTestScene.h">
+      <Filter>테스트용 폴더</Filter>
+    </ClInclude>
+    <ClInclude Include="LJHcJustTestScene.h">
+      <Filter>테스트용 폴더</Filter>
+    </ClInclude>
+    <ClInclude Include="HankcJustTestScene.h">
+      <Filter>테스트용 폴더</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -481,6 +496,21 @@
     </ClCompile>
     <ClCompile Include="TeicMoveSequence.cpp">
       <Filter>#3D Framework\Action\Tei</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObjectManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicJustTestScene.cpp">
+      <Filter>테스트용 폴더</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYcJustTestScene.cpp">
+      <Filter>테스트용 폴더</Filter>
+    </ClCompile>
+    <ClCompile Include="LJHcJustTestScene.cpp">
+      <Filter>테스트용 폴더</Filter>
+    </ClCompile>
+    <ClCompile Include="HankcJustTestScene.cpp">
+      <Filter>테스트용 폴더</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
