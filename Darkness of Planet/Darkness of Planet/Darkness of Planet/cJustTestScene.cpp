@@ -82,8 +82,11 @@ HRESULT cJustTestScene::Setup()
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
-	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
+	//LPDIRECT3DTEXTURE9 pp = TEXTUREMANAGER->GetTexture("map/terrain.jpg");
+
+	pHeightMap->Load("map/", "Terrain_tut_WM_heightMapNEW.raw", "Terrain_tut_Diffuse.tga");
 	m_pMap = pHeightMap;
+			
 
 	//노드 추가 합니다.
 	m_pNode = new HankcGrid;
@@ -95,11 +98,11 @@ HRESULT cJustTestScene::Setup()
 		m_pNode->m_vCol[i].m_vRow.resize(sizeX);
 		for (int j = 0; j < sizeX; j++)
 		{
-			m_pNode->m_vCol[i].m_vRow[j].InitFrame(i, j); // 일반 노드만 생성합니다.
-			m_pNode->m_vCol[i].m_vRow[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
+			m_pNode->m_vCol[i][j].InitFrame(i, j); // 일반 노드만 생성합니다.
+			m_pNode->m_vCol[i][j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
 		}
 	}
-	m_pNode[0][0];
+	
 
 //////////////////여기서 부터 다시
 
