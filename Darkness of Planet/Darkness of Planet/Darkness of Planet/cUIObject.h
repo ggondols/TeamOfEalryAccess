@@ -19,5 +19,7 @@ public:
 	virtual void SetPosition(float x, float y);
 	virtual void GetRect(RECT* pRect);
 	virtual cUIObject* GetChildByTag(int nTag);
+
+	virtual int GetChildSize() { return m_vecChild.size(); }
 };
 

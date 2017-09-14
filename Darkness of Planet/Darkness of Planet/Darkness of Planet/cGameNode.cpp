@@ -6,6 +6,7 @@ cGameNode::cGameNode()
 	:_managerInit(FALSE)
 {
 }
+
 cGameNode::~cGameNode()
 {
 
@@ -33,6 +34,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		KEYMANAGER->Setup();
 		MATERIALMANAGER->Setup();
 		RND->Setup();
+		UIOBJECTMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -88,6 +90,9 @@ void cGameNode::Release()
 		
 		FONTMANAGER->Destroy();
 		FONTMANAGER->releaseSingleton();
+
+		UIOBJECTMANAGER->Destroy();
+		UIOBJECTMANAGER->releaseSingleton();
 	}
 }
 

@@ -40,7 +40,7 @@ public:
 	bool GetMoving();
 	void SetAttacking(bool on);
 	bool GetAttacking();
-	
+	POINT GetNodeNum();
 public:
 
 	TeicCharacter();

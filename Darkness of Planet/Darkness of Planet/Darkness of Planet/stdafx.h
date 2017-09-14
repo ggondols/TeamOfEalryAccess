@@ -61,6 +61,7 @@ extern int g_MouseWheel;
 #define MATERIALMANAGER cMaterialManager::getSingleton()
 #define TEXTUREMANAGER cTextureManager::getSingleton()
 #define FONTMANAGER cFontManager::getSingleton()
+#define UIOBJECTMANAGER UIObjectManager::getSingleton()
 
 //## 일반적인 클래스 메크로##//
 #define RND cRandomFunction::getSingleton()
@@ -116,7 +117,7 @@ public: virtual void Set##funName(varType var){\
 #include "cMaterialManager.h"
 #include "cTextureManager.h"
 #include "cFontManager.h"
-
+#include "UIObjectManager.h"
 
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 #include "cSkinnedMeshManager.h"

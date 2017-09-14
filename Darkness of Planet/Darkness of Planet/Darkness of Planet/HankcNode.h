@@ -10,7 +10,10 @@
 //#												#
 //#					Made by Hank				#
 //###############################################
-
+//
+//	열: Col,  Z,  i
+//	행: Row,  X,  j
+//
 struct BoundingSquare
 {
 	float m_fSizeX;
@@ -76,18 +79,18 @@ public:
 
 
 //열정보
-class HankcNodeRow
+class HankcNodeCol
 {
 public:
-	vector<HankcNode> m_vRow;
+	vector<HankcNode> m_vCol;
 
 public:
-	HankcNodeRow();
-	~HankcNodeRow();
+	HankcNodeCol();
+	~HankcNodeCol();
 
 	HankcNode& operator[] (int row)
 	{
-		return m_vRow[row];
+		return m_vCol[row];
 	}
 };
 
@@ -95,14 +98,14 @@ public:
 class HankcGrid
 {
 public:
-	vector<HankcNodeRow> m_vCol;
+	vector<HankcNodeCol> m_vRow;
 
 public:
 	HankcGrid();
 	~HankcGrid();
 
-	HankcNodeRow& operator[] (int col)
+	HankcNodeCol& operator[] (int row)
 	{
-		return m_vCol[col];
+		return m_vRow[row];
 	}
 };

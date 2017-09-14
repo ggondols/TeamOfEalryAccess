@@ -1,5 +1,6 @@
 #pragma once
 #include "TeicSkinnedMesh.h"
+#include "HankcNode.h"
 //###############################################
 //#												#
 //#		이동,위치,스케일,콜백이 적용된          #
@@ -19,7 +20,10 @@ private:
 	TeicSkinnedMesh*	m_pSkinnedMesh;
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
-
+public:
+	POINT m_PresentGrid;
+	POINT m_PreviousGrid;
+	BoundingSquare m_BoundingBox;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);
@@ -38,7 +42,7 @@ public:
 	TeicSkinnedMesh* GetSkinnedMesh() {return m_pSkinnedMesh;}
 	void SetCollision(bool on);
 	bool GetCollision();
-
+	POINT GetNodeNum();
 public:
 	TeicEnemy();
 	~TeicEnemy();

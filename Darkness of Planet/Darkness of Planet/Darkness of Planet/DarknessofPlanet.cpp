@@ -136,8 +136,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);//ㅇ에서 바꿈
 
+   //WS_EX_TOPMOST | WS_POPUP
+  /* HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_EX_TOPMOST | WS_POPUP, 0, 0, 1920, 1080
+	  , GetDesktopWindow(), nullptr, hInstance, nullptr);*/
    if (!hWnd)
    {
       return FALSE;
@@ -177,6 +180,13 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_INITDIALOG:
         return (INT_PTR)TRUE;
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_ESCAPE: //esc키로 종료한다
+			PostMessage(g_hWnd, WM_DESTROY, 0, 0);
+		}
+
 
     case WM_COMMAND:
         if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
@@ -185,6 +195,8 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
             return (INT_PTR)TRUE;
         }
         break;
+	case WM_DESTROY: //종료 메시지임. (윈도우 오른쪽 x버튼 누르면 들어옴)
+		PostQuitMessage(0);
     }
     return (INT_PTR)FALSE;
 }

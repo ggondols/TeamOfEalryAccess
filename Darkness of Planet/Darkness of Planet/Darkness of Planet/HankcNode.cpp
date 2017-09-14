@@ -21,7 +21,7 @@ bool HankcNode::InitPosition(int size)
 		return false;
 }
 
-void HankcNode::InitFrame(int fx, int fz)
+void HankcNode::InitFrame(int fz, int fx)
 {
 	m_nFrameX = fx;
 	m_nFrameZ = fz;
@@ -33,7 +33,7 @@ void HankcNode::InitFrame(int fx, int fz)
 HankcNode::~HankcNode()
 {
 	SAFE_DELETE(m_vPosList);
-	SAFE_DELETE(m_pInterface);
+//	SAFE_DELETE(m_pInterface);
 	SAFE_DELETE(m_pBoundInfo);
 }
 
@@ -72,18 +72,19 @@ nPositionInfo::~nPositionInfo()
 	
 }
 
-HankcNodeRow::HankcNodeRow()
-{
-}
-
-HankcNodeRow::~HankcNodeRow()
-{
-}
 
 HankcGrid::HankcGrid()
 {
 }
 
 HankcGrid::~HankcGrid()
+{
+}
+
+HankcNodeCol::HankcNodeCol()
+{
+}
+
+HankcNodeCol::~HankcNodeCol()
 {
 }

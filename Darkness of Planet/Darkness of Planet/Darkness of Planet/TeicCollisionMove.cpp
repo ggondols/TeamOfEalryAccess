@@ -36,7 +36,7 @@ TeicCollisionMove::~TeicCollisionMove()
 {
 	SAFE_DELETE(m_pTarget);
 	SAFE_DELETE(m_pDelegate);
-	SAFE_DELETE(m_pSkinnedTarget);
+	
 	
 }
 

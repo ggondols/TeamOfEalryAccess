@@ -21,12 +21,24 @@ void cDeviceManager::Setup(void)
 	else ver = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 
 	D3DPRESENT_PARAMETERS dpp;
+	//ZeroMemory(&dpp, sizeof(dpp));
+	//dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	//dpp.Windowed = FALSE;        ///true에서 바꿈
+	//dpp.BackBufferFormat = D3DFMT_X8R8G8B8;  ///D3DFMT_UNKNOWN에서 바꿈
+	//dpp.EnableAutoDepthStencil = TRUE;
+	//dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	//dpp.BackBufferWidth = 1920;       ///새롭게 추가함
+	//dpp.BackBufferHeight = 1080;		////새롭게 추가함
+
 	ZeroMemory(&dpp, sizeof(dpp));
-	dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	dpp.Windowed = TRUE;
-	dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;                      //원본
+	dpp.Windowed = true;        ///true에서 바꿈
+	dpp.BackBufferFormat = D3DFMT_UNKNOWN;  ///D3DFMT_UNKNOWN에서 바꿈
 	dpp.EnableAutoDepthStencil = TRUE;
 	dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	     ///새롭게 추가함
+		////새롭게 추가함
+
 
 	m_pD3D->CreateDevice(D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,

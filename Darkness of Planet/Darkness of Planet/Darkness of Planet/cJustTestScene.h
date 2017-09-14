@@ -5,28 +5,38 @@
 #include "TeicCharacter.h"
 #include "TeicEnemy.h"
 #include "TeicCollisionMove.h"
+#include "TeicMoveSequence.h"
 #include "HankcNode.h"
-
+#include "TeicAstar.h"
 class iMap;
 
+class cUIObject;
 
 class cJustTestScene : public cGameNode
 {
 private:
 	Hank::cCamera*			m_pCamera;
 	Hank::cGrid*			m_pGrid;
-	HankcGrid*				m_pNode;
+	
 	iMap*					m_pMap;
 	
-	TeicCharacter*		m_pCharacter;
-
-	      
-	float					m_fTime;
 	
+	cUIObject*			m_pUITest;
+	cUIObject*			m_pUITest2;
+	LPD3DXSPRITE		m_pSprite;
+	      
+	float					m_fTime;   /// 쓰레드 시작
+	float					m_fTime2;  ///  쓰레드 완료
+	float					m_fTime3;
 public:
+	HankcGrid*				m_pNode;
+	TeicCharacter*		m_pCharacter;
+	TeicAstar*			m_pAstar;
 	bool					m_bThread;
-	vector<TeicEnemy*>	m_vecEnemy;
-	vector<TeicCollisionMove*>  m_vecEnemyCollisionMove;
+	vector<TeicEnemy*>			m_vecEnemy;
+	vector< vector<D3DXVECTOR3>> m_vecEnemyWay;
+	vector<TeicMoveSequence*>  m_vecEnemyCollisionMove;
+	D3DXVECTOR3					m_EnemyTarget;
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();
@@ -37,4 +47,7 @@ public:
 	virtual void Update();
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
+	void ChangeGridInfo();
+	void TargetOn();
+	float EnemyPlayerDistance(TeicEnemy* ene);
 };
