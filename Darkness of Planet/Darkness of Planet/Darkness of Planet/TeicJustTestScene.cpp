@@ -111,7 +111,7 @@ TeicJustTestScene::~TeicJustTestScene()
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
 
 	}
-	ExitThread(0);
+	
 }
 
 

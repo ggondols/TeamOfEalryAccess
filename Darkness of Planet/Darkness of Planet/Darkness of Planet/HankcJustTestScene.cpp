@@ -204,14 +204,14 @@ void HankcJustTestScene::Update()
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
-		DWORD dwThID1;
+		/*DWORD dwThID1;
 		HANDLE hThreads;
 
 		unsigned long ulStackSize = 0;
 		dwThID1 = 0;
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
-		ResumeThread(hThreads);
+		ResumeThread(hThreads);*/
 	}
 	if (m_bThread)
 	{
