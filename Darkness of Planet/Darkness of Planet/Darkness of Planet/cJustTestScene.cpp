@@ -131,8 +131,11 @@ HRESULT cJustTestScene::Setup()
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
-	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
+	//LPDIRECT3DTEXTURE9 pp = TEXTUREMANAGER->GetTexture("map/terrain.jpg");
+
+	pHeightMap->Load("map/", "Terrain_tut_WM_heightMapNEW.raw", "Terrain_tut_Diffuse.tga");
 	m_pMap = pHeightMap;
+			
 
 	//노드 추가 합니다.
 	m_pNode = new HankcGrid;
