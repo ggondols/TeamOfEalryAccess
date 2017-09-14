@@ -45,7 +45,7 @@ void cHeightMap::Load(char* szFolder,
 		{
 			unsigned char c = fgetc(fp);
 			int i = z * nRow + x;
-			vecVertex[i].p = D3DXVECTOR3(x, (c /*/ 10.0f*/) - 10.0f, z - (nRow - 1));
+			vecVertex[i].p = D3DXVECTOR3(x, (c /10.0f) - 10.0f, z - (nRow - 1));
 			vecVertex[i].n = D3DXVECTOR3(0, 1, 0);
 			vecVertex[i].t = D3DXVECTOR2(x / (float)m_nTile, z / (float)m_nTile);
 
