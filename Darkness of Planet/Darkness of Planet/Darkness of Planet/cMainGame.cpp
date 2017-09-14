@@ -5,6 +5,7 @@
 #include "LDYcJustTestScene.h"
 #include "LJHcJustTestScene.h"
 #include "HankcJustTestScene.h"
+#include "cTestMain.h"
 cMainGame::cMainGame()
 {
 }
@@ -25,11 +26,11 @@ HRESULT cMainGame::Setup()
 	SCENEMANAGER->addScene("LDYcJustTestScene", new LDYcJustTestScene);
 	SCENEMANAGER->addScene("LJHcJustTestScene", new LJHcJustTestScene);
 	SCENEMANAGER->addScene("HankcJustTestScene", new HankcJustTestScene);
-
-
+	SCENEMANAGER->addScene("cTestMain", new cTestMain);
+	
 	//////////////////커밋 전에 항상 저스트 테스트 씬으로 바꾸세요~~
 	//여기서 씬 교체
-	SCENEMANAGER->changeScene("cJustTestScene");
+	SCENEMANAGER->changeScene("cTestMain");
 
 	return S_OK;
 }
@@ -42,7 +43,23 @@ void cMainGame::Release()
 void cMainGame::Update()
 {
 	cGameNode::Update();
-
+	
+	if (KEYMANAGER->isOnceKeyDown('1'))
+	{
+		SCENEMANAGER->changeScene("HankcJustTestScene");
+	}
+	if (KEYMANAGER->isOnceKeyDown('2'))
+	{
+		SCENEMANAGER->changeScene("LDYcJustTestScene");
+	}
+	if (KEYMANAGER->isOnceKeyDown('3'))
+	{
+		SCENEMANAGER->changeScene("LJHcJustTestScene");
+	}
+	if (KEYMANAGER->isOnceKeyDown('4'))
+	{
+		SCENEMANAGER->changeScene("TeicJustTestScene");
+	}
 	SCENEMANAGER->Update();
 	//AUTORELEASEPOOL->Drain();
 }

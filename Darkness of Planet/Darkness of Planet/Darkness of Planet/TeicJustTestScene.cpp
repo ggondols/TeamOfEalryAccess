@@ -93,6 +93,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pAstar(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
 {
+	
 }
 
 
@@ -110,6 +111,7 @@ TeicJustTestScene::~TeicJustTestScene()
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
 
 	}
+	ExitThread(0);
 }
 
 
@@ -202,8 +204,8 @@ void TeicJustTestScene::Update()
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
-		DWORD dwThID1;
-		HANDLE hThreads;
+		 DWORD dwThID1;
+		 HANDLE hThreads;
 
 		unsigned long ulStackSize = 0;
 		dwThID1 = 0;

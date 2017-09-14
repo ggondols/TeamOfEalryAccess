@@ -17,6 +17,7 @@ class TeicJustTestScene:public cGameNode
 {
 
 private:
+	
 	Hank::cCamera*			m_pCamera;
 	Hank::cGrid*			m_pGrid;
 

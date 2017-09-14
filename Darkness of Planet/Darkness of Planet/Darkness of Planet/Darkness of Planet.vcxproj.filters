@@ -330,6 +330,9 @@
     <ClInclude Include="HankcJustTestScene.h">
       <Filter>테스트용 폴더</Filter>
     </ClInclude>
+    <ClInclude Include="cTestMain.h">
+      <Filter>테스트용 폴더</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -510,6 +513,9 @@
       <Filter>테스트용 폴더</Filter>
     </ClCompile>
     <ClCompile Include="HankcJustTestScene.cpp">
+      <Filter>테스트용 폴더</Filter>
+    </ClCompile>
+    <ClCompile Include="cTestMain.cpp">
       <Filter>테스트용 폴더</Filter>
     </ClCompile>
   </ItemGroup>
