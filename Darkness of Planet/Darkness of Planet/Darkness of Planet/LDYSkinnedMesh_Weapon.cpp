@@ -148,15 +148,6 @@ void LDYSkinnedMesh_Weapon::UpdateAndRender()
 
 	if (m_pRootFrame)
 	{
-	/*	D3DXMATRIXA16 matWorld;
-		D3DXMATRIX    matS,matT;
-
-		D3DXMatrixTranslation(&matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
-		D3DXMatrixTranslation(&matT, -32.10f, 0.0f, 0.0f);
-
-
-		matWorld = matS * m_RotationMat * matWorld;*/
 		Update(m_pRootFrame, NULL);
 		//무기 매트릭스 셋팅
 		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);

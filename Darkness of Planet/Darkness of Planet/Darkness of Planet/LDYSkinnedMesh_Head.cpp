@@ -154,13 +154,6 @@ void LDYSkinnedMesh_Head::UpdateAndRender()
 	if (m_pRootFrame)
 	{
 
-		/*D3DXMATRIXA16 mat;
-		D3DXMATRIX    scal;
-		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&scal, 0.05f, 0.05f, 0.05f);
-
-		mat = scal* m_RotationMat*mat;*/
-
 		Update(m_pRootFrame, NULL);
 		//무기 매트릭스 셋팅
 		SetupWorldMatrix(m_pRootFrame, &m_matHead);

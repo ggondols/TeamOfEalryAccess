@@ -10,6 +10,18 @@
 #include "HankcNode.h"
 #include "TeicAstar.h"
 
+enum WeaponType {
+
+	WP_NONE,
+	WP_Melee,
+	WP_AA12,
+	WP_AR6,
+	WP_M4,
+	WP_MP5,
+	WP_Pistol
+
+};
+
 class iMap;
 
 class cUIObject;
@@ -41,6 +53,7 @@ public:
 	D3DXVECTOR3							m_EnemyTarget;
 
 	int									m_iBodyUpgrade;
+	WeaponType							e_WPtype;
 
 public:	
 

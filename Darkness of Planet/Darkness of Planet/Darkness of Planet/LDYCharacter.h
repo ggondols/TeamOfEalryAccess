@@ -17,23 +17,12 @@ class TeicPhysicsCrtCtrl;
 //#					made by LDY				#
 //###############################################
 
-enum WeaponType{
-
-	WP_NONE,
-	WP_AA12,
-	WP_AR6,
-	WP_M4,
-	WP_MP5,
-	WP_Pistol
-
-};
-
 class LDYCharacter
 {
 private:
 	LDYSkinnedMesh*				m_pSkinnedMesh;
 
-	LDYSkinnedMesh_Head*		m_pHeroHead;
+	LDYSkinnedMesh_Head*		m_pHeroHead[2];
 
 	LDYSkinnedMesh_Weapon*		m_pWeapon_AA12;
 	LDYSkinnedMesh_Weapon*		m_pWeapon_AR6;
@@ -48,9 +37,6 @@ private:
 	LDYSkinnedMesh*				m_pHeroBody_IdleBreak;
 	LDYSkinnedMesh*				m_pHeroBody_SMG;
 
-	int							m_iBodyUpgrade;
-	int							m_iHeadUpgrade;
-	WeaponType					e_WPtype;
 
 	CallbackBindFunction		m_Callback;
 	CallbackBindFunction		m_AttackCallback;
