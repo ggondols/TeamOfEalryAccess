@@ -348,6 +348,9 @@
     <ClInclude Include="TeicAstarShort.h">
       <Filter>#3D Framework\Astar\Tei</Filter>
     </ClInclude>
+    <ClInclude Include="cSphere.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -544,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="TeicAstarShort.cpp">
       <Filter>#3D Framework\Astar\Tei</Filter>
+    </ClCompile>
+    <ClCompile Include="cSphere.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

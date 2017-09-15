@@ -1,5 +1,6 @@
 #pragma once
 class HankcNode;
+class TeicEnemy;
 //###############################################
 //#												#
 //#		Total Node Initialize with Astar		#	
@@ -20,6 +21,7 @@ struct BoundingSquare
 	float m_fSizeY;
 	float m_fSizeZ;
 	D3DXVECTOR3 m_vCenterPos;
+	TeicEnemy*  m_pEnemy;               //////////적 정보 추가
 };
 
 enum INTERFACETYPE
@@ -52,7 +54,7 @@ public:
 class nNodeBoundInfo
 {
 public:
-	list<BoundingSquare*> m_vecBounding;
+	vector<BoundingSquare*> m_vecBounding;       /////////////list에서 벡터로바꿈
 };
 
 class HankcAstarNode
