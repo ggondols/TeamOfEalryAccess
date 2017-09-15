@@ -84,8 +84,6 @@ LJHcJustTestScene::LJHcJustTestScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
 	, m_bThread(false)
-	, m_pUITest(NULL)
-	, m_pSprite(NULL)
 	, m_pAstar(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
 {
@@ -111,21 +109,31 @@ LJHcJustTestScene::~LJHcJustTestScene()
 
 HRESULT LJHcJustTestScene::Setup()
 {
+	D3DVIEWPORT9 viewport;
+	GETDEVICE->GetViewport(&viewport);
+	cUIImageView* pAimImage = new cUIImageView;
+	pAimImage->SetTexture("./UI/aimNormal.png");
+	pAimImage->SetPosition(viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
+	pAimImage->SetIsCenter(true);
+	pAimImage->SetScale(0.1f, 0.1f);
+
+	UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, true);
+
+	cUIImageView* pLifeImageDown = new cUIImageView;
+	pLifeImageDown->SetTexture("./UI/lifeBarDown.bmp");
+	pLifeImageDown->SetPosition(10, viewport.Height - 30);
+	cUIImageView* pLifeImageUp = new cUIImageView;
+	pLifeImageUp->SetTexture("./UI/lifeBarUp.bmp");
+
+	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
+	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
+
+	cUIImageView* pInventoryImage = new cUIImageView;
+	pInventoryImage->SetTexture("./UI/inventory.png");
+	UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
+
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
-
-	D3DXCreateSprite(GETDEVICE, &m_pSprite);
-	cUIImageView* pImageView = new cUIImageView;
-	pImageView->SetTexture("NULL");
-	m_pUITest = pImageView;
-
-	cUITextView* pTextView = new cUITextView;
-	pTextView->SetText("UI 텍스트 출력 실험용..");
-	pTextView->SetSize(ST_SIZE(312, 200));
-	pTextView->SetPosition(100, 100);
-	pTextView->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	pTextView->SetTag(0);
-	m_pUITest->AddChild(pTextView);
 
 	m_pCharacter = new TeicCharacter;
 	m_pCharacter->Setup("object/xFile/tiger/", "tiger.X");
@@ -136,7 +144,7 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
-	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
+	pHeightMap->Load("map/", "Terrain_tut_WM_heightMapNEW.raw", "Terrain_tut_Diffuse.tga");
 	m_pMap = pHeightMap;
 
 	//노드 추가 합니다.
@@ -157,8 +165,6 @@ HRESULT LJHcJustTestScene::Setup()
 	//	m_pNode->m_vCol[0].m_vRow[0].m_pBoundInfo
 	//////////////////여기서 부터 다시
 
-
-
 	m_pAstar = new TeicAstar;
 	m_pAstar->Setup(m_pNode);
 
@@ -170,9 +176,6 @@ HRESULT LJHcJustTestScene::Setup()
 	m_fTime2 = 0.0f;
 	m_fTime3 = 0.0f;
 
-
-
-
 	return S_OK;
 }
 
@@ -183,28 +186,38 @@ void LJHcJustTestScene::Release()
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pCharacter);
-	SAFE_RELEASE(m_pSprite);
-	SAFE_RELEASE(m_pUITest);
 }
 
 void LJHcJustTestScene::Update()
 {
+	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
+	pAim->SetTexture("./UI/aimNormal.png");
+
+	if (KEYMANAGER->isOnceKeyDown('I'))
+	{
+		bool bShowInventory = UIOBJECTMANAGER->CheckShowState("inventory");
+		UIOBJECTMANAGER->SetShowState("inventory", !bShowInventory);
+	}
+
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	{
+		pAim->SetTexture("./UI/aimHit.png");
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('H'))
+	{
+		cUIObject* child = UIOBJECTMANAGER->GetChildByTag("lifeTest", 1);
+		child->SetSize(ST_SIZE(child->GetSize().fWidth - 20 > 0 ? child->GetSize().fWidth - 20 : 0,
+			child->GetSize().fHeight));
+	}
+
 	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.0f)
 	{
 		m_fTime3 = TIMEMANAGER->getWorldTime();
-		//TargetOn();
 	}
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
-	/*	DWORD dwThID1;
-		HANDLE hThreads;
-
-		unsigned long ulStackSize = 0;
-		dwThID1 = 0;
-		hThreads = NULL;
-		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
-		ResumeThread(hThreads);*/
 	}
 	if (m_bThread)
 	{
@@ -265,7 +278,8 @@ void LJHcJustTestScene::Update()
 		}
 	}
 	ChangeGridInfo();
-	if (m_pUITest) m_pUITest->Update();
+	
+	UIOBJECTMANAGER->Update();
 }
 
 void LJHcJustTestScene::CallbackOn(int number)
@@ -390,6 +404,7 @@ void LJHcJustTestScene::Render()
 			m_vecEnemy[i]->UpdateAndRender();
 		}
 	}
-	if (m_pUITest) m_pUITest->Render(m_pSprite);
+	
+	UIOBJECTMANAGER->Render();
 }
 

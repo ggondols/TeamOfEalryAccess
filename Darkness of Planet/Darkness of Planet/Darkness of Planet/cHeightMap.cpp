@@ -38,15 +38,15 @@ void cHeightMap::Load(char* szFolder,
 	m_nTile = nRow - 1;
 	vector<ST_PNT_VERTEX> vecVertex(nNumVertex);
 	m_vecVertex.resize(nNumVertex);
-	for (int z = 0; z < nRow; ++z)
-	//for (int z = nRow - 1; z >= 0; --z)
+	//for (int z = 0; z < nRow; ++z)
+	for (int z = nRow - 1; z >= 0; --z)
 	{
 		for (int x = 0; x < nCol; ++x)
 		{
 			unsigned char c = fgetc(fp);
 			int i = z * nRow + x;
-			vecVertex[i].p = D3DXVECTOR3(x, (c /10.0f) - 10.0f, z - (nRow - 1));
-			vecVertex[i].n = D3DXVECTOR3(0, 1, 0);
+			vecVertex[i].p = D3DXVECTOR3(x, (c*0.5f) - 10.0f, (z - (nRow - 1)));
+			vecVertex[i].n = D3DXVECTOR3(0, 1, 50);
 			vecVertex[i].t = D3DXVECTOR2(x / (float)m_nTile, z / (float)m_nTile);
 
 			m_vecVertex[i] = vecVertex[i].p;

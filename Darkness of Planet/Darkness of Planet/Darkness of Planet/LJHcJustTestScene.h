@@ -11,8 +11,6 @@
 #include "TeicAstar.h"
 class iMap;
 
-class cUIObject;
-
 class LJHcJustTestScene:public cGameNode
 {
 
@@ -22,14 +20,10 @@ private:
 
 	iMap*					m_pMap;
 
-
-	cUIObject*			m_pUITest;
-	cUIObject*			m_pUITest2;
-	LPD3DXSPRITE		m_pSprite;
-
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
+
 public:
 	HankcGrid*				m_pNode;
 	TeicCharacter*		m_pCharacter;
@@ -39,8 +33,8 @@ public:
 	vector< vector<D3DXVECTOR3>> m_vecEnemyWay;
 	vector<TeicMoveSequence*>  m_vecEnemyCollisionMove;
 	D3DXVECTOR3					m_EnemyTarget;
-public:
 
+public:
 	virtual HRESULT Setup();
 	virtual void Release();
 	virtual void Render();
@@ -50,6 +44,7 @@ public:
 	void ChangeGridInfo();
 	void TargetOn();
 	float EnemyPlayerDistance(TeicEnemy* ene);
+
 public:
 	LJHcJustTestScene();
 	~LJHcJustTestScene();

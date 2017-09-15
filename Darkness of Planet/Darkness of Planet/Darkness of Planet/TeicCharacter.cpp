@@ -181,3 +181,8 @@ POINT TeicCharacter::GetNodeNum()
 	return temp;
 }
 
+void TeicCharacter::SetSpeed(float f)
+{
+	if (m_pCtrl)m_pCtrl->SetSpeed(f);   /// ±âº» 1
+}
+
