@@ -140,6 +140,7 @@ HRESULT HankcJustTestScene::Setup()
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&HankcJustTestScene::CallbackOn, this, 0));
 
+
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;

@@ -41,6 +41,7 @@ public:
 	void SetAttacking(bool on);
 	bool GetAttacking();
 	POINT GetNodeNum();
+	void SetSpeed(float f);
 public:
 
 	TeicCharacter();

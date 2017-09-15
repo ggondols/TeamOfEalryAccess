@@ -10,6 +10,8 @@ TeicPhysicsCrtCtrl::TeicPhysicsCrtCtrl()
 	, m_bMoving(false)
 	, m_fAcceleration(0.0f)
 	, m_bAttacking(false)
+	, m_fSpeedSetting(1.0f)
+	
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -33,14 +35,14 @@ void TeicPhysicsCrtCtrl::Update()
 		if (KEYMANAGER->isStayKeyDown('W'))
 		{
 
-			m_fAcceleration += 0.001f;
+			m_fAcceleration += 0.001f*m_fSpeedSetting;
 			m_bMoving = true;
 
 
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
-			m_fAcceleration -= 0.001f;
+			m_fAcceleration -= 0.001f*m_fSpeedSetting;
 			//m_vPos = m_vPos + m_vDir * m_fSpeed;
 
 		}
@@ -60,10 +62,10 @@ void TeicPhysicsCrtCtrl::Update()
 	}
 
 
-	m_fAcceleration -= 0.00025f;
-	if (m_fAcceleration > 0.001) m_fAcceleration = 0.001f;
+	m_fAcceleration -= 0.00025f*m_fSpeedSetting;
+	if (m_fAcceleration > 0.001*m_fSpeedSetting) m_fAcceleration = 0.001f*m_fSpeedSetting;
 	m_fSpeed += m_fAcceleration;
-	if (m_fSpeed > 0.1)m_fSpeed = 0.1;
+	if (m_fSpeed > 0.1*m_fSpeedSetting)m_fSpeed = 0.1*m_fSpeedSetting;
 	if (m_fSpeed < 0)
 	{
 		m_fSpeed = 0;
