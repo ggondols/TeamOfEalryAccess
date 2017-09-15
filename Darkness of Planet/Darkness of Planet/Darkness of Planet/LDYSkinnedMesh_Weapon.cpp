@@ -22,39 +22,41 @@ LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon(char* szFolder, char* szFilename)
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
 	m_pEffect = pSkinnedMesh->m_pEffect;
 
-	pSkinnedMesh->m_pAnimController->CloneAnimationController(
-		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
-		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationSets(),
-		pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
-		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
-		&m_pAnimController);
+	
+	/*	pSkinnedMesh->m_pAnimController->CloneAnimationController(
+			pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
+			pSkinnedMesh->m_pAnimController->GetMaxNumAnimationSets(),
+			pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
+			pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
+			&m_pAnimController);*/
 
-	D3DXMatrixIdentity(&m_Move);
-	m_iCurrentAniNum = 0;
-	m_Starttime = 0;
-	m_Finishtime = 0;
-	m_bBlending = false;
-	m_fWeight = 0;
-	m_fWeightDivide = 0;
+		D3DXMatrixIdentity(&m_Move);
+		m_iCurrentAniNum = 0;
+		m_Starttime = 0;
+		m_Finishtime = 0;
+		m_bBlending = false;
+		m_fWeight = 0;
+		m_fWeightDivide = 0;
 
-	position = D3DXVECTOR3(0, 0, 0);
-	m_Damaging = false;
+		position = D3DXVECTOR3(0, 0, 0);
+		m_Damaging = false;
 
-	m_pAnimController->SetTrackEnable(0, TRUE);
-	m_pAnimController->SetTrackEnable(1, TRUE);
-	m_pAnimController->SetTrackSpeed(0, 1.0f);
-	m_pAnimController->SetTrackSpeed(1, 1.0f);
+		/*m_pAnimController->SetTrackEnable(0, TRUE);
+		m_pAnimController->SetTrackEnable(1, TRUE);
+		m_pAnimController->SetTrackSpeed(0, 1.0f);
+		m_pAnimController->SetTrackSpeed(1, 1.0f);
 
-	LPD3DXANIMATIONSET pAnimset = NULL;
-	m_pAnimController->GetAnimationSet(4, &pAnimset);
-	m_pAnimController->SetTrackAnimationSet(0, pAnimset);
-	m_callback = NULL;
-	m_iHp = 0;
-	m_iShield = 0;
-	m_iAttack = 0;
-	m_fZealotdiffer = 0.0f;
-	m_iNum = 0;
-	D3DXMatrixIdentity(&m_RotationMat);
+		LPD3DXANIMATIONSET pAnimset = NULL;
+		m_pAnimController->GetAnimationSet(4, &pAnimset);
+		m_pAnimController->SetTrackAnimationSet(0, pAnimset);*/
+		m_callback = NULL;
+		m_iHp = 0;
+		m_iShield = 0;
+		m_iAttack = 0;
+		m_fZealotdiffer = 0.0f;
+		m_iNum = 0;
+		D3DXMatrixIdentity(&m_RotationMat);
+	
 }
 LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon()
 	: m_pRootFrame(NULL)
@@ -146,15 +148,20 @@ void LDYSkinnedMesh_Weapon::UpdateAndRender()
 
 	if (m_pRootFrame)
 	{
-		D3DXMATRIXA16 mat;
-		D3DXMATRIX    scal;
+	/*	D3DXMATRIXA16 matWorld;
+		D3DXMATRIX    matS,matT;
 
-		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&scal, 0.05f, 0.05f, 0.05f);
+		D3DXMatrixTranslation(&matWorld, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+		D3DXMatrixScaling(&matS, 0.05f, 0.05f, 0.05f);
+		D3DXMatrixTranslation(&matT, -32.10f, 0.0f, 0.0f);
 
-		mat = scal* m_RotationMat*mat;
-		Update(m_pRootFrame, &mat);
+
+		matWorld = matS * m_RotationMat * matWorld;*/
+		Update(m_pRootFrame, NULL);
+		//무기 매트릭스 셋팅
+		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);
 		Render(m_pRootFrame);
+
 	}
 }
 
@@ -182,6 +189,7 @@ void LDYSkinnedMesh_Weapon::Render(ST_BONE* pBone /*= NULL*/)
 		D3DXMatrixInverse(&mInvView, 0, &mView);
 		D3DXVECTOR3 vEye = D3DXVECTOR3(0, 0, 0);
 		D3DXVec3TransformCoord(&vEye, &vEye, &mInvView);
+
 
 		// for each palette
 		for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
@@ -409,7 +417,25 @@ void LDYSkinnedMesh_Weapon::Blending()
 	}
 }
 
+void LDYSkinnedMesh_Weapon::SetupWorldMatrix(LPD3DXFRAME pFrame, D3DMATRIX * pParent)
+{
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+	pBone->CombinedTransformationMatrix = pBone->CombinedTransformationMatrix;
 
+	if (pParent)
+	{
+		pBone->CombinedTransformationMatrix *= (*pParent);
+	}
+
+	if (pBone->pFrameSibling)
+	{
+		SetupWorldMatrix(pBone->pFrameSibling, pParent);
+	}
+	if (pBone->pFrameFirstChild)
+	{
+		SetupWorldMatrix(pBone->pFrameFirstChild, &pBone->CombinedTransformationMatrix);
+	}
+}
 
 
 void LDYSkinnedMesh_Weapon::SetRandomTrackPosition()

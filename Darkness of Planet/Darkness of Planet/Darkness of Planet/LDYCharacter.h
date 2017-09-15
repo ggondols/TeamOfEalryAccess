@@ -1,5 +1,7 @@
 #pragma once
 #include "LDYSkinnedMesh.h"
+#include "LDYSkinnedMesh_Head.h"
+#include "LDYSkinnedMesh_Weapon.h"
 
 class TeicPhysicsCrtCtrl;
 //###############################################
@@ -14,11 +16,30 @@ class TeicPhysicsCrtCtrl;
 //#											#
 //#					made by LDY				#
 //###############################################
+
+enum WeaponType{
+
+	WP_NONE,
+	WP_AA12,
+	WP_AR6,
+	WP_M4,
+	WP_MP5,
+	WP_Pistol
+
+};
+
 class LDYCharacter
 {
 private:
 	LDYSkinnedMesh*				m_pSkinnedMesh;
 
+	LDYSkinnedMesh_Head*		m_pHeroHead;
+
+	LDYSkinnedMesh_Weapon*		m_pWeapon_AA12;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_AR6;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_M4;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_MP5;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_Pistol;
 
 	LDYSkinnedMesh*				m_pHeroBody_MP5;
 	LDYSkinnedMesh*				m_pHeroBody_Pistol;
@@ -28,6 +49,8 @@ private:
 	LDYSkinnedMesh*				m_pHeroBody_SMG;
 
 	int							m_iBodyUpgrade;
+	int							m_iHeadUpgrade;
+	WeaponType					e_WPtype;
 
 	CallbackBindFunction		m_Callback;
 	CallbackBindFunction		m_AttackCallback;

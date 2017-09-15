@@ -82,6 +82,7 @@ protected:
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
 	void Blending();
+
 	void SetupWorldMatrix(LPD3DXFRAME pFrame, D3DMATRIX* pParent);
 
 public:

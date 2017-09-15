@@ -152,7 +152,7 @@ void LDYSkinnedMesh::UpdateAndRender()
 		D3DXMATRIX    scal;
 
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&scal, 0.05f, 0.05f, 0.05f);
+		D3DXMatrixScaling(&scal, 0.01f, 0.01f, 0.01f);
 
 		mat = scal* m_RotationMat*mat;
 		Update(m_pRootFrame, &mat);
@@ -423,7 +423,7 @@ void LDYSkinnedMesh::getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX * pParent)
 		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
 		m_matWeapon = pBone->CombinedTransformationMatrix;
 	}
-	else if (pBone->Name != nullptr && string(pBone->Name) == string("Neck"))
+	else if (pBone->Name != nullptr && string(pBone->Name) == string("Head"))
 	{
 		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
 		m_matHead = pBone->CombinedTransformationMatrix;

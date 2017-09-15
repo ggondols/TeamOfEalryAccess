@@ -11,12 +11,19 @@ LDYCharacter::LDYCharacter()
 	, m_pHeroBody_IdleBreak(NULL)
 	, m_pHeroBody_SMG(NULL)
 	, m_iBodyUpgrade(1)
+	, m_pHeroHead(NULL)
+	, m_pWeapon_AA12(NULL)
+	, m_pWeapon_AR6(NULL)
+	, m_pWeapon_M4(NULL)
+	, m_pWeapon_MP5(NULL)
+	, m_pWeapon_Pistol(NULL)
+	, e_WPtype(WP_NONE)
+	, m_iHeadUpgrade(2)
 {
 	m_Callback = NULL;
 	m_pSkinnedMesh = NULL;
 	m_pCtrl = NULL;
 }
-
 
 LDYCharacter::~LDYCharacter()
 {
@@ -29,13 +36,21 @@ LDYCharacter::~LDYCharacter()
 	SAFE_DELETE(m_pHeroBody_Base);
 	SAFE_DELETE(m_pHeroBody_IdleBreak);
 	SAFE_DELETE(m_pHeroBody_SMG);
+
+	SAFE_DELETE(m_pHeroHead);
+	SAFE_DELETE(m_pWeapon_AA12);
+	SAFE_DELETE(m_pWeapon_AR6);
+	SAFE_DELETE(m_pWeapon_M4);
+	SAFE_DELETE(m_pWeapon_MP5);
+	SAFE_DELETE(m_pWeapon_Pistol);
 }
 
 void LDYCharacter::Setup(char* Foldername, char* Filename)
 {
-
+	//ctrl생성
 	m_pCtrl = new TeicPhysicsCrtCtrl;
 
+	//body 상황별 메쉬 셋업 
 	char MP5buffFolder[1024];
 	char* MP5Folder = "MP5_Aim_Anims/";
 	sprintf_s(MP5buffFolder, "%s%s", Foldername, MP5Folder);
@@ -117,6 +132,31 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 	m_pHeroBody_SMG->SetRandomTrackPosition();
 	m_pHeroBody_SMG->SetCallbackfunction(bind(&LDYCharacter::CallbackOn, this, 0));
 
+
+	char* XfileExtension = ".X";
+
+	//head 레벨별 셋업
+	char HeadbuffFolder[1024];
+	char* HeadFolder = "HeroHead/";
+	sprintf_s(HeadbuffFolder, "%s%s", Foldername, HeadFolder);
+
+	char HeadbuffFile[1024];
+	char* HeadFile = "HeroHeadLv";
+	sprintf_s(HeadbuffFile, "%s%d%s", HeadFile, m_iHeadUpgrade, XfileExtension);
+
+	m_pHeroHead = new LDYSkinnedMesh_Head(HeadbuffFolder, HeadbuffFile);
+	m_pHeroHead->m_matHead = m_pHeroBody_MP5->m_matHead;
+	
+	//무기 메쉬 세팅 
+	char WP_MP5Folder[1024];
+	char* MP5wpFolder = "Weapon/";
+	sprintf_s(WP_MP5Folder, "%s%s", Foldername, MP5wpFolder);
+
+	char* MP5Filename = "Wp_MP5.X";
+
+	m_pWeapon_MP5 = new LDYSkinnedMesh_Weapon(WP_MP5Folder, MP5Filename);
+	m_pWeapon_MP5->m_matWeapon = m_pHeroBody_MP5->m_matWeapon;
+
 }
 
 void LDYCharacter::CallbackOn(int n)
@@ -141,6 +181,23 @@ void LDYCharacter::SetAttackCallbackfunction(CallbackBindFunction function)
 void LDYCharacter::UpdateAndRender()
 {
 	if (m_pHeroBody_MP5)m_pHeroBody_MP5->UpdateAndRender();
+
+	if (m_pHeroHead) 
+	{ 
+		D3DXMATRIX matT;
+		D3DXMatrixTranslation(&matT, -0.0f, -4.5f, 0.0f);
+		matT *= m_pHeroBody_MP5->m_matHead;
+		m_pHeroHead->m_matHead = matT;
+		m_pHeroHead->UpdateAndRender();
+	}
+	if (m_pWeapon_MP5)
+	{
+		D3DXMATRIX matT;
+		D3DXMatrixTranslation(&matT, -32.10f, 0.0f, 0.0f);
+		matT *= m_pHeroBody_MP5->m_matWeapon;
+		m_pWeapon_MP5->m_matWeapon = matT;
+		m_pWeapon_MP5->UpdateAndRender();
+	}
 }
 
 void LDYCharacter::SetAnimationIndex(int nIndex)
