@@ -45,6 +45,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 	vector<D3DXVECTOR3> wayway = temp->m_pAstar->FindWay(temp->m_vecEnemy[0]->GetNodeNum().x, temp->m_vecEnemy[0]->GetNodeNum().y,
 		temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
 	temp->m_EnemyTarget = wayway[wayway.size() - 1];
+	
 	for (int i = 0; i < temp->m_vecEnemyWay.size(); i++)
 	{
 
@@ -199,7 +200,7 @@ void TeicJustTestScene::Update()
 	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.0f)
 	{
 		m_fTime3 = TIMEMANAGER->getWorldTime();
-		//TargetOn();
+		TargetOn();
 	}
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
@@ -356,6 +357,7 @@ void TeicJustTestScene::TargetOn()
 				m_vecEnemyWay[i] = m_pAstar->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
 					m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
 
+				if(m_vecEnemyWay[i].size() ==0)continue;
 				for (int j = 0; j < m_vecEnemyWay[i].size(); j++)
 				{
 					if (j + 1 >= m_vecEnemyWay[i].size())break;
@@ -367,8 +369,10 @@ void TeicJustTestScene::TargetOn()
 					tempmove->SetTo(m_vecEnemyWay[i][j + 1]);
 					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
 				}
+				
 				m_EnemyTarget = m_vecEnemyWay[i][m_vecEnemyWay[i].size() - 1];
 				m_vecEnemyCollisionMove[i]->Start();
+				
 			}
 		}
 	}
