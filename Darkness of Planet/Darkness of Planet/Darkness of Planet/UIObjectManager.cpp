@@ -55,6 +55,11 @@ cUIObject * UIObjectManager::FindRoot(string key)
 	return nullptr;
 }
 
+cUIObject * UIObjectManager::GetChildByTag(string key, int tag)
+{
+	return FindRoot(key)->GetChildByTag(tag);
+}
+
 bool UIObjectManager::CheckShowState(string key)
 {
 	m_mapShowStateIter = m_mapUIShowState.find(key);
