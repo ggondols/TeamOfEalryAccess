@@ -3,7 +3,7 @@
 #include "cGameNode.h"
 #include "HankcCamera.h"
 #include "HankcGrid.h"
-#include "TeicCharacter.h"
+#include "LDYCharacter.h"
 #include "TeicEnemy.h"
 #include "TeicCollisionMove.h"
 #include "TeicMoveSequence.h"
@@ -31,14 +31,17 @@ private:
 	float								m_fTime2;  ///  쓰레드 완료
 	float								m_fTime3;
 public:
+	LDYCharacter*						m_pCharacter;
 	HankcGrid*							m_pNode;
-	TeicCharacter*						m_pCharacter;
 	TeicAstar*							m_pAstar;
 	bool								m_bThread;
 	vector<TeicEnemy*>					m_vecEnemy;
 	vector< vector<D3DXVECTOR3>>		m_vecEnemyWay;
 	vector<TeicMoveSequence*>			m_vecEnemyCollisionMove;
 	D3DXVECTOR3							m_EnemyTarget;
+
+	int									m_iBodyUpgrade;
+
 public:	
 
 	virtual HRESULT Setup();
