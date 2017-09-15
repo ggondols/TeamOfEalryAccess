@@ -225,12 +225,6 @@
     <ClInclude Include="HankcCamera.h">
       <Filter>#3D Framework\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="cTaeYeongMinHeap.h">
-      <Filter>소스 파일\TaeYeongDelete</Filter>
-    </ClInclude>
-    <ClInclude Include="cTaeYeongAstar.h">
-      <Filter>소스 파일\TaeYeongDelete</Filter>
-    </ClInclude>
     <ClInclude Include="HankcGrid.h">
       <Filter>#3D Framework\Camera\Hank</Filter>
     </ClInclude>
@@ -348,6 +342,12 @@
     <ClInclude Include="LDYSkinnedMesh_Weapon.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="TeicMinHeap.h">
+      <Filter>#3D Framework\Astar\Tei</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicAstarShort.h">
+      <Filter>#3D Framework\Astar\Tei</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -424,9 +424,6 @@
     </ClCompile>
     <ClCompile Include="HankcCamera.cpp">
       <Filter>#3D Framework\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="cTaeYeongAstar.cpp">
-      <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
     <ClCompile Include="HankcGrid.cpp">
       <Filter>#3D Framework\Camera\Hank</Filter>
@@ -544,6 +541,9 @@
     </ClCompile>
     <ClCompile Include="LDYSkinnedMesh_Weapon.cpp">
       <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicAstarShort.cpp">
+      <Filter>#3D Framework\Astar\Tei</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

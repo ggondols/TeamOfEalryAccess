@@ -182,12 +182,10 @@
     <ClInclude Include="cRandomFunction.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cSingletonBase.h" />
-    <ClInclude Include="cTaeYeongAstar.h" />
     <ClInclude Include="cTaeYeongCube.h" />
     <ClInclude Include="cTaeYeongCubeTexture.h" />
     <ClInclude Include="cTaeYeongHPbar.h" />
     <ClInclude Include="cTaeYeongKeyShare.h" />
-    <ClInclude Include="cTaeYeongMinHeap.h" />
     <ClInclude Include="cTaeYeongMoveSequence.h" />
     <ClInclude Include="cTaeYeongPyramid.h" />
     <ClInclude Include="cTaeYeongTile.h" />
@@ -212,10 +210,12 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="commonFunction.h" />
     <ClInclude Include="TeicAstar.h" />
+    <ClInclude Include="TeicAstarShort.h" />
     <ClInclude Include="TeicCharacter.h" />
     <ClInclude Include="TeicCollisionMove.h" />
     <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicJustTestScene.h" />
+    <ClInclude Include="TeicMinHeap.h" />
     <ClInclude Include="TeicMoveSequence.h" />
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
     <ClInclude Include="TeicSkinnedMesh.h" />
@@ -252,7 +252,6 @@
     <ClCompile Include="cMaterialManager.cpp" />
     <ClCompile Include="cNormalSetting.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
-    <ClCompile Include="cTaeYeongAstar.cpp" />
     <ClCompile Include="cTaeYeongCube.cpp" />
     <ClCompile Include="cTaeYeongCubeTexture.cpp" />
     <ClCompile Include="cTaeYeongHPbar.cpp" />
@@ -284,6 +283,7 @@
     </ClCompile>
     <ClCompile Include="commonFunction.cpp" />
     <ClCompile Include="TeicAstar.cpp" />
+    <ClCompile Include="TeicAstarShort.cpp" />
     <ClCompile Include="TeicCharacter.cpp" />
     <ClCompile Include="TeicCollisionMove.cpp" />
     <ClCompile Include="TeicEnemy.cpp" />

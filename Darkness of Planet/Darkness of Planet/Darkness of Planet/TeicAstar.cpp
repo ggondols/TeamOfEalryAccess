@@ -15,57 +15,70 @@ void TeicAstar::Setup(HankcGrid* Node)
 
 	m_Node = Node;
 
-	m_vecClose.resize(m_Node->m_vRow.size());
 	m_vecF.resize(m_Node->m_vRow.size());
-	m_vecG.resize(m_Node->m_vRow.size());
 	m_vecH.resize(m_Node->m_vRow.size());
 	m_vecParent.resize(m_Node->m_vRow.size());
-	for (int i = 0; i < m_vecClose.size(); i++)
+
+	for (int i = 0; i < m_vecF.size(); i++)
 	{
-		m_vecClose[i].resize(m_Node->m_vRow[i].m_vCol.size(), false);
 		m_vecF[i].resize(m_Node->m_vRow[i].m_vCol.size(), INF);
-		m_vecG[i].resize(m_Node->m_vRow[i].m_vCol.size(), INF);
 		m_vecH[i].resize(m_Node->m_vRow[i].m_vCol.size(), INF);
 		m_vecParent[i].resize(m_Node->m_vRow[i].m_vCol.size(), NULL);
-	}
 
+	}
 }
 
 vector<D3DXVECTOR3> TeicAstar::FindWay(int StartX, int StartZ, int LastX, int LastZ)
 {
+
 	m_Way.clear();
-	m_vecSelected.clear();
 
+	vector<vector<bool>>		m_vecClose;
+	vector<vector<float>>		m_vecG;
+	vector<HankcNode*>			m_vecSelected;
 
-	//for (int i = 0; i <m_vecClose.size(); i++)
-	//{
-	//	for (int j = 0; j <m_vecClose[i].size(); j++)
-	//	{
-	//		m_vecClose[i][j] = false;
-	//		//		m_vecF			[i][j]		= INF;
-	//		m_vecG[i][j] = INF;
-	//		//		m_vecH			[i][j]		= INF;
-	//		m_vecParent[i][j] = NULL;
-	//	}
+	m_vecClose.resize(m_Node->m_vRow.size());
+	m_vecG.resize(m_Node->m_vRow.size());
 
-	//}
 	for (int i = 0; i < m_vecClose.size(); i++)
 	{
-		for (int j = 0; j < m_vecClose[i].size(); j++)
-		{
-			m_vecClose[i][j] = false;
-			m_vecG[i][j] = INF;
-		}
+		m_vecClose[i].resize(m_Node->m_vRow[i].m_vCol.size(), false);
+		m_vecG[i].resize(m_Node->m_vRow[i].m_vCol.size(), INF);
+
 	}
 
-	
+	//m_vecSelected.clear();
+
+
+	////for (int i = 0; i <m_vecClose.size(); i++)
+	////{
+	////	for (int j = 0; j <m_vecClose[i].size(); j++)
+	////	{
+	////		m_vecClose[i][j] = false;
+	////		//		m_vecF			[i][j]		= INF;
+	////		m_vecG[i][j] = INF;
+	////		//		m_vecH			[i][j]		= INF;
+	////		m_vecParent[i][j] = NULL;
+	////	}
+
+	////}
+	//for (int i = 0; i < m_vecClose.size(); i++)
+	//{
+	//	for (int j = 0; j < m_vecClose[i].size(); j++)
+	//	{
+	//		m_vecClose[i][j] = false;
+	//		m_vecG[i][j] = INF;
+	//	}
+	//}
+
+
 	if (StartX == LastX && StartZ == LastZ)
 	{
 		return m_Way;
 	}
 
 
-	
+
 	m_vecClose[StartZ][StartX] = true;
 	for (int i = -1; i < 2; i++)
 	{
@@ -128,7 +141,7 @@ vector<D3DXVECTOR3> TeicAstar::FindWay(int StartX, int StartZ, int LastX, int La
 
 	while (1)
 	{
-		HankcNode* now = FindLow(m_vecSelected);
+		HankcNode* now = FindLow(m_vecSelected, m_vecClose, m_vecF);
 		if (!now)
 			break;
 		m_vecClose[now->m_nFrameZ][now->m_nFrameX] = true;
@@ -262,20 +275,21 @@ vector<D3DXVECTOR3> TeicAstar::SetWay(int Start, int Last)
 }
 
 
-HankcNode * TeicAstar::FindLow(vector<HankcNode*>& selected)
+HankcNode * TeicAstar::FindLow(vector<HankcNode*>& selected, vector<vector<bool>>& close,
+	vector<vector<float>>& F)
 {
 	if (selected.size() <= 0)return NULL;
 	float Min = INF;
 	HankcNode* temp = NULL;
 	for (int i = 0; i < selected.size(); i++)
 	{
-		if (m_vecClose[selected[i]->m_nFrameZ][selected[i]->m_nFrameX])
+		if (close[selected[i]->m_nFrameZ][selected[i]->m_nFrameX])
 		{
 			selected.erase(selected.begin() + i);
 		}
-		else if (m_vecF[selected[i]->m_nFrameZ][selected[i]->m_nFrameX] < Min)
+		else if (F[selected[i]->m_nFrameZ][selected[i]->m_nFrameX] < Min)
 		{
-			Min = m_vecF[selected[i]->m_nFrameZ][selected[i]->m_nFrameX];
+			Min = F[selected[i]->m_nFrameZ][selected[i]->m_nFrameX];
 			temp = selected[i];
 		}
 	}

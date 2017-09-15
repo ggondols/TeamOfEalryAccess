@@ -1,5 +1,5 @@
 #pragma once
-
+class HankcNode;
 //###############################################
 //#												#
 //#		Total Node Initialize with Astar		#	
@@ -43,6 +43,7 @@ public:
 	D3DXVECTOR3 m_vCenterPos;
 	vector<D3DXVECTOR3> m_vecVertex;
 public:
+	nPositionInfo();
 	nPositionInfo(int fx, int fy, int fz, int size);
 	~nPositionInfo();
 };
@@ -54,6 +55,29 @@ public:
 	list<BoundingSquare*> m_vecBounding;
 };
 
+class HankcAstarNode
+{
+public:
+	bool				m_bClose;
+	float				m_fF;
+	float				m_fG;
+	float				m_fH;
+	HankcNode*			m_pParent;
+	int					m_iIndex;
+
+public:
+	void Set(bool Close, float F, float G, float H, HankcNode* parent)
+	{
+		m_bClose = Close;
+		m_fF = F;
+		m_fG = G;
+		m_fH = H;
+		m_pParent = parent;
+	
+	}
+	HankcAstarNode();
+	~HankcAstarNode();
+};
 class HankcNode : nInterface
 {
 public:
@@ -66,6 +90,7 @@ public:
 	nInterface *m_pInterface;
 	nPositionInfo *m_vPosList;	
 	nNodeBoundInfo *m_pBoundInfo;
+	HankcAstarNode *m_pAstarNode;
 
 public:
 	

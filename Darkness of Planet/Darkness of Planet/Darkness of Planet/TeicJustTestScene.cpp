@@ -44,7 +44,10 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 	vector<D3DXVECTOR3> wayway = temp->m_pAstar->FindWay(temp->m_vecEnemy[0]->GetNodeNum().x, temp->m_vecEnemy[0]->GetNodeNum().y,
 		temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
-	temp->m_EnemyTarget = wayway[wayway.size() - 1];
+	
+	
+	/*vector<D3DXVECTOR3> wayway = temp->m_pAstarShort->FindWay(0,0,10,10);
+	temp->m_EnemyTarget = wayway[wayway.size() - 1];*/
 	
 	for (int i = 0; i < temp->m_vecEnemyWay.size(); i++)
 	{
@@ -92,6 +95,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pUITest(NULL)
 	, m_pSprite(NULL)
 	, m_pAstar(NULL)
+	, m_pAstarShort(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
 {
 	
@@ -101,6 +105,7 @@ TeicJustTestScene::TeicJustTestScene()
 TeicJustTestScene::~TeicJustTestScene()
 {
 	SAFE_DELETE(m_pAstar);
+	SAFE_DELETE(m_pAstarShort);
 	SAFE_DELETE(m_pNode);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
@@ -159,6 +164,7 @@ HRESULT TeicJustTestScene::Setup()
 		{
 			m_pNode->m_vRow[i].m_vCol[j].InitFrame(i, j); // 일반 노드만 생성합니다.
 			m_pNode->m_vRow[i].m_vCol[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
+			m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
 		}
 	}
 
@@ -169,7 +175,8 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pAstar = new TeicAstar;
 	m_pAstar->Setup(m_pNode);
-
+	m_pAstarShort = new TeicAstarShort;
+	m_pAstarShort->Setup(m_pNode);
 	D3D::SetLight();
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 	GETDEVICE->LightEnable(0, true);
@@ -197,7 +204,7 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 2.0f)
 	{
 		m_fTime3 = TIMEMANAGER->getWorldTime();
 		TargetOn();
@@ -348,15 +355,20 @@ void TeicJustTestScene::TargetOn()
 {
 	if (m_bThread)
 	{
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			if (EnemyPlayerDistance(m_vecEnemy[i]) < 10.0f)
+			if (EnemyPlayerDistance(m_vecEnemy[i]) < 20.0f)
 			{
 				m_vecEnemyCollisionMove[i]->SetClear();
 
-				m_vecEnemyWay[i] = m_pAstar->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
+		//		m_vecEnemyWay[i] = m_pAstar->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
+		//			m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
+
+				m_vecEnemyWay[i] = m_pAstarShort->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
 					m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
 
+
+				
 				if(m_vecEnemyWay[i].size() ==0)continue;
 				for (int j = 0; j < m_vecEnemyWay[i].size(); j++)
 				{

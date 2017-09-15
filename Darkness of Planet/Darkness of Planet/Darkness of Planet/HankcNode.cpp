@@ -32,9 +32,13 @@ void HankcNode::InitFrame(int fz, int fx)
 
 HankcNode::~HankcNode()
 {
-	SAFE_DELETE(m_vPosList);
+//	SAFE_DELETE(m_vPosList);
 //	SAFE_DELETE(m_pInterface);
 	SAFE_DELETE(m_pBoundInfo);
+}
+
+nPositionInfo::nPositionInfo()
+{
 }
 
 nPositionInfo::nPositionInfo(int fx,int fy, int fz, int size)
@@ -86,5 +90,13 @@ HankcNodeCol::HankcNodeCol()
 }
 
 HankcNodeCol::~HankcNodeCol()
+{
+}
+
+HankcAstarNode::HankcAstarNode()
+{
+}
+
+HankcAstarNode::~HankcAstarNode()
 {
 }

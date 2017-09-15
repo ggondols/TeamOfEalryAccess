@@ -75,3 +75,10 @@ inline RECT RectMake(int x, int y, int width, int height)
 	RECT rc = { x, y, x + width, y + height };
 	return rc;
 }
+inline POINT PointMake(int x, int y)
+{
+	POINT temp;
+	temp.x = x;
+	temp.y = y;
+	return temp;
+}

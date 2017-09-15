@@ -9,6 +9,7 @@
 #include "TeicMoveSequence.h"
 #include "HankcNode.h"
 #include "TeicAstar.h"
+#include "TeicAstarShort.h"
 class iMap;
 
 class cUIObject;
@@ -35,6 +36,7 @@ public:
 	HankcGrid*				m_pNode;
 	TeicCharacter*		m_pCharacter;
 	TeicAstar*			m_pAstar;
+	TeicAstarShort*     m_pAstarShort;
 	bool					m_bThread;
 	vector<TeicEnemy*>			m_vecEnemy;
 	vector< vector<D3DXVECTOR3>> m_vecEnemyWay;
