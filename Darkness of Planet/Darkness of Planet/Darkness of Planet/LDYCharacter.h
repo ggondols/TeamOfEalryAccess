@@ -32,6 +32,7 @@ private:
 	CallbackBindFunction		m_Callback;
 	CallbackBindFunction		m_AttackCallback;
 	TeicPhysicsCrtCtrl*			m_pCtrl;
+
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);

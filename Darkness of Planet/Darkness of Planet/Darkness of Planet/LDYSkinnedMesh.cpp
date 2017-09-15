@@ -152,11 +152,13 @@ void LDYSkinnedMesh::UpdateAndRender()
 		D3DXMATRIX    scal;
 
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&scal, 0.1, 0.1, 0.1);
+		D3DXMatrixScaling(&scal, 0.05f, 0.05f, 0.05f);
 
 		mat = scal* m_RotationMat*mat;
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
+		//다른부위 매트릭스 가져오기
+		getAnotherMatrix(m_pRootFrame, NULL);
 	}
 }
 
@@ -408,6 +410,31 @@ void LDYSkinnedMesh::Blending()
 			}
 		}
 
+	}
+}
+
+void LDYSkinnedMesh::getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX * pParent)
+{
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+	D3DXMATRIXA16 matW;
+	D3DXMatrixIdentity(&matW);
+	if (pBone->Name != nullptr &&string(pBone->Name) == string("IK_LeftHand"))
+	{
+		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
+		m_matWeapon = pBone->CombinedTransformationMatrix;
+	}
+	else if (pBone->Name != nullptr && string(pBone->Name) == string("Neck"))
+	{
+		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
+		m_matHead = pBone->CombinedTransformationMatrix;
+	}
+	if (pFrame->pFrameSibling)
+	{
+		getAnotherMatrix(pFrame->pFrameSibling, &pBone->CombinedTransformationMatrix);
+	}
+	if (pFrame->pFrameFirstChild)
+	{
+		getAnotherMatrix(pFrame->pFrameFirstChild, &pBone->CombinedTransformationMatrix);
 	}
 }
 

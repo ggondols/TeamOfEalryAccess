@@ -3,6 +3,8 @@
 #include "cSkinnedMesh.h"
 #include "TeicSkinnedMesh.h"
 #include "LDYSkinnedMesh.h"
+#include "LDYSkinnedMesh_Head.h"
+#include "LDYSkinnedMesh_Weapon.h"
 
 cSkinnedMeshManager::cSkinnedMeshManager(void)
 {
@@ -62,4 +64,32 @@ LDYSkinnedMesh * cSkinnedMeshManager::GetLDYSkinnedMesh(char * szFolder, char * 
 		m_mapLDYSkinnedMesh[sFullPath] = pSkinnedMesh;
 	}
 	return m_mapLDYSkinnedMesh[sFullPath];
+}
+
+LDYSkinnedMesh_Weapon * cSkinnedMeshManager::GetLDYSkinnedMesh_Weapon(char * szFolder, char * szFilename)
+{
+	std::string sFullPath(szFolder);
+	sFullPath += std::string(szFilename);
+
+	if (m_mapLDYSkinnedMesh_Weapon.find(sFullPath) == m_mapLDYSkinnedMesh_Weapon.end())
+	{
+		LDYSkinnedMesh_Weapon* pSkinnedMesh = new LDYSkinnedMesh_Weapon();
+		pSkinnedMesh->Load(szFolder, szFilename);
+		m_mapLDYSkinnedMesh_Weapon[sFullPath] = pSkinnedMesh;
+	}
+	return m_mapLDYSkinnedMesh_Weapon[sFullPath];
+}
+
+LDYSkinnedMesh_Head * cSkinnedMeshManager::GetLDYSkinnedMesh_Head(char * szFolder, char * szFilename)
+{
+	std::string sFullPath(szFolder);
+	sFullPath += std::string(szFilename);
+
+	if (m_mapLDYSkinnedMesh_Head.find(sFullPath) == m_mapLDYSkinnedMesh_Head.end())
+	{
+		LDYSkinnedMesh_Head* pSkinnedMesh = new LDYSkinnedMesh_Head();
+		pSkinnedMesh->Load(szFolder, szFilename);
+		m_mapLDYSkinnedMesh_Head[sFullPath] = pSkinnedMesh;
+	}
+	return m_mapLDYSkinnedMesh_Head[sFullPath];
 }
