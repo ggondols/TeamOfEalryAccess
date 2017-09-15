@@ -22,6 +22,7 @@ private:
 	float					m_fAngle;
 	bool					m_bMoving;
 	bool					m_bAttacking;
+	
 public:
 
 protected:
