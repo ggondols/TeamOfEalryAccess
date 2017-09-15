@@ -34,6 +34,7 @@ private:
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
 	vector<cSphere*>		m_vecSphere;
+	LPD3DXFONT				m_pFont;
 public:
 	HankcGrid*				m_pNode;
 	TeicCharacter*		m_pCharacter;
@@ -44,6 +45,7 @@ public:
 	vector< vector<D3DXVECTOR3>> m_vecEnemyWay;
 	vector<TeicMoveSequence*>  m_vecEnemyCollisionMove;
 	D3DXVECTOR3					m_EnemyTarget;
+	vector<POINT>m_vecSample;
 public:
 
 	virtual HRESULT Setup();

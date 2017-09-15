@@ -97,6 +97,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pAstar(NULL)
 	, m_pAstarShort(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
+	, m_pFont(NULL)
 {
 	
 }
@@ -111,6 +112,7 @@ TeicJustTestScene::~TeicJustTestScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
+	SAFE_RELEASE(m_pFont);
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -124,6 +126,7 @@ TeicJustTestScene::~TeicJustTestScene()
 
 HRESULT TeicJustTestScene::Setup()
 {
+	m_pFont = FONTMANAGER->GetFont(cFontManager::E_TEI);
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 
@@ -438,6 +441,36 @@ void TeicJustTestScene::DeleteSphere(int tilex, int tiley)
 
 void TeicJustTestScene::Render()
 {
+	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.9f)
+	{
+		m_vecSample.clear();
+
+		for (int i = 0; i < 257; i++)
+		{
+			for (int j = 0; j < 257; j++)
+			{
+				if (m_pNode->m_vRow[i].m_vCol[j].m_pBoundInfo)
+				{
+					if (m_pNode->m_vRow[i].m_vCol[j].m_pBoundInfo->m_vecBounding.size() != 0)
+					{
+						m_vecSample.push_back(PointMake(j, i));
+					}
+				}
+			}
+		}
+	}
+	for (int i = 0; i < m_vecSample.size(); i++)
+	{
+		RECT rc = RectMake(0+20*i, 200, 1000, 1000);
+		char str[128];
+		sprintf_s(str, "X:%d,Y:%d", m_vecSample[i].x, m_vecSample[i].y);
+		m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TABSTOP | DT_NOCLIP | DT_WORDBREAK,
+			D3DCOLOR_XRGB(255, 0, 0));
+	}
+	
+
+
+	
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
