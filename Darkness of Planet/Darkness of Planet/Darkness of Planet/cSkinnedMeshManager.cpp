@@ -2,6 +2,8 @@
 #include "cSkinnedMeshManager.h"
 #include "cSkinnedMesh.h"
 #include "TeicSkinnedMesh.h"
+#include "LDYSkinnedMesh.h"
+
 cSkinnedMeshManager::cSkinnedMeshManager(void)
 {
 }
@@ -46,4 +48,18 @@ TeicSkinnedMesh * cSkinnedMeshManager::GetTeiSkinnedMesh(char * szFolder, char *
 		m_mapTeiSkinnedMesh[sFullPath] = pSkinnedMesh;
 	}
 	return m_mapTeiSkinnedMesh[sFullPath];
+}
+
+LDYSkinnedMesh * cSkinnedMeshManager::GetLDYSkinnedMesh(char * szFolder, char * szFilename)
+{
+	std::string sFullPath(szFolder);
+	sFullPath += std::string(szFilename);
+
+	if (m_mapLDYSkinnedMesh.find(sFullPath) == m_mapLDYSkinnedMesh.end())
+	{
+		LDYSkinnedMesh* pSkinnedMesh = new LDYSkinnedMesh();
+		pSkinnedMesh->Load(szFolder, szFilename);
+		m_mapLDYSkinnedMesh[sFullPath] = pSkinnedMesh;
+	}
+	return m_mapLDYSkinnedMesh[sFullPath];
 }
