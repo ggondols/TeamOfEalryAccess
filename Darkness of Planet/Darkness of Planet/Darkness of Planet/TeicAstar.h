@@ -14,8 +14,12 @@ private:
 
 	HankcGrid* m_Node;
 	vector<vector<bool>>		m_vecClose;
+	vector<vector<bool>>::iterator m_iterClose;
+	vector<bool>::iterator         m_iterClose2;
 	vector<vector<float>>		m_vecF;
 	vector<vector<float>>		m_vecG;
+	vector<vector<float>>::iterator m_iterG;
+	vector<float>::iterator         m_iterG2;
 	vector<vector<float>>		m_vecH;
 	vector<vector<HankcNode*>>	m_vecParent;
 	vector<HankcNode*>			m_vecSelected;

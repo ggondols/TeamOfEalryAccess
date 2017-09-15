@@ -201,7 +201,11 @@
     <ClInclude Include="HankcJustTestScene.h" />
     <ClInclude Include="HankcNode.h" />
     <ClInclude Include="iMap.h" />
+    <ClInclude Include="LDYCharacter.h" />
     <ClInclude Include="LDYcJustTestScene.h" />
+    <ClInclude Include="LDYSkinnedMesh.h" />
+    <ClInclude Include="LDYSkinnedMesh_Head.h" />
+    <ClInclude Include="LDYSkinnedMesh_Weapon.h" />
     <ClInclude Include="LJHcJustTestScene.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -266,7 +270,11 @@
     <ClCompile Include="HankcJustTestScene.cpp" />
     <ClCompile Include="HankcNode.cpp" />
     <ClCompile Include="iMap.cpp" />
+    <ClCompile Include="LDYCharacter.cpp" />
     <ClCompile Include="LDYcJustTestScene.cpp" />
+    <ClCompile Include="LDYSkinnedMesh.cpp" />
+    <ClCompile Include="LDYSkinnedMesh_Head.cpp" />
+    <ClCompile Include="LDYSkinnedMesh_Weapon.cpp" />
     <ClCompile Include="LJHcJustTestScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

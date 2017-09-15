@@ -27,7 +27,9 @@ public:
 	void AddRoot(string key, cUIObject* root, bool isShow = false);
 	void AddChild(string key, cUIObject* chield);
 	void SetShowState(string key, bool isShow);
+
 	cUIObject* FindRoot(string key);
+	cUIObject* GetChildByTag(string key, int tag);
 	bool CheckShowState(string key);
 
 	void Setup();
