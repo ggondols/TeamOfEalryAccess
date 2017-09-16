@@ -10,7 +10,7 @@
 #include "HankcNode.h"
 #include "TeicAstar.h"
 #include "TeicAstarShort.h"
-
+#include "TeicBresenham.h"
 class iMap;
 
 class cUIObject;
@@ -19,7 +19,7 @@ class TeicJustTestScene:public cGameNode
 {
 
 private:
-	
+	TeicBresenham*			m_pBresenham;
 	Hank::cCamera*			m_pCamera;
 	Hank::cGrid*			m_pGrid;
 
@@ -41,11 +41,14 @@ public:
 	TeicAstar*			m_pAstar;
 	TeicAstarShort*     m_pAstarShort;
 	bool					m_bThread;
+	bool					m_bAstarThread;
+	bool					m_bCollision;
 	vector<TeicEnemy*>			m_vecEnemy;
 	vector< vector<D3DXVECTOR3>> m_vecEnemyWay;
 	vector<TeicMoveSequence*>  m_vecEnemyCollisionMove;
 	D3DXVECTOR3					m_EnemyTarget;
-	vector<POINT>m_vecSample;
+	vector<POINT>				m_vecBresnhamNode;
+	
 public:
 
 	virtual HRESULT Setup();
@@ -54,10 +57,13 @@ public:
 	virtual void Update();
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
+	void Push(TeicEnemy* A, TeicEnemy* B);
 	void ChangeGridInfo();
 	void TargetOn();
+	bool CheckStraight(TeicEnemy* A);
 	float EnemyPlayerDistance(TeicEnemy* ene);
-	
+	bool TotalCollisionCheck();
+	void PushAndFindAnotherWay();
 public:
 	TeicJustTestScene();
 	~TeicJustTestScene();

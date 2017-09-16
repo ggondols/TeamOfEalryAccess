@@ -94,6 +94,7 @@ void TeicCollisionMove::SetFrom(D3DXVECTOR3 from)
 {
 	m_From = from;
 	m_From.y = 0;
+	m_previous = m_From;
 }
 
 void TeicCollisionMove::SetTo(D3DXVECTOR3 to)

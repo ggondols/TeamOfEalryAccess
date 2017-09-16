@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TeicEnemy.h"
-
+#include "HankcNode.h"
 
 TeicEnemy::TeicEnemy()
 {
@@ -29,6 +29,7 @@ void TeicEnemy::Setup(char* Foldername, char* Filename)
 	m_BoundingBox.m_fSizeY = 1;
 	m_BoundingBox.m_fSizeZ = 1;
 	m_BoundingBox.m_vCenterPos = m_pSkinnedMesh->GetPosition();
+	m_BoundingBox.st_Type = Bounding_Enemy;
 }
 
 void TeicEnemy::CallbackOn(int n)
@@ -93,6 +94,17 @@ D3DXVECTOR3 TeicEnemy::GetPosition()
 	if (m_pSkinnedMesh)
 	{
 		return m_pSkinnedMesh->GetPosition();
+	}
+	return D3DXVECTOR3();
+}
+
+D3DXVECTOR3 TeicEnemy::GetPositionYzero()
+{
+	if (m_pSkinnedMesh)
+	{
+		D3DXVECTOR3 temp = m_pSkinnedMesh->GetPosition();
+		temp.y = 0;
+		return temp;
 	}
 	return D3DXVECTOR3();
 }

@@ -36,6 +36,7 @@ public:
 	void SetRotationMatrix(D3DXMATRIX rotation);
 	D3DXVECTOR3* GetPositionPointer();
 	D3DXVECTOR3	 GetPosition();
+	D3DXVECTOR3	 GetPositionYzero();
 	void SetPosition(D3DXVECTOR3 position);
 	void SetAnimation(int num);
 	int GetAninum();

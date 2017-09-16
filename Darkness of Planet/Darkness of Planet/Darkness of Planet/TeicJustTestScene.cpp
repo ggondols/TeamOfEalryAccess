@@ -14,49 +14,59 @@ static CRITICAL_SECTION cs;
 static DWORD WINAPI ThFunc1(LPVOID lpParam)
 {
 	TeicJustTestScene* temp = (TeicJustTestScene*)lpParam;
-
-
 	EnterCriticalSection(&cs);
-
 	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-
 			TeicEnemy* pSkinnedMesh = new TeicEnemy;
 			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
 			//	pSkinnedMesh->SetPosition(D3DXVECTOR3(0,0,0));
-
 			pSkinnedMesh->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, temp, 1));
-
-
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 		}
 	}
-
-
-
 
 	temp->m_vecEnemyWay.resize(temp->m_vecEnemy.size());
 	temp->m_vecEnemyCollisionMove.resize(temp->m_vecEnemy.size());
 
 
+
+
+	//for (int i = 0; i < temp->m_vecEnemyWay.size(); i++)
+	//{
+	//	temp->m_vecEnemyCollisionMove[i] = new TeicMoveSequence;
+	//	TeicCollisionMove* tempmove;
+	//	tempmove = new TeicCollisionMove;
+	//	tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
+	//	tempmove->SetSpeed(5);
+	//	tempmove->SetFrom(temp->m_vecEnemy[i]->GetPosition());
+	//	tempmove->SetTo(temp->m_pCharacter->GetPosition());
+	//	temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+
+
+	//}
+
+
+
+
+
 	vector<D3DXVECTOR3> wayway = temp->m_pAstar->FindWay(temp->m_vecEnemy[0]->GetNodeNum().x, temp->m_vecEnemy[0]->GetNodeNum().y,
 		temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
-	
 	
 	/*vector<D3DXVECTOR3> wayway = temp->m_pAstarShort->FindWay(0,0,10,10);
 	temp->m_EnemyTarget = wayway[wayway.size() - 1];*/
 	
 	for (int i = 0; i < temp->m_vecEnemyWay.size(); i++)
 	{
-
-
 		/*temp->m_vecEnemyWay[i] =temp->m_pAstar->FindWay(temp->m_vecEnemy[i]->GetNodeNum().y, temp->m_vecEnemy[i]->GetNodeNum().x,
 		temp->m_pCharacter->GetNodeNum().y, temp->m_pCharacter->GetNodeNum().x);*/
 		temp->m_vecEnemyWay[i] = wayway;
 		temp->m_vecEnemyCollisionMove[i] = new TeicMoveSequence;
+
+
+
 
 		for (int j = 0; j < temp->m_vecEnemyWay[i].size(); j++)
 		{
@@ -71,21 +81,72 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 		}
 
-
-
 	}
 
 	temp->m_bThread = true;
 	LeaveCriticalSection(&cs);
 
-
-
-
 	return 0;
 }
 
 
+static DWORD WINAPI ThFunc2(LPVOID lpParam)
+{
+	TeicJustTestScene* temp = (TeicJustTestScene*)lpParam;
+	EnterCriticalSection(&cs);
+	for (int i = 0; i < temp->m_vecEnemy.size(); i++)
+	{
+		if (temp->m_vecEnemy[i]->GetCollision() == false)continue;
+		if (temp->m_vecEnemy[i]->GetAninum() == 6) continue;
+		
+		
 
+		temp->m_vecEnemyWay[i] = temp->m_pAstarShort->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
+			temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
+		
+		temp->m_vecEnemyCollisionMove[i]->SetClear();
+
+
+		if (temp->m_vecEnemyWay[i].size() == 0)continue;
+		TeicCollisionMove* tempmove;
+		tempmove = new TeicCollisionMove;
+		tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
+		tempmove->SetSpeed(5);
+		tempmove->SetFrom(temp->m_vecEnemy[i]->GetPosition());
+		tempmove->SetTo(temp->m_vecEnemyWay[i][0]);
+		temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+		for (int j = 0; j <temp->m_vecEnemyWay[i].size(); j++)
+		{
+			if (j + 1 >= temp->m_vecEnemyWay[i].size())break;
+			tempmove = new TeicCollisionMove;
+			tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
+			tempmove->SetSpeed(5);
+			tempmove->SetFrom(temp->m_vecEnemyWay[i][j]);
+			tempmove->SetTo(temp->m_vecEnemyWay[i][j + 1]);
+			temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+		}
+		tempmove = new TeicCollisionMove;
+		tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
+		tempmove->SetSpeed(5);
+		tempmove->SetFrom(temp->m_vecEnemyWay[i][temp->m_vecEnemyWay[i].size() - 1]);
+		tempmove->SetTo(temp->m_pCharacter->GetPosition());
+		temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+
+
+
+
+		temp->m_vecEnemyCollisionMove[i]->Start();
+
+	
+
+	}
+
+
+	temp->m_bAstarThread = false;
+	LeaveCriticalSection(&cs);
+
+	return 0;
+}
 
 
 TeicJustTestScene::TeicJustTestScene()
@@ -97,6 +158,8 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pAstar(NULL)
 	, m_pAstarShort(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
+	, m_bAstarThread(NULL)
+	, m_bCollision(false)
 	
 {
 	
@@ -189,7 +252,8 @@ HRESULT TeicJustTestScene::Setup()
 	m_fTime3 = 0.0f;
 
 
-
+	m_pBresenham = new TeicBresenham;
+	
 
 	return S_OK;
 }
@@ -207,7 +271,7 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 0.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.0f)
 	{
 		m_fTime3 = TIMEMANAGER->getWorldTime();
 		TargetOn();
@@ -248,13 +312,7 @@ void TeicJustTestScene::Update()
 		{
 			m_vecEnemy[i]->SetCollision(false);
 		}
-		for (int i = 0; i < m_vecEnemy.size(); i++)
-		{
-			for (int j = i + 1; j < m_vecEnemy.size(); j++)
-			{
-				CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]);
-			}
-		}
+		m_bCollision=TotalCollisionCheck();
 		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
 		{
 			m_vecEnemyCollisionMove[i]->Update();
@@ -308,10 +366,12 @@ void TeicJustTestScene::CallbackOn(int number)
 
 bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
-	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < 5)
+	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < 2)
 	{
 		float Adist = D3DXVec3Length(&(A->GetPosition() - m_EnemyTarget));
 		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_EnemyTarget));
+
+		
 		if (Adist < Bdist)
 		{
 			B->SetCollision(true);
@@ -326,6 +386,8 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 
 	return false;
 }
+
+
 
 void TeicJustTestScene::ChangeGridInfo()
 {
@@ -384,40 +446,103 @@ void TeicJustTestScene::TargetOn()
 {
 	if (m_bThread)
 	{
+
+		bool On = false;
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			if (EnemyPlayerDistance(m_vecEnemy[i]) < 20.0f)
+			if (EnemyPlayerDistance(m_vecEnemy[i]) < 30.0f)
 			{
-				m_fTime3 = INF;
+				On = true;
+			}
+		}
+		if(On)
+		{
+			m_EnemyTarget = m_pCharacter->GetPosition();
+			for(int i=0; i<m_vecEnemy.size(); i++)
+			{
+				m_vecEnemyWay[i].clear();
 				m_vecEnemyCollisionMove[i]->SetClear();
-
-		//		m_vecEnemyWay[i] = m_pAstar->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
-		//			m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
-
-				m_vecEnemyWay[i] = m_pAstarShort->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
-					m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
-
-
-				
-				if(m_vecEnemyWay[i].size() ==0)continue;
-				for (int j = 0; j < m_vecEnemyWay[i].size(); j++)
+				if (CheckStraight(m_vecEnemy[i]))
 				{
-					if (j + 1 >= m_vecEnemyWay[i].size())break;
 					TeicCollisionMove* tempmove;
 					tempmove = new TeicCollisionMove;
 					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
 					tempmove->SetSpeed(5);
-					tempmove->SetFrom(m_vecEnemyWay[i][j]);
-					tempmove->SetTo(m_vecEnemyWay[i][j + 1]);
+					tempmove->SetFrom(m_vecEnemy[i]->GetPosition());
+					tempmove->SetTo(m_pCharacter->GetPosition());
 					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
-				}
 				
-				m_EnemyTarget = m_vecEnemyWay[i][m_vecEnemyWay[i].size() - 1];
+
+				}
+				else
+				{
+					m_vecEnemyWay[i] = m_pAstarShort->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
+						m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
+
+
+					if (m_vecEnemyWay[i].size() == 0)continue;
+					TeicCollisionMove* tempmove;
+					tempmove = new TeicCollisionMove;
+					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
+					tempmove->SetSpeed(5);
+					tempmove->SetFrom(m_vecEnemy[i]->GetPosition());
+					tempmove->SetTo(m_vecEnemyWay[i][0]);
+					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+					for (int j = 0; j < m_vecEnemyWay[i].size(); j++)
+					{
+						if (j + 1 >= m_vecEnemyWay[i].size())break;
+						
+						tempmove = new TeicCollisionMove;
+						tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
+						tempmove->SetSpeed(5);
+						tempmove->SetFrom(m_vecEnemyWay[i][j]);
+						tempmove->SetTo(m_vecEnemyWay[i][j + 1]);
+						m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+					}
+					tempmove = new TeicCollisionMove;
+					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
+					tempmove->SetSpeed(5);
+					tempmove->SetFrom(m_vecEnemyWay[i][m_vecEnemyWay[i].size()-1]);
+					tempmove->SetTo(m_pCharacter->GetPosition());
+					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+
+				}
 				m_vecEnemyCollisionMove[i]->Start();
 				
+				
+				if (m_bCollision)
+				{
+					PushAndFindAnotherWay();
+
+				}
+
+
 			}
 		}
 	}
+}
+
+bool TeicJustTestScene::CheckStraight(TeicEnemy *A)
+{
+	D3DXVECTOR3 Ene = A->GetPosition();
+	D3DXVECTOR3 Char = m_pCharacter->GetPosition();
+	m_vecBresnhamNode = m_pBresenham->FindNode(Ene.x, Ene.z, Char.x, Char.z);
+	for (int i = 0; i < m_vecBresnhamNode.size(); i++)
+	{
+		if (m_pNode->m_vRow[m_vecBresnhamNode[i].y].m_vCol[m_vecBresnhamNode[i].x].m_pBoundInfo != NULL)
+		{
+			for (int j = 0; j < m_pNode->m_vRow[m_vecBresnhamNode[i].y].m_vCol[m_vecBresnhamNode[i].x].m_pBoundInfo->m_vecBounding.size(); j++)
+			{
+				if (m_pNode->m_vRow[m_vecBresnhamNode[i].y].m_vCol[m_vecBresnhamNode[i].x].m_pBoundInfo->m_vecBounding[j]->st_Type == Bounding_Object)
+				{
+					return false;
+				}
+			}
+
+		}
+	}
+
+	return true;
 }
 
 float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
@@ -426,6 +551,8 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 	length = D3DXVec3Length(&(ene->GetPosition() - m_pCharacter->GetPosition()));
 	return length;
 }
+
+
 
 void TeicJustTestScene::Render()
 {
@@ -451,3 +578,76 @@ void TeicJustTestScene::Render()
 	if (m_pUITest) m_pUITest->Render(m_pSprite);
 }
 
+
+bool TeicJustTestScene::TotalCollisionCheck()
+{
+	bool check;
+	check = false;
+
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		for (int j = i + 1; j < m_vecEnemy.size(); j++)
+		{
+			if (CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]))
+			{
+				check = true;
+			}
+		}
+	}
+	return check;
+}
+
+void TeicJustTestScene::PushAndFindAnotherWay()
+{
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		for (int j = i + 1; j < m_vecEnemy.size(); j++)
+		{
+			Push(m_vecEnemy[i], m_vecEnemy[j]);
+		}
+	}
+
+	if (!m_bAstarThread)
+	{
+		m_bAstarThread = true;
+
+		DWORD dwThID2;
+		HANDLE hThreads2;
+
+		unsigned long ulStackSize = 0;
+		dwThID2 = 1;
+		hThreads2 = NULL;
+		hThreads2 = CreateThread(NULL, ulStackSize, ThFunc2, this, CREATE_SUSPENDED, &dwThID2);
+		ResumeThread(hThreads2);
+
+	}
+
+
+
+
+}
+
+
+
+
+
+void TeicJustTestScene::Push(TeicEnemy * A, TeicEnemy * B)
+{
+	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < 2)
+	{
+		D3DXVECTOR3 A_B = D3DXVECTOR3(B->GetPositionYzero() - A->GetPositionYzero());
+		D3DXVec3Normalize(&A_B, &A_B);
+		A_B = A_B*0.3;
+		D3DXVECTOR3 B_A = D3DXVECTOR3(A->GetPositionYzero() - B->GetPositionYzero());
+		D3DXVec3Normalize(&B_A, &B_A);
+		B_A = B_A*0.3;
+		A->SetPosition(A->GetPositionYzero() + B_A);
+		B->SetPosition(B->GetPositionYzero() + A_B);
+
+
+		
+	}
+
+
+	
+}

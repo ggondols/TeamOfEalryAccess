@@ -15,12 +15,20 @@ class TeicEnemy;
 //	열: Col,  Z,  i
 //	행: Row,  X,  j
 //
+enum Boundingtype
+{
+	Bounding_Enemy,
+	Bounding_Object
+
+};
+
 struct BoundingSquare
 {
 	float m_fSizeX;
 	float m_fSizeY;
 	float m_fSizeZ;
 	D3DXVECTOR3 m_vCenterPos;
+	Boundingtype st_Type;
 	TeicEnemy*  m_pEnemy;               //////////적 정보 추가
 };
 

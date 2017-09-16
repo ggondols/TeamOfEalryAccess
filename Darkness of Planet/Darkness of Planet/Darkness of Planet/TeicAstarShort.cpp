@@ -100,7 +100,7 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 	while (1)
 	{
 		m_iLimit++;
-		if (m_iLimit > 100)
+		if (m_iLimit > 200)
 		{
 
 			m_Way.clear();
