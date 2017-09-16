@@ -10,6 +10,10 @@ TeicEnemy::TeicEnemy()
 	temp.x = temp.y = 0;
 	m_PresentGrid = temp;
 	m_PreviousGrid = temp;
+	m_fBoundingSize = 1;
+	m_fAttackRange = 7;
+	m_bAttackOn = false;
+	m_bThreadCalOn = false;
 }
 
 

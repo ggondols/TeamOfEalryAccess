@@ -6,12 +6,7 @@
 
 TeicCollisionMove::TeicCollisionMove()
 {
-	m_fPassedActionTime = 0.0f;
-	m_fActionTime = 0.0f;
 	
-
-	m_pTarget = NULL;
-	m_pDelegate = NULL;
 	m_pSkinnedTarget = NULL;
 
 
@@ -34,8 +29,7 @@ TeicCollisionMove::TeicCollisionMove()
 
 TeicCollisionMove::~TeicCollisionMove()
 {
-	SAFE_DELETE(m_pTarget);
-	SAFE_DELETE(m_pDelegate);
+
 	
 	
 }

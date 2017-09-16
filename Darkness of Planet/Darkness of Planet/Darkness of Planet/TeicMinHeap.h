@@ -186,6 +186,7 @@ public:
 	}
 	HankcNode* GetminHeap()
 	{
+		if (m_vecHeap.size() == 0) return NULL;
 		HankcNode* temp = m_vecHeap[0];
 		m_vecHeap[0] = m_vecHeap[m_vecHeap.size() - 1];
 		m_vecHeap[0]->m_pAstarNode->m_iIndex = 0;

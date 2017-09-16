@@ -24,6 +24,10 @@ public:
 	POINT m_PresentGrid;
 	POINT m_PreviousGrid;
 	BoundingSquare m_BoundingBox;
+	float		   m_fBoundingSize;
+	float		   m_fAttackRange;
+	bool		   m_bAttackOn;
+	bool		   m_bThreadCalOn;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);

@@ -1,5 +1,5 @@
 #pragma once
-#include "cAction.h"
+
 
 //###############################################
 //#												#
@@ -20,7 +20,7 @@
 
 class TeicSkinnedMesh;
 
-class TeicCollisionMove : public cAction
+class TeicCollisionMove 
 {
 
 ///액션에서 상속 받아온 부분

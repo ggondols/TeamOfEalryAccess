@@ -20,7 +20,7 @@ TeicMoveSequence::~TeicMoveSequence()
 {
 	for (int i = 0; i < m_vecAction.size(); i++)
 	{
-		SAFE_RELEASE(m_vecAction[i]);
+		SAFE_DELETE(m_vecAction[i]);
 	}
 }
 
@@ -86,7 +86,7 @@ void TeicMoveSequence::SetClear()
 	m_bStart = false;
 	for (int i = 0; i < m_vecAction.size(); i++)
 	{
-		SAFE_RELEASE(m_vecAction[i]);
+		SAFE_DELETE(m_vecAction[i]);
 	}
 	 m_vecAction.clear(); 
 }

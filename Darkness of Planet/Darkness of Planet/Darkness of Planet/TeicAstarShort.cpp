@@ -106,7 +106,9 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 			m_Way.clear();
 			return m_Way;
 		}
+		if (m_vecOpenlist.GetSize() == 0)break;
 		HankcNode* now = m_vecOpenlist.GetminHeap();
+		if (now == NULL)break;
 		if (now->m_pAstarNode->m_iIndex == -1000)
 		{
 			break;
