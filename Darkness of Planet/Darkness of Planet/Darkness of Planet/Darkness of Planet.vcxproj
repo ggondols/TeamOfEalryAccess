@@ -207,6 +207,8 @@
     <ClInclude Include="LDYSkinnedMesh_Head.h" />
     <ClInclude Include="LDYSkinnedMesh_Weapon.h" />
     <ClInclude Include="LJHcJustTestScene.h" />
+    <ClInclude Include="Loading.h" />
+    <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -276,6 +278,8 @@
     <ClCompile Include="LDYSkinnedMesh_Head.cpp" />
     <ClCompile Include="LDYSkinnedMesh_Weapon.cpp" />
     <ClCompile Include="LJHcJustTestScene.cpp" />
+    <ClCompile Include="Loading.cpp" />
+    <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

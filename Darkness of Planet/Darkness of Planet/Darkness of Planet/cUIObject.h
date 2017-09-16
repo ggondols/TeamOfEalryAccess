@@ -17,6 +17,8 @@ public:
 	virtual void Update();
 	virtual void Render(LPD3DXSPRITE pSprite);
 	virtual void SetPosition(float x, float y);
+	virtual void SetSizeWidth(float width) { m_stSize.fWidth = width; }
+	virtual void SetSizeHeight(float height) { m_stSize.fHeight = height; }
 	virtual void GetRect(RECT* pRect);
 	virtual cUIObject* GetChildByTag(int nTag);
 

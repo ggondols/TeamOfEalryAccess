@@ -6,6 +6,7 @@
 #include "LJHcJustTestScene.h"
 #include "HankcJustTestScene.h"
 #include "cTestMain.h"
+#include "LoadingScene.h"
 cMainGame::cMainGame()
 {
 }
@@ -27,6 +28,8 @@ HRESULT cMainGame::Setup()
 	SCENEMANAGER->addScene("LJHcJustTestScene", new LJHcJustTestScene);
 	SCENEMANAGER->addScene("HankcJustTestScene", new HankcJustTestScene);
 	SCENEMANAGER->addScene("cTestMain", new cTestMain);
+
+	SCENEMANAGER->addScene("LoadingScene", new LoadingScene);
 	
 	//////////////////커밋 전에 항상 저스트 테스트 씬으로 바꾸세요~~
 	//여기서 씬 교체
@@ -54,7 +57,7 @@ void cMainGame::Update()
 	}
 	if (KEYMANAGER->isOnceKeyDown('3'))
 	{
-		SCENEMANAGER->changeScene("LJHcJustTestScene");
+		SCENEMANAGER->changeScene("LoadingScene");
 	}
 	if (KEYMANAGER->isOnceKeyDown('4'))
 	{

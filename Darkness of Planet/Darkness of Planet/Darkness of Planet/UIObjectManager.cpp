@@ -43,6 +43,20 @@ void UIObjectManager::SetShowState(string key, bool isShow)
 	}
 }
 
+void UIObjectManager::ReleaseRoot(string key)
+{
+	m_mapUIObjectIter = m_mapUIObject.find(key);
+
+	if (m_mapUIObjectIter != m_mapUIObject.end())
+	{
+		SAFE_RELEASE(m_mapUIObjectIter->second);
+		SAFE_DELETE(m_mapUIObjectIter->second);
+	}
+
+	m_mapUIObject.erase(key);
+	m_mapUIShowState.erase(key);
+}
+
 cUIObject * UIObjectManager::FindRoot(string key)
 {
 	m_mapUIObjectIter = m_mapUIObject.find(key);
@@ -85,6 +99,11 @@ void UIObjectManager::Update()
 	}
 }
 
+void UIObjectManager::Update(string key)
+{
+	FindRoot(key)->Update();
+}
+
 void UIObjectManager::Render()
 {
 	for each(auto p in m_mapUIObject)
@@ -96,6 +115,11 @@ void UIObjectManager::Render()
 	}
 }
 
+void UIObjectManager::Render(string key)
+{
+	FindRoot(key)->Render(m_pSprite);
+}
+
 void UIObjectManager::Destroy()
 {
 	for (UIObjectsIter it = m_mapUIObject.begin(); it != m_mapUIObject.end(); it++)
@@ -104,4 +128,5 @@ void UIObjectManager::Destroy()
 	}
 
 	m_mapUIObject.clear();
+	m_mapUIShowState.clear();
 }

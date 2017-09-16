@@ -6,6 +6,7 @@
 #include "TeicPhysicsCrtCtrl.h"
 #include "cUIImageView.h"
 #include "cUITextView.h"
+#include "Loading.h"
 
 static CRITICAL_SECTION cs;
 
@@ -79,7 +80,6 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 	return 0;
 }
 
-
 LJHcJustTestScene::LJHcJustTestScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -88,7 +88,6 @@ LJHcJustTestScene::LJHcJustTestScene()
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
 {
 }
-
 
 LJHcJustTestScene::~LJHcJustTestScene()
 {
@@ -102,7 +101,6 @@ LJHcJustTestScene::~LJHcJustTestScene()
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
-
 	}
 }
 
@@ -195,8 +193,7 @@ void LJHcJustTestScene::Update()
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
-		bool bShowInventory = UIOBJECTMANAGER->CheckShowState("inventory");
-		UIOBJECTMANAGER->SetShowState("inventory", !bShowInventory);
+		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))

@@ -27,6 +27,7 @@ public:
 	void AddRoot(string key, cUIObject* root, bool isShow = false);
 	void AddChild(string key, cUIObject* chield);
 	void SetShowState(string key, bool isShow);
+	void ReleaseRoot(string key);
 
 	cUIObject* FindRoot(string key);
 	cUIObject* GetChildByTag(string key, int tag);
@@ -34,7 +35,9 @@ public:
 
 	void Setup();
 	void Update();
+	void Update(string key);
 	void Render();
+	void Render(string key);
 	void Destroy();
 };
 
