@@ -22,14 +22,6 @@ LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon(char* szFolder, char* szFilename)
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
 	m_pEffect = pSkinnedMesh->m_pEffect;
 
-	
-	/*	pSkinnedMesh->m_pAnimController->CloneAnimationController(
-			pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
-			pSkinnedMesh->m_pAnimController->GetMaxNumAnimationSets(),
-			pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
-			pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
-			&m_pAnimController);*/
-
 		D3DXMatrixIdentity(&m_Move);
 		m_iCurrentAniNum = 0;
 		m_Starttime = 0;
@@ -41,14 +33,6 @@ LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon(char* szFolder, char* szFilename)
 		position = D3DXVECTOR3(0, 0, 0);
 		m_Damaging = false;
 
-		/*m_pAnimController->SetTrackEnable(0, TRUE);
-		m_pAnimController->SetTrackEnable(1, TRUE);
-		m_pAnimController->SetTrackSpeed(0, 1.0f);
-		m_pAnimController->SetTrackSpeed(1, 1.0f);
-
-		LPD3DXANIMATIONSET pAnimset = NULL;
-		m_pAnimController->GetAnimationSet(4, &pAnimset);
-		m_pAnimController->SetTrackAnimationSet(0, pAnimset);*/
 		m_callback = NULL;
 		m_iHp = 0;
 		m_iShield = 0;

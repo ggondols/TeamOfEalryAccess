@@ -3,7 +3,7 @@
 #include "cGameNode.h"
 #include "HankcCamera.h"
 #include "HankcGrid.h"
-#include "LDYCharacter.h"
+
 #include "TeicEnemy.h"
 #include "TeicCollisionMove.h"
 #include "TeicMoveSequence.h"
@@ -12,19 +12,29 @@
 
 enum WeaponType {
 
-	WP_NONE,
-	WP_Melee,
-	WP_AA12,
-	WP_AR6,
-	WP_M4,
-	WP_MP5,
-	WP_Pistol
+	Wp_Melee,
+	Wp_AA12,
+	Wp_AR6,
+	Wp_M4,
+	Wp_MP5,
+	Wp_Pistol
 
 };
 
-class iMap;
+enum StateType {
 
+	ST_Idle,
+	ST_Attack,
+	ST_Move
+
+
+};
+
+
+class iMap;
+class LDYCharacter;
 class cUIObject;
+
 class LDYcJustTestScene:public cGameNode
 {
 
@@ -53,7 +63,9 @@ public:
 	D3DXVECTOR3							m_EnemyTarget;
 
 	int									m_iBodyUpgrade;
-	WeaponType							e_WPtype;
+	int									m_iHeadUpgrade;
+	WeaponType							m_eWeaponType;
+	StateType							m_eStateType;
 
 public:	
 
