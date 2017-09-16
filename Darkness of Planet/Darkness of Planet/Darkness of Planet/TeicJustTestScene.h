@@ -10,7 +10,7 @@
 #include "HankcNode.h"
 #include "TeicAstar.h"
 #include "TeicAstarShort.h"
-#include "cSphere.h"
+
 class iMap;
 
 class cUIObject;
@@ -33,8 +33,8 @@ private:
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
-	vector<cSphere*>		m_vecSphere;
-	LPD3DXFONT				m_pFont;
+	
+
 public:
 	HankcGrid*				m_pNode;
 	TeicCharacter*		m_pCharacter;
@@ -57,7 +57,7 @@ public:
 	void ChangeGridInfo();
 	void TargetOn();
 	float EnemyPlayerDistance(TeicEnemy* ene);
-	void DeleteSphere(int tilex, int tiley);
+	
 public:
 	TeicJustTestScene();
 	~TeicJustTestScene();

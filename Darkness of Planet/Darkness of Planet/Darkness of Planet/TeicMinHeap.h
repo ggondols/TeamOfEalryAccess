@@ -1,5 +1,14 @@
 #pragma once
-
+//###############################################
+//#												#
+//#		최소값 뽑아내는 						#
+//#		MinHeap 클래스 입니다.					#
+//#		Meap정렬 Min 버전입니다					#
+//#												#
+//#		2017-09-15								#	
+//#	    addheap,getminheap을 사용합니다			#
+//#					Made by 태영				#
+//###############################################
 #include "stdafx.h"
 #include "HankcNode.h"
 template<typename T>

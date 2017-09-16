@@ -18,7 +18,7 @@ class HankcNode;
 class TeicAstarShort
 {
 private:
-
+	int			m_iLimit;
 	HankcGrid* m_Node;
 
 	vector<HankcNode*>		    m_vecCloselist;

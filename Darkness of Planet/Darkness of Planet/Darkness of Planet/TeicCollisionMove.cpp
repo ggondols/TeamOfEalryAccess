@@ -110,7 +110,7 @@ void TeicCollisionMove::Update()
 		if (m_pSkinnedTarget->m_bCollision)return;
 	}
 	
-	if (TIMEMANAGER->getFrame() < 50)return;
+	if (TIMEMANAGER->getFrame() < 40)return;
 
 	m_fElapsedDistance = m_Speed / TIMEMANAGER->getFrame();
 	m_fNowDistance += m_fElapsedDistance;

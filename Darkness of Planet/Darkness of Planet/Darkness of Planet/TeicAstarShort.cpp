@@ -19,6 +19,7 @@ void TeicAstarShort::Setup(HankcGrid* Node)
 
 vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, int LastZ)
 {
+	m_iLimit = 0;
 	m_Way.clear();
 	m_vecCloselist.clear();
 	m_vecOpenlist.Clear();
@@ -98,6 +99,13 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 
 	while (1)
 	{
+		m_iLimit++;
+		if (m_iLimit > 100)
+		{
+
+			m_Way.clear();
+			return m_Way;
+		}
 		HankcNode* now = m_vecOpenlist.GetminHeap();
 		if (now->m_pAstarNode->m_iIndex == -1000)
 		{
