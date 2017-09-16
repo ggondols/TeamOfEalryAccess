@@ -48,6 +48,13 @@ protected:
 
 	D3DXMATRIX					m_RotationMat;
 	bool						m_bCollision;
+
+
+public:
+
+	D3DXMATRIX					m_matHead;
+	D3DXMATRIX					m_matWeapon;
+
 public:
 	float m_fZealotdiffer;
 
@@ -78,6 +85,8 @@ protected:
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
 	void Blending();
+	void getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX* pParent);
+
 
 public:
 	LDYSkinnedMesh();

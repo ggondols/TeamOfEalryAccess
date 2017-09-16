@@ -284,19 +284,19 @@ struct ST_PN_CUBE
 
 /////////////////////////////// 
 //////김태영 전용 구조체///////
-enum Nodetype { WALL, PASS };
-struct Node
-{
-	D3DXVECTOR3		st_position;
-	Nodetype		st_type;
-	Node*			st_parent;
-	vector<Node*>	st_neighbor;
-	float			m_vecH;
-	float			m_vecG;
-	float			m_vecF;
-	bool			m_vecClose;
-	int				m_iIndex;
-};
+//enum Nodetype { WALL, PASS };
+//struct Node
+//{
+//	D3DXVECTOR3		st_position;
+//	Nodetype		st_type;
+//	Node*			st_parent;
+//	vector<Node*>	st_neighbor;
+//	float			m_vecH;
+//	float			m_vecG;
+//	float			m_vecF;
+//	bool			m_vecClose;
+//	int				m_iIndex;
+//};
 
 ///////////////////////////////
 

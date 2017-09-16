@@ -130,13 +130,14 @@
     <Filter Include="이동윤 임시저장소">
       <UniqueIdentifier>{22e135be-b3df-4a6f-af9d-b15ff9da7a76}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\Manager\UIObjectManager">
+ <Filter Include="#3D Framework\Bresenham">
+      <UniqueIdentifier>{03a12fb4-be18-4c8f-834f-079d1af2d5ab}</UniqueIdentifier>
+    </Filter><Filter Include="#3D Framework\Manager\UIObjectManager">
       <UniqueIdentifier>{ca92866b-adaa-4459-9799-289d144533c9}</UniqueIdentifier>
     </Filter>
     <Filter Include="#3D Framework\정현 임시저장">
       <UniqueIdentifier>{86781eaa-cd60-4832-bfea-16772179d822}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
+    </Filter>  </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
@@ -227,12 +228,6 @@
     </ClInclude>
     <ClInclude Include="HankcCamera.h">
       <Filter>#3D Framework\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="cTaeYeongMinHeap.h">
-      <Filter>소스 파일\TaeYeongDelete</Filter>
-    </ClInclude>
-    <ClInclude Include="cTaeYeongAstar.h">
-      <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClInclude>
     <ClInclude Include="HankcGrid.h">
       <Filter>#3D Framework\Camera\Hank</Filter>
@@ -348,7 +343,18 @@
     <ClInclude Include="LDYSkinnedMesh_Weapon.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="Loading.h">
+<ClInclude Include="TeicMinHeap.h">
+      <Filter>#3D Framework\Astar\Tei</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicAstarShort.h">
+      <Filter>#3D Framework\Astar\Tei</Filter>
+    </ClInclude>
+    <ClInclude Include="cSphere.h">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicBresenham.h">
+      <Filter>#3D Framework\Bresenham</Filter>
+    </ClInclude><ClInclude Include="Loading.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
@@ -356,8 +362,7 @@
     </ClInclude>
     <ClInclude Include="UIObjectManager.h">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
-    </ClInclude>
-  </ItemGroup>
+    </ClInclude>  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
       <Filter>MainGame\Window</Filter>
@@ -433,9 +438,6 @@
     </ClCompile>
     <ClCompile Include="HankcCamera.cpp">
       <Filter>#3D Framework\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="cTaeYeongAstar.cpp">
-      <Filter>소스 파일\TaeYeongDelete</Filter>
     </ClCompile>
     <ClCompile Include="HankcGrid.cpp">
       <Filter>#3D Framework\Camera\Hank</Filter>
@@ -551,7 +553,15 @@
     <ClCompile Include="LDYSkinnedMesh_Weapon.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingScene.cpp">
+<ClCompile Include="TeicAstarShort.cpp">
+      <Filter>#3D Framework\Astar\Tei</Filter>
+    </ClCompile>
+    <ClCompile Include="cSphere.cpp">
+      <Filter>소스 파일\TaeYeongDelete</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicBresenham.cpp">
+      <Filter>#3D Framework\Bresenham</Filter>
+    </ClCompile><ClCompile Include="LoadingScene.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="Loading.cpp">
@@ -559,8 +569,7 @@
     </ClCompile>
     <ClCompile Include="UIObjectManager.cpp">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
-    </ClCompile>
-  </ItemGroup>
+    </ClCompile>  </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc">
       <Filter>리소스 파일</Filter>

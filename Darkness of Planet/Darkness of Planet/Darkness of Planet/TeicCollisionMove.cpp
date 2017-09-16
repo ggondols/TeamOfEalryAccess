@@ -94,6 +94,7 @@ void TeicCollisionMove::SetFrom(D3DXVECTOR3 from)
 {
 	m_From = from;
 	m_From.y = 0;
+	m_previous = m_From;
 }
 
 void TeicCollisionMove::SetTo(D3DXVECTOR3 to)
@@ -110,7 +111,7 @@ void TeicCollisionMove::Update()
 		if (m_pSkinnedTarget->m_bCollision)return;
 	}
 	
-	if (TIMEMANAGER->getFrame() < 50)return;
+	if (TIMEMANAGER->getFrame() < 40)return;
 
 	m_fElapsedDistance = m_Speed / TIMEMANAGER->getFrame();
 	m_fNowDistance += m_fElapsedDistance;

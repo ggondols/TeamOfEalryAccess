@@ -1,5 +1,6 @@
 #pragma once
-
+class HankcNode;
+class TeicEnemy;
 //###############################################
 //#												#
 //#		Total Node Initialize with Astar		#	
@@ -14,12 +15,21 @@
 //	열: Col,  Z,  i
 //	행: Row,  X,  j
 //
+enum Boundingtype
+{
+	Bounding_Enemy,
+	Bounding_Object
+
+};
+
 struct BoundingSquare
 {
 	float m_fSizeX;
 	float m_fSizeY;
 	float m_fSizeZ;
 	D3DXVECTOR3 m_vCenterPos;
+	Boundingtype st_Type;
+	TeicEnemy*  m_pEnemy;               //////////적 정보 추가
 };
 
 enum INTERFACETYPE
@@ -43,6 +53,7 @@ public:
 	D3DXVECTOR3 m_vCenterPos;
 	vector<D3DXVECTOR3> m_vecVertex;
 public:
+	nPositionInfo();
 	nPositionInfo(int fx, int fy, int fz, int size);
 	~nPositionInfo();
 };
@@ -51,9 +62,32 @@ public:
 class nNodeBoundInfo
 {
 public:
-	list<BoundingSquare*> m_vecBounding;
+	vector<BoundingSquare*> m_vecBounding;       /////////////list에서 벡터로바꿈
 };
 
+class HankcAstarNode
+{
+public:
+	bool				m_bClose;
+	float				m_fF;
+	float				m_fG;
+	float				m_fH;
+	HankcNode*			m_pParent;
+	int					m_iIndex;
+
+public:
+	void Set(bool Close, float F, float G, float H, HankcNode* parent)
+	{
+		m_bClose = Close;
+		m_fF = F;
+		m_fG = G;
+		m_fH = H;
+		m_pParent = parent;
+	
+	}
+	HankcAstarNode();
+	~HankcAstarNode();
+};
 class HankcNode : nInterface
 {
 public:
@@ -66,6 +100,7 @@ public:
 	nInterface *m_pInterface;
 	nPositionInfo *m_vPosList;	
 	nNodeBoundInfo *m_pBoundInfo;
+	HankcAstarNode *m_pAstarNode;
 
 public:
 	

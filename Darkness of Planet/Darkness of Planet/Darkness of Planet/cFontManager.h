@@ -8,6 +8,7 @@ public:
 	{
 		E_NORMAL,
 		E_QUEST,
+		E_TEI,
 		E_END,
 	};
 

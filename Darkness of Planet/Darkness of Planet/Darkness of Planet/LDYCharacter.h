@@ -1,5 +1,8 @@
 #pragma once
 #include "LDYSkinnedMesh.h"
+#include "LDYSkinnedMesh_Head.h"
+#include "LDYSkinnedMesh_Weapon.h"
+#include "LDYcJustTestScene.h"
 
 class TeicPhysicsCrtCtrl;
 //###############################################
@@ -14,30 +17,37 @@ class TeicPhysicsCrtCtrl;
 //#											#
 //#					made by LDY				#
 //###############################################
+
 class LDYCharacter
 {
 private:
-	LDYSkinnedMesh*				m_pSkinnedMesh;
+	LDYSkinnedMesh_Head*		m_pHeroHead[2];
 
+	LDYSkinnedMesh_Weapon*		m_pWeapon_AA12;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_AR6;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_M4;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_MP5;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_Pistol;
 
-	LDYSkinnedMesh*				m_pHeroBody_MP5;
-	LDYSkinnedMesh*				m_pHeroBody_Pistol;
-	LDYSkinnedMesh*				m_pHeroBody_Melee;
-	LDYSkinnedMesh*				m_pHeroBody_Base;
-	LDYSkinnedMesh*				m_pHeroBody_IdleBreak;
-	LDYSkinnedMesh*				m_pHeroBody_SMG;
+	LDYSkinnedMesh*				m_pHeroBody_MP5[4];
+	LDYSkinnedMesh*				m_pHeroBody_Pistol[4];
+	LDYSkinnedMesh*				m_pHeroBody_Melee[4];
+	LDYSkinnedMesh*				m_pHeroBody_Base[4];
+	LDYSkinnedMesh*				m_pHeroBody_IdleBreak[4];
+	LDYSkinnedMesh*				m_pHeroBody_SMG[4];
 
-	int							m_iBodyUpgrade;
 
 	CallbackBindFunction		m_Callback;
 	CallbackBindFunction		m_AttackCallback;
 	TeicPhysicsCrtCtrl*			m_pCtrl;
+
+
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
-	void UpdateAndRender();
+	void UpdateAndRender(int BodyLevel,int HeadLevel, WeaponType wt, StateType st);
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move);
 	void SetRotationAngle(float angle);
