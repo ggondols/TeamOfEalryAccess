@@ -9,6 +9,10 @@ LDYCharacter::LDYCharacter()
 	, m_pWeapon_M4(NULL)
 	, m_pWeapon_MP5(NULL)
 	, m_pWeapon_Pistol(NULL)
+	, m_iHeadLv(1)
+	, m_iBodyLv(1)
+	, m_eWpType(Wp_Melee)
+	, m_eStType(ST_Idle)
 {
 	m_Callback = NULL;
 	m_pCtrl = NULL;
@@ -261,8 +265,11 @@ void LDYCharacter::UpdateAndRender(int BodyLevel, int HeadLevel, WeaponType wt, 
 	D3DXMatrixTranslation(&matHead, 0.0f, -4.5f, 0.0f);
 	D3DXMatrixTranslation(&matWeapon, -32.10f, 0.0f, 0.0f);
 
-	int headLv = HeadLevel - 1;
-	int BodyLv = BodyLevel - 1;
+	m_iHeadLv = HeadLevel - 1;
+	m_iBodyLv = BodyLevel - 1;
+
+	m_eWpType = wt;
+	m_eStType = st;
 
 	switch (st)
 	{
@@ -272,22 +279,22 @@ void LDYCharacter::UpdateAndRender(int BodyLevel, int HeadLevel, WeaponType wt, 
 		{
 		case Wp_Melee:
 		{
-			m_pHeroBody_Melee[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Melee[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Melee[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Melee[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 		}
 		break;
 		case Wp_AA12:
 		{
-			m_pHeroBody_MP5[BodyLv]->UpdateAndRender();
+			m_pHeroBody_MP5[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_MP5[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_MP5[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_MP5[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_MP5[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AA12->m_matWeapon = matWeapon;
 			m_pWeapon_AA12->UpdateAndRender();
 
@@ -295,52 +302,52 @@ void LDYCharacter::UpdateAndRender(int BodyLevel, int HeadLevel, WeaponType wt, 
 		break;
 		case Wp_AR6:
 		{
-			m_pHeroBody_SMG[BodyLv]->UpdateAndRender();
+			m_pHeroBody_SMG[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_SMG[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
-
-			matWeapon *= m_pHeroBody_SMG[BodyLv]->m_matWeapon;
+			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
+			 
+			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AR6->m_matWeapon = matWeapon;
 			m_pWeapon_AR6->UpdateAndRender();
 		}
 		break;
 		case Wp_M4:
 		{
-			m_pHeroBody_SMG[BodyLv]->UpdateAndRender();
+			m_pHeroBody_SMG[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_SMG[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_SMG[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_M4->m_matWeapon = matWeapon;
 			m_pWeapon_M4->UpdateAndRender();
 		}
 		break;
 		case Wp_MP5:
 		{
-			m_pHeroBody_MP5[BodyLv]->UpdateAndRender();
+			m_pHeroBody_MP5[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_MP5[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_MP5[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_MP5[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_MP5[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_MP5->m_matWeapon = matWeapon;
 			m_pWeapon_MP5->UpdateAndRender();
 		}
 		break;
 		case Wp_Pistol:
 		{
-			m_pHeroBody_Pistol[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Pistol[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Pistol[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Pistol[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_Pistol[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_Pistol[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_Pistol->m_matWeapon = matWeapon;
 			m_pWeapon_Pistol->UpdateAndRender();
 		}
@@ -355,74 +362,74 @@ void LDYCharacter::UpdateAndRender(int BodyLevel, int HeadLevel, WeaponType wt, 
 		{
 		case Wp_Melee:
 		{
-			m_pHeroBody_Base[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Base[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Base[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 		}
 		break;
 		case Wp_AA12:
 		{
-			m_pHeroBody_Base[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Base[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Base[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_Base[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AA12->m_matWeapon = matWeapon;
 			m_pWeapon_AA12->UpdateAndRender();
 		}
 		break;
 		case Wp_AR6:
 		{
-			m_pHeroBody_Base[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Base[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Base[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_Base[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AR6->m_matWeapon = matWeapon;
 			m_pWeapon_AR6->UpdateAndRender();
 		}
 		break;
 		case Wp_M4:
 		{
-			m_pHeroBody_Base[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Base[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Base[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_Base[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_M4->m_matWeapon = matWeapon;
 			m_pWeapon_M4->UpdateAndRender();
 		}
 		break;
 		case Wp_MP5:
 		{
-			m_pHeroBody_Base[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Base[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Base[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_Base[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_MP5->m_matWeapon = matWeapon;
 			m_pWeapon_MP5->UpdateAndRender();
 		}
 		break;
 		case Wp_Pistol:
 		{
-			m_pHeroBody_Base[BodyLv]->UpdateAndRender();
+			m_pHeroBody_Base[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_Base[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_Base[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_Pistol->m_matWeapon = matWeapon;
 			m_pWeapon_Pistol->UpdateAndRender();
 		}
@@ -436,74 +443,74 @@ void LDYCharacter::UpdateAndRender(int BodyLevel, int HeadLevel, WeaponType wt, 
 		{
 		case Wp_Melee:
 		{
-			m_pHeroBody_IdleBreak[BodyLv]->UpdateAndRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_IdleBreak[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 		}
 		break;
 		case Wp_AA12:
 		{
-			m_pHeroBody_IdleBreak[BodyLv]->UpdateAndRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_IdleBreak[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_IdleBreak[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AA12->m_matWeapon = matWeapon;
 			m_pWeapon_AA12->UpdateAndRender();
 		}
 		break;
 		case Wp_AR6:
 		{
-			m_pHeroBody_IdleBreak[BodyLv]->UpdateAndRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_IdleBreak[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_IdleBreak[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AR6->m_matWeapon = matWeapon;
 			m_pWeapon_AR6->UpdateAndRender();
 		}
 		break;
 		case Wp_M4:
 		{
-			m_pHeroBody_IdleBreak[BodyLv]->UpdateAndRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_IdleBreak[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_IdleBreak[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_M4->m_matWeapon = matWeapon;
 			m_pWeapon_M4->UpdateAndRender();
 		}
 		break;
 		case Wp_MP5:
 		{
-			m_pHeroBody_IdleBreak[BodyLv]->UpdateAndRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_IdleBreak[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_IdleBreak[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_MP5->m_matWeapon = matWeapon;
 			m_pWeapon_MP5->UpdateAndRender();
 		}
 		break;
 		case Wp_Pistol:
 		{
-			m_pHeroBody_IdleBreak[BodyLv]->UpdateAndRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->UpdateAndRender();
 
-			matHead *= m_pHeroBody_IdleBreak[BodyLv]->m_matHead;
-			m_pHeroHead[headLv]->m_matHead = matHead;
-			m_pHeroHead[headLv]->UpdateAndRender();
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
-			matWeapon *= m_pHeroBody_IdleBreak[BodyLv]->m_matWeapon;
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_Pistol->m_matWeapon = matWeapon;
 			m_pWeapon_Pistol->UpdateAndRender();
 		}
@@ -518,21 +525,485 @@ void LDYCharacter::UpdateAndRender(int BodyLevel, int HeadLevel, WeaponType wt, 
 void LDYCharacter::SetAnimationIndex(int nIndex)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetAnimationIndex(nIndex);
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Melee[m_iBodyLv]->SetAnimationIndex(nIndex);
+
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Pistol[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 void LDYCharacter::SetMove(D3DXMATRIX & move)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetMove(move);
+	/*switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Melee[m_iBodyLv]->SetMove(move);
+
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Pistol[m_iBodyLv]->SetMove(move);
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetMove(move);
+		}
+		break;
+		}
+	}
+	break;
+	}*/
 }
 
 void LDYCharacter::SetRotationAngle(float angle)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetRotationAngle(angle);
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Melee[m_iBodyLv]->SetRotationAngle(angle);
+
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Pistol[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 void LDYCharacter::SetRotationMatrix(D3DXMATRIX rotation)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetRotationMatrix(rotation);
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Melee[m_iBodyLv]->SetRotationMatrix(rotation);
+
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Pistol[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 D3DXVECTOR3 * LDYCharacter::GetPositionPointer()
@@ -541,6 +1012,121 @@ D3DXVECTOR3 * LDYCharacter::GetPositionPointer()
 	{
 	return m_pHeroBody_Base->GetPositionPointer();
 	}*/
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Melee[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_Pistol[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		}
+	}
+	break;
+	}
 	return NULL;
 }
 
@@ -550,17 +1136,364 @@ D3DXVECTOR3 LDYCharacter::GetPosition()
 	{
 	return m_pHeroBody_Base->GetPosition();
 	}*/
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Melee[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_Pistol[m_iBodyLv]->GetPosition();
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+		}
+		break;
+		}
+	}
+	break;
+	}
 	return D3DXVECTOR3();
 }
 
 void LDYCharacter::SetPosition(D3DXVECTOR3 position)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetPosition(position);
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Melee[m_iBodyLv]->SetPosition(position);
+
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Pistol[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 void LDYCharacter::SetAnimation(int num)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetAnimation(num);
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Melee[m_iBodyLv]->SetAnimation(num);
+
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Pistol[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case Wp_Pistol:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 int LDYCharacter::GetAninum()
@@ -569,6 +1502,121 @@ int LDYCharacter::GetAninum()
 	{
 	return m_pHeroBody_Base->GetAninum();
 	}*/
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Melee[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_Pistol[m_iBodyLv]->GetAninum();
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case Wp_Pistol:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
+		}
+		break;
+		}
+	}
+	break;
+	}
 
 	return 0;
 }
@@ -586,9 +1634,9 @@ void LDYCharacter::Update()
 		if (m_pCtrl->getMoving())
 		{
 
-			if (GetAninum() != 36)
+			if (GetAninum() != 4)
 			{
-				SetAnimation(36);
+				SetAnimation(4);
 			}
 		}
 		else if (m_pCtrl->getAttacking())
@@ -631,15 +1679,194 @@ bool LDYCharacter::GetAttacking()
 POINT LDYCharacter::GetNodeNum()
 {
 	POINT temp;
-	if (m_pHeroBody_Base)
+	switch (m_eStType)
 	{
-		D3DXVECTOR3 pos /*= m_pHeroBody_Base->GetPosition()*/;
-		pos.y = 0;
-		temp.x = pos.x;
-		temp.y = -(pos.z);
-		return temp;
-	}
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Melee[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_AA12:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_Pistol:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Pistol[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
 
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_AA12:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_Pistol:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_AA12:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		case Wp_Pistol:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x;
+			temp.y = -(pos.z);
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	}
+	
 	temp.x = 0;
 	temp.y = 0;
 	return temp;

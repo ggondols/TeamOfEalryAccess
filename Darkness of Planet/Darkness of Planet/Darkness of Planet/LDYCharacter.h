@@ -41,6 +41,11 @@ private:
 	CallbackBindFunction		m_AttackCallback;
 	TeicPhysicsCrtCtrl*			m_pCtrl;
 
+	int							m_iHeadLv;
+	int							m_iBodyLv;
+	WeaponType					m_eWpType;
+	StateType					m_eStType;
+
 
 public:
 	void Setup(char* Foldername, char* Filename);

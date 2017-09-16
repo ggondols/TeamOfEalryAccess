@@ -130,7 +130,7 @@ HRESULT LDYcJustTestScene::Setup()
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&LDYcJustTestScene::CallbackOn, this, 0));
 
-	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
+	//m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
@@ -234,7 +234,7 @@ void LDYcJustTestScene::Update()
 		}
 	}
 	m_pCharacter->Update();
-	//m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
 
 	if (m_bThread)
 	{
