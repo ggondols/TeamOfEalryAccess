@@ -11,6 +11,7 @@ TeicPhysicsCrtCtrl::TeicPhysicsCrtCtrl()
 	, m_fAcceleration(0.0f)
 	, m_bAttacking(false)
 	, m_fSpeedSetting(1.0f)
+	, m_bRunning(false)
 	
 {
 	D3DXMatrixIdentity(&m_matWorld);
@@ -24,40 +25,36 @@ TeicPhysicsCrtCtrl::~TeicPhysicsCrtCtrl()
 void TeicPhysicsCrtCtrl::Update()
 {
 
-	if (KEYMANAGER->isOnceKeyDown('L'))
+	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
 		m_bAttacking = true;
 		m_fSpeed = 0;
+	}
+	if (KEYMANAGER->isOnceKeyUp(VK_RBUTTON))
+	{
+		m_bAttacking = false;
 	}
 
 	if (!m_bAttacking)
 	{
 		if (KEYMANAGER->isStayKeyDown('W'))
 		{
-
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
 			m_bMoving = true;
-
-
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
 			m_fAcceleration -= 0.001f*m_fSpeedSetting;
-			//m_vPos = m_vPos + m_vDir * m_fSpeed;
 
 		}
 		if (KEYMANAGER->isStayKeyDown('A'))
 		{
 			m_fAngle -= 0.1f;
-
-
 		}
 
 		if (KEYMANAGER->isStayKeyDown('D'))
 		{
 			m_fAngle += 0.1f;
-
-
 		}
 	}
 
@@ -85,10 +82,6 @@ void TeicPhysicsCrtCtrl::Update()
 
 	D3DXMATRIX matT;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-
-
-
-
 
 	m_matWorld =/* matR **/ matT;
 

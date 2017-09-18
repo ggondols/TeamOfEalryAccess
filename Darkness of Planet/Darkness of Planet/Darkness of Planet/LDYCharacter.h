@@ -27,10 +27,8 @@ private:
 	LDYSkinnedMesh_Weapon*		m_pWeapon_AR6;
 	LDYSkinnedMesh_Weapon*		m_pWeapon_M4;
 	LDYSkinnedMesh_Weapon*		m_pWeapon_MP5;
-	LDYSkinnedMesh_Weapon*		m_pWeapon_Pistol;
 
 	LDYSkinnedMesh*				m_pHeroBody_MP5[4];
-	LDYSkinnedMesh*				m_pHeroBody_Pistol[4];
 	LDYSkinnedMesh*				m_pHeroBody_Melee[4];
 	LDYSkinnedMesh*				m_pHeroBody_Base[4];
 	LDYSkinnedMesh*				m_pHeroBody_IdleBreak[4];
@@ -45,6 +43,7 @@ private:
 	int							m_iBodyLv;
 	WeaponType					m_eWpType;
 	StateType					m_eStType;
+	bool						m_bRun;
 
 
 public:
@@ -52,7 +51,7 @@ public:
 	void CallbackOn(int n);
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
-	void UpdateAndRender(int BodyLevel,int HeadLevel, WeaponType wt, StateType st);
+	void UpdateAndRender();
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move);
 	void SetRotationAngle(float angle);
@@ -68,6 +67,9 @@ public:
 	void SetAttacking(bool on);
 	bool GetAttacking();
 	POINT GetNodeNum();
+	WeaponType getWeaponType() {return m_eWpType;}
+	StateType getStateType() { return m_eStType; }
+
 public:
 
 	LDYCharacter();
