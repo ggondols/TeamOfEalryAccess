@@ -30,7 +30,7 @@ private:
 
 public:
 	void Setup(HankcGrid* Node);
-	vector<D3DXVECTOR3> FindWay(int StartX, int StartZ, int LastX, int LastZ);
+	vector<D3DXVECTOR3> FindWay(int StartX, int StartZ, int LastX, int LastZ ,int CharX,int CharZ);
 	vector<D3DXVECTOR3> SetWay(int Start, int Last);
 	bool Check(int x, int y);
 	HankcNode* GetNode(int x , int y);

@@ -19,7 +19,10 @@ private:
 	TeicSkinnedMesh*	m_pSkinnedMesh;
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
+	
+public:
 	TeicPhysicsCrtCtrl*		m_pCtrl;
+	POINT				m_pPreviousPoint;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);
@@ -32,6 +35,7 @@ public:
 	void SetRotationMatrix(D3DXMATRIX rotation); 
 	D3DXVECTOR3* GetPositionPointer(); 
 	D3DXVECTOR3	 GetPosition();
+	D3DXVECTOR3  GetPositionYZero();
 	void SetPosition(D3DXVECTOR3 position);
 	void SetAnimation(int num);
 	int GetAninum();

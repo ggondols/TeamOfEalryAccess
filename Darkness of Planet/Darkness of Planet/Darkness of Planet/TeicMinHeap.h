@@ -192,13 +192,19 @@ public:
 		m_vecHeap[0]->m_pAstarNode->m_iIndex = 0;
 		m_vecHeap.erase(m_vecHeap.begin() + (m_vecHeap.size() - 1));
 		int i = 0;
+		int count = 0;
 		while (1)
 		{
+			count++;
+			if (count > 100)
+			{
+				return NULL;
+			}
 			if (i * 2 + 1 > m_vecHeap.size() - 1)
 			{
 				break;
 			}
-			if (i * 2 + 1 == m_vecHeap.size() - 1)
+			else if (i * 2 + 1 == m_vecHeap.size() - 1)
 			{
 				if (m_vecHeap[i * 2 + 1]->m_pAstarNode->m_fF < m_vecHeap[i]->m_pAstarNode->m_fF)
 				{
@@ -215,38 +221,41 @@ public:
 					break;
 				}
 			}
-			else if (m_vecHeap[i * 2 + 1]->m_pAstarNode->m_fF <= m_vecHeap[i * 2 + 2]->m_pAstarNode->m_fF)
+			else if(m_vecHeap.size() !=0)
 			{
-				if (m_vecHeap[i * 2 + 1]->m_pAstarNode->m_fF < m_vecHeap[i]->m_pAstarNode->m_fF)
+				if (m_vecHeap[i * 2 + 1]->m_pAstarNode->m_fF <= m_vecHeap[i * 2 + 2]->m_pAstarNode->m_fF)
 				{
-					HankcNode* sample;
-					sample = m_vecHeap[i];
-					m_vecHeap[i] = m_vecHeap[i * 2 + 1];
-					m_vecHeap[i * 2 + 1] = sample;
-					m_vecHeap[i]->m_pAstarNode->m_iIndex = i;
-					m_vecHeap[i * 2 + 1]->m_pAstarNode->m_iIndex = i * 2 + 1;
-					i = i * 2 + 1;
+					if (m_vecHeap[i * 2 + 1]->m_pAstarNode->m_fF < m_vecHeap[i]->m_pAstarNode->m_fF)
+					{
+						HankcNode* sample;
+						sample = m_vecHeap[i];
+						m_vecHeap[i] = m_vecHeap[i * 2 + 1];
+						m_vecHeap[i * 2 + 1] = sample;
+						m_vecHeap[i]->m_pAstarNode->m_iIndex = i;
+						m_vecHeap[i * 2 + 1]->m_pAstarNode->m_iIndex = i * 2 + 1;
+						i = i * 2 + 1;
+					}
+					else
+					{
+						break;
+					}
 				}
 				else
 				{
-					break;
-				}
-			}
-			else
-			{
-				if (m_vecHeap[i * 2 + 2]->m_pAstarNode->m_fF < m_vecHeap[i]->m_pAstarNode->m_fF)
-				{
-					HankcNode* sample;
-					sample = m_vecHeap[i];
-					m_vecHeap[i] = m_vecHeap[i * 2 + 2];
-					m_vecHeap[i * 2 + 2] = sample;
-					m_vecHeap[i]->m_pAstarNode->m_iIndex = i;
-					m_vecHeap[i * 2 + 2]->m_pAstarNode->m_iIndex = i * 2 + 2;
-					i = i * 2 + 2;
-				}
-				else
-				{
-					break;
+					if (m_vecHeap[i * 2 + 2]->m_pAstarNode->m_fF < m_vecHeap[i]->m_pAstarNode->m_fF)
+					{
+						HankcNode* sample;
+						sample = m_vecHeap[i];
+						m_vecHeap[i] = m_vecHeap[i * 2 + 2];
+						m_vecHeap[i * 2 + 2] = sample;
+						m_vecHeap[i]->m_pAstarNode->m_iIndex = i;
+						m_vecHeap[i * 2 + 2]->m_pAstarNode->m_iIndex = i * 2 + 2;
+						i = i * 2 + 2;
+					}
+					else
+					{
+						break;
+					}
 				}
 			}
 		}

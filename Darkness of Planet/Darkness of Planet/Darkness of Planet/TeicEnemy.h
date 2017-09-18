@@ -23,11 +23,12 @@ private:
 public:
 	POINT m_PresentGrid;
 	POINT m_PreviousGrid;
-	BoundingSquare m_BoundingBox;
+	BoundingSquare* m_BoundingBox;
 	float		   m_fBoundingSize;
 	float		   m_fAttackRange;
 	bool		   m_bAttackOn;
-	bool		   m_bThreadCalOn;
+	bool		   m_bThreadCalOn;  ////쓰레드로 에이스타 계산이 완료되면
+	bool		   m_bSlotOn;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);

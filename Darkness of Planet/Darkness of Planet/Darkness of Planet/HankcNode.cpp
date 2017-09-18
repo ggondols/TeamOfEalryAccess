@@ -61,7 +61,7 @@ nPositionInfo::nPositionInfo(int fx,int fy, int fz, int size)
 
 	m_vCenterPos.x = fx * size + (size / 2);
 	m_vCenterPos.y = 0;
-	m_vCenterPos.z = -fz * size + (size / 2);
+	m_vCenterPos.z = -fz * size - (size / 2);
 
 	m_vecVertex.push_back(nodeVertex[0]);
 	m_vecVertex.push_back(nodeVertex[1]);
