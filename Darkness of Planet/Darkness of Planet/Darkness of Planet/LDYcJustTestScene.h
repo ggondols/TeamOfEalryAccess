@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cGameNode.h"
-#include "HankcCamera.h"
+#include "LDYCamera.h"
 #include "HankcGrid.h"
 
 #include "TeicEnemy.h"
@@ -16,8 +16,7 @@ enum WeaponType {
 	Wp_AA12,
 	Wp_AR6,
 	Wp_M4,
-	Wp_MP5,
-	Wp_Pistol
+	Wp_MP5
 
 };
 
@@ -26,8 +25,6 @@ enum StateType {
 	ST_Idle,
 	ST_Attack,
 	ST_Move
-
-
 };
 
 
@@ -39,7 +36,7 @@ class LDYcJustTestScene:public cGameNode
 {
 
 private:
-	Hank::cCamera*						m_pCamera;
+	LDYCamera*						m_pCamera;
 	Hank::cGrid*						m_pGrid;
 
 	iMap*								m_pMap;

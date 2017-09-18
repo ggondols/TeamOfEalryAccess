@@ -105,7 +105,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 
 HRESULT LDYcJustTestScene::Setup()
 {
-	m_pCamera = new Hank::cCamera;
+	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
 
 	D3DXCreateSprite(GETDEVICE, &m_pSprite);
@@ -204,7 +204,7 @@ void LDYcJustTestScene::Update()
 		}
 	}
 
-	m_pCamera->Update();
+	m_pCamera->Update(m_pCharacter->GetPosition());
 
 	if (m_bThread)
 	{
@@ -247,61 +247,6 @@ void LDYcJustTestScene::Update()
 	}
 	ChangeGridInfo();
 	if (m_pUITest) m_pUITest->Update();
-
-
-	if (KEYMANAGER->isOnceKeyDown('H'))
-	{
-		m_iHeadUpgrade++;
-
-		if (m_iHeadUpgrade > 2) {
-			m_iHeadUpgrade = 1;
-		}
-	}
-	if (KEYMANAGER->isOnceKeyDown('B')) 
-	{
-		m_iBodyUpgrade++;
-
-		if (m_iBodyUpgrade > 4) {
-			m_iBodyUpgrade = 1;
-		}
-	}
-	if (KEYMANAGER->isOnceKeyDown('N'))
-	{
-		switch (m_eWeaponType)
-		{
-		case Wp_Melee:
-		{
-			m_eWeaponType = Wp_AA12;
-		}
-		break;
-		case Wp_AA12:
-		{
-			m_eWeaponType = Wp_AR6;
-		}
-		break;
-		case Wp_AR6:
-		{
-			m_eWeaponType = Wp_M4;
-		}
-		break;
-		case Wp_M4:
-		{
-			m_eWeaponType = Wp_MP5;
-		}
-		break;
-		case Wp_MP5:
-		{
-			m_eWeaponType = Wp_Pistol;
-		}
-		break;
-		case Wp_Pistol:
-		{
-			m_eWeaponType = Wp_Melee;
-		}
-		break;
-		}
-	}
-
 }
 
 void LDYcJustTestScene::CallbackOn(int number)
@@ -364,7 +309,7 @@ void LDYcJustTestScene::ChangeGridInfo()
 					m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.clear();
 				if (!m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo)
 					m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo = new nNodeBoundInfo;
-				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(&m_vecEnemy[i]->m_BoundingBox);
+				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(m_vecEnemy[i]->m_BoundingBox);
 				m_vecEnemy[i]->m_PreviousGrid = m_vecEnemy[i]->m_PresentGrid;
 			}
 		}
@@ -414,7 +359,7 @@ void LDYcJustTestScene::Render()
 {
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
-	if (m_pCharacter) m_pCharacter->UpdateAndRender(m_iBodyUpgrade,m_iHeadUpgrade, m_eWeaponType, ST_Move);
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();
 	if (m_bThread)
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)

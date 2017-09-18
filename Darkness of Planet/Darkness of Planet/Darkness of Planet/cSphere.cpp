@@ -28,8 +28,8 @@ cSphere::~cSphere()
 void cSphere::Setup(float x, float y)
 {
 	m_center = D3DXVECTOR3(0, 0, 0);
-	D3DXCreateSphere(GETDEVICE, 5, 50, 50, &m_pMesh, NULL);
-	D3DXMatrixTranslation(&m_matworld, x + 0.5, 0.5, -y - 0.5);
+	D3DXCreateSphere(GETDEVICE, 0.5, 50, 50, &m_pMesh, NULL);
+	D3DXMatrixTranslation(&m_matworld, x + 0.5, 10, -y - 0.5);
 	D3DXVec3TransformCoord(&m_center, &m_center, &m_matworld);
 	tilex = x;
 	tiley = y;
@@ -47,7 +47,7 @@ void cSphere::Render()
 {
 
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
-	m_matworld._42 = 0.7;
+	m_matworld._42 = 15;
 	GETDEVICE->SetTransform(D3DTS_WORLD, &m_matworld);
 	GETDEVICE->SetTexture(0, NULL);
 	if (Red)

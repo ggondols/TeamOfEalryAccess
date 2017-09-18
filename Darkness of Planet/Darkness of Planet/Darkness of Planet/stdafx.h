@@ -52,7 +52,7 @@ extern int g_MouseWheel;
 #define SAFE_DELETE(p) if(p){delete (p); p=NULL;}
 #define SAFE_DELETE_ARRAY(p) if(p) { delete[] (p) ; p =NULL;}
 #define INF 999999.f
-
+#define NodeLength	5
 //## 메니저 디파인 여기 ##//
 #define SCENEMANAGER cSceneManager::getSingleton()
 #define DEVICEMANAGER cDeviceManager::getSingleton()

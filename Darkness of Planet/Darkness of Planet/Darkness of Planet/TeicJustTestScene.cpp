@@ -15,7 +15,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 {
 	EnterCriticalSection(&cs);
 	TeicJustTestScene* temp = (TeicJustTestScene*)lpParam;
-	
+
 	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -24,7 +24,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
 			//	pSkinnedMesh->SetPosition(D3DXVECTOR3(0,0,0));
-			pSkinnedMesh->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, temp, 1));
+			pSkinnedMesh->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, temp, (i + 1) * 10 + j));
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 		}
 	}
@@ -39,17 +39,17 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 
 
-	vector<D3DXVECTOR3> wayway = temp->m_pAstar->FindWay(temp->m_vecEnemy[0]->GetNodeNum().x, temp->m_vecEnemy[0]->GetNodeNum().y,
-		temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
+	/*vector<D3DXVECTOR3> wayway = temp->m_pAstar->FindWay(temp->m_vecEnemy[0]->GetNodeNum().x, temp->m_vecEnemy[0]->GetNodeNum().y,
+		temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);*/
 
 	/*vector<D3DXVECTOR3> wayway = temp->m_pAstarShort->FindWay(0,0,10,10);
 	temp->m_EnemyTarget = wayway[wayway.size() - 1];*/
 
 	for (int i = 0; i < temp->m_vecEnemyWay.size(); i++)
 	{
-		/*temp->m_vecEnemyWay[i] =temp->m_pAstar->FindWay(temp->m_vecEnemy[i]->GetNodeNum().y, temp->m_vecEnemy[i]->GetNodeNum().x,
-		temp->m_pCharacter->GetNodeNum().y, temp->m_pCharacter->GetNodeNum().x);*/
-		temp->m_vecEnemyWay[i] = wayway;
+		temp->m_vecEnemyWay[i] =temp->m_pAstar->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
+		temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
+		//temp->m_vecEnemyWay[i] = wayway;
 		temp->m_vecEnemyCollisionMove[i] = new TeicMoveSequence;
 
 
@@ -67,7 +67,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
 
 		}
-
+		temp->m_vecEnemyCollisionMove[i]->Start();
 	}
 
 	temp->m_bThread = true;
@@ -79,33 +79,31 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 static DWORD WINAPI ThFunc2(LPVOID lpParam)
 {
-	
+
+
 	EnterCriticalSection(&cs);
 	TeicJustTestScene* temp = (TeicJustTestScene*)lpParam;
 	for (int i = 0; i < temp->m_vecEnemy.size(); i++)
 	{
-		if (temp->m_vecEnemy[i]->GetCollision() == false)continue;
-		if (temp->m_vecEnemy[i]->GetAninum() == 6) continue;
-
-
-
+		if (!temp->m_vecEnemy[i]->m_bThreadCalOn)continue;
+		if (temp->m_vecEnemy[i]->m_bAttackOn)continue;
 		temp->m_vecEnemyWay[i] = temp->m_pAstarShort->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
-			temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
+			temp->m_pAttackNode.x, temp->m_pAttackNode.y, temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
 
 		temp->m_vecEnemyCollisionMove[i]->SetClear();
 
 
-		if (temp->m_vecEnemyWay[i].size() == 0)continue;
+		if (temp->m_vecEnemyWay[i].size() <=1)continue;
 		TeicCollisionMove* tempmove;
 		tempmove = new TeicCollisionMove;
 		tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
 		tempmove->SetSpeed(5);
 		tempmove->SetFrom(temp->m_vecEnemy[i]->GetPosition());
-		tempmove->SetTo(temp->m_vecEnemyWay[i][0]);
+		tempmove->SetTo(temp->m_vecEnemyWay[i][1]);
 		temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
-		for (int j = 0; j < temp->m_vecEnemyWay[i].size(); j++)
+		for (int j = 1; j < temp->m_vecEnemyWay[i].size(); j++)
 		{
-			if (j + 1 >= temp->m_vecEnemyWay[i].size())break;
+			if (j + 1 >= temp->m_vecEnemyWay[i].size())continue;
 			tempmove = new TeicCollisionMove;
 			tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
 			tempmove->SetSpeed(5);
@@ -113,25 +111,17 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 			tempmove->SetTo(temp->m_vecEnemyWay[i][j + 1]);
 			temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
 		}
-		tempmove = new TeicCollisionMove;
-		tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
-		tempmove->SetSpeed(5);
-		tempmove->SetFrom(temp->m_vecEnemyWay[i][temp->m_vecEnemyWay[i].size() - 1]);
-		tempmove->SetTo(temp->m_pCharacter->GetPosition());
-		temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+		
 
-
-
-		temp->m_vecEnemy[i]->m_bThreadCalOn = true;
 		temp->m_vecEnemyCollisionMove[i]->Start();
 
 
 
 	}
-
-
 	temp->m_bAstarThread = false;
 	LeaveCriticalSection(&cs);
+
+
 
 	return 0;
 }
@@ -146,11 +136,11 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pAstar(NULL)
 	, m_pAstarShort(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
-	, m_bAstarThread(NULL)
-	, m_bCollision(false)
+	, m_bAstarThread(false)
+
 
 {
-
+	m_vecAttackSlot.resize(8, false);
 }
 
 
@@ -178,6 +168,10 @@ TeicJustTestScene::~TeicJustTestScene()
 HRESULT TeicJustTestScene::Setup()
 {
 
+
+
+
+
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 
@@ -200,7 +194,7 @@ HRESULT TeicJustTestScene::Setup()
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, this, 0));
 
-	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
+	
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
 	pHeightMap->Load("map/", "HeightMap.raw", "terrain.jpg");
@@ -217,7 +211,7 @@ HRESULT TeicJustTestScene::Setup()
 		for (int j = 0; j < sizeX; j++)
 		{
 			m_pNode->m_vRow[i].m_vCol[j].InitFrame(i, j); // 일반 노드만 생성합니다.
-			m_pNode->m_vRow[i].m_vCol[j].InitPosition(1); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
+			m_pNode->m_vRow[i].m_vCol[j].InitPosition(NodeLength); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
 			m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
 		}
 	}
@@ -243,6 +237,8 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBresenham = new TeicBresenham;
 
 
+
+
 	return S_OK;
 }
 
@@ -260,7 +256,71 @@ void TeicJustTestScene::Release()
 void TeicJustTestScene::Update()
 {
 	m_pCharacter->Update();
+	bool check = ChangeCheckPoint();
+	if (m_bThread)
+	{
+		if (check)
+		{
+			m_fTime2 = 0;
+		}
+		if (TIMEMANAGER->getWorldTime() > m_fTime2 + 2.0f)
+		{
+			m_fTime2 = TIMEMANAGER->getWorldTime();
+			if (!m_bAstarThread)
+			{
+				m_bAstarThread = true;
+				DWORD dwThID2;
+				HANDLE hThreads2;
 
+				unsigned long ulStackSize = 0;
+				dwThID2 = 1;
+				hThreads2 = NULL;
+				hThreads2 = CreateThread(NULL, ulStackSize, ThFunc2, this, CREATE_SUSPENDED, &dwThID2);
+				ResumeThread(hThreads2);
+			}
+
+
+
+
+
+		/*	for (int i = 0; i < m_vecEnemy.size(); i++)
+			{
+				if (!m_vecEnemy[i]->m_bThreadCalOn)continue;
+				if (m_vecEnemy[i]->m_bAttackOn)continue;
+				m_vecEnemyWay[i] = m_pAstarShort->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
+					m_pAttackNode.x, m_pAttackNode.y, m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
+
+				m_vecEnemyCollisionMove[i]->SetClear();
+
+
+				if (m_vecEnemyWay[i].size() <= 1)continue;
+				TeicCollisionMove* tempmove;
+				tempmove = new TeicCollisionMove;
+				tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
+				tempmove->SetSpeed(5);
+				tempmove->SetFrom(m_vecEnemy[i]->GetPosition());
+				tempmove->SetTo(m_vecEnemyWay[i][1]);
+				m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+				for (int j = 1; j < m_vecEnemyWay[i].size(); j++)
+				{
+					if (j + 1 >= m_vecEnemyWay[i].size())continue;
+					tempmove = new TeicCollisionMove;
+					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
+					tempmove->SetSpeed(5);
+					tempmove->SetFrom(m_vecEnemyWay[i][j]);
+					tempmove->SetTo(m_vecEnemyWay[i][j + 1]);
+					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
+				}
+				m_vecEnemyCollisionMove[i]->Start();
+
+
+
+			}*/
+
+
+
+		}
+	}
 
 	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
@@ -284,14 +344,16 @@ void TeicJustTestScene::Update()
 
 	if (m_bThread)
 	{
+		CheckSlot();
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			if (D3DXVec3Length(&(m_vecEnemy[i]->GetPosition() - m_pCharacter->GetPosition())) < m_vecEnemy[i]->m_fAttackRange)
+			if (D3DXVec3Length(&(m_vecEnemy[i]->GetPositionYzero() - m_pCharacter->GetPositionYZero())) < m_vecEnemy[i]->m_fAttackRange)
 			{
+				if (!m_vecEnemy[i]->m_bSlotOn)continue;
 				m_vecEnemy[i]->m_bAttackOn = true;
 				m_vecEnemy[i]->m_bThreadCalOn = false;
 			}
-			else
+			else if (m_vecEnemy[i]->m_bAttackOn == false)
 			{
 				m_vecEnemy[i]->m_bAttackOn = false;
 			}
@@ -310,24 +372,11 @@ void TeicJustTestScene::Update()
 
 
 
-		if (TIMEMANAGER->getWorldTime() > m_fTime2 + 20.0f)
-		{
-			m_fTime2 = INF;
 
-			if (m_bThread)
-			{
-				for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
-				{
-					m_vecEnemyCollisionMove[i]->Start();
-				}
-			}
-		}
 
-		for (int i = 0; i < m_vecEnemy.size(); i++)
-		{
-			m_vecEnemy[i]->SetCollision(false);
-		}
-		m_bCollision = TotalCollisionCheck();
+		
+		TotalCollisionCheck();
+		
 		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
 		{
 			if (m_vecEnemy[i]->m_bAttackOn)continue;
@@ -345,10 +394,29 @@ void TeicJustTestScene::Update()
 
 			}
 		}
-		if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.0f)
+		TotalPushCheck2();
+		if (TIMEMANAGER->getWorldTime() > m_fTime3 + 0.5f)
 		{
 			m_fTime3 = TIMEMANAGER->getWorldTime();
 			TargetOn();
+		}
+		for (int i = 0; i < m_vecEnemy.size(); i++)
+		{
+			if (!m_vecEnemy[i]->m_bAttackOn)continue;
+			D3DXVECTOR3 A_B =  m_vecEnemy[i]->GetPositionYzero() - m_pCharacter->GetPositionYZero();
+			D3DXVec3Normalize(&A_B, &A_B);
+			D3DXMATRIX matR;
+			D3DXMatrixLookAtLH(&matR,
+				&D3DXVECTOR3(0, 0, 0),
+				&A_B,
+				&D3DXVECTOR3(0, 1, 0));
+			D3DXMatrixTranspose(&matR, &matR);
+			D3DXMATRIX	skinnedRot;
+			D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
+			matR = matR* skinnedRot;
+			
+			m_vecEnemy[i]->SetRotationMatrix(matR);
+			
 		}
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
@@ -367,6 +435,8 @@ void TeicJustTestScene::Update()
 void TeicJustTestScene::CallbackOn(int number)
 {
 	//////0 캐릭터   1 적   2  적 움직임
+
+	///(i + 1)*10 + j   10~29
 	if (number == 0)
 	{
 		if (m_pCharacter->GetAninum() == 1)
@@ -378,15 +448,23 @@ void TeicJustTestScene::CallbackOn(int number)
 			m_pCharacter->SetAttacking(false);
 		}
 	}
-	else if (number == 1)
+	for (int i = 10; i < 30; i++)
 	{
-
+		if (number == i)
+		{
+			if (m_vecEnemy[i - 10]->GetAninum() == 6)
+			{
+				m_vecEnemy[i - 10]->m_bAttackOn = false;
+				m_vecEnemy[i - 10]->SetAnimation(1);
+			}
+		}
 	}
+
 }
 
 bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
-	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < A->m_fBoundingSize + B->m_fBoundingSize)
+	if (D3DXVec3Length(&(A->GetPositionYzero() - B->GetPositionYzero())) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 		float Adist = D3DXVec3Length(&(A->GetPosition() - m_EnemyTarget));
 		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_EnemyTarget));
@@ -394,11 +472,37 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 
 		if (Adist < Bdist)
 		{
-			B->SetCollision(true);
+			if (!m_bAttackOn)
+			{
+				B->SetCollision(true);
+			}
+			else
+			{
+
+				if (!B->m_bThreadCalOn)
+				{
+					B->m_bThreadCalOn = true;
+				}
+
+			}
+
+
 		}
 		else
 		{
-			A->SetCollision(true);
+			if (!m_bAttackOn)
+			{
+				A->SetCollision(true);
+			}
+			else
+			{
+				if (!A->m_bThreadCalOn)
+				{
+					A->m_bThreadCalOn = true;
+				}
+			}
+
+
 		}
 		return true;
 	}
@@ -409,6 +513,18 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 
 
 
+void TeicJustTestScene::TotalPushCheck2()
+{
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		for (int j = i + 1; j < m_vecEnemy.size(); j++)
+		{
+			Push2(m_vecEnemy[i], m_vecEnemy[j]);
+
+		}
+	}
+}
+
 void TeicJustTestScene::ChangeGridInfo()
 {
 	if (m_bThread)
@@ -417,128 +533,93 @@ void TeicJustTestScene::ChangeGridInfo()
 		{
 
 			m_vecEnemy[i]->m_PresentGrid = m_vecEnemy[i]->GetNodeNum();
-			if (m_vecEnemy[i]->m_PreviousGrid.x != m_vecEnemy[i]->m_PresentGrid.x ||
-				m_vecEnemy[i]->m_PreviousGrid.y != m_vecEnemy[i]->m_PresentGrid.y)
-			{
-				if (m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo)
-				{
-					if (m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size() == 1)
-					{
-						m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.clear();
-					}
-					else
-					{
-						for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
-						{
-							if (m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pEnemy
-								== m_vecEnemy[i])
-							{
-								m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase
-								(m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
-							}
-						}
-
-					}
-					m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo = new nNodeBoundInfo;
-					m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(&m_vecEnemy[i]->m_BoundingBox);
-
-
-
-
-				}
-				if (!m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo)
-				{
-					m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo = new nNodeBoundInfo;
-					m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(&m_vecEnemy[i]->m_BoundingBox);
-
-
-				}
-
-
-				m_vecEnemy[i]->m_PreviousGrid = m_vecEnemy[i]->m_PresentGrid;
-			}
 		}
+
+		/////////// 비교
+
+		for (int i = 0; i < m_vecEnemy.size(); i++)
+		{
+			if (m_vecEnemy[i]->m_PreviousGrid.x == m_vecEnemy[i]->m_PresentGrid.x &&
+				m_vecEnemy[i]->m_PreviousGrid.y == m_vecEnemy[i]->m_PresentGrid.y)continue;
+
+			if (m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_vecEnemy[i] == m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pEnemy)
+					{
+						m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
+							m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
+
+					}
+				}
+			}
+
+
+			if (m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo == NULL)
+			{
+				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo = new nNodeBoundInfo;
+				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(
+					m_vecEnemy[i]->m_BoundingBox);
+			}
+			else
+			{
+				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(
+					m_vecEnemy[i]->m_BoundingBox);
+			}
+			m_vecEnemy[i]->m_PreviousGrid = m_vecEnemy[i]->GetNodeNum();
+		}
+
+
+
+
 	}
 
 }
 
 void TeicJustTestScene::TargetOn()
 {
+	
 
-	bool On = false;
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		if (EnemyPlayerDistance(m_vecEnemy[i]) < 30.0f)
 		{
-			On = true;
+			m_bAttackOn = true;
 		}
 	}
-	if (On)
+	if (m_bAttackOn)
 	{
 		m_EnemyTarget = m_pCharacter->GetPosition();
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
 			if (m_vecEnemy[i]->m_bAttackOn)continue;
+			if (m_vecEnemy[i]->m_bThreadCalOn)continue;
 			
+
+
 			
-				/*m_vecEnemyWay[i].clear();*/
+			m_vecEnemy[i]->m_bThreadCalOn = true;
+			m_fTime3 = INF;
+			/*if (CheckStraight(m_vecEnemy[i]))
+			{
 				m_vecEnemyCollisionMove[i]->SetClear();
-				if (CheckStraight(m_vecEnemy[i]))
-				{
-					TeicCollisionMove* tempmove;
-					tempmove = new TeicCollisionMove;
-					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
-					tempmove->SetSpeed(5);
-					tempmove->SetFrom(m_vecEnemy[i]->GetPosition());
-					tempmove->SetTo(m_pCharacter->GetPosition());
-					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
-
-
-				}
-				else
-				{
-					m_vecEnemyWay[i] = m_pAstarShort->FindWay(m_vecEnemy[i]->GetNodeNum().x, m_vecEnemy[i]->GetNodeNum().y,
-						m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
-
-
-					if (m_vecEnemyWay[i].size() == 0)continue;
-					TeicCollisionMove* tempmove;
-					tempmove = new TeicCollisionMove;
-					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
-					tempmove->SetSpeed(5);
-					tempmove->SetFrom(m_vecEnemy[i]->GetPosition());
-					tempmove->SetTo(m_vecEnemyWay[i][0]);
-					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
-					for (int j = 0; j < m_vecEnemyWay[i].size(); j++)
-					{
-						if (j + 1 >= m_vecEnemyWay[i].size())break;
-
-						tempmove = new TeicCollisionMove;
-						tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
-						tempmove->SetSpeed(5);
-						tempmove->SetFrom(m_vecEnemyWay[i][j]);
-						tempmove->SetTo(m_vecEnemyWay[i][j + 1]);
-						m_vecEnemyCollisionMove[i]->AddAction(tempmove);
-					}
-					tempmove = new TeicCollisionMove;
-					tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
-					tempmove->SetSpeed(5);
-					tempmove->SetFrom(m_vecEnemyWay[i][m_vecEnemyWay[i].size() - 1]);
-					tempmove->SetTo(m_pCharacter->GetPosition());
-					m_vecEnemyCollisionMove[i]->AddAction(tempmove);
-
-				}
+				TeicCollisionMove* tempmove;
+				tempmove = new TeicCollisionMove;
+				tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
+				tempmove->SetSpeed(5);
+				tempmove->SetFrom(m_vecEnemy[i]->GetPosition());
+				tempmove->SetTo(m_pCharacter->GetPosition());
+				m_vecEnemyCollisionMove[i]->AddAction(tempmove);
 				m_vecEnemyCollisionMove[i]->Start();
 
-			
-			
-			if (m_bCollision)
-			{
-				PushAndFindAnotherWay();
-
 			}
+			else
+			{
+				m_vecEnemy[i]->m_bThreadCalOn = true;
 
-
+			}*/
+			
 		}
 	}
 
@@ -579,9 +660,60 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void TeicJustTestScene::Render()
 {
 
+	/*vector<cSphere> m_vecSphere;
+	for (int i = 0; i < 25; i++)
+	{
+		for (int j = 0; j < 25; j++)
+		{
+			if (m_pNode->m_vRow[i].m_vCol[j].m_pBoundInfo != NULL)
+			{
+				if (m_pNode->m_vRow[i].m_vCol[j].m_pBoundInfo->m_vecBounding.size() != 0)
+				{
+					cSphere tempsphere;
+					tempsphere.Setup(m_pNode->m_vRow[i].m_vCol[j].m_vPosList->m_vCenterPos.x,
+						-m_pNode->m_vRow[i].m_vCol[j].m_vPosList->m_vCenterPos.z);
+					m_vecSphere.push_back(tempsphere);
+				}
+			}
+		}
+	}
 
 
+	for (int i = 0; i < m_vecSphere.size(); i++)
+	{
+		m_vecSphere[i].Render();
+	}
+*/
 
+	/*cSphere tempsphere;
+	tempsphere.Setup(m_pNode->m_vRow[m_pCharacter->GetNodeNum().y].m_vCol[m_pCharacter->GetNodeNum().x].m_vPosList->m_vCenterPos.x,
+		-m_pNode->m_vRow[m_pCharacter->GetNodeNum().y].m_vCol[m_pCharacter->GetNodeNum().x].m_vPosList->m_vCenterPos.z);
+	tempsphere.SetRed(true);
+	tempsphere.Render();*/
+	/*if (m_bThread)
+	{
+		if (m_vecEnemy[0]->m_bThreadCalOn)
+		{
+			for (int i = 0; i < m_vecSphere.size(); i++)
+			{
+				SAFE_DELETE(m_vecSphere[i]);
+			}
+			for (int i = 0; i < m_vecEnemyWay[0].size(); i++)
+			{
+				for (int j = 0; j < m_vecEnemyWay[0].size(); j++)
+				{
+					cSphere* temp = new cSphere;
+					temp->Setup(m_vecEnemyWay[0][j].x, -m_vecEnemyWay[0][j].z);
+					m_vecSphere.push_back(temp);
+
+				}
+			}
+			for (int i = 0; i < m_vecSphere.size(); i++)
+			{
+				m_vecSphere[i]->Render();
+			}
+		}
+	}*/
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
@@ -605,6 +737,10 @@ bool TeicJustTestScene::TotalCollisionCheck()
 {
 	bool check;
 	check = false;
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_vecEnemy[i]->SetCollision(false);
+	}
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -619,64 +755,210 @@ bool TeicJustTestScene::TotalCollisionCheck()
 	return check;
 }
 
-void TeicJustTestScene::PushAndFindAnotherWay()
+
+
+bool TeicJustTestScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)
 {
-	for (int i = 0; i < m_vecEnemy.size(); i++)
+	if (abs(A.x - B.x) < 0.0001 &&
+		abs(A.z - B.z) < 0.0001)
 	{
-		for (int j = i + 1; j < m_vecEnemy.size(); j++)
-		{
-			Push(m_vecEnemy[i], m_vecEnemy[j]);
-		}
+		return true;
 	}
 
-	/*if (!m_bAstarThread)
+	return false;
+}
+
+bool TeicJustTestScene::CheckSlot()
+{
+	bool temp;
+	int count = -1;
+	for (int i = 0; i < m_vecAttackSlot.size(); i++)
 	{
-		m_bAstarThread = true;
+		m_vecAttackSlot[i] = false;
+	}
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		m_vecEnemy[i]->m_bSlotOn = false;
+		if(m_bAttackOn)
+		m_vecEnemy[i]->m_bThreadCalOn = true;
+	}
+	m_pAttackNode.x = m_pCharacter->GetNodeNum().x+1;
+	m_pAttackNode.y = m_pCharacter->GetNodeNum().y+1;
+	for (int i = -1; i < 2; i++)
+	{
+		for (int j = -1; j < 2; j++)
+		{
+			count++;
+			if (i == 0 && j == 0)
+			{
+				count--;
+				continue;
+			}
+			if (m_pCharacter->GetNodeNum().y + i < 0)continue;
+			if (m_pCharacter->GetNodeNum().y + i >=m_pNode->m_vRow.size())continue;
+			if (m_pCharacter->GetNodeNum().x + j < 0)continue;
+			if (m_pCharacter->GetNodeNum().x + j >=m_pNode->m_vRow.size())continue;
+			if (m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo != NULL)
+			{
+				if (m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding.size() != 0)
+				{
+					m_vecAttackSlot[count] = true;
+					m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[0]->m_pEnemy->m_bSlotOn = true;
+				}
+				else
+				{
+					
+					
+				}
 
-		DWORD dwThID2;
-		HANDLE hThreads2;
-
-		unsigned long ulStackSize = 0;
-		dwThID2 = 1;
-		hThreads2 = NULL;
-		hThreads2 = CreateThread(NULL, ulStackSize, ThFunc2, this, CREATE_SUSPENDED, &dwThID2);
-		ResumeThread(hThreads2);
-
-	}*/
+			}
 
 
+			
+		}
+	}
+	int a = 0;
+	for (int i = 0; i < m_vecAttackSlot.size(); i++)
+	{
+		if (m_vecAttackSlot[i] == false)
+		{
+			a = -1;
+			if (i == 0)
+			{
+				if(m_pCharacter->GetNodeNum().x - 1>=0)
+				m_pAttackNode.x = m_pCharacter->GetNodeNum().x - 1;
+				if (m_pCharacter->GetNodeNum().y - 1 >= 0)
+				m_pAttackNode.y = m_pCharacter->GetNodeNum().y - 1;
+			}
+			else if (i == 1)
+			{
+				
+				m_pAttackNode.x = m_pCharacter->GetNodeNum().x ;
+				if (m_pCharacter->GetNodeNum().y - 1 >= 0)
+					m_pAttackNode.y = m_pCharacter->GetNodeNum().y - 1;
+			}
+			else if (i == 2)
+			{
+				if (m_pCharacter->GetNodeNum().x + 1 < m_pNode->m_vRow.size())
+				m_pAttackNode.x = m_pCharacter->GetNodeNum().x+1;
+				if (m_pCharacter->GetNodeNum().y - 1 >= 0)
+					m_pAttackNode.y = m_pCharacter->GetNodeNum().y - 1;
+			}
+			else if (i == 3)
+			{
+				if (m_pCharacter->GetNodeNum().x - 1 >= 0)
+					m_pAttackNode.x = m_pCharacter->GetNodeNum().x - 1;
+				m_pAttackNode.y = m_pCharacter->GetNodeNum().y ;
+			}
+			
+			else if (i == 4)
+			{
+				if (m_pCharacter->GetNodeNum().x + 1 < m_pNode->m_vRow.size())
+					m_pAttackNode.x = m_pCharacter->GetNodeNum().x + 1;
+				m_pAttackNode.y = m_pCharacter->GetNodeNum().y;
+			}
+			if (i == 5)
+			{
+				if (m_pCharacter->GetNodeNum().x - 1 >= 0)
+					m_pAttackNode.x = m_pCharacter->GetNodeNum().x - 1;
+				if (m_pCharacter->GetNodeNum().y + 1 < m_pNode->m_vRow.size())
+					m_pAttackNode.y = m_pCharacter->GetNodeNum().y + 1;
+			}
+			if (i == 6)
+			{
+				m_pAttackNode.x = m_pCharacter->GetNodeNum().x;
+				if (m_pCharacter->GetNodeNum().y + 1 < m_pNode->m_vRow.size())
+					m_pAttackNode.y = m_pCharacter->GetNodeNum().y + 1;
+			}
+			if (i == 6)
+			{
+				if (m_pCharacter->GetNodeNum().x + 1 < m_pNode->m_vRow.size())
+					m_pAttackNode.x = m_pCharacter->GetNodeNum().x + 1;
+				if (m_pCharacter->GetNodeNum().y + 1 < m_pNode->m_vRow.size())
+					m_pAttackNode.y = m_pCharacter->GetNodeNum().y + 1;
+			}
+			temp = true;
+		}
+	}
+	if (a == 0)
+	{
+		m_pAttackNode.x = m_pCharacter->GetNodeNum().x;
+		m_pAttackNode.y = m_pCharacter->GetNodeNum().y;
+	}
+	temp = false;
+	return temp;
+}
 
-
+bool TeicJustTestScene::ChangeCheckPoint()
+{
+	POINT temp = m_pCharacter->GetNodeNum();
+	if (m_pCharacter->m_pPreviousPoint.x != temp.x ||
+		m_pCharacter->m_pPreviousPoint.y != temp.y)
+	{
+		m_pCharacter->m_pPreviousPoint = temp;
+		return true;
+	}
+	return false;
 }
 
 
 
 
 
-void TeicJustTestScene::Push(TeicEnemy * A, TeicEnemy * B)
+void TeicJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 {
+	if (A->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
+		A->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
+	{
+		D3DXVECTOR3 temp = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+		D3DXVec3Normalize(&temp,&temp);
+		A->SetPosition(A->GetPositionYzero() + temp*0.1);
+	}
+	if (B->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
+		B->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
+	{
+		D3DXVECTOR3 temp = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+		D3DXVec3Normalize(&temp, &temp);
+		B->SetPosition(B->GetPositionYzero() + temp*0.1);
+	}
 	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 		float Adist = D3DXVec3Length(&(A->GetPosition() - m_EnemyTarget));
 		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_EnemyTarget));
+		
+		D3DXMATRIX Rotation;
+		float ran = RND->getFromFloatTo(-D3DX_PI / 2, D3DX_PI / 2);
+		D3DXMatrixRotationY(&Rotation, ran);
 
-
+		
+		
+		
+		
 		D3DXVECTOR3 A_B = D3DXVECTOR3(B->GetPositionYzero() - A->GetPositionYzero());
+		if (D3DXVec3Length(&A_B) < 0.01)A_B = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
 		D3DXVec3Normalize(&A_B, &A_B);
-		A_B = A_B*1;
-		D3DXVECTOR3 B_A = D3DXVECTOR3(A->GetPositionYzero() - B->GetPositionYzero());
-		D3DXVec3Normalize(&B_A, &B_A);
-		B_A = B_A*1;
-		
-		
+		A_B = A_B * 0.1;
+		D3DXVec3TransformCoord(&A_B, &A_B, &Rotation);
 
+		D3DXVECTOR3 B_A = D3DXVECTOR3(A->GetPositionYzero() - B->GetPositionYzero());
+		if (D3DXVec3Length(&B_A) < 0.01)B_A = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+		D3DXVec3Normalize(&B_A, &B_A);
+		B_A = B_A * 0.1;
+		D3DXVec3TransformCoord(&B_A, &B_A, &Rotation);
+
+
+		
+		
 		if (Adist < Bdist)
 		{
-			B->SetPosition(B->GetPositionYzero() + A_B);
+			/*if (!B->m_bSlotOn)
+				B->SetPosition(B->GetPositionYzero() + A_B);*/
 		}
 		else
 		{
-			A->SetPosition(A->GetPositionYzero() + B_A);
+			/*if (!A->m_bSlotOn)
+				A->SetPosition(A->GetPositionYzero() + B_A);*/
+
 		}
 
 	}

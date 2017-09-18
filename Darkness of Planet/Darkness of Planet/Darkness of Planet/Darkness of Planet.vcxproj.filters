@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -33,9 +29,6 @@
     </Filter>
     <Filter Include="MainGame\Window">
       <UniqueIdentifier>{7976c4a6-f905-4e58-bbf8-4804bc34ebcd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\기타">
-      <UniqueIdentifier>{97a722a2-ce22-49a4-9fa3-cb5c4b442a5d}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\기타">
       <UniqueIdentifier>{cd6b64b8-9520-429b-b008-f99a6731964f}</UniqueIdentifier>
@@ -130,14 +123,23 @@
     <Filter Include="이동윤 임시저장소">
       <UniqueIdentifier>{22e135be-b3df-4a6f-af9d-b15ff9da7a76}</UniqueIdentifier>
     </Filter>
- <Filter Include="#3D Framework\Bresenham">
+    <Filter Include="#3D Framework\Bresenham">
       <UniqueIdentifier>{03a12fb4-be18-4c8f-834f-079d1af2d5ab}</UniqueIdentifier>
-    </Filter><Filter Include="#3D Framework\Manager\UIObjectManager">
+    </Filter>
+    <Filter Include="#3D Framework\Manager\UIObjectManager">
       <UniqueIdentifier>{ca92866b-adaa-4459-9799-289d144533c9}</UniqueIdentifier>
     </Filter>
     <Filter Include="#3D Framework\정현 임시저장">
       <UniqueIdentifier>{86781eaa-cd60-4832-bfea-16772179d822}</UniqueIdentifier>
-    </Filter>  </ItemGroup>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일\기타">
+      <UniqueIdentifier>{97a722a2-ce22-49a4-9fa3-cb5c4b442a5d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
@@ -343,7 +345,7 @@
     <ClInclude Include="LDYSkinnedMesh_Weapon.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
-<ClInclude Include="TeicMinHeap.h">
+    <ClInclude Include="TeicMinHeap.h">
       <Filter>#3D Framework\Astar\Tei</Filter>
     </ClInclude>
     <ClInclude Include="TeicAstarShort.h">
@@ -354,7 +356,8 @@
     </ClInclude>
     <ClInclude Include="TeicBresenham.h">
       <Filter>#3D Framework\Bresenham</Filter>
-    </ClInclude><ClInclude Include="Loading.h">
+    </ClInclude>
+    <ClInclude Include="Loading.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
@@ -362,7 +365,11 @@
     </ClInclude>
     <ClInclude Include="UIObjectManager.h">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
-    </ClInclude>  </ItemGroup>
+    </ClInclude>
+    <ClInclude Include="LDYCamera.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
       <Filter>MainGame\Window</Filter>
@@ -553,7 +560,7 @@
     <ClCompile Include="LDYSkinnedMesh_Weapon.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
-<ClCompile Include="TeicAstarShort.cpp">
+    <ClCompile Include="TeicAstarShort.cpp">
       <Filter>#3D Framework\Astar\Tei</Filter>
     </ClCompile>
     <ClCompile Include="cSphere.cpp">
@@ -561,7 +568,8 @@
     </ClCompile>
     <ClCompile Include="TeicBresenham.cpp">
       <Filter>#3D Framework\Bresenham</Filter>
-    </ClCompile><ClCompile Include="LoadingScene.cpp">
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="Loading.cpp">
@@ -569,7 +577,11 @@
     </ClCompile>
     <ClCompile Include="UIObjectManager.cpp">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
-    </ClCompile>  </ItemGroup>
+    </ClCompile>
+    <ClCompile Include="LDYCamera.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DarknessofPlanet.rc">
       <Filter>리소스 파일</Filter>

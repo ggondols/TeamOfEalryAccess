@@ -17,7 +17,7 @@ void TeicAstarShort::Setup(HankcGrid* Node)
 	m_Node = Node;
 }
 
-vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, int LastZ)
+vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, int LastZ, int CharX, int CharZ)
 {
 	m_iLimit = 0;
 	m_Way.clear();
@@ -28,7 +28,11 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 	{
 		return m_Way;
 	}
-
+	if (StartX == CharX && StartZ == CharZ)
+	{
+		return m_Way;
+	}
+	
 	HankcNode* temp = new HankcNode;
 
 
@@ -50,7 +54,8 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 			if ((*m_Node)[StartZ + i][StartX + j].m_pBoundInfo != NULL &&
 				(*m_Node)[StartZ + i][StartX + j].m_pBoundInfo->m_vecBounding.size() != 0)continue;
 			if (Check(StartX + j, StartZ + i))continue;
-			if (StartZ - 1 >= 0)
+			if (StartX + j == CharX && StartZ + i == CharZ)continue;
+			/*if (StartZ - 1 >= 0)
 			{
 				if ((*m_Node)[StartZ - 1][StartX].m_pBoundInfo != NULL &&
 					(*m_Node)[StartZ - 1][StartX].m_pBoundInfo->m_vecBounding.size() != 0)
@@ -81,7 +86,7 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 				{
 					if (j == 1)continue;
 				}
-			}
+			}*/
 
 			float G = D3DXVec3Length(&((*m_Node)[StartZ + i][StartX + j].m_vPosList->m_vCenterPos - (*m_Node)[StartZ][StartX].m_vPosList->m_vCenterPos));
 			temp = &(*m_Node)[StartZ + i][StartX + j];
@@ -100,15 +105,18 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 	while (1)
 	{
 		m_iLimit++;
-		if (m_iLimit > 200)
+		
+		if (m_iLimit > 50)
 		{
 
-			m_Way.clear();
-			return m_Way;
+			//m_Way.clear();
+			break;
 		}
-		if (m_vecOpenlist.GetSize() == 0)break;
+		if (m_vecOpenlist.GetSize() == 0)
+			break;
 		HankcNode* now = m_vecOpenlist.GetminHeap();
-		if (now == NULL)break;
+		if (now == NULL)
+			break;
 		if (now->m_pAstarNode->m_iIndex == -1000)
 		{
 			break;
@@ -132,7 +140,8 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 					(*m_Node)[now->m_nFrameZ + i][now->m_nFrameX + j].m_pBoundInfo->m_vecBounding.size() != 0)continue;
 				
 				if (Check(now->m_nFrameX + j, now->m_nFrameZ + i) )continue;
-				if (now->m_nFrameZ - 1 >= 0)
+				if (now->m_nFrameX + j == CharX && now->m_nFrameZ + i == CharZ)continue;
+				/*if (now->m_nFrameZ - 1 >= 0)
 				{
 					if ((*m_Node)[now->m_nFrameZ - 1][now->m_nFrameX].m_pBoundInfo != NULL &&
 						(*m_Node)[now->m_nFrameZ - 1][now->m_nFrameX].m_pBoundInfo->m_vecBounding.size() != 0)
@@ -163,7 +172,7 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 					{
 						if (j == 1)continue;
 					}
-				}
+				}*/
 
 
 				float G = D3DXVec3Length(&((*m_Node)[now->m_nFrameZ + i][now->m_nFrameX + j].m_vPosList->m_vCenterPos
@@ -215,9 +224,14 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 
 	vector<D3DXVECTOR3> opposite;
 	HankcNode* now = GetNode(LastX, LastZ);
+	if (m_iLimit > 50)
+	{
+		int a = RND->getFromIntTo(0, m_iLimit - 1);
+		now = GetNode(m_vecCloselist[a]->m_nFrameX, m_vecCloselist[a]->m_nFrameZ);
+	}
 	while (1)
 	{
-
+		if (now == NULL)break;
 		opposite.push_back(now->m_vPosList->m_vCenterPos);
 		if (now->m_nFrameZ == StartZ && now->m_nFrameX == StartX)
 			break;

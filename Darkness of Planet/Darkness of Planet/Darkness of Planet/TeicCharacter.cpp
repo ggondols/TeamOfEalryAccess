@@ -8,6 +8,7 @@ TeicCharacter::TeicCharacter()
 	m_Callback = NULL;
 	m_pSkinnedMesh = NULL;
 	m_pCtrl = NULL;
+	m_pPreviousPoint = PointMake(0, 0);
 }
 
 
@@ -85,6 +86,17 @@ D3DXVECTOR3 TeicCharacter::GetPosition()
 	if (m_pSkinnedMesh)
 	{
 		return m_pSkinnedMesh->GetPosition();
+	}
+	return D3DXVECTOR3();
+}
+
+D3DXVECTOR3 TeicCharacter::GetPositionYZero()
+{
+	if (m_pSkinnedMesh)
+	{
+		D3DXVECTOR3 temp = m_pSkinnedMesh->GetPosition();
+		temp.y = 0;
+		return temp;
 	}
 	return D3DXVECTOR3();
 }
@@ -171,8 +183,8 @@ POINT TeicCharacter::GetNodeNum()
 	{
 		D3DXVECTOR3 pos =  m_pSkinnedMesh->GetPosition();
 		pos.y = 0;
-		temp.x = pos.x;
-		temp.y = -(pos.z);
+		temp.x = pos.x/ NodeLength;
+		temp.y = -(pos.z/ NodeLength);
 		return temp;
 	}
 	

@@ -32,24 +32,24 @@ vector<POINT> TeicBresenham::FindNode(float startX, float startY, float endX, fl
 
 	if (dy <= dx)
 	{
-
+		
 		float p = 2 * (dy - dx);
 		int y = AnotherStartY;
-		int inc_x = 1;
+		int inc_x = 1* NodeLength;
 
 		if (endX< startX)
 		{
-			inc_x = -1;
+			inc_x = -1* NodeLength;
 		}
-		int inc_y = 1;
+		int inc_y = 1* NodeLength;
 		if (AnotherEndY < AnotherStartY)
 		{
-			inc_y = -1;
+			inc_y = -1* NodeLength;
 		}
 
 		for (int x = startX; ((int)startX <= (int)endX ? x <= (int)endX : x >= (int)endX); x += inc_x)
 		{
-			if (x == (int)endX)break;
+			
 			if (0 >= p)
 			{
 				p += 2 * dy;
@@ -59,29 +59,33 @@ vector<POINT> TeicBresenham::FindNode(float startX, float startY, float endX, fl
 				p += 2 * (dy - dx);
 				y += inc_y;
 			}
-			m_vecNodePoint.push_back(PointMake(x, y));
+			int Nodex, Nodey;
+			Nodex = x / NodeLength;
+			Nodey = y / NodeLength;
+			m_vecNodePoint.push_back(PointMake(Nodex, Nodey));
+			if (x == (int)endX)break;
 		}
 	}
 	else
 	{
 		float p = 2 * (dx - dy);
 		int x = startX;
-		int inc_x = 1;
+		int inc_x = 1* NodeLength;
 
 		if (endX < startX)
 		{
-			inc_x = -1;
+			inc_x = -1* NodeLength;
 		}
-		int inc_y = 1;
+		int inc_y = 1* NodeLength;
 
 		if (AnotherEndY < AnotherStartY)
 		{
-			inc_y = -1;
+			inc_y = -1* NodeLength;
 		}
 
 		for (int y = AnotherStartY; ((int)AnotherStartY <= (int)AnotherEndY ? y <= (int)AnotherEndY : y >= (int)AnotherEndY); y += inc_y)
 		{
-			if (y == (int)AnotherEndY)break;
+			
 			if (0 >= p)
 			{
 				p += 2 * dx;
@@ -91,7 +95,11 @@ vector<POINT> TeicBresenham::FindNode(float startX, float startY, float endX, fl
 				p += 2 * (dx - dy);
 				x += inc_x;
 			}
-			m_vecNodePoint.push_back(PointMake(x, y));
+			int Nodex, Nodey;
+			Nodex = x / NodeLength;
+			Nodey = y / NodeLength;
+			m_vecNodePoint.push_back(PointMake(Nodex, Nodey));
+			if (y == (int)AnotherEndY)break;
 		}
 	}
 
