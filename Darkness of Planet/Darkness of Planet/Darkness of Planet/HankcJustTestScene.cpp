@@ -139,12 +139,12 @@ HRESULT HankcJustTestScene::Setup()
 	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&HankcJustTestScene::CallbackOn, this, 0));
-
+	m_pCharacter->SetSpeed(10);
 
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	cHeightMap* pHeightMap = new cHeightMap;
-	pHeightMap->Load("map/", "Terrain_tut_WM_heightMapNEW.raw", "Terrain4096.png");
+	pHeightMap->Load("map/", "Terrain_Plat_raw.raw", "Terrain_Plat_texture.png");
 	m_pMap = pHeightMap;
 
 	//노드 추가 합니다.
