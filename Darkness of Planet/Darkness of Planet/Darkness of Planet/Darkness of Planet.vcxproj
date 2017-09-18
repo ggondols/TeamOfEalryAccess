@@ -200,6 +200,7 @@
     <ClInclude Include="HankcJustTestScene.h" />
     <ClInclude Include="HankcNode.h" />
     <ClInclude Include="iMap.h" />
+    <ClInclude Include="LDYCamera.h" />
     <ClInclude Include="LDYCharacter.h" />
     <ClInclude Include="LDYcJustTestScene.h" />
     <ClInclude Include="LDYSkinnedMesh.h" />
@@ -274,6 +275,7 @@
     <ClCompile Include="HankcJustTestScene.cpp" />
     <ClCompile Include="HankcNode.cpp" />
     <ClCompile Include="iMap.cpp" />
+    <ClCompile Include="LDYCamera.cpp" />
     <ClCompile Include="LDYCharacter.cpp" />
     <ClCompile Include="LDYcJustTestScene.cpp" />
     <ClCompile Include="LDYSkinnedMesh.cpp" />

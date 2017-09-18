@@ -132,6 +132,7 @@ void LDYSkinnedMesh_Weapon::UpdateAndRender()
 
 	if (m_pRootFrame)
 	{
+		
 		Update(m_pRootFrame, NULL);
 		//무기 매트릭스 셋팅
 		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);
@@ -287,6 +288,7 @@ LPD3DXEFFECT LDYSkinnedMesh_Weapon::LoadEffect(char* szFilename)
 
 void LDYSkinnedMesh_Weapon::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent)
 {
+
 	pCurrent->CombinedTransformationMatrix = pCurrent->TransformationMatrix;
 	if (pmatParent)
 	{

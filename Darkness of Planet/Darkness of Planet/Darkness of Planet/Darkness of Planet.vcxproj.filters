@@ -132,6 +132,7 @@
     <Filter Include="#3D Framework\정현 임시저장">
       <UniqueIdentifier>{86781eaa-cd60-4832-bfea-16772179d822}</UniqueIdentifier>
     </Filter>
+    </Filter>
     <Filter Include="헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -366,6 +367,9 @@
     <ClInclude Include="UIObjectManager.h">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
     </ClInclude>
+    <ClInclude Include="LDYCamera.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -574,6 +578,9 @@
     </ClCompile>
     <ClCompile Include="UIObjectManager.cpp">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYCamera.cpp">
+      <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
