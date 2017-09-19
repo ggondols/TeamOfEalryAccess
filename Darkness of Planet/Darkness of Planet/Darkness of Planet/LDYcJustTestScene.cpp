@@ -105,21 +105,31 @@ LDYcJustTestScene::~LDYcJustTestScene()
 
 HRESULT LDYcJustTestScene::Setup()
 {
+	D3DVIEWPORT9 viewport;
+	GETDEVICE->GetViewport(&viewport);
+	cUIImageView* pAimImage = new cUIImageView;
+	pAimImage->SetTexture("./UI/aimNormal.png");
+	pAimImage->SetPosition(viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
+	pAimImage->SetIsCenter(true);
+	pAimImage->SetScale(0.1f, 0.1f);
+
+	UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, false);
+
+	cUIImageView* pLifeImageDown = new cUIImageView;
+	pLifeImageDown->SetTexture("./UI/lifeBarDown.bmp");
+	pLifeImageDown->SetPosition(10, viewport.Height - 30);
+	cUIImageView* pLifeImageUp = new cUIImageView;
+	pLifeImageUp->SetTexture("./UI/lifeBarUp.bmp");
+
+	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
+	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
+
+	cUIImageView* pInventoryImage = new cUIImageView;
+	pInventoryImage->SetTexture("./UI/inventory.png");
+	UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
+
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
-
-	D3DXCreateSprite(GETDEVICE, &m_pSprite);
-	cUIImageView* pImageView = new cUIImageView;
-	pImageView->SetTexture("NULL");
-	m_pUITest = pImageView;
-
-	cUITextView* pTextView = new cUITextView;
-	pTextView->SetText("UI 텍스트 출력 실험용..");
-	pTextView->SetSize(ST_SIZE(312, 200));
-	pTextView->SetPosition(100, 100);
-	pTextView->SetDrawTextFormat(DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	pTextView->SetTag(0);
-	m_pUITest->AddChild(pTextView);
 
 	m_pCharacter = new LDYCharacter;
 	char* BodyName = "HeroBodyLv";
@@ -180,6 +190,31 @@ void LDYcJustTestScene::Release()
 
 void LDYcJustTestScene::Update()
 {
+	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
+	pAim->SetTexture("./UI/aimNormal.png");
+
+	if (KEYMANAGER->isOnceKeyDown('I'))
+	{
+		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('M'))
+	{
+		UIOBJECTMANAGER->SetShowState("aimTest", !UIOBJECTMANAGER->CheckShowState("aimTest"));
+	}
+
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	{
+		pAim->SetTexture("./UI/aimHit.png");
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+		cUIObject* child = UIOBJECTMANAGER->GetChildByTag("lifeTest", 1);
+		child->SetSize(ST_SIZE(child->GetSize().fWidth - 20 > 0 ? child->GetSize().fWidth - 20 : 0,
+			child->GetSize().fHeight));
+	}
+
 	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 1.0f)
 	{
 		m_fTime3 = TIMEMANAGER->getWorldTime();
@@ -246,7 +281,8 @@ void LDYcJustTestScene::Update()
 		}
 	}
 	ChangeGridInfo();
-	if (m_pUITest) m_pUITest->Update();
+
+	UIOBJECTMANAGER->Update();
 }
 
 void LDYcJustTestScene::CallbackOn(int number)
@@ -367,6 +403,7 @@ void LDYcJustTestScene::Render()
 			m_vecEnemy[i]->UpdateAndRender();
 		}
 	}
-	if (m_pUITest) m_pUITest->Render(m_pSprite);
+
+	UIOBJECTMANAGER->Render();
 }
 
