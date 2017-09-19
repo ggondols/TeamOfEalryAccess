@@ -369,6 +369,9 @@
     <ClInclude Include="LDYCamera.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="cSkyBoxCube.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -579,6 +582,9 @@
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
     </ClCompile>
     <ClCompile Include="LDYCamera.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkyBoxCube.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>

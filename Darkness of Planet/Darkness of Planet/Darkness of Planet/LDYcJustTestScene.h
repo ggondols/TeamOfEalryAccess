@@ -10,6 +10,7 @@
 #include "HankcNode.h"
 #include "TeicAstar.h"
 
+
 enum WeaponType {
 
 	Wp_Melee,
@@ -31,8 +32,9 @@ enum StateType {
 class iMap;
 class LDYCharacter;
 class cUIObject;
+class cSkyBoxCube;
 
-class LDYcJustTestScene:public cGameNode
+class LDYcJustTestScene :public cGameNode
 {
 
 private:
@@ -63,8 +65,9 @@ public:
 	int									m_iHeadUpgrade;
 	WeaponType							m_eWeaponType;
 	StateType							m_eStateType;
+	cSkyBoxCube*						m_pSkyBox;
 
-public:	
+public:
 
 	virtual HRESULT Setup();
 	virtual void Release();

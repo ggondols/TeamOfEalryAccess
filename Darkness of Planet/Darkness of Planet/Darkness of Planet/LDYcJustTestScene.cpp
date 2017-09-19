@@ -6,6 +6,7 @@
 #include "cUIImageView.h"
 #include "cUITextView.h"
 #include "LDYCharacter.h"
+#include "cSkyBoxCube.h"
 
 static CRITICAL_SECTION cs;
 
@@ -73,7 +74,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 LDYcJustTestScene::LDYcJustTestScene()
 	: /*m_pMap(NULL)*/
-	 m_pNode(NULL)
+	m_pNode(NULL)
 	, m_bThread(false)
 	, m_pUITest(NULL)
 	, m_pSprite(NULL)
@@ -83,6 +84,7 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_iHeadUpgrade(1)
 	, m_eWeaponType(Wp_Melee)
 	, m_eStateType(ST_Idle)
+	, m_pSkyBox(NULL)
 {
 }
 
@@ -101,6 +103,9 @@ LDYcJustTestScene::~LDYcJustTestScene()
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
 
 	}
+
+	SAFE_DELETE(m_pSkyBox);
+
 }
 
 HRESULT LDYcJustTestScene::Setup()
@@ -173,6 +178,10 @@ HRESULT LDYcJustTestScene::Setup()
 	m_fTime = 0.0f;
 	m_fTime2 = 0.0f;
 	m_fTime3 = 0.0f;
+
+	m_pSkyBox = new cSkyBoxCube;
+	m_pSkyBox->Setup();
+
 
 	return S_OK;
 }
@@ -281,7 +290,7 @@ void LDYcJustTestScene::Update()
 		}
 	}
 	ChangeGridInfo();
-
+	if (m_pSkyBox) m_pSkyBox->Update();
 	UIOBJECTMANAGER->Update();
 }
 
@@ -396,6 +405,7 @@ void LDYcJustTestScene::Render()
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	if (m_bThread)
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)
