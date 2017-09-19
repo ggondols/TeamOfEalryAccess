@@ -1458,11 +1458,7 @@ void LDYCharacter::Update()
 	{
 		switch (m_eWpType)
 		{
-		/*case Wp_Melee:
-		{
-			m_eWpType = Wp_AA12;
-		}
-		break;*/
+		
 		case Wp_AA12:
 		{
 			m_eWpType = Wp_AR6;
@@ -1497,10 +1493,10 @@ void LDYCharacter::Update()
 
 	if (m_bRun)
 	{
-		m_pCtrl->SetSpeed(3.0f);
+		m_pCtrl->SetSpeed(1.5f);
 	}
 	else {
-		m_pCtrl->SetSpeed(1.0f);
+		m_pCtrl->SetSpeed(0.5f);
 	}
 
 	if (m_pCtrl->getMoving()) {
