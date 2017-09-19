@@ -44,6 +44,7 @@ private:
 	WeaponType					m_eWpType;
 	StateType					m_eStType;
 	bool						m_bRun;
+	
 
 
 public:

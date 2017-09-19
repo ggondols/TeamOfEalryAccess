@@ -418,7 +418,7 @@ void LDYSkinnedMesh::getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX * pParent)
 	ST_BONE* pBone = (ST_BONE*)pFrame;
 	D3DXMATRIXA16 matW;
 	D3DXMatrixIdentity(&matW);
-	if (pBone->Name != nullptr &&string(pBone->Name) == string("IK_LeftHand"))
+	if (pBone->Name != nullptr &&string(pBone->Name) == string("WeaponRight"))
 	{
 		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
 		m_matWeapon = pBone->CombinedTransformationMatrix;

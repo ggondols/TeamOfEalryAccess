@@ -234,9 +234,31 @@ void LDYCharacter::SetAttackCallbackfunction(CallbackBindFunction function)
 
 void LDYCharacter::UpdateAndRender()
 {
+	D3DXMATRIX matRX, matRY, matRZ;
 	D3DXMATRIX matHead, matWeapon;
+	int degreeX, degreeY, degreeZ;
+
+	if (m_eStType == ST_Attack)
+	{
+		degreeX = 4;
+		degreeY = 0;
+		degreeZ = 2;
+	}
+	else
+	{
+		degreeX = 33;
+		degreeY = 37;
+		degreeZ = 39;
+	}
+
+	D3DXMatrixRotationX(&matRX, D3DXToDegree(degreeX));
+	D3DXMatrixRotationY(&matRY, D3DXToDegree(degreeY));
+	D3DXMatrixRotationZ(&matRZ, D3DXToDegree(degreeZ));
+
 	D3DXMatrixTranslation(&matHead, 0.0f, -4.5f, 0.0f);
-	D3DXMatrixTranslation(&matWeapon, -32.0f, 0.0f, 0.0f);
+	D3DXMatrixTranslation(&matWeapon, -0.0f, 0.0f, 0.0f);
+	matWeapon = matRX*matRY*matRZ;
+
 
 	switch (m_eStType)
 	{
