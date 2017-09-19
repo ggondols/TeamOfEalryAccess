@@ -86,6 +86,7 @@ void TeicMoveSequence::SetClear()
 	m_bStart = false;
 	for (int i = 0; i < m_vecAction.size(); i++)
 	{
+		m_vecAction[i]->SetSkinnedTarget(NULL);
 		SAFE_DELETE(m_vecAction[i]);
 	}
 	 m_vecAction.clear(); 

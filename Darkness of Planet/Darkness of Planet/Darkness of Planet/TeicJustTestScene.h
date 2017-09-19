@@ -59,6 +59,7 @@ public:
 	virtual void Release();
 	virtual void Render();
 	virtual void Update();
+
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 	void Push2(TeicEnemy* A, TeicEnemy* B);
@@ -71,6 +72,7 @@ public:
 	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);
 	bool CheckSlot();
 	bool ChangeCheckPoint();
+	void AngleChange(TeicEnemy* A);
 	
 public:
 	TeicJustTestScene();

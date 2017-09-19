@@ -55,6 +55,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	m_fZealotdiffer = 0.0f;
 	m_iNum = 0;
 	D3DXMatrixIdentity(&m_RotationMat);
+	m_vPosition = D3DXVECTOR3(0, 0, 0);
 }
 TeicSkinnedMesh::TeicSkinnedMesh()
 	: m_pRootFrame(NULL)
@@ -65,14 +66,22 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 
 {
 	D3DXMatrixIdentity(&m_Move);
-
+	D3DXMatrixIdentity(&m_RotationMat);
 	m_iNum = 0;
+	m_vPosition = D3DXVECTOR3(0, 0, 0);
 }
 
 
 TeicSkinnedMesh::~TeicSkinnedMesh()
 {
 	SAFE_RELEASE(m_pAnimController);
+	SAFE_DELETE(m_pRootFrame);
+	SAFE_DELETE(m_pmWorkingPalette);
+	SAFE_RELEASE(m_pEffect);
+	SAFE_RELEASE(m_pAnimController);
+
+	
+
 }
 void TeicSkinnedMesh::SetNextAni()
 {

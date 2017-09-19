@@ -29,6 +29,7 @@ public:
 	bool		   m_bAttackOn;
 	bool		   m_bThreadCalOn;  ////쓰레드로 에이스타 계산이 완료되면
 	bool		   m_bSlotOn;
+	float		   m_fAngle;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);

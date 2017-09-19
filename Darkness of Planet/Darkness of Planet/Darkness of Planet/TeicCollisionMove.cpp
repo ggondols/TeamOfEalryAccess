@@ -30,7 +30,7 @@ TeicCollisionMove::TeicCollisionMove()
 TeicCollisionMove::~TeicCollisionMove()
 {
 
-	
+	m_pSkinnedTarget = NULL;
 	
 }
 

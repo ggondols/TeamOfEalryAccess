@@ -87,6 +87,8 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 	{
 		if (!temp->m_vecEnemy[i]->m_bThreadCalOn)continue;
 		if (temp->m_vecEnemy[i]->m_bAttackOn)continue;
+		temp->m_pAttackNode.x = temp->m_pCharacter->GetNodeNum().x + RND->getFromIntTo(-1, 1);
+		temp->m_pAttackNode.y = temp->m_pCharacter->GetNodeNum().y + RND->getFromIntTo(-1, 1);
 		temp->m_vecEnemyWay[i] = temp->m_pAstarShort->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
 			temp->m_pAttackNode.x, temp->m_pAttackNode.y, temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
 
@@ -111,7 +113,12 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 			tempmove->SetTo(temp->m_vecEnemyWay[i][j + 1]);
 			temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
 		}
-		
+		tempmove = new TeicCollisionMove;
+		tempmove->SetSkinnedTarget(temp->m_vecEnemy[i]->GetSkinnedMesh());
+		tempmove->SetSpeed(5);
+		tempmove->SetFrom(temp->m_vecEnemyWay[i][temp->m_vecEnemyWay[i].size()-1]);
+		tempmove->SetTo(temp->m_pCharacter->GetPositionYZero());
+		temp->m_vecEnemyCollisionMove[i]->AddAction(tempmove);
 
 		temp->m_vecEnemyCollisionMove[i]->Start();
 
@@ -362,9 +369,9 @@ void TeicJustTestScene::Update()
 
 			if (m_vecEnemy[i]->m_bAttackOn)
 			{
-				if (m_vecEnemy[i]->GetAninum() != 6)
+				if (m_vecEnemy[i]->GetAninum() != 7)
 				{
-					m_vecEnemy[i]->SetAnimation(6);
+					m_vecEnemy[i]->SetAnimation(7);
 				}
 			}
 		}
@@ -403,7 +410,7 @@ void TeicJustTestScene::Update()
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
 			if (!m_vecEnemy[i]->m_bAttackOn)continue;
-			D3DXVECTOR3 A_B =  m_vecEnemy[i]->GetPositionYzero() - m_pCharacter->GetPositionYZero();
+			D3DXVECTOR3 A_B = m_vecEnemy[i]->GetPositionYzero() - m_pCharacter->GetPositionYZero();
 			D3DXVec3Normalize(&A_B, &A_B);
 			D3DXMATRIX matR;
 			D3DXMatrixLookAtLH(&matR,
@@ -414,8 +421,7 @@ void TeicJustTestScene::Update()
 			D3DXMATRIX	skinnedRot;
 			D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
 			matR = matR* skinnedRot;
-			
-			m_vecEnemy[i]->SetRotationMatrix(matR);
+			//AngleChange(m_vecEnemy[i]);
 			
 		}
 		for (int i = 0; i < m_vecEnemy.size(); i++)
@@ -452,7 +458,7 @@ void TeicJustTestScene::CallbackOn(int number)
 	{
 		if (number == i)
 		{
-			if (m_vecEnemy[i - 10]->GetAninum() == 6)
+			if (m_vecEnemy[i - 10]->GetAninum() == 7)
 			{
 				m_vecEnemy[i - 10]->m_bAttackOn = false;
 				m_vecEnemy[i - 10]->SetAnimation(1);
@@ -466,8 +472,8 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
 	if (D3DXVec3Length(&(A->GetPositionYzero() - B->GetPositionYzero())) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
-		float Adist = D3DXVec3Length(&(A->GetPosition() - m_EnemyTarget));
-		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_EnemyTarget));
+		float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));
+		float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_EnemyTarget));
 
 
 		if (Adist < Bdist)
@@ -482,6 +488,10 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 				if (!B->m_bThreadCalOn)
 				{
 					B->m_bThreadCalOn = true;
+				}
+				if (D3DXVec3Length(&(B->GetPositionYzero() - m_pCharacter->GetPositionYZero())) > 10*NodeLength)
+				{
+					B->SetCollision(true);
 				}
 
 			}
@@ -499,6 +509,10 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 				if (!A->m_bThreadCalOn)
 				{
 					A->m_bThreadCalOn = true;
+				}
+				if (D3DXVec3Length(&(A->GetPositionYzero() - m_pCharacter->GetPositionYZero())) > 10 * NodeLength)
+				{
+					A->SetCollision(true);
 				}
 			}
 
@@ -523,6 +537,8 @@ void TeicJustTestScene::TotalPushCheck2()
 
 		}
 	}
+	ChangeGridInfo();
+	CheckSlot();
 }
 
 void TeicJustTestScene::ChangeGridInfo()
@@ -590,7 +606,7 @@ void TeicJustTestScene::TargetOn()
 	}
 	if (m_bAttackOn)
 	{
-		m_EnemyTarget = m_pCharacter->GetPosition();
+		m_EnemyTarget = m_pCharacter->GetPositionYZero();
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
 			if (m_vecEnemy[i]->m_bAttackOn)continue;
@@ -802,8 +818,13 @@ bool TeicJustTestScene::CheckSlot()
 			{
 				if (m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding.size() != 0)
 				{
+
 					m_vecAttackSlot[count] = true;
-					m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[0]->m_pEnemy->m_bSlotOn = true;
+					for (int a = 0; a < m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding.size(); a++)
+					{
+						m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[a]->m_pEnemy->m_bSlotOn = true;
+					}
+					
 				}
 				else
 				{
@@ -817,7 +838,7 @@ bool TeicJustTestScene::CheckSlot()
 			
 		}
 	}
-	int a = 0;
+	/*int a = 0;
 	for (int i = 0; i < m_vecAttackSlot.size(); i++)
 	{
 		if (m_vecAttackSlot[i] == false)
@@ -884,7 +905,8 @@ bool TeicJustTestScene::CheckSlot()
 	{
 		m_pAttackNode.x = m_pCharacter->GetNodeNum().x;
 		m_pAttackNode.y = m_pCharacter->GetNodeNum().y;
-	}
+	}*/
+	
 	temp = false;
 	return temp;
 }
@@ -901,68 +923,104 @@ bool TeicJustTestScene::ChangeCheckPoint()
 	return false;
 }
 
+void TeicJustTestScene::AngleChange(TeicEnemy * A)
+{
+	D3DXVECTOR3 A_B = A->GetPositionYzero() - m_pCharacter->GetPositionYZero();
+	D3DXVec3Normalize(&A_B, &A_B);
+	D3DXVECTOR3 base = D3DXVECTOR3(0, 0, 1);
+	float targetangle = D3DXVec3Dot(&base, &A_B);
+	/*D3DXVec3Normalize(&A_B, &A_B);
+	D3DXMATRIX matR;
+	D3DXMatrixLookAtLH(&matR,
+		&D3DXVECTOR3(0, 0, 0),
+		&A_B,
+		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixTranspose(&matR, &matR);
+	D3DXMATRIX	skinnedRot;
+	D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
+	matR = matR* skinnedRot;*/
+
+	A->m_fAngle += 0.1;
+	if (A->m_fAngle > targetangle) A->m_fAngle = targetangle;
+	A->SetRotationAngle(A->m_fAngle);
+}
+
 
 
 
 
 void TeicJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 {
+	
+	if (D3DXVec3Length(&(A->GetPositionYzero() - B->GetPositionYzero())) < A->m_fBoundingSize + B->m_fBoundingSize)
+	{
+		if (A->m_bSlotOn && B->m_bSlotOn)
+		{
+			float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));
+			float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_EnemyTarget));
+
+			D3DXMATRIX Rotation;
+			float ran = RND->getFromFloatTo(-D3DX_PI / 2, D3DX_PI / 2);
+			D3DXMatrixRotationY(&Rotation, ran);
+
+
+
+
+
+			D3DXVECTOR3 A_B = D3DXVECTOR3(B->GetPositionYzero() - A->GetPositionYzero());
+			if (D3DXVec3Length(&A_B) < 0.01)A_B = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+			D3DXVec3Normalize(&A_B, &A_B);
+			A_B = A_B * 0.3;
+			D3DXVec3TransformCoord(&A_B, &A_B, &Rotation);
+
+			D3DXVECTOR3 B_A = D3DXVECTOR3(A->GetPositionYzero() - B->GetPositionYzero());
+			if (D3DXVec3Length(&B_A) < 0.01)B_A = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+			D3DXVec3Normalize(&B_A, &B_A);
+			B_A = B_A * 0.3;
+			D3DXVec3TransformCoord(&B_A, &B_A, &Rotation);
+
+
+			if (D3DXVec3Length(&(A->GetPositionYzero() - m_pCharacter->GetPositionYZero())) > 3.0)
+			{
+
+				A->SetPosition(A->GetPositionYzero() + B_A);
+
+			}
+
+			if (D3DXVec3Length(&(B->GetPositionYzero() - m_pCharacter->GetPositionYZero())) > 3.0)
+			{
+
+				B->SetPosition(B->GetPositionYzero() + A_B);
+			}
+
+
+			//if (Adist < Bdist)
+			//{
+			//	//if (B->m_bSlotOn)
+			//		B->SetPosition(B->GetPositionYzero() + A_B);
+			//}
+			//else
+			//{
+			//	//if (A->m_bSlotOn)
+			//		A->SetPosition(A->GetPositionYzero() + B_A);
+
+			//}
+		}
+	}
 	if (A->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
 		A->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
 	{
 		D3DXVECTOR3 temp = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
-		D3DXVec3Normalize(&temp,&temp);
-		A->SetPosition(A->GetPositionYzero() + temp*0.1);
+		D3DXVec3Normalize(&temp, &temp);
+		A->SetPosition(A->GetPositionYzero() + temp*0.3);
 	}
 	if (B->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
 		B->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
 	{
 		D3DXVECTOR3 temp = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
 		D3DXVec3Normalize(&temp, &temp);
-		B->SetPosition(B->GetPositionYzero() + temp*0.1);
+		B->SetPosition(B->GetPositionYzero() + temp*0.3);
 	}
-	if (D3DXVec3Length(&(A->GetPosition() - B->GetPosition())) < A->m_fBoundingSize + B->m_fBoundingSize)
-	{
-		float Adist = D3DXVec3Length(&(A->GetPosition() - m_EnemyTarget));
-		float Bdist = D3DXVec3Length(&(B->GetPosition() - m_EnemyTarget));
-		
-		D3DXMATRIX Rotation;
-		float ran = RND->getFromFloatTo(-D3DX_PI / 2, D3DX_PI / 2);
-		D3DXMatrixRotationY(&Rotation, ran);
-
-		
-		
-		
-		
-		D3DXVECTOR3 A_B = D3DXVECTOR3(B->GetPositionYzero() - A->GetPositionYzero());
-		if (D3DXVec3Length(&A_B) < 0.01)A_B = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
-		D3DXVec3Normalize(&A_B, &A_B);
-		A_B = A_B * 0.1;
-		D3DXVec3TransformCoord(&A_B, &A_B, &Rotation);
-
-		D3DXVECTOR3 B_A = D3DXVECTOR3(A->GetPositionYzero() - B->GetPositionYzero());
-		if (D3DXVec3Length(&B_A) < 0.01)B_A = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
-		D3DXVec3Normalize(&B_A, &B_A);
-		B_A = B_A * 0.1;
-		D3DXVec3TransformCoord(&B_A, &B_A, &Rotation);
-
-
-		
-		
-		if (Adist < Bdist)
-		{
-			/*if (!B->m_bSlotOn)
-				B->SetPosition(B->GetPositionYzero() + A_B);*/
-		}
-		else
-		{
-			/*if (!A->m_bSlotOn)
-				A->SetPosition(A->GetPositionYzero() + B_A);*/
-
-		}
-
-	}
-
 
 
 }

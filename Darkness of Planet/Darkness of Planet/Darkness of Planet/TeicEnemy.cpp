@@ -10,8 +10,8 @@ TeicEnemy::TeicEnemy()
 	temp.x = temp.y = 0;
 	m_PresentGrid = temp;
 	m_PreviousGrid = temp;
-	m_fBoundingSize = 1;
-	m_fAttackRange = 50;
+	m_fBoundingSize = 2;
+	m_fAttackRange = 6;
 	m_bAttackOn = false;
 	m_bThreadCalOn = false;
 	m_bSlotOn = false;
@@ -78,7 +78,8 @@ void TeicEnemy::SetMove(D3DXMATRIX & move)
 
 void TeicEnemy::SetRotationAngle(float angle)
 {
-	if (m_pSkinnedMesh)m_pSkinnedMesh->SetRotationAngle(angle);
+	m_fAngle = angle;
+	if (m_pSkinnedMesh)m_pSkinnedMesh->SetRotationAngle(m_fAngle);
 }
 
 void TeicEnemy::SetRotationMatrix(D3DXMATRIX rotation)
