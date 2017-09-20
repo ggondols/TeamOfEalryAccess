@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="소스 파일">
@@ -381,6 +381,9 @@
     <ClInclude Include="DataBase.h">
       <Filter>#3D Framework\DataBase</Filter>
     </ClInclude>
+    <ClInclude Include="cSkyCloud.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -600,6 +603,9 @@
       <Filter>#3D Framework\DataBase</Filter>
     </ClCompile>
     <ClCompile Include="cSkyDome.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkyCloud.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
