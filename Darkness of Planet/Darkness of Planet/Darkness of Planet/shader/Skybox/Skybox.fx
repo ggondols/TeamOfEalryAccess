@@ -62,6 +62,7 @@ VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Output.Position3D = Input.Position;
    
    
+   
    return( Output );
    
 }
@@ -156,3 +157,4 @@ technique Default_DirectX_Effect
    }
 
 }
+
