@@ -36,7 +36,7 @@ enum StateType {
 class iMap;
 class LDYCharacter;
 class cSkyBoxCube;
-
+class cSkyDome;
 
 
 
@@ -49,7 +49,8 @@ class LDYcJustTestScene :public cGameNode
 
 private:
 	LDYCamera*				m_pCamera;
-	cSkyBoxCube*			m_pSkyBox;
+	//cSkyBoxCube*			m_pSkyBox;
+	cSkyDome*				m_pSkyDome;
 	TeicBresenham*			m_pBresenham;
 	Hank::cGrid*			m_pGrid;
 	iMap*					m_pMap;
@@ -75,6 +76,8 @@ public:
 	vector<bool>					m_vecAttackSlot;
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
+
+
 public:
 
 	virtual HRESULT Setup();

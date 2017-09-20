@@ -166,6 +166,7 @@
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cSkyBoxCube.h" />
+    <ClInclude Include="cSkyDome.h" />
     <ClInclude Include="cSphere.h" />
     <ClInclude Include="cTestMain.h" />
     <ClInclude Include="cUIButton.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cSkyBoxCube.cpp" />
+    <ClCompile Include="cSkyDome.cpp" />
     <ClCompile Include="cSphere.cpp" />
     <ClCompile Include="cTestMain.cpp" />
     <ClCompile Include="cUIButton.cpp" />

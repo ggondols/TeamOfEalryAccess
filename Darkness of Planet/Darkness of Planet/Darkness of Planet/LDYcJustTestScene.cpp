@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "LDYcJustTestScene.h"
-
-
+#include "cSkyDome.h"
 #include "iMap.h"
 #include "cHeightMap.h"
 #include "TeicPhysicsCrtCtrl.h"
@@ -9,6 +8,8 @@
 #include "cUITextView.h"
 #include "LDYCharacter.h"
 #include "cSkyBoxCube.h"
+
+
 static CRITICAL_SECTION cs;
 
 
@@ -99,7 +100,8 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_bAstarThread(false)
 	, m_pCamera(NULL)
 	,m_iBodyUpgrade(1)
-	, m_pSkyBox(NULL)
+	, m_pSkyDome(NULL)
+	//, m_pSkyBox(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -115,7 +117,8 @@ LDYcJustTestScene::~LDYcJustTestScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
-	SAFE_DELETE(m_pSkyBox);
+	//SAFE_DELETE(m_pSkyBox);
+	SAFE_DELETE(m_pSkyDome);
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -158,8 +161,11 @@ HRESULT LDYcJustTestScene::Setup()
 	///////////µ¿À±
 
 
-	m_pSkyBox = new cSkyBoxCube;
-	m_pSkyBox->Setup();
+	//m_pSkyBox = new cSkyBoxCube;
+	//m_pSkyBox->Setup();
+
+	m_pSkyDome = new cSkyDome;
+	m_pSkyDome->Setup();
 
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
@@ -237,7 +243,11 @@ void LDYcJustTestScene::Update()
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
-	if (m_pSkyBox) m_pSkyBox->Update();
+
+	//if (m_pSkyBox) m_pSkyBox->Update();
+	if (m_pSkyDome)m_pSkyDome->Update();
+
+
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update();
 	bool check = ChangeCheckPoint();
@@ -587,7 +597,9 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void LDYcJustTestScene::Render()
 {
 
-	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+//	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	if (m_pSkyDome)m_pSkyDome->Render(m_pCamera);
+
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
