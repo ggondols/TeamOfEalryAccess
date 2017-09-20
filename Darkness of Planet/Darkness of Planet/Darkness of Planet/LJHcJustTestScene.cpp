@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "LJHcJustTestScene.h"
-
-
 #include "iMap.h"
 #include "cHeightMap.h"
 #include "TeicPhysicsCrtCtrl.h"

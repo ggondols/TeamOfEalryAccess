@@ -37,11 +37,7 @@ class iMap;
 class LDYCharacter;
 class cSkyBoxCube;
 class cSkyDome;
-
-
-
-
-
+class cSkyCloud;
 
 
 class LDYcJustTestScene :public cGameNode
@@ -51,6 +47,7 @@ private:
 	LDYCamera*				m_pCamera;
 	//cSkyBoxCube*			m_pSkyBox;
 	cSkyDome*				m_pSkyDome;
+	cSkyCloud*				m_pSkyCloud;
 	TeicBresenham*			m_pBresenham;
 	Hank::cGrid*			m_pGrid;
 	iMap*					m_pMap;

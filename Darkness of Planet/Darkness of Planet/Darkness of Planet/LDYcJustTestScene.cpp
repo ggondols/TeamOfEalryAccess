@@ -8,6 +8,7 @@
 #include "cUITextView.h"
 #include "LDYCharacter.h"
 #include "cSkyBoxCube.h"
+#include "cSkyCloud.h"
 
 
 static CRITICAL_SECTION cs;
@@ -101,6 +102,7 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_pCamera(NULL)
 	,m_iBodyUpgrade(1)
 	, m_pSkyDome(NULL)
+	, m_pSkyCloud(NULL)
 	//, m_pSkyBox(NULL)
 
 {
@@ -119,6 +121,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 	SAFE_DELETE(m_pCharacter);
 	//SAFE_DELETE(m_pSkyBox);
 	SAFE_DELETE(m_pSkyDome);
+	SAFE_DELETE(m_pSkyCloud);
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -167,11 +170,13 @@ HRESULT LDYcJustTestScene::Setup()
 	m_pSkyDome = new cSkyDome;
 	m_pSkyDome->Setup();
 
+	m_pSkyCloud = new cSkyCloud;
+	m_pSkyCloud->Setup();
+
+
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
 	
-
-
 	m_pCharacter = new LDYCharacter;
 	char* BodyName = "HeroBodyLv";
 	char buff[1024];
@@ -246,6 +251,7 @@ void LDYcJustTestScene::Update()
 
 	//if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
+	if (m_pSkyCloud)m_pSkyCloud->Update();
 
 
 	m_pCamera->Update(m_pCharacter->GetPosition());
@@ -598,9 +604,9 @@ void LDYcJustTestScene::Render()
 {
 
 //	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
-	if (m_pSkyDome)m_pSkyDome->Render(m_pCamera);
-
-	m_pGrid->Render();
+	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+	if(m_pGrid)m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
 
