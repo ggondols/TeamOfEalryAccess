@@ -40,7 +40,7 @@ void cSkyBoxCube::Setup()
 		"shader/Skybox/64bit.dds",
 		&m_pCubeTexture);
 
-	m_pEffect = LoadEffect("shader/Skybox/Skybox_1.fx");
+	m_pEffect = LoadEffect("shader/Skybox/Skybox.fx");
 	m_hViewProjection = m_pEffect->GetParameterByName(0, "matViewProjection");
 	m_hTexture = m_pEffect->GetParameterByName(0, "myCubemap_Tex");
 	m_hvViewPosition = m_pEffect->GetParameterByName(0, "vViewPosition");
@@ -75,8 +75,8 @@ void cSkyBoxCube::Render(LDYCamera * pCamera)
 		m_pMesh->DrawSubset(0);
 		m_pEffect->EndPass();
 	}
-
 	m_pEffect->End();
+
 }
 
 LPD3DXEFFECT cSkyBoxCube::LoadEffect(const char * szFileName)
