@@ -49,7 +49,6 @@ void cSkyBoxCube::Setup()
 
 void cSkyBoxCube::Update()
 {
-
 }
 
 void cSkyBoxCube::Render(LDYCamera * pCamera)
