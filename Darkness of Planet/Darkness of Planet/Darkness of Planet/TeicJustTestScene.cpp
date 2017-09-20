@@ -791,6 +791,7 @@ void TeicJustTestScene::WayUpdate()
 			m_vecEnemyWay[i].clear();
 		}
 	}
+	m_EnemyTarget = m_pCharacter->GetPositionYZero();
 }
 
 bool TeicJustTestScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)
@@ -834,19 +835,25 @@ void TeicJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 			B_A = B_A * 0.1;
 	//		D3DXVec3TransformCoord(&B_A, &B_A, &Rotation);
 
-
-			if (EnemyPlayerDistance(A) > 3.0)
+			if (Adist < Bdist)
 			{
+				
 
-				A->SetPosition(A->GetPositionYzero() + B_A);
+					B->SetPosition(B->GetPositionYzero() + A_B);
+				
 
 			}
-
-			if (EnemyPlayerDistance(B) > 3.0)
+			else
 			{
+				
 
-				B->SetPosition(B->GetPositionYzero() + A_B);
+					A->SetPosition(A->GetPositionYzero() + B_A);
+
+				
 			}
+			
+
+			
 
 		}
 	}
