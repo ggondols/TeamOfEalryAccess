@@ -74,6 +74,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 LDYcJustTestScene::LDYcJustTestScene()
 	: /*m_pMap(NULL)*/
+	//테스트커밋용
 	m_pNode(NULL)
 	, m_bThread(false)
 	, m_pUITest(NULL)

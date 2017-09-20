@@ -38,7 +38,7 @@ class LDYcJustTestScene :public cGameNode
 {
 
 private:
-	LDYCamera*						m_pCamera;
+	LDYCamera*							m_pCamera;
 	Hank::cGrid*						m_pGrid;
 
 	iMap*								m_pMap;
