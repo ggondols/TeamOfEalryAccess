@@ -106,13 +106,13 @@ void cGameNode::Render()
 
 LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+	
 	switch (iMessage)
 	{
 	case WM_LBUTTONDOWN:
 	{
 		g_isLButtonDown = true;
 		g_isLButtonUp = false;
-		
 	}
 	break;
 	case WM_RBUTTONDOWN:
@@ -143,6 +143,12 @@ LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPar
 	case WM_MOUSEWHEEL:
 	{
 		g_MouseWheel = GET_WHEEL_DELTA_WPARAM(wParam);
+	}
+	break;
+	case WM_SETCURSOR:
+	{
+		SetCursor(NULL);
+		GETDEVICE->ShowCursor(true);
 	}
 	break;
 	case WM_COMMAND:
