@@ -25,6 +25,7 @@ extern bool g_isLButtonDown;
 extern bool g_isRButtonDown;
 extern bool g_isLButtonUp;
 extern bool g_isRButtonUp;
+extern bool g_bCursor;
 extern int g_MouseWheel;
 
 

@@ -148,7 +148,7 @@ LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPar
 	case WM_SETCURSOR:
 	{
 		SetCursor(NULL);
-		GETDEVICE->ShowCursor(true);
+		GETDEVICE->ShowCursor(g_bCursor);
 		return true;
 	}
 	break;

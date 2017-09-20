@@ -27,9 +27,10 @@ HRESULT cTestMain::Setup()
 	strcpy_s(fd.FaceName, "궁서체");	//글꼴 스타일
 	D3DXCreateFontIndirect(GETDEVICE, &fd, &m_pFont);
 
-
-	////////////////////////////////////////
 	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursor.png", &m_cursortex);
+	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursorHit.png", &m_cursortex2);
+	m_cursortex->GetSurfaceLevel(0, &surfcursor);
+	GETDEVICE->SetCursorProperties(0, 0, surfcursor);
 
 	return S_OK;
 }
@@ -56,18 +57,18 @@ void cTestMain::Update()
 {
 	if (KEYMANAGER->isOnceKeyDown('C'))
 	{
-		if (m_bCursor)m_bCursor = false;
-		else if (!m_bCursor)m_bCursor = true;
+		if (g_bCursor)g_bCursor = false;
+		else if (!g_bCursor)g_bCursor = true;
 	}
-	if (m_bCursor)
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD1))
 	{
-		surfcursor = LoadBMP("UI/cursor/cursor.png", surfcursor);
-		m_cursortex->GetSurfaceLevel(0, &surfcursor);
+		m_cursortex2->GetSurfaceLevel(0, &surfcursor);
 		GETDEVICE->SetCursorProperties(0, 0, surfcursor);
 	}
-	else if(!m_bCursor)
+	if (KEYMANAGER->isOnceKeyDown(VK_NUMPAD2))
 	{
-		if (surfcursor);
+		m_cursortex->GetSurfaceLevel(0, &surfcursor);
+		GETDEVICE->SetCursorProperties(0, 0, surfcursor);
 	}
 }
 
