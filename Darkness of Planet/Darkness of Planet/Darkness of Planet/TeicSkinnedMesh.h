@@ -59,6 +59,7 @@ public:
 	void SetRandomTrackPosition(); // 테스트용
 	void SetRotationAngle(float angle); 
 	void SetRotationMatrix(D3DXMATRIX rotation) { m_RotationMat = rotation; }
+	
 	D3DXVECTOR3* GetPositionPointer() { return  &m_vPosition; }
 	
 	void SetAnimation(int num);

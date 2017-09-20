@@ -29,7 +29,7 @@ private:
 	TeicBresenham*			m_pBresenham;
 	Hank::cGrid*			m_pGrid;
 	iMap*					m_pMap;
-
+	LPD3DXFONT				m_pFont;
 
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
@@ -72,6 +72,7 @@ public:
 	bool ChangeCheckPoint();
 	void AngleChange(TeicEnemy* A);
 	void WayUpdate();
+	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);  //A와 B가 같은가?
 public:
 	TeicJustTestScene();
 	~TeicJustTestScene();

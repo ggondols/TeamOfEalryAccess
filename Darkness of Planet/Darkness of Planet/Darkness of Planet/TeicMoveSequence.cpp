@@ -64,6 +64,7 @@ void TeicMoveSequence::OnFinish()
 	m_nCurrActionIndex++;
 	if (m_nCurrActionIndex < m_vecAction.size())
 	{
+		m_vecAction[m_nCurrActionIndex]->SetRoationAngle(m_vecAction[m_nCurrActionIndex - 1]->GetRotationAngle());
 		m_vecAction[m_nCurrActionIndex]->Start();
 		
 	}

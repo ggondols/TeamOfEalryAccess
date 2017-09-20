@@ -23,13 +23,14 @@ private:
 public:
 	POINT m_PresentGrid;
 	POINT m_PreviousGrid;
-	BoundingSquare* m_BoundingBox;
-	float		   m_fBoundingSize;
-	float		   m_fAttackRange;
-	bool		   m_bAttackOn;
-	bool		   m_bThreadCalOn;  ////쓰레드로 에이스타 계산이 완료되면
-	bool		   m_bSlotOn;
-	float		   m_fAngle;
+	BoundingSquare*	 m_BoundingBox;
+	float			 m_fBoundingSize;
+	float			 m_fAttackRange;
+	bool			 m_bAttackOn;
+	bool			 m_bThreadCalOn;  ////쓰레드로 에이스타 계산이 완료되면
+	bool			 m_bSlotOn;
+	float			 m_fAngle;
+	D3DXVECTOR3		 m_vPreviousPosition;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);
@@ -39,6 +40,7 @@ public:
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move);
 	void SetRotationAngle(float angle);
+	float	GetRoationAngle();
 	void SetRotationMatrix(D3DXMATRIX rotation);
 	D3DXVECTOR3* GetPositionPointer();
 	D3DXVECTOR3	 GetPosition();
