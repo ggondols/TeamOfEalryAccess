@@ -45,7 +45,8 @@ private:
 	StateType					m_eStType;
 	bool						m_bRun;
 	
-
+public:
+	POINT				m_pPreviousPoint;
 
 public:
 	void Setup(char* Foldername, char* Filename);
@@ -68,6 +69,7 @@ public:
 	void SetAttacking(bool on);
 	bool GetAttacking();
 	POINT GetNodeNum();
+	D3DXVECTOR3 GetPositionYZero();
 	WeaponType getWeaponType() {return m_eWpType;}
 	StateType getStateType() { return m_eStType; }
 

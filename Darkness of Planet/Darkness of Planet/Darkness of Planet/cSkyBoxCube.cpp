@@ -25,7 +25,7 @@ void cSkyBoxCube::Setup()
 	LPD3DXBUFFER pAdjacency;
 	LPD3DXBUFFER pMaterials;
 
-	string filename = "shader/Skybox/Cube.X";
+	string filename = "shader/Skybox/Sphere.X";
 	D3DXLoadMeshFromX(filename.c_str(),
 		D3DXMESH_MANAGED,
 		GETDEVICE,
@@ -37,7 +37,7 @@ void cSkyBoxCube::Setup()
 
 	D3DXCreateCubeTextureFromFile(
 		GETDEVICE,
-		"shader/Skybox/64bit.dds",
+		"shader/Skybox/Texture2.dds",
 		&m_pCubeTexture);
 
 	m_pEffect = LoadEffect("shader/Skybox/Skybox.fx");
@@ -64,7 +64,9 @@ void cSkyBoxCube::Render(LDYCamera * pCamera)
 	matViewProjection = matS*matView*matProjection;
 	m_pEffect->SetMatrix(m_hViewProjection, &matViewProjection);
 	m_pEffect->SetVector(m_hvViewPosition, &D3DXVECTOR4(pCamera->getEye(), 1));
-	m_pEffect->SetTexture(m_hTexture, m_pCubeTexture);
+	LPDIRECT3DTEXTURE9 tex;
+	tex = TEXTUREMANAGER->GetTexture("shader/Skybox/sky12.jpg");
+	m_pEffect->SetTexture(m_hTexture, tex);
 
 
 	UINT numPasses = 0;

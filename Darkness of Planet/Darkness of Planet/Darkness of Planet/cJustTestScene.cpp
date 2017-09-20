@@ -264,6 +264,7 @@ void cJustTestScene::Update()
 	}
 	ChangeGridInfo();
 	if (m_pUITest) m_pUITest->Update();
+	
 }
 
 void cJustTestScene::CallbackOn(int number)
