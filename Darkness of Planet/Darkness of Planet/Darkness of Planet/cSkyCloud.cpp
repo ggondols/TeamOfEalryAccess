@@ -23,7 +23,7 @@ void cSkyCloud::Setup()
 	LPD3DXBUFFER pAdjacency;
 	LPD3DXBUFFER pMaterials;
 
-	string filename = "shader/Skybox/Sphere.X";
+	string filename = "shader/Skybox/dome.X";
 	D3DXLoadMeshFromX(filename.c_str(),
 		D3DXMESH_MANAGED,
 		GETDEVICE,
@@ -56,16 +56,17 @@ void cSkyCloud::Render()
 
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
-	D3DXMATRIXA16 matS,matR;
-	D3DXMatrixScaling(&matS, 15.0f, 15.0f, 15.0f);
-	D3DXMatrixRotationY(&matR, ftest);
-	matWorld = matS*matR*matWorld;
+	D3DXMATRIXA16 matS,matRY,matRX;
+	D3DXMatrixScaling(&matS, 300.0f, 300.0f, 300.0f);
+	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
+	D3DXMatrixRotationY(&matRY, ftest);
+	matWorld = matS*matRY*matWorld;
 
 	m_pEffect->SetMatrix(m_hMatWorld, &matWorld);
 	m_pEffect->SetMatrix(m_hMatView, &matView);
 	m_pEffect->SetMatrix(m_hMatProjection, &matProjection);
-	m_pEffect->SetFloat(m_hFSharpness, 0.5f);
-	m_pEffect->SetFloat(m_hFTime, 10.0f);
+	m_pEffect->SetFloat(m_hFSharpness, 1.0f);
+	m_pEffect->SetFloat(m_hFTime, 1.0f);
 	LPDIRECT3DTEXTURE9 texture;
 	texture = TEXTUREMANAGER->GetTexture("shader/Skybox/Cloud1.jpg");
 	m_pEffect->SetTexture(m_hTexture, texture);
