@@ -109,13 +109,17 @@ HRESULT LJHcJustTestScene::Setup()
 {
 	D3DVIEWPORT9 viewport;
 	GETDEVICE->GetViewport(&viewport);
-	cUIImageView* pAimImage = new cUIImageView;
-	pAimImage->SetTexture("./UI/aimNormal.png");
-	pAimImage->SetPosition(viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
-	pAimImage->SetIsCenter(true);
-	pAimImage->SetScale(0.1f, 0.1f);
-
-	UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, true);
+	//cUIImageView* pAimImage = new cUIImageView;
+	//pAimImage->SetTexture("./UI/aimNormal.png");
+	//pAimImage->SetPosition(viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
+	//pAimImage->SetIsCenter(true);
+	//pAimImage->SetScale(0.1f, 0.1f);
+	//
+	//UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, true);
+	UIOBJECTMANAGER->AddRoot("aimTest2", UITYPE_IMAGE, true);
+	UIOBJECTMANAGER->SetTexture("aimTest2", "./UI/aimNormal.png");
+	UIOBJECTMANAGER->SetPosition("aimTest2", viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
+	UIOBJECTMANAGER->SetScale("aimTest2", 0.1f, 0.1f);
 
 	cUIImageView* pLifeImageDown = new cUIImageView;
 	pLifeImageDown->SetTexture("./UI/lifeBarDown.bmp");
@@ -188,20 +192,22 @@ void LJHcJustTestScene::Release()
 
 void LJHcJustTestScene::Update()
 {
-	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
-	pAim->SetTexture("./UI/aimNormal.png");
+	//cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
+	//pAim->SetTexture("./UI/aimNormal.png");
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
+	if (UIOBJECTMANAGER->CheckShowState("inventory")) return;
+
 	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 	{
-		pAim->SetTexture("./UI/aimHit.png");
+		//pAim->SetTexture("./UI/aimHit.png");
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('H'))
+	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
 		cUIObject* child = UIOBJECTMANAGER->GetChildByTag("lifeTest", 1);
 		child->SetSize(ST_SIZE(child->GetSize().fWidth - 20 > 0 ? child->GetSize().fWidth - 20 : 0,
@@ -389,7 +395,7 @@ void LJHcJustTestScene::Render()
 {
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	if (m_pCharacter && !UIOBJECTMANAGER->CheckShowState("inventory")) m_pCharacter->UpdateAndRender();
 	/*for each (auto p in m_vecEnemy)
 	{
 	p->UpdateAndRender();
