@@ -168,9 +168,6 @@ HRESULT cJustTestScene::Setup()
 	m_fTime2 = 0.0f;
 	m_fTime3 = 0.0f;
 
-
-
-
 	return S_OK;
 }
 

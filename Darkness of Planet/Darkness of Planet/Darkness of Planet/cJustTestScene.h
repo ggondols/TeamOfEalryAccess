@@ -48,6 +48,9 @@ public:
 	void ChangeGridInfo();
 	void TargetOn();
 	float EnemyPlayerDistance(TeicEnemy* ene);
+
+
+
 public:
 	cJustTestScene();
 	virtual ~cJustTestScene();

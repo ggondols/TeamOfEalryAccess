@@ -4,6 +4,7 @@
 
 
 cTestMain::cTestMain()
+	:m_bCursor(false)
 {
 }
 
@@ -25,6 +26,11 @@ HRESULT cTestMain::Setup()
 	//AddFontResource("umberto.ttf");
 	strcpy_s(fd.FaceName, "궁서체");	//글꼴 스타일
 	D3DXCreateFontIndirect(GETDEVICE, &fd, &m_pFont);
+
+
+	////////////////////////////////////////
+	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursor.png", &m_cursortex);
+
 	return S_OK;
 }
 
@@ -48,6 +54,35 @@ void cTestMain::Render()
 
 void cTestMain::Update()
 {
+	if (KEYMANAGER->isOnceKeyDown('C'))
+	{
+		if (m_bCursor)m_bCursor = false;
+		else if (!m_bCursor)m_bCursor = true;
+	}
+	if (m_bCursor)
+	{
+		surfcursor = LoadBMP("UI/cursor/cursor.png", surfcursor);
+		m_cursortex->GetSurfaceLevel(0, &surfcursor);
+		GETDEVICE->SetCursorProperties(0, 0, surfcursor);
+	}
+	else if(!m_bCursor)
+	{
+		if (surfcursor);
+	}
 }
 
 
+IDirect3DSurface9 * cTestMain::LoadBMP(std::string filename, IDirect3DSurface9 * surface)
+{
+	D3DXIMAGE_INFO imageinfo;
+	HRESULT hResult = D3DXGetImageInfoFromFile(filename.c_str(), &imageinfo);
+
+	hResult = GETDEVICE->CreateOffscreenPlainSurface(imageinfo.Width,
+		imageinfo.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &surface, NULL);
+
+	hResult = D3DXLoadSurfaceFromFile(surface, NULL, NULL, filename.c_str(),
+		NULL, D3DX_DEFAULT, 0, NULL);
+
+	return surface;
+
+}
