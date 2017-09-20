@@ -15,6 +15,8 @@ TeicEnemy::TeicEnemy()
 	m_bAttackOn = false;
 	m_bThreadCalOn = false;
 	m_bSlotOn = false;
+	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
+	m_fAngle = 0.0f;
 }
 
 
@@ -80,6 +82,17 @@ void TeicEnemy::SetRotationAngle(float angle)
 {
 	m_fAngle = angle;
 	if (m_pSkinnedMesh)m_pSkinnedMesh->SetRotationAngle(m_fAngle);
+}
+
+float TeicEnemy::GetRoationAngle()
+{
+	if (m_pSkinnedMesh)
+	{
+		m_fAngle = m_pSkinnedMesh->GetAngle();
+		return m_fAngle;
+	}
+	return 0.0f;
+	
 }
 
 void TeicEnemy::SetRotationMatrix(D3DXMATRIX rotation)

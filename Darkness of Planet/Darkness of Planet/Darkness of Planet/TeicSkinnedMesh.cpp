@@ -430,8 +430,8 @@ void TeicSkinnedMesh::SetRandomTrackPosition()
 
 void TeicSkinnedMesh::SetRotationAngle(float angle)
 {
-	
-	D3DXMatrixRotationY(&m_RotationMat, angle);
+	m_fAngle = angle;
+	D3DXMatrixRotationY(&m_RotationMat, m_fAngle);
 	
 }
 
