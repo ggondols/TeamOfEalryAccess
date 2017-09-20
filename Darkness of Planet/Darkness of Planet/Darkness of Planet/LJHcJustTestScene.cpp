@@ -360,7 +360,7 @@ void LJHcJustTestScene::Update()
 	ChangeGridInfo();
 
 
-	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
+	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest2");
 	pAim->SetTexture("./UI/aimNormal.png");
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
@@ -373,9 +373,9 @@ void LJHcJustTestScene::Update()
 		pAim->SetTexture("./UI/aimHit.png");
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('H'))
+	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
-		cUIObject* child = UIOBJECTMANAGER->GetChildByTag("lifeTest", 1);
+		cUIObject* child = UIOBJECTMANAGER->GetChildByTag("lifeTest2", 1);
 		child->SetSize(ST_SIZE(child->GetSize().fWidth - 20 > 0 ? child->GetSize().fWidth - 20 : 0,
 			child->GetSize().fHeight));
 	}

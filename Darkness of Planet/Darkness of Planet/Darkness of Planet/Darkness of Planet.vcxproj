@@ -173,6 +173,7 @@
     <ClInclude Include="cUIImageView.h" />
     <ClInclude Include="cUIObject.h" />
     <ClInclude Include="cUITextView.h" />
+    <ClInclude Include="DataBase.h" />
     <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFont.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="cUIImageView.cpp" />
     <ClCompile Include="cUIObject.cpp" />
     <ClCompile Include="cUITextView.cpp" />
+    <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFont.cpp" />
