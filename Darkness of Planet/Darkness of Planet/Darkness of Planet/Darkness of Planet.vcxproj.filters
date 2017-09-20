@@ -139,6 +139,9 @@
     <Filter Include="헤더 파일\기타">
       <UniqueIdentifier>{97a722a2-ce22-49a4-9fa3-cb5c4b442a5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\DataBase">
+      <UniqueIdentifier>{492a11b2-a20c-4a58-acdf-31076c460c38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -372,6 +375,9 @@
     <ClInclude Include="cSkyBoxCube.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="DataBase.h">
+      <Filter>#3D Framework\DataBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -586,6 +592,9 @@
     </ClCompile>
     <ClCompile Include="cSkyBoxCube.cpp">
       <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="DataBase.cpp">
+      <Filter>#3D Framework\DataBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
