@@ -72,7 +72,7 @@ VS_OUTPUT Default_DirectX_Effect_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 texture myCubemap_Tex
 <
-   string ResourceName = "..\\..\\..\\
+   string ResourceName = "..\\..\\..\\";
 >;
 sampler Texture = sampler_state
 {

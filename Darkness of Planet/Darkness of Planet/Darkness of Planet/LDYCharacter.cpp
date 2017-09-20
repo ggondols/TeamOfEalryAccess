@@ -13,6 +13,7 @@ LDYCharacter::LDYCharacter()
 	, m_eWpType(Wp_AA12)
 	, m_eStType(ST_Idle)
 	, m_bRun(false)
+
 {
 	m_Callback = NULL;
 	m_pCtrl = NULL;
@@ -30,7 +31,7 @@ LDYCharacter::LDYCharacter()
 		m_pHeroBody_IdleBreak[i] = NULL;
 		m_pHeroBody_SMG[i] = NULL;
 	}
-
+	m_pPreviousPoint = PointMake(0, 0);
 }
 
 LDYCharacter::~LDYCharacter()
@@ -1784,17 +1785,20 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_Melee[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
+
+			
+	
 		}
 		break;
 		case Wp_AA12:
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1802,8 +1806,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1811,8 +1815,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1820,8 +1824,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1836,8 +1840,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1845,8 +1849,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1854,8 +1858,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1863,8 +1867,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1872,8 +1876,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1888,8 +1892,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1897,8 +1901,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1906,8 +1910,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1915,8 +1919,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1924,8 +1928,8 @@ POINT LDYCharacter::GetNodeNum()
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 			pos.y = 0;
-			temp.x = pos.x;
-			temp.y = -(pos.z);
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
 			return temp;
 		}
 		break;
@@ -1939,3 +1943,138 @@ POINT LDYCharacter::GetNodeNum()
 	return temp;
 }
 
+D3DXVECTOR3 LDYCharacter::GetPositionYZero()
+{
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+
+			D3DXVECTOR3 temp = m_pHeroBody_Melee[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_AA12:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_AA12:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_AA12:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+
+		}
+	}
+	break;
+	}
+	return D3DXVECTOR3();
+}
