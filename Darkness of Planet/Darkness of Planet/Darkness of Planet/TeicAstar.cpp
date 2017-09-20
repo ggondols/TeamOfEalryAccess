@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "TeicAstar.h"
 #include "HankcNode.h"
-//테스트용
 TeicAstar::TeicAstar()
 {
 }
