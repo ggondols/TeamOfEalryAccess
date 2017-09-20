@@ -142,6 +142,9 @@
     <Filter Include="#3D Framework\DataBase">
       <UniqueIdentifier>{492a11b2-a20c-4a58-acdf-31076c460c38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\HeightMapManager">
+      <UniqueIdentifier>{2bbd426a-4976-4691-92b4-18ecce01b967}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -384,6 +387,9 @@
     <ClInclude Include="cSkyCloud.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="TeicHeightMapManager.h">
+      <Filter>#3D Framework\Manager\HeightMapManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -607,6 +613,9 @@
     </ClCompile>
     <ClCompile Include="cSkyCloud.cpp">
       <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicHeightMapManager.cpp">
+      <Filter>#3D Framework\Manager\HeightMapManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

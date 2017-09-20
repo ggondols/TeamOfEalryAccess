@@ -37,13 +37,15 @@ HRESULT LoadingScene::Setup()
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
+	m_pLoading->LoadHeightMap("terrain", "map/", "HeightMap.raw", "terrain.jpg");
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
-
+	
+		
 	return S_OK;
 }
 
@@ -59,7 +61,7 @@ void LoadingScene::Update()
 
 	if (!m_pLoading->LoadNext())
 	{
-		SCENEMANAGER->changeScene("LJHcJustTestScene");
+		SCENEMANAGER->changeScene("cTestMain");
 	}
 }
 

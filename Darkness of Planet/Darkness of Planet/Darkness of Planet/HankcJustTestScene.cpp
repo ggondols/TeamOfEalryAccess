@@ -178,9 +178,7 @@ HRESULT HankcJustTestScene::Setup()
 
 	/////////////태영
 	m_pGrid->Setup();
-	cHeightMap* pHeightMap = new cHeightMap;
-	pHeightMap->Load("map/", "Terrain_Plat_raw.raw", "Terrain_Plat_texture.png");
-	m_pMap = pHeightMap;
+	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
 
 	//노드 추가 합니다.
 	m_pNode = new HankcGrid;

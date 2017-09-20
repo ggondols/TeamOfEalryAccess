@@ -10,11 +10,12 @@ cHeightMap::cHeightMap(void)
 cHeightMap::~cHeightMap(void)
 {
 	SAFE_RELEASE(m_pMesh);
+	
 }
 
-void cHeightMap::Load(char* szFolder,
-	char* szFile,
-	char* szTexture,
+void cHeightMap::Load(string szFolder,
+	string szFile,
+	string szTexture,
 	DWORD dwBytesPerPixel/* = 1*/)
 {
 	string sPath = string(szFolder) + string(szFile);

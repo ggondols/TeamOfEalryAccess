@@ -23,6 +23,21 @@ HRESULT LoadItem::AddForTestResource(string keyName, int width, int height)
 	return S_OK;
 }
 
+HRESULT LoadItem::InitForHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD dwBytesPerPixel  /*=1*/)
+{
+	m_kind = LOADING_KIND_HEIGHT;
+
+	
+
+	m_stTagHeight.keyName = keyName;
+	m_stTagHeight.szFile = szFile;
+	m_stTagHeight.szFolder = szFolder;
+	m_stTagHeight.szTexture = szTexture;
+	m_stTagHeight.dwBytesPerPixel = dwBytesPerPixel;
+
+	return S_OK;
+}
+
 void LoadItem::Release(void)
 {
 }
@@ -80,6 +95,14 @@ void Loading::LoadTestResource(string keyName, int width, int height)
 	m_vecLoadItems.push_back(item);
 }
 
+void Loading::LoadHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD dwBytesPerPixel /*=1*/)
+{
+	
+	LoadItem* item = new LoadItem;
+	item->InitForHeightMap(keyName, szFolder, szFile, szTexture, dwBytesPerPixel);
+	m_vecLoadItems.push_back(item);
+}
+
 BOOL Loading::LoadNext(void)
 {
 	if (m_nCurrent >= m_vecLoadItems.size())
@@ -96,7 +119,11 @@ BOOL Loading::LoadNext(void)
 		// ¿¹½Ã.. 
 		//tagImageResource ir = item->getImageResource();
 		//IMAGEMANAGER->addImage(ir.keyName, ir.width, ir.height);
+		break;
 	}
+	case LOADING_KIND_HEIGHT:
+		tagHeight ir = item->GetHeightMapResource();
+		HEIGHTMAPMANAGER->AddHeightMap(ir.keyName, ir.szFolder, ir.szFile, ir.szTexture, ir.dwBytesPerPixel);
 	break;
 	//case LOADING_KIND_ADDIMAGE_01:
 	//{
