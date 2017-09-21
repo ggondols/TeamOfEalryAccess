@@ -103,7 +103,7 @@ LDYcJustTestScene::LDYcJustTestScene()
 	,m_iBodyUpgrade(1)
 	, m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
-	//, m_pSkyBox(NULL)
+	, m_pSkyBox(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -119,7 +119,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
-	//SAFE_DELETE(m_pSkyBox);
+	SAFE_DELETE(m_pSkyBox);
 	SAFE_DELETE(m_pSkyDome);
 	SAFE_DELETE(m_pSkyCloud);
 	for (int i = 0; i < m_vecEnemy.size(); i++)
@@ -164,8 +164,8 @@ HRESULT LDYcJustTestScene::Setup()
 	///////////µ¿À±
 
 
-	//m_pSkyBox = new cSkyBoxCube;
-	//m_pSkyBox->Setup();
+	m_pSkyBox = new cSkyBoxCube;
+	m_pSkyBox->Setup();
 
 	m_pSkyDome = new cSkyDome;
 	m_pSkyDome->Setup();
@@ -247,7 +247,7 @@ void LDYcJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	//if (m_pSkyBox) m_pSkyBox->Update();
+	if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 
@@ -601,8 +601,8 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void LDYcJustTestScene::Render()
 {
 
-//	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
-	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	//if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if(m_pGrid)m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();

@@ -45,7 +45,7 @@ class LDYcJustTestScene :public cGameNode
 
 private:
 	LDYCamera*				m_pCamera;
-	//cSkyBoxCube*			m_pSkyBox;
+	cSkyBoxCube*			m_pSkyBox;
 	cSkyDome*				m_pSkyDome;
 	cSkyCloud*				m_pSkyCloud;
 	TeicBresenham*			m_pBresenham;

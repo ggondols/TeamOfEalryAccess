@@ -57,7 +57,7 @@ void cSkyCloud::Render()
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 	D3DXMATRIXA16 matS,matRY,matRX;
-	D3DXMatrixScaling(&matS, 300.0f, 300.0f, 300.0f);
+	D3DXMatrixScaling(&matS, 30.0f, 30.0f, 30.0f);
 	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
 	D3DXMatrixRotationY(&matRY, ftest);
 	matWorld = matS*matRY*matWorld;
