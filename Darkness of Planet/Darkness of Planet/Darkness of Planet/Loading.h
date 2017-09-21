@@ -95,7 +95,7 @@ private:
 	cUIObject*	m_LoadingBarRoot;
 	LPD3DXFONT	m_pFont;
 	int m_nCurrent;
-
+	char	str[512];
 	void SetGauge(float current, float max);
 
 public:

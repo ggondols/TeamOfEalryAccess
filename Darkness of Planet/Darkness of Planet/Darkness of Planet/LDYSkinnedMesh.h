@@ -23,7 +23,7 @@ protected:
 	D3DXMATRIX*					m_pmWorkingPalette;
 	LPD3DXEFFECT				m_pEffect;
 	D3DXMATRIX					m_Move;
-
+	float						m_fScale;
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
@@ -76,6 +76,7 @@ public:
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
+	void SetScale(float f) { m_fScale = f; }
 protected:
 
 	void Load(char* szFolder, char* szFilename);

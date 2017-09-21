@@ -13,6 +13,7 @@ LDYSkinnedMesh::LDYSkinnedMesh(char* szFolder, char* szFilename)
 	, m_vPosition(0, 0, 0)
 	, m_fAngle(0.0f)
 	, m_bCollision(false)
+	, m_fScale(0.04)
 
 {
 	LDYSkinnedMesh* pSkinnedMesh = SKINMANAGER->GetLDYSkinnedMesh(szFolder, szFilename);
@@ -152,7 +153,7 @@ void LDYSkinnedMesh::UpdateAndRender()
 		D3DXMATRIX    scal;
 
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&scal, 0.01f, 0.01f, 0.01f);
+		D3DXMatrixScaling(&scal, m_fScale, m_fScale, m_fScale);
 
 		mat = scal* m_RotationMat*mat;
 		Update(m_pRootFrame, &mat);

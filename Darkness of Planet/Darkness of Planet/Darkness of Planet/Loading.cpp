@@ -119,15 +119,8 @@ void Loading::Update(void)
 void Loading::Render(void)
 {
 	UIOBJECTMANAGER->Render("LoadingBar");
-	char str[256];
-	if (m_nCurrent < 20)
-	{
-		sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
-	}
-	else if(m_nCurrent < 30)
-	{
-		sprintf_s(str, "하이트 맵 로딩 중");
-	}
+	
+	
 	RECT rc = RectMake(200, 500, 1000, 1000);
 	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_CENTER, D3DCOLOR_XRGB(255, 255, 255));
 }
@@ -167,7 +160,7 @@ BOOL Loading::LoadNext(void)
 	{
 		return false;
 	}
-
+	
 	LoadItem* item = m_vecLoadItems[m_nCurrent];
 	
 	switch (item->GetLoadingKind())
@@ -181,18 +174,21 @@ BOOL Loading::LoadNext(void)
 	}
 	case LOADING_KIND_HEIGHT:
 	{
+		sprintf_s(str, "하이트 맵 로딩 중");
 		tagHeight ir = item->GetHeightMapResource();
 		HEIGHTMAPMANAGER->AddHeightMap(ir.keyName, ir.szFolder, ir.szFile, ir.szTexture, ir.dwBytesPerPixel);
 		break;
 	}
 	case LOADING_KIND_WAY:
 	{
+		sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
 		tagWay ir = item->GetWayResource();
 		WAYMANAGER->AddWay(ir.keyName.c_str(), ir.Node, ir.StartX, ir.StartZ, ir.LastX, ir.LastZ);
 		break;
 	}
 	case LOADING_KIND_WAY2:
 	{
+		sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
 		tagWay2 ir = item->GetWayResource2();
 		WAYMANAGER->AddWay2(ir.keyName.c_str(), ir.Node, ir.start, ir.last);
 		break;
