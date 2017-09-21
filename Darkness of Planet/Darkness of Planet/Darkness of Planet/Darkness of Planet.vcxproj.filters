@@ -145,6 +145,12 @@
     <Filter Include="#3D Framework\Manager\HeightMapManager">
       <UniqueIdentifier>{2bbd426a-4976-4691-92b4-18ecce01b967}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\WayManager">
+      <UniqueIdentifier>{80e99149-a43a-4ad8-8297-28a7c1e58531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\NodeManager">
+      <UniqueIdentifier>{17151d22-bbc4-425c-93cf-90b36f54dce8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -390,8 +396,11 @@
     <ClInclude Include="TeicHeightMapManager.h">
       <Filter>#3D Framework\Manager\HeightMapManager</Filter>
     </ClInclude>
-    <ClInclude Include="cShadowMapping.h">
-      <Filter>이동윤 임시저장소</Filter>
+    <ClInclude Include="TeicWayManager.h">
+      <Filter>#3D Framework\Manager\WayManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicNodeManager.h">
+      <Filter>#3D Framework\Manager\NodeManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -620,8 +629,11 @@
     <ClCompile Include="TeicHeightMapManager.cpp">
       <Filter>#3D Framework\Manager\HeightMapManager</Filter>
     </ClCompile>
-    <ClCompile Include="cShadowMapping.cpp">
-      <Filter>이동윤 임시저장소</Filter>
+    <ClCompile Include="TeicWayManager.cpp">
+      <Filter>#3D Framework\Manager\WayManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicNodeManager.cpp">
+      <Filter>#3D Framework\Manager\NodeManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
