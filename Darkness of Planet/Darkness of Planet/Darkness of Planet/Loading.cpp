@@ -38,6 +38,21 @@ HRESULT LoadItem::InitForHeightMap(string keyName, string szFolder, string szFil
 	return S_OK;
 }
 
+HRESULT LoadItem::InitForWay(string keyName, HankcGrid * Node, int StartX, int StartZ, int LastX, int LastZ)
+{
+	m_kind = LOADING_KIND_WAY;
+
+
+
+	m_stTagWay.keyName = keyName;
+	m_stTagWay.Node = Node;
+	m_stTagWay.StartX = StartX;
+	m_stTagWay.StartZ = StartZ;
+	m_stTagWay.LastX = LastX;
+	m_stTagWay.LastZ = LastZ;
+	return S_OK;
+}
+
 void LoadItem::Release(void)
 {
 }
@@ -103,6 +118,13 @@ void Loading::LoadHeightMap(string keyName, string szFolder, string szFile, stri
 	m_vecLoadItems.push_back(item);
 }
 
+void Loading::LoadWay(string keyName, HankcGrid * Node, int StartX, int StartZ, int LastX, int LastZ)
+{
+	LoadItem* item = new LoadItem;
+	item->InitForWay( keyName,  Node,  StartX,  StartZ,  LastX,  LastZ);
+	m_vecLoadItems.push_back(item);
+}
+
 BOOL Loading::LoadNext(void)
 {
 	if (m_nCurrent >= m_vecLoadItems.size())
@@ -122,9 +144,18 @@ BOOL Loading::LoadNext(void)
 		break;
 	}
 	case LOADING_KIND_HEIGHT:
+	{
 		tagHeight ir = item->GetHeightMapResource();
 		HEIGHTMAPMANAGER->AddHeightMap(ir.keyName, ir.szFolder, ir.szFile, ir.szTexture, ir.dwBytesPerPixel);
-	break;
+		break;
+	}
+	case LOADING_KIND_WAY:
+	{
+		tagWay ir = item->GetWayResource();
+		//WAYMANAGER->AddWay("SX숫자SZ숫자LX숫자LZ숫자")
+		//HEIGHTMAPMANAGER->AddHeightMap(ir.keyName, ir.szFolder, ir.szFile, ir.szTexture, ir.dwBytesPerPixel);
+		break;
+	}
 	//case LOADING_KIND_ADDIMAGE_01:
 	//{
 	//	tagImageResource ir = item->getImageResource();

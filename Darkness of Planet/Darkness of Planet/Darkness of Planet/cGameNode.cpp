@@ -37,6 +37,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		UIOBJECTMANAGER->Setup();
 		HEIGHTMAPMANAGER->Setup();
 		WAYMANAGER->Setup();
+		NODEMANAGER->Setup(257);
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -101,6 +102,9 @@ void cGameNode::Release()
 
 		WAYMANAGER->Destroy();
 		WAYMANAGER->releaseSingleton();
+
+		NODEMANAGER->Destroy();
+		NODEMANAGER->releaseSingleton();
 	}
 }
 

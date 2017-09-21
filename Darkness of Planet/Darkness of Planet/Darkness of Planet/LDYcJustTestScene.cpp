@@ -114,7 +114,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 {
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
-	SAFE_DELETE(m_pNode);
+
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);

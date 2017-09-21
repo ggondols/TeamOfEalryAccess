@@ -91,7 +91,7 @@ cJustTestScene::cJustTestScene()
 cJustTestScene::~cJustTestScene()
 {
 	SAFE_DELETE(m_pAstar);
-	SAFE_DELETE(m_pNode);
+
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);

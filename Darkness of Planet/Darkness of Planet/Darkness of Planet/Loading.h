@@ -3,6 +3,8 @@
 170916 시험제작
 
 */
+class HankcGrid;
+
 enum LOADING_KIND
 {
 	LOADING_KIND_TEST,
@@ -28,7 +30,7 @@ struct tagHeight
 };
 struct tagWay
 {
-	char* keyname, HankcGrid* Node, int StartX, int StartZ, int LastX, int LastZ)
+	
 	string keyName;
 	HankcGrid*	Node;
 	int StartX;
@@ -43,11 +45,19 @@ private:
 
 	tagTestResource m_testResource;
 	tagHeight	    m_stTagHeight;
-
+	tagWay			m_stTagWay;
 public:
 	HRESULT AddForTestResource(string keyName, int width, int height);
 	HRESULT InitForHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD  dwBytesPerPixel =1);
+	HRESULT InitForWay(string keyName, HankcGrid*	Node, int StartX, int StartZ, int LastX, int LastZ);
+
+
 	
+	
+	int StartZ;
+	int LastX;
+	int LastZ;
+
 	void Release(void);
 
 	//로딩종류 접근자
@@ -56,6 +66,7 @@ public:
 	//테스트용 리소스 접근자
 	tagTestResource GetTestResource(void) { return m_testResource; }
 	tagHeight		GetHeightMapResource(void) { return m_stTagHeight; }
+	tagWay			GetWayResource(void) { return m_stTagWay; }
 	LoadItem(void);
 	~LoadItem(void);
 };
@@ -83,6 +94,8 @@ public:
 
 	void LoadTestResource(string keyName, int width, int height);
 	void LoadHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD  dwBytesPerPixel = 1);
+	void LoadWay(string keyName, HankcGrid*	Node, int StartX, int StartZ, int LastX, int LastZ);
+
 	BOOL LoadNext(void);
 	
 	Loading();
