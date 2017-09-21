@@ -171,7 +171,7 @@ HRESULT TeicJustTestScene::Setup()
 	char buff[1024];
 	sprintf_s(buff, "%s%d", BodyName, m_iBodyUpgrade);
 	m_pCharacter->Setup("object/xFile/", "HeroBodyLv");
-	m_pCharacter->SetPosition(D3DXVECTOR3(20, 20, 20));
+	m_pCharacter->SetPosition(D3DXVECTOR3(20, 0, -20));
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, this, 0));
 

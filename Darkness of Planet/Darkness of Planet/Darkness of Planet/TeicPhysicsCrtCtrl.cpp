@@ -4,7 +4,7 @@
 
 TeicPhysicsCrtCtrl::TeicPhysicsCrtCtrl()
 	: m_vDir(0, 0, 1)
-	, m_vPos(0, 0, 0)
+	, m_vPos(20, 0, -20)
 	, m_fSpeed(0.0f)
 	, m_fAngle(0.0f)
 	, m_bMoving(false)
