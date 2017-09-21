@@ -237,7 +237,7 @@ void HankcJustTestScene::Update()
 	}
 	if (m_pSkyBox) m_pSkyBox->Update();
 	m_pCamera->Update(m_pCharacter->GetPosition());
-	m_pCharacter->Update();
+	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)
 	{

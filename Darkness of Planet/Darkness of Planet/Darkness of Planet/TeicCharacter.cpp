@@ -126,7 +126,7 @@ void TeicCharacter::Update()
 	
 	if (m_pCtrl != NULL)
 	{
-		m_pCtrl->Update();
+		//m_pCtrl->Update();
 		SetPosition(*m_pCtrl->GetPosition());
 		SetRotationAngle(m_pCtrl->getAngle());
 

@@ -253,7 +253,7 @@ void LDYcJustTestScene::Update()
 
 
 	m_pCamera->Update(m_pCharacter->GetPosition());
-	m_pCharacter->Update();
+	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)
 	{
