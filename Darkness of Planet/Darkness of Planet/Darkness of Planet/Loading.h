@@ -11,9 +11,15 @@ enum LOADING_KIND
 	LOADING_KIND_HEIGHT,
 	LOADING_KIND_WAY,
 	LOADING_KIND_WAY2,
+	LOADING_KIND_MESH,
 	LOADING_KIND_END
 };
-
+enum MESHTYPE
+{
+	MESH_NORMAL,
+	MESH_HEAD,
+	MESH_WEAPON
+};
 struct tagTestResource
 {
 	string sKeyName;
@@ -47,6 +53,14 @@ struct tagWay2
 	D3DXVECTOR3	start;
 	D3DXVECTOR3	last;
 };
+struct tagMesh
+{
+
+	string keyName;
+	char   Foldername[256];
+	char   Filename[256];
+	MESHTYPE	type;
+};
 class LoadItem
 {
 private:
@@ -56,12 +70,13 @@ private:
 	tagHeight	    m_stTagHeight;
 	tagWay			m_stTagWay;
 	tagWay2			m_stTagWay2;
+	tagMesh			m_stMesh;
 public:
 	HRESULT AddForTestResource(string keyName, int width, int height);
 	HRESULT InitForHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD  dwBytesPerPixel =1);
 	HRESULT InitForWay(string keyName, HankcGrid*	Node, int StartX, int StartZ, int LastX, int LastZ);
 	HRESULT InitForWay2(string keyName, HankcGrid*	Node, D3DXVECTOR3 start, D3DXVECTOR3 last);
-
+	HRESULT InitForMesh(string keyName, MESHTYPE type, char* foldername, char* filename);
 
 	
 	
@@ -79,6 +94,7 @@ public:
 	tagHeight		GetHeightMapResource(void) { return m_stTagHeight; }
 	tagWay			GetWayResource(void) { return m_stTagWay; }
 	tagWay2			GetWayResource2(void) { return m_stTagWay2; }
+	tagMesh			GetMeshResource(void) { return m_stMesh; }
 	LoadItem(void);
 	~LoadItem(void);
 };
@@ -108,7 +124,7 @@ public:
 	void LoadHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD  dwBytesPerPixel = 1);
 	void LoadWay(string keyName, HankcGrid*	Node, int StartX, int StartZ, int LastX, int LastZ);
 	void LoadWay2(string keyName, HankcGrid*	Node, D3DXVECTOR3 start, D3DXVECTOR3 last);
-
+	void LoadMesh(string keyName,MESHTYPE type, char* folername, char* filename);
 	BOOL LoadNext(void);
 	
 	Loading();

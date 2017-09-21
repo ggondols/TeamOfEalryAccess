@@ -67,6 +67,17 @@ HRESULT LoadItem::InitForWay2(string keyName, HankcGrid * Node, D3DXVECTOR3 star
 	return S_OK;
 }
 
+HRESULT LoadItem::InitForMesh(string keyName, MESHTYPE type, char * foldername, char * filename)
+{
+	m_kind = LOADING_KIND_MESH;
+	m_stMesh.keyName = keyName;
+	m_stMesh.type = type;
+	strcpy_s(m_stMesh.Foldername,256, foldername);
+	strcpy_s(m_stMesh.Filename, 256, filename);
+	
+	return S_OK;
+}
+
 void LoadItem::Release(void)
 {
 }
@@ -154,6 +165,13 @@ void Loading::LoadWay2(string keyName, HankcGrid * Node, D3DXVECTOR3 start, D3DX
 	m_vecLoadItems.push_back(item);
 }
 
+void Loading::LoadMesh(string keyName,MESHTYPE type, char * folername, char * filename)
+{
+	LoadItem* item = new LoadItem;
+	item->InitForMesh(keyName, type,folername,filename);
+	m_vecLoadItems.push_back(item);
+}
+
 BOOL Loading::LoadNext(void)
 {
 	if (m_nCurrent >= m_vecLoadItems.size())
@@ -191,6 +209,24 @@ BOOL Loading::LoadNext(void)
 		sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
 		tagWay2 ir = item->GetWayResource2();
 		WAYMANAGER->AddWay2(ir.keyName.c_str(), ir.Node, ir.start, ir.last);
+		break;
+	}
+	case LOADING_KIND_MESH:
+	{
+		sprintf_s(str, "메쉬 불러오는 중");
+		tagMesh ir = item->GetMeshResource();
+		if (ir.type == MESH_NORMAL)
+		{
+			MESHLOADER->AddSkinnedMesh(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+		}
+		else if(ir.type ==MESH_HEAD)
+		{
+			MESHLOADER->AddSkinnedMeshHead(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+		}
+		else if (ir.type == MESH_WEAPON)
+		{
+			MESHLOADER->AddSkinnedWeapon(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+		}
 		break;
 	}
 	//case LOADING_KIND_ADDIMAGE_01:

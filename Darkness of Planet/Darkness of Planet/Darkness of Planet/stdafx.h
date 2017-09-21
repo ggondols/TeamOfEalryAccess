@@ -67,6 +67,7 @@ extern int g_MouseWheel;
 #define HEIGHTMAPMANAGER TeicHeightMapManager::getSingleton()
 #define WAYMANAGER	TeicWayManager::getSingleton()
 #define NODEMANAGER TeicNodeManager::getSingleton()
+#define MESHLOADER TeicSkinnedMeshLoader::getSingleton()
 //## 일반적인 클래스 메크로##//
 #define RND cRandomFunction::getSingleton()
 
@@ -127,6 +128,7 @@ public: virtual void Set##funName(varType var){\
 #include "TeicHeightMapManager.h"
 #include "TeicWayManager.h"
 #include "TeicNodeManager.h"
+#include "TeicSkinnedMeshLoader.h"
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 #include "cSkinnedMeshManager.h"
 
