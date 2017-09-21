@@ -3,6 +3,18 @@ class TeicAstar;
 class HankcGrid;
 class HankcNode;
 #include "cSingletonBase.h"
+
+//###############################################
+//#												#
+//#		Astar 미리 찾아놓고	가져오는			#
+//#		에이스타 매니저 입니다.					#
+//#		2017-09-21								#	
+//#	    AddWay 후 GetWay로 얻습니다	            #
+//#		Key값 작성방법:							#
+//#		SX숫자SZ숫자LX숫자LZ숫자				#
+//#					Made by 태영				#
+//###############################################
+
 class TeicWayManager: public cSingletonBase<TeicWayManager>
 {
 private:
