@@ -11,7 +11,7 @@ DataBase::~DataBase()
 
 void DataBase::Setup()
 {
-	LoadItemData();
+	//LoadItemData();
 }
 
 void DataBase::Destroy()
