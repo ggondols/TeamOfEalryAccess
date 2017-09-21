@@ -13,6 +13,7 @@ LDYCharacter::LDYCharacter()
 	, m_eWpType(Wp_AA12)
 	, m_eStType(ST_Idle)
 	, m_bRun(false)
+	, m_pWeapon_FireGun(NULL)
 
 {
 	m_Callback = NULL;
@@ -56,6 +57,7 @@ LDYCharacter::~LDYCharacter()
 	SAFE_DELETE(m_pWeapon_AR6);
 	SAFE_DELETE(m_pWeapon_M4);
 	SAFE_DELETE(m_pWeapon_MP5);
+	SAFE_DELETE(m_pWeapon_FireGun);
 }
 
 void LDYCharacter::Setup(char* Foldername, char* Filename)
@@ -213,7 +215,14 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 	
 	m_pWeapon_M4 = MESHLOADER->GetSkinnedMeshWeapon(WP_M4Folder);
 
+	//firegun
+	char WP_FireGunFolder[1024];
+	char* FireGunwpFolder = "Weapon/";
+	char* FireGunFilename = "Wp_FireGun.X";
+	sprintf_s(WP_FireGunFolder, "%s%s", FireGunwpFolder, FireGunFilename);
 
+
+	m_pWeapon_FireGun = MESHLOADER->GetSkinnedMeshWeapon(WP_FireGunFolder);
 
 }
 
@@ -332,6 +341,21 @@ void LDYCharacter::UpdateAndRender()
 			m_pWeapon_MP5->UpdateAndRender();
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->UpdateAndRender();
+
+			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
+
+			D3DXMATRIX matT;
+			D3DXMatrixRotationY(&matT, D3DX_PI);
+			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
+			m_pWeapon_FireGun->UpdateAndRender();
+		}
+		break;
 
 		}
 	}
@@ -401,6 +425,21 @@ void LDYCharacter::UpdateAndRender()
 			m_pWeapon_MP5->UpdateAndRender();
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->UpdateAndRender();
+
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
+
+			D3DXMATRIX matT;
+			D3DXMatrixRotationY(&matT, D3DX_PI);
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
+			m_pWeapon_FireGun->UpdateAndRender();
+		}
+		break;
 		}
 	}
 	break;
@@ -467,6 +506,21 @@ void LDYCharacter::UpdateAndRender()
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_MP5->m_matWeapon = matWeapon;
 			m_pWeapon_MP5->UpdateAndRender();
+		}
+		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->UpdateAndRender();
+
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
+
+			D3DXMATRIX matT;
+			D3DXMatrixRotationY(&matT, D3DX_PI);
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
+			m_pWeapon_FireGun->UpdateAndRender();
 		}
 		break;
 		}
@@ -511,6 +565,11 @@ void LDYCharacter::SetAnimationIndex(int nIndex)
 			m_pHeroBody_MP5[m_iBodyLv]->SetAnimationIndex(nIndex);
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
 		}
 	}
 	break;
@@ -543,6 +602,11 @@ void LDYCharacter::SetAnimationIndex(int nIndex)
 			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
 		}
 	}
 	break;
@@ -571,6 +635,11 @@ void LDYCharacter::SetAnimationIndex(int nIndex)
 		}
 		break;
 		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
+		}
+		break;
+		case WP_FireGun:
 		{
 			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimationIndex(nIndex);
 		}
@@ -737,7 +806,11 @@ void LDYCharacter::SetRotationAngle(float angle)
 			m_pHeroBody_MP5[m_iBodyLv]->SetRotationAngle(angle);
 		}
 		break;
-
+		case WP_FireGun:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
 		}
 	}
 	break;
@@ -770,6 +843,11 @@ void LDYCharacter::SetRotationAngle(float angle)
 			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
 		}
 	}
 	break;
@@ -798,6 +876,11 @@ void LDYCharacter::SetRotationAngle(float angle)
 		}
 		break;
 		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
+		}
+		break;
+		case WP_FireGun:
 		{
 			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationAngle(angle);
 		}
@@ -843,6 +926,11 @@ void LDYCharacter::SetRotationMatrix(D3DXMATRIX rotation)
 			m_pHeroBody_MP5[m_iBodyLv]->SetRotationMatrix(rotation);
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
 		}
 	}
 	break;
@@ -871,6 +959,11 @@ void LDYCharacter::SetRotationMatrix(D3DXMATRIX rotation)
 		}
 		break;
 		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case WP_FireGun:
 		{
 			m_pHeroBody_Base[m_iBodyLv]->SetRotationMatrix(rotation);
 		}
@@ -904,6 +997,11 @@ void LDYCharacter::SetRotationMatrix(D3DXMATRIX rotation)
 		}
 		break;
 		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
+		}
+		break;
+		case WP_FireGun:
 		{
 			m_pHeroBody_IdleBreak[m_iBodyLv]->SetRotationMatrix(rotation);
 		}
@@ -952,6 +1050,11 @@ D3DXVECTOR3 * LDYCharacter::GetPositionPointer()
 			return m_pHeroBody_MP5[m_iBodyLv]->GetPositionPointer();
 		}
 		break;
+		case WP_FireGun:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
 		
 		}
 	}
@@ -981,6 +1084,11 @@ D3DXVECTOR3 * LDYCharacter::GetPositionPointer()
 		}
 		break;
 		case Wp_MP5:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
+		case WP_FireGun:
 		{
 			return m_pHeroBody_Base[m_iBodyLv]->GetPositionPointer();
 		}
@@ -1017,7 +1125,11 @@ D3DXVECTOR3 * LDYCharacter::GetPositionPointer()
 			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
 		}
 		break;
-	
+		case WP_FireGun:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPositionPointer();
+		}
+		break;
 		}
 	}
 	break;
@@ -1058,7 +1170,11 @@ D3DXVECTOR3 LDYCharacter::GetPosition()
 			return m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
 		}
 		break;
-	
+		case WP_FireGun:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+		}
+		break;
 		}
 	}
 	break;
@@ -1091,6 +1207,12 @@ D3DXVECTOR3 LDYCharacter::GetPosition()
 			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
 		}
 		break;
+		case WP_FireGun:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+		}
+		break;
+
 	
 		}
 	}
@@ -1120,6 +1242,11 @@ D3DXVECTOR3 LDYCharacter::GetPosition()
 		}
 		break;
 		case Wp_MP5:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+		}
+		break;
+		case WP_FireGun:
 		{
 			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 		}
@@ -1167,7 +1294,11 @@ void LDYCharacter::SetPosition(D3DXVECTOR3 position)
 			m_pHeroBody_MP5[m_iBodyLv]->SetPosition(position);
 		}
 		break;
-	
+		case WP_FireGun:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetPosition(position);
+		}
+		break;
 		}
 	}
 	break;
@@ -1200,7 +1331,11 @@ void LDYCharacter::SetPosition(D3DXVECTOR3 position)
 			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
 		}
 		break;
-	
+		case WP_FireGun:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetPosition(position);
+		}
+		break;
 		}
 	}
 	break;
@@ -1229,6 +1364,11 @@ void LDYCharacter::SetPosition(D3DXVECTOR3 position)
 		}
 		break;
 		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
+		}
+		break;
+		case WP_FireGun:
 		{
 			m_pHeroBody_IdleBreak[m_iBodyLv]->SetPosition(position);
 		}
@@ -1275,6 +1415,11 @@ void LDYCharacter::SetAnimation(int num)
 			m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(num);
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
 	
 		}
 	}
@@ -1308,6 +1453,11 @@ void LDYCharacter::SetAnimation(int num)
 			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
 		}
 		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
 	
 		}
 	}
@@ -1337,6 +1487,11 @@ void LDYCharacter::SetAnimation(int num)
 		}
 		break;
 		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
+		}
+		break;
+		case WP_FireGun:
 		{
 			m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(num);
 		}
@@ -1385,6 +1540,11 @@ int LDYCharacter::GetAninum()
 			return m_pHeroBody_MP5[m_iBodyLv]->GetAninum();
 		}
 		break;
+		case WP_FireGun:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->GetAninum();
+		}
+		break;
 	
 		}
 	}
@@ -1418,6 +1578,11 @@ int LDYCharacter::GetAninum()
 			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
 		}
 		break;
+		case WP_FireGun:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->GetAninum();
+		}
+		break;
 		
 		}
 	}
@@ -1447,6 +1612,11 @@ int LDYCharacter::GetAninum()
 		}
 		break;
 		case Wp_MP5:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
+		}
+		break;
+		case WP_FireGun:
 		{
 			return m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum();
 		}
@@ -1501,6 +1671,11 @@ void LDYCharacter::Update(float angle)
 		}
 		break;
 		case Wp_MP5:
+		{
+			m_eWpType = WP_FireGun;
+		}
+		break;
+		case WP_FireGun:
 		{
 			m_eWpType = Wp_AA12;
 		}
@@ -1588,6 +1763,14 @@ void LDYCharacter::Update(float angle)
 				if (m_pHeroBody_MP5[m_iBodyLv]->GetAninum() != 9)
 				{
 					m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(9);
+				}
+			}
+			break;
+			case WP_FireGun:
+			{
+				if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() != 9)
+				{
+					m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(9);
 				}
 			}
 			break;
@@ -1693,6 +1876,24 @@ void LDYCharacter::Update(float angle)
 				}
 			}
 			break;
+			case WP_FireGun:
+			{
+				if (!m_bRun)
+				{
+					if (m_pHeroBody_Base[m_iBodyLv]->GetAninum() != 6)
+					{
+						m_pHeroBody_Base[m_iBodyLv]->SetAnimation(6);
+					}
+				}
+				else
+				{
+					if (m_pHeroBody_Base[m_iBodyLv]->GetAninum() != 32)
+					{
+						m_pHeroBody_Base[m_iBodyLv]->SetAnimation(32);
+					}
+				}
+			}
+			break;
 
 			}
 		}
@@ -1746,6 +1947,14 @@ void LDYCharacter::Update(float angle)
 				}
 			}
 			break;
+			case WP_FireGun:
+			{
+				if (m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum() != 6)
+				{
+					m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(6);
+				}
+			}
+			break;
 
 			}
 		}
@@ -1791,9 +2000,6 @@ POINT LDYCharacter::GetNodeNum()
 			temp.x = pos.x / NodeLength;
 			temp.y = -(pos.z / NodeLength);
 			return temp;
-
-			
-	
 		}
 		break;
 		case Wp_AA12:
@@ -1826,6 +2032,15 @@ POINT LDYCharacter::GetNodeNum()
 		case Wp_MP5:
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_MP5[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
+			return temp;
+		}
+		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
 			pos.y = 0;
 			temp.x = pos.x / NodeLength;
 			temp.y = -(pos.z / NodeLength);
@@ -1884,6 +2099,16 @@ POINT LDYCharacter::GetNodeNum()
 			return temp;
 		}
 		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
+			return temp;
+		}
+		break;
+
 		}
 	}
 	break;
@@ -1928,6 +2153,15 @@ POINT LDYCharacter::GetNodeNum()
 		}
 		break;
 		case Wp_MP5:
+		{
+			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			pos.y = 0;
+			temp.x = pos.x / NodeLength;
+			temp.y = -(pos.z / NodeLength);
+			return temp;
+		}
+		break;
+		case WP_FireGun:
 		{
 			D3DXVECTOR3 pos = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 			pos.y = 0;
@@ -1988,6 +2222,13 @@ D3DXVECTOR3 LDYCharacter::GetPositionYZero()
 			return temp;
 		}
 		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
 
 		}
 	}
@@ -2031,6 +2272,13 @@ D3DXVECTOR3 LDYCharacter::GetPositionYZero()
 			return temp;
 		}
 		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_Base[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
 
 		}
 	}
@@ -2068,6 +2316,13 @@ D3DXVECTOR3 LDYCharacter::GetPositionYZero()
 		}
 		break;
 		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
+		}
+		break;
+		case WP_FireGun:
 		{
 			D3DXVECTOR3 temp = m_pHeroBody_IdleBreak[m_iBodyLv]->GetPosition();
 			temp.y = 0;

@@ -21,7 +21,8 @@ enum WeaponType {
 	Wp_AA12,
 	Wp_AR6,
 	Wp_M4,
-	Wp_MP5
+	Wp_MP5,
+	WP_FireGun
 
 };
 

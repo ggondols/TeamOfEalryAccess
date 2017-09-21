@@ -27,6 +27,7 @@ private:
 	LDYSkinnedMesh_Weapon*		m_pWeapon_AR6;
 	LDYSkinnedMesh_Weapon*		m_pWeapon_M4;
 	LDYSkinnedMesh_Weapon*		m_pWeapon_MP5;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_FireGun;
 
 	LDYSkinnedMesh*				m_pHeroBody_MP5[4];
 	LDYSkinnedMesh*				m_pHeroBody_Melee[4];
