@@ -23,6 +23,12 @@ private:
 	bool					m_bMoving;
 	bool					m_bAttacking;
 	bool					m_bRunning;
+	D3DXMATRIX				m_matRotation;
+	POINT					m_ptPrevMouse;
+	bool					m_isLButtonDown;
+	bool					m_bgetMousePos;
+	float					m_fangleX;
+	float					m_fangleY;
 	
 public:
 
@@ -33,7 +39,7 @@ protected:
 public:
 
 
-	void Update();
+	void Update(float angle);
 
 	D3DXVECTOR3* GetPosition();
 	D3DXVECTOR3* GetPositionFuture();
@@ -43,6 +49,8 @@ public:
 	void setAttacking(bool on) { m_bAttacking = on; }
 	void setMoving(bool on) { m_bMoving = on; }
 	float getAngle() { return m_fAngle; }
+
+
 public:
 	TeicPhysicsCrtCtrl();
 	~TeicPhysicsCrtCtrl();

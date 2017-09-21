@@ -1457,9 +1457,9 @@ int LDYCharacter::GetAninum()
 	return 0;
 }
 
-void LDYCharacter::Update()
+void LDYCharacter::Update(float angle)
 {
-	m_pCtrl->Update();
+	m_pCtrl->Update(angle);
 
 	if (KEYMANAGER->isOnceKeyDown('H'))
 	{

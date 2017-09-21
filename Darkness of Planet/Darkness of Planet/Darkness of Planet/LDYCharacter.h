@@ -63,7 +63,7 @@ public:
 	void SetPosition(D3DXVECTOR3 position);
 	void SetAnimation(int num);
 	int GetAninum();
-	void Update();
+	void Update(float angle);
 	void SetMoving(bool on);
 	bool GetMoving();
 	void SetAttacking(bool on);

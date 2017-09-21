@@ -12,9 +12,12 @@ TeicPhysicsCrtCtrl::TeicPhysicsCrtCtrl()
 	, m_bAttacking(false)
 	, m_fSpeedSetting(1.0f)
 	, m_bRunning(false)
+	, m_bgetMousePos(false)
+	, m_fangleX(0.0f)
 	
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&m_matRotation);
 }
 
 
@@ -22,8 +25,9 @@ TeicPhysicsCrtCtrl::~TeicPhysicsCrtCtrl()
 {
 }
 
-void TeicPhysicsCrtCtrl::Update()
+void TeicPhysicsCrtCtrl::Update(float angle)
 {
+	m_fAngle = angle;
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
@@ -41,6 +45,7 @@ void TeicPhysicsCrtCtrl::Update()
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
 			m_bMoving = true;
+			//m_fAngle = 0.0f;
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
@@ -49,12 +54,15 @@ void TeicPhysicsCrtCtrl::Update()
 		}
 		if (KEYMANAGER->isStayKeyDown('A'))
 		{
-			m_fAngle -= 0.1f;
+			m_fAcceleration += 0.001f*m_fSpeedSetting;
+			//m_fAngle = -D3DX_PI/2;
+			m_bMoving = true;
 		}
 
 		if (KEYMANAGER->isStayKeyDown('D'))
 		{
-			m_fAngle += 0.1f;
+			m_fAcceleration += 0.001f*m_fSpeedSetting;
+			//m_fAngle = D3DX_PI/2;
 		}
 	}
 
@@ -69,13 +77,14 @@ void TeicPhysicsCrtCtrl::Update()
 		m_bMoving = false;
 		m_fAcceleration = 0;
 	}
-	//m_vPos = m_vPos + m_vDir * m_fSpeed;
+
 	m_vPos.x += cosf(m_fAngle) * m_fSpeed;
 	m_vPos.z -= sinf(m_fAngle) * m_fSpeed;
 
 
 	m_vDir = D3DXVECTOR3(0, 0, 1);
 	D3DXMATRIX matR;
+	D3DXMatrixRotationY(&m_matRotation, m_fangleX);
 	D3DXMatrixRotationY(&matR, m_fAngle);
 	D3DXVec3TransformNormal(&m_vDir, &m_vDir, &matR);
 
@@ -83,7 +92,7 @@ void TeicPhysicsCrtCtrl::Update()
 	D3DXMATRIX matT;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
-	m_matWorld =/* matR **/ matT;
+	m_matWorld =/* matR **/m_matRotation* matT;
 
 }
 
