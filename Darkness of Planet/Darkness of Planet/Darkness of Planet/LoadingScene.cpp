@@ -59,6 +59,7 @@ HRESULT LoadingScene::Setup()
 	m_pLoading->LoadMesh("Weapon/Wp_M4.X", MESH_WEAPON, "object/xFile/", "Weapon/Wp_M4.X");
 	m_pLoading->LoadMesh("Weapon/Wp_MP5.X", MESH_WEAPON, "object/xFile/", "Weapon/Wp_MP5.X");
 	m_pLoading->LoadMesh("Weapon/Wp_Pistol.X", MESH_WEAPON, "object/xFile/", "Weapon/Wp_Pistol.X");
+	m_pLoading->LoadMesh("Weapon/Wp_FireGun.X", MESH_WEAPON, "object/xFile/", "Weapon/Wp_FireGun.X");
 
 
 

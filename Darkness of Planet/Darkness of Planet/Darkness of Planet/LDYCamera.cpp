@@ -6,7 +6,7 @@ LDYCamera::LDYCamera()
 	, m_fangleY(0.0f)
 	, m_fangleX(0.0f)
 	, m_isLButtonDown(false)
-	, m_fDistance(9.0f)
+	, m_fDistance(-200.0f)
 	, m_vEye(0, 0, -m_fDistance)
 	, getMousePos(false)
 {
@@ -81,14 +81,14 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 		}
 		g_MouseWheel = 0;
 
-		if (m_fDistance <= 6.0f)
+		/*if (m_fDistance <= 6.0f)
 		{
 			m_fDistance = 6.0f;
 		}
 		else if (m_fDistance >= 12.0f)
 		{
 			m_fDistance = 12.0f;
-		}
+		}*/
 	}
 
 	D3DXMATRIXA16 matRX;

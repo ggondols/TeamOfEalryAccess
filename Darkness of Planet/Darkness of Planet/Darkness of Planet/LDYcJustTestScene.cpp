@@ -9,6 +9,7 @@
 #include "LDYCharacter.h"
 #include "cSkyBoxCube.h"
 #include "cSkyCloud.h"
+#include "cShadowMapping.h"
 
 
 static CRITICAL_SECTION cs;
@@ -104,6 +105,7 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
 	, m_pSkyBox(NULL)
+	, m_pShadow(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -122,6 +124,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 	SAFE_DELETE(m_pSkyBox);
 	SAFE_DELETE(m_pSkyDome);
 	SAFE_DELETE(m_pSkyCloud);
+	SAFE_DELETE(m_pShadow);
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -162,7 +165,8 @@ HRESULT LDYcJustTestScene::Setup()
 
 
 	///////////µ¿À±
-
+	m_pShadow = new cShadowMapping;
+	m_pShadow->Setup();
 
 	m_pSkyBox = new cSkyBoxCube;
 	m_pSkyBox->Setup();
@@ -250,7 +254,7 @@ void LDYcJustTestScene::Update()
 	if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
-
+	if (m_pShadow)m_pShadow->Update();
 
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
@@ -602,11 +606,12 @@ void LDYcJustTestScene::Render()
 {
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
-	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pShadow)m_pShadow->Render();
+	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if(m_pGrid)m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
 
 	
 	if (m_bThread)
