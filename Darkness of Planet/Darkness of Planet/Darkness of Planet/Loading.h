@@ -7,6 +7,7 @@ enum LOADING_KIND
 {
 	LOADING_KIND_TEST,
 	LOADING_KIND_HEIGHT,
+	LOADING_KIND_WAY,
 	LOADING_KIND_END
 };
 
@@ -24,6 +25,16 @@ struct tagHeight
 	string szFile;
 	string szTexture;
 	DWORD  dwBytesPerPixel;
+};
+struct tagWay
+{
+	char* keyname, HankcGrid* Node, int StartX, int StartZ, int LastX, int LastZ)
+	string keyName;
+	HankcGrid*	Node;
+	int StartX;
+	int StartZ;
+	int LastX;
+	int LastZ;
 };
 class LoadItem
 {

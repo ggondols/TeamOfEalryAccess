@@ -227,6 +227,7 @@
     <ClInclude Include="TeicJustTestScene.h" />
     <ClInclude Include="TeicMinHeap.h" />
     <ClInclude Include="TeicMoveSequence.h" />
+    <ClInclude Include="TeicNodeManager.h" />
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
     <ClInclude Include="TeicSkinnedMesh.h" />
     <ClInclude Include="TeicWayManager.h" />
@@ -310,6 +311,7 @@
     <ClCompile Include="TeicHeightMapManager.cpp" />
     <ClCompile Include="TeicJustTestScene.cpp" />
     <ClCompile Include="TeicMoveSequence.cpp" />
+    <ClCompile Include="TeicNodeManager.cpp" />
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
     <ClCompile Include="TeicSkinnedMesh.cpp" />
     <ClCompile Include="TeicWayManager.cpp" />
