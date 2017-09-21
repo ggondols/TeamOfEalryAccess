@@ -61,7 +61,7 @@ void cSkyCloud::Render()
 	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
 	D3DXMatrixRotationY(&matRY, ftest);
 	matWorld = matS*matRY*matWorld;
-
+	//테스트충돌
 	m_pEffect->SetMatrix(m_hMatWorld, &matWorld);
 	m_pEffect->SetMatrix(m_hMatView, &matView);
 	m_pEffect->SetMatrix(m_hMatProjection, &matProjection);
