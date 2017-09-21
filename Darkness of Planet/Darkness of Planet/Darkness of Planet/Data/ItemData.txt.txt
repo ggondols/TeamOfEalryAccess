@@ -1,0 +1,11 @@
+name test 
+type weapon
+value 10
+
+name test2
+type helmet
+value 5
+
+name test3
+type armor
+value 7
