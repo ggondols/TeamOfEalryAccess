@@ -214,7 +214,7 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pBresenham = new TeicBresenham;
 
-	m_pBresenham->FindNode(100, -100, 200, -200);
+	m_pBresenham->FindNode(100, -100, 150, -200);
 
 
 	return S_OK;
