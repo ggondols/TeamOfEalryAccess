@@ -33,9 +33,9 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 	for (int i = 0; i < temp->m_vecEnemyWay.size(); i++)
 	{
-
-		temp->m_vecEnemyWay[i] = temp->m_pAstar->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
-			temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
+		char str[256];
+		sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", (int)temp->m_vecEnemy[i]->GetPosition().x, (int)temp->m_vecEnemy[i]->GetPosition().y, (int)temp->m_vecEnemy[i]->GetPosition().z);
+		temp->m_vecEnemyWay[i] = WAYMANAGER->GetWay(str);
 		temp->m_vecEnemyCollisionMove[i] = new TeicMoveSequence;
 
 		for (int j = 0; j < temp->m_vecEnemyWay[i].size(); j++)

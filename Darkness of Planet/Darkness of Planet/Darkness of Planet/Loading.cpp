@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Loading.h"
 #include "cUIImageView.h"
-
+#include "HankcNode.h"
 LoadItem::LoadItem(void)
 {
 }
@@ -53,17 +53,33 @@ HRESULT LoadItem::InitForWay(string keyName, HankcGrid * Node, int StartX, int S
 	return S_OK;
 }
 
+HRESULT LoadItem::InitForWay2(string keyName, HankcGrid * Node, D3DXVECTOR3 start, D3DXVECTOR3 last)
+{
+	m_kind = LOADING_KIND_WAY2;
+
+
+
+	m_stTagWay2.keyName = keyName;
+	m_stTagWay2.Node = Node;
+	m_stTagWay2.start = start;
+	m_stTagWay2.last = last;
+
+	return S_OK;
+}
+
 void LoadItem::Release(void)
 {
 }
 
 Loading::Loading(void)
 	:m_nCurrent(0)
+	, m_pFont(NULL)
 {
 }
 
 Loading::~Loading(void)
 {
+	
 }
 
 void Loading::Setup(void)
@@ -80,6 +96,7 @@ void Loading::Setup(void)
 
 	UIOBJECTMANAGER->AddRoot("LoadingBar", pLoadingImageDown, true);
 	UIOBJECTMANAGER->AddChild("LoadingBar", pLoadingImageUp);
+	m_pFont = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
 }
 
 void Loading::Release(void)
@@ -91,6 +108,7 @@ void Loading::Release(void)
 	}
 
 	UIOBJECTMANAGER->ReleaseRoot("LoadingBar");
+	
 }
 
 void Loading::Update(void)
@@ -101,6 +119,17 @@ void Loading::Update(void)
 void Loading::Render(void)
 {
 	UIOBJECTMANAGER->Render("LoadingBar");
+	char str[256];
+	if (m_nCurrent < 20)
+	{
+		sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
+	}
+	else if(m_nCurrent < 30)
+	{
+		sprintf_s(str, "하이트 맵 로딩 중");
+	}
+	RECT rc = RectMake(200, 500, 1000, 1000);
+	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_CENTER, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void Loading::LoadTestResource(string keyName, int width, int height)
@@ -122,6 +151,13 @@ void Loading::LoadWay(string keyName, HankcGrid * Node, int StartX, int StartZ, 
 {
 	LoadItem* item = new LoadItem;
 	item->InitForWay( keyName,  Node,  StartX,  StartZ,  LastX,  LastZ);
+	m_vecLoadItems.push_back(item);
+}
+
+void Loading::LoadWay2(string keyName, HankcGrid * Node, D3DXVECTOR3 start, D3DXVECTOR3 last)
+{
+	LoadItem* item = new LoadItem;
+	item->InitForWay2(keyName, Node, start,last);
 	m_vecLoadItems.push_back(item);
 }
 
@@ -152,8 +188,13 @@ BOOL Loading::LoadNext(void)
 	case LOADING_KIND_WAY:
 	{
 		tagWay ir = item->GetWayResource();
-		//WAYMANAGER->AddWay("SX숫자SZ숫자LX숫자LZ숫자")
-		//HEIGHTMAPMANAGER->AddHeightMap(ir.keyName, ir.szFolder, ir.szFile, ir.szTexture, ir.dwBytesPerPixel);
+		WAYMANAGER->AddWay(ir.keyName.c_str(), ir.Node, ir.StartX, ir.StartZ, ir.LastX, ir.LastZ);
+		break;
+	}
+	case LOADING_KIND_WAY2:
+	{
+		tagWay2 ir = item->GetWayResource2();
+		WAYMANAGER->AddWay2(ir.keyName.c_str(), ir.Node, ir.start, ir.last);
 		break;
 	}
 	//case LOADING_KIND_ADDIMAGE_01:

@@ -12,6 +12,7 @@ class HankcNode;
 //#	    AddWay 후 GetWay로 얻습니다	            #
 //#		Key값 작성방법:							#
 //#		SX숫자SZ숫자LX숫자LZ숫자				#
+//#		S(숫자,숫자,숫자)L(숫자,숫자,숫자)		#
 //#					Made by 태영				#
 //###############################################
 
@@ -23,7 +24,8 @@ private:
 
 	
 public:
-	void AddWay(char* keyname, HankcGrid* Node, int StartX, int StartZ, int LastX, int LastZ);
+	void AddWay(const char* keyname, HankcGrid* Node, int StartX, int StartZ, int LastX, int LastZ);
+	void AddWay2(const char* keyname, HankcGrid* Node, D3DXVECTOR3 start, D3DXVECTOR3 last);
 	vector<D3DXVECTOR3>	GetWay(char* keyname);
 	void Setup();
 	void Destroy();
