@@ -10,3 +10,7 @@ cShadowMapping::cShadowMapping()
 cShadowMapping::~cShadowMapping()
 {
 }
+
+void cShadowMapping::SetUp()
+{
+}
