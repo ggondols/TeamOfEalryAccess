@@ -46,7 +46,7 @@ void TeicCollisionMove::SetCallback(CallbackBindFunction func)
 
 void TeicCollisionMove::CalRotation()
 {
-
+	//¿ÀÀ×
 	/*D3DXVECTOR3 vDirection = m_previous - m_present;
 
 	if (D3DXVec3LengthSq(&vDirection) <= 0.00001)
