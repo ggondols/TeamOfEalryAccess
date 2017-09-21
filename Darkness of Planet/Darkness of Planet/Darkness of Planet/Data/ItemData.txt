@@ -1,11 +1,31 @@
-name test 
+name MP5
+type weapon
+value 3
+
+name M4
+type weapon
+value 5
+
+name AR6
+type weapon
+value 7
+
+name Supergun
 type weapon
 value 10
 
-name test2
+name Mask
 type helmet
 value 5
 
-name test3
+name Helmet
+type helmet
+value 10
+
+name Armor
 type armor
 value 7
+
+name FullArmor
+type armor
+value 15
