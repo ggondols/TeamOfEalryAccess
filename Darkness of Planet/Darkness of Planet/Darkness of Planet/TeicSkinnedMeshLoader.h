@@ -3,7 +3,18 @@
 class LDYSkinnedMesh;
 class LDYSkinnedMesh_Head;
 class LDYSkinnedMesh_Weapon;
-
+//###############################################
+//#												#
+//#		캐릭 관련 메쉬 가져오는					#
+//#		메쉬 로더 입니다.						#
+//#		2017-09-21								#	
+//#	    GetSkinnedMesh,	AddSkinnedMesh			#
+//#	    GetSkinnedMeshHead,	AddSkinnedMeshHead	#
+//#	    GetSkinnedMeshWeapon,	AddSkinnedWeapon#
+//#     를 이용합니다							#
+//#     캐릭터 클래스에서 메쉬 delete해주세요	#
+//#					Made by 태영				#
+//###############################################
 class TeicSkinnedMeshLoader:public cSingletonBase<TeicSkinnedMeshLoader>
 {
 private:

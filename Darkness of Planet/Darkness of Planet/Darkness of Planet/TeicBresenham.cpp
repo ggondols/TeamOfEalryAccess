@@ -46,6 +46,8 @@ vector<POINT> TeicBresenham::FindNode(float startX, float startY, float endX, fl
 		{
 			inc_y = -1* NodeLength;
 		}
+		int preNodex = startX / NodeLength;
+		int preNodey = AnotherStartY / NodeLength;
 
 		for (int x = startX; ((int)startX <= (int)endX ? x <= (int)endX : x >= (int)endX); x += inc_x)
 		{
