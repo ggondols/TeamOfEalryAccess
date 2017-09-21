@@ -145,12 +145,23 @@ HRESULT LJHcJustTestScene::Setup()
 	//UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
 	//UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
 
-	cUIImageView* pInventoryImage = new cUIImageView;
-	pInventoryImage->SetTexture("./UI/inventory.png");
-	UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
+	//cUIImageView* pInventoryImage = new cUIImageView;
+	//pInventoryImage->SetTexture("./UI/inventory.png");
+	//UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
 
-	UIOBJECTMANAGER->AddRoot("iconTest", UITYPE_IMAGE, true);
-	UIOBJECTMANAGER->SetTexture("iconTest", "UI/T_InventoryIcon_AR6.tga");
+	UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
+	UIOBJECTMANAGER->SetTexture("inventory", "./UI/inventory.png");
+	UIOBJECTMANAGER->SetAlpha("inventory", 200);
+	UIOBJECTMANAGER->SetPosition("inventory", 50.0f, 20.0f);
+
+	UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
+	UIOBJECTMANAGER->SetTexture("inventory", 1, "UI/Icon_Empty.png");
+	UIOBJECTMANAGER->SetAlpha("inventory", 1, 200);
+	UIOBJECTMANAGER->SetPosition("inventory", 1, 9.0f, 9.0f);
+	UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
+	UIOBJECTMANAGER->SetTexture("inventory", 2, "UI/Icon_Empty.png");
+	UIOBJECTMANAGER->SetAlpha("inventory", 2, 200);
+	UIOBJECTMANAGER->SetPosition("inventory", 2, 9.0f, 360.0f);
 
 
 	///////////µ¿À±

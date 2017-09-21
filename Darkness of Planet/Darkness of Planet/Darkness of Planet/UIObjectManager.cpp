@@ -100,6 +100,18 @@ void UIObjectManager::SetPosition(string key, int tag, float x, float y)
 	FindRoot(key)->GetChildByTag(tag)->SetPosition(x, y);
 }
 
+void UIObjectManager::SetAlpha(string key, DWORD alpha)
+{
+	cUIImageView* pImageView = (cUIImageView*)FindRoot(key);
+	if (pImageView) pImageView->SetAlpha(alpha);
+}
+
+void UIObjectManager::SetAlpha(string key, int tag, DWORD alpha)
+{
+	cUIImageView* pImageView = (cUIImageView*)FindRoot(key)->GetChildByTag(tag);
+	if (pImageView) pImageView->SetAlpha(alpha);
+}
+
 void UIObjectManager::SetTexture(string key, string fileAddress)
 {
 	cUIImageView* pImageView = (cUIImageView*)FindRoot(key);

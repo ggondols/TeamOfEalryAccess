@@ -41,6 +41,8 @@ public:
 	void SetPosition(string key, int tag, float x, float y);
 
 	// UIImageView에서만 사용..
+	void SetAlpha(string key, DWORD alpha);
+	void SetAlpha(string key, int tag, DWORD alpha);
 	void SetTexture(string key, string fileAddress);
 	void SetTexture(string key, int tag, string fileAddress);
 	void SetScale(string key, float x, float y);

@@ -4,13 +4,14 @@ class cUIImageView : public cUIObject
 {
 private:
 	string	m_sTexture;
-	bool	m_isCenter;
+	DWORD	m_dwAlpha;
 
 public:
 	cUIImageView(void);
 	virtual ~cUIImageView(void);
 
-	virtual void SetIsCenter(bool isCenter);
+	virtual void SetAlpha(DWORD alpha) { m_dwAlpha = alpha; }
+	virtual void SetIsCenter(bool isCenter) {}
 	virtual void SetTexture(string sFullPath);
 	virtual void SetScale(float x, float y);
 
