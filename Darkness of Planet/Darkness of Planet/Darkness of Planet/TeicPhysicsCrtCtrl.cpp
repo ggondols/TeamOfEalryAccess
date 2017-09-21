@@ -27,7 +27,9 @@ TeicPhysicsCrtCtrl::~TeicPhysicsCrtCtrl()
 
 void TeicPhysicsCrtCtrl::Update(float angle)
 {
-	m_fAngle = angle;
+	if (g_isLButtonDown) {
+		m_fAngle = angle-D3DX_PI/2;
+	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
@@ -44,8 +46,8 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 		if (KEYMANAGER->isStayKeyDown('W'))
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
+			m_fAngle = angle - D3DX_PI / 2;
 			m_bMoving = true;
-			//m_fAngle = 0.0f;
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
@@ -55,14 +57,14 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 		if (KEYMANAGER->isStayKeyDown('A'))
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
-			//m_fAngle = -D3DX_PI/2;
+			m_fAngle = angle - D3DX_PI;
 			m_bMoving = true;
 		}
 
 		if (KEYMANAGER->isStayKeyDown('D'))
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
-			//m_fAngle = D3DX_PI/2;
+			m_fAngle = angle;
 		}
 	}
 
@@ -80,6 +82,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 
 	m_vPos.x += cosf(m_fAngle) * m_fSpeed;
 	m_vPos.z -= sinf(m_fAngle) * m_fSpeed;
+
 
 
 	m_vDir = D3DXVECTOR3(0, 0, 1);

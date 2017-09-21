@@ -29,6 +29,7 @@ private:
 	bool					m_bgetMousePos;
 	float					m_fangleX;
 	float					m_fangleY;
+
 	
 public:
 
