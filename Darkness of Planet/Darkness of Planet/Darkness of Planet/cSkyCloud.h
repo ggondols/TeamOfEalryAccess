@@ -14,6 +14,8 @@ private:
 	D3DXHANDLE				m_hFTime;
 	int						m_fDegree;
 	float					ftest;
+	float					m_trans;
+
 
 public:
 	cSkyCloud();

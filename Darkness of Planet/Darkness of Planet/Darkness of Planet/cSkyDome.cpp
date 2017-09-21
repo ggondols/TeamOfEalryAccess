@@ -6,7 +6,7 @@ cSkyDome::cSkyDome()
 	:m_pEffect(NULL)
 	, m_pMesh(NULL)
 	, m_dMatarial(0)
-	, m_fNightvalue(0.1)
+	, m_fNightvalue(0.0f)
 {
 }
 
@@ -43,7 +43,7 @@ void cSkyDome::Setup()
 
 void cSkyDome::Update()
 {
-	m_fNightvalue += 0.001;
+	m_fNightvalue += 0.00001f;
 }
 
 void cSkyDome::Render()
@@ -54,10 +54,11 @@ void cSkyDome::Render()
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 
-	D3DXMATRIXA16 matS,matR;
+	D3DXMATRIXA16 matS,matR,matT;
 	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
 	D3DXMatrixRotationX(&matR, -D3DX_PI / 2);
-	matWorld = matS*matR*matWorld;
+	D3DXMatrixTranslation(&matT, 128.5f, 0.0f, -128.5f);
+	matWorld = matS*matR*matT*matWorld;
 
 	m_pEffect->SetMatrix(m_hMatWorld, &matWorld);
 	m_pEffect->SetMatrix(m_hMatView, &matView);
