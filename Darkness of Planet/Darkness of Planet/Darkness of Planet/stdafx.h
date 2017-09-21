@@ -64,6 +64,7 @@ extern int g_MouseWheel;
 #define FONTMANAGER cFontManager::getSingleton()
 #define UIOBJECTMANAGER UIObjectManager::getSingleton()
 #define HEIGHTMAPMANAGER TeicHeightMapManager::getSingleton()
+#define WAYMANAGER	TeicWayManager::getSingleton()
 //## 일반적인 클래스 메크로##//
 #define RND cRandomFunction::getSingleton()
 
@@ -120,7 +121,7 @@ public: virtual void Set##funName(varType var){\
 #include "cFontManager.h"
 #include "UIObjectManager.h"
 #include "TeicHeightMapManager.h"
-
+#include "TeicWayManager.h"
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 #include "cSkinnedMeshManager.h"
 

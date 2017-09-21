@@ -36,6 +36,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		RND->Setup();
 		UIOBJECTMANAGER->Setup();
 		HEIGHTMAPMANAGER->Setup();
+		WAYMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -97,6 +98,9 @@ void cGameNode::Release()
 
 		//HEIGHTMAPMANAGER->Destroy();  맵정보를 받아오는 곳에서 delete하면 안해줘도된다.
 		HEIGHTMAPMANAGER->releaseSingleton();
+
+		WAYMANAGER->Destroy();
+		WAYMANAGER->releaseSingleton();
 	}
 }
 
