@@ -55,24 +55,19 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 		m_vTartget = D3DXVECTOR3(0, 0, 0);
 
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		m_ptPrevMouse = g_ptMouse;
-		getMousePos = true;
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
-	{
-		getMousePos = false;
-	}
+	float deltaX = g_ptMouse.y - m_ptPrevMouse.y;
+	float deltaY = g_ptMouse.x - m_ptPrevMouse.x;
 
-	if (getMousePos)
-	{
-		float deltaY = g_ptMouse.x - m_ptPrevMouse.x;
+	m_fangleX += deltaX / 50.0f;
+	m_fangleY += deltaY / 50.0f;
 
-		m_fangleY += deltaY / 50.0f;
+	if (m_fangleX < -D3DX_PI / 4.0f + 0.0001f)
+		m_fangleX = -D3DX_PI / 4.0f + 0.0001f;
 
-		m_ptPrevMouse = g_ptMouse;
-	}
+	if (m_fangleX > D3DX_PI / 4.0f - 0.0001f)
+		m_fangleX = D3DX_PI / 4.0f - 0.0001f;
+
+	
 
 	if (g_MouseWheel)
 	{
@@ -121,4 +116,5 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 		&D3DXVECTOR3(0, 1, 0));
 	GETDEVICE->SetTransform(D3DTS_VIEW, &matView);
 
+	m_ptPrevMouse = g_ptMouse;
 }

@@ -27,9 +27,9 @@ TeicPhysicsCrtCtrl::~TeicPhysicsCrtCtrl()
 
 void TeicPhysicsCrtCtrl::Update(float angle)
 {
-	if (g_isLButtonDown) {
-		m_fAngle = angle-D3DX_PI/2;
-	}
+	
+	m_fAngle = angle-D3DX_PI/2;
+	
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
@@ -65,6 +65,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
 			m_fAngle = angle;
+			m_bMoving = true;
 		}
 	}
 
