@@ -154,15 +154,18 @@ HRESULT LJHcJustTestScene::Setup()
 	UIOBJECTMANAGER->SetAlpha("inventory", 200);
 	UIOBJECTMANAGER->SetPosition("inventory", 50.0f, 20.0f);
 
-	UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
-	UIOBJECTMANAGER->SetTexture("inventory", 1, "UI/Icon_Empty.png");
-	UIOBJECTMANAGER->SetAlpha("inventory", 1, 200);
-	UIOBJECTMANAGER->SetPosition("inventory", 1, 9.0f, 9.0f);
-	UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
-	UIOBJECTMANAGER->SetTexture("inventory", 2, "UI/Icon_Empty.png");
-	UIOBJECTMANAGER->SetAlpha("inventory", 2, 200);
-	UIOBJECTMANAGER->SetPosition("inventory", 2, 9.0f, 360.0f);
+	for (size_t row = 0; row < 5; row++)
+	{
+		for (size_t col = 0; col < 5; col++)
+		{
+			int index = (row * 5 + col) + 1;
+			UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
+			UIOBJECTMANAGER->SetTexture("inventory", index, "UI/Icon_Empty.png");
+			UIOBJECTMANAGER->SetPosition("inventory", index, col * 100.0f + 9.0f, row * 100.0f + 9.0f);
+		}
+	}
 
+	UIOBJECTMANAGER->SetTexture("inventory", 12, "UI/Icon_M4.png");
 
 	///////////µ¿À±
 

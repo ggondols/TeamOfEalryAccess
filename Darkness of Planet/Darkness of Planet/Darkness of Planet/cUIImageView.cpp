@@ -2,7 +2,6 @@
 #include "cUIImageView.h"
 
 cUIImageView::cUIImageView(void)
-	: m_dwAlpha(255)
 {
 }
 

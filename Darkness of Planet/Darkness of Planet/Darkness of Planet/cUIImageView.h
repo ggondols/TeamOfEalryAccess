@@ -4,7 +4,6 @@ class cUIImageView : public cUIObject
 {
 private:
 	string	m_sTexture;
-	DWORD	m_dwAlpha;
 
 public:
 	cUIImageView(void);

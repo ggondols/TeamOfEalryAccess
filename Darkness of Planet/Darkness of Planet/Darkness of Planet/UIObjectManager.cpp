@@ -74,6 +74,7 @@ void UIObjectManager::AddChild(string key, UI_TYPE type)
 		case UITYPE_IMAGE:
 			pChild = new cUIImageView;
 			pChild->SetTag(findUI->GetChildSize() + 1);
+			pChild->SetAlpha(findUI->GetAlpha());
 			findUI->AddChild(pChild);
 			break;
 		case UITYPE_TEXT:

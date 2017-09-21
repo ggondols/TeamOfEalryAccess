@@ -72,7 +72,7 @@ void cUIButton::Render(LPD3DXSPRITE pSprite)
 		&rc,
 		&D3DXVECTOR3(0, 0, 0),
 		&D3DXVECTOR3(0, 0, 0),
-		D3DCOLOR_ARGB(255, 255, 255, 255));
+		D3DCOLOR_ARGB(m_dwAlpha, 255, 255, 255));
 
 	pSprite->End();
 

@@ -8,6 +8,7 @@ protected:
 	D3DXMATRIX			m_matWorld;
 	SYNTHESIZE(ST_SIZE, m_stSize, Size);
 	SYNTHESIZE(int, m_nTag, Tag);
+	SYNTHESIZE(DWORD, m_dwAlpha, Alpha);
 
 public:
 	cUIObject(void);
