@@ -122,7 +122,7 @@ TeicJustTestScene::~TeicJustTestScene()
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
 
 	}
-	SAFE_RELEASE(m_pFont);
+	
 }
 
 

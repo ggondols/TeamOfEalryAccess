@@ -76,8 +76,8 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		sprintf_s(MP5buffFile, "%s%d%s", Filename, i + 1, MP5File);
-		m_pHeroBody_MP5[i] = new LDYSkinnedMesh(MP5buffFolder, MP5buffFile);
+		sprintf_s(MP5buffFile, "%s%s%d%s", MP5Folder, Filename, i + 1, MP5File);
+		m_pHeroBody_MP5[i] = MESHLOADER->GetSkinnedMesh(MP5buffFile);
 		m_pHeroBody_MP5[i]->SetPosition(D3DXVECTOR3(0, 0, 0));
 		m_pHeroBody_MP5[i]->SetRandomTrackPosition();
 		m_pHeroBody_MP5[i]->SetCallbackfunction(bind(&LDYCharacter::CallbackOn, this, 0));
@@ -94,9 +94,9 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		sprintf_s(Melee5buffFile, "%s%d%s", Filename, i + 1, MeleeFile);
+		sprintf_s(Melee5buffFile, "%s%s%d%s", MeleeFolder, Filename, i + 1, MeleeFile);
 
-		m_pHeroBody_Melee[i] = new LDYSkinnedMesh(Melee5buff, Melee5buffFile);
+		m_pHeroBody_Melee[i] = MESHLOADER->GetSkinnedMesh(Melee5buffFile);
 		m_pHeroBody_Melee[i]->SetPosition(D3DXVECTOR3(0, 0, 0));
 		m_pHeroBody_Melee[i]->SetRandomTrackPosition();
 		m_pHeroBody_Melee[i]->SetCallbackfunction(bind(&LDYCharacter::CallbackOn, this, 0));
@@ -112,9 +112,9 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		sprintf_s(BasebuffFile, "%s%d%s", Filename, i + 1, BaseFile);
+		sprintf_s(BasebuffFile, "%s%s%d%s", BaseFolder, Filename, i + 1, BaseFile);
 
-		m_pHeroBody_Base[i] = new LDYSkinnedMesh(Basebuff, BasebuffFile);
+		m_pHeroBody_Base[i] = MESHLOADER->GetSkinnedMesh(BasebuffFile);
 		m_pHeroBody_Base[i]->SetPosition(D3DXVECTOR3(0, 0, 0));
 		m_pHeroBody_Base[i]->SetRandomTrackPosition();
 		m_pHeroBody_Base[i]->SetCallbackfunction(bind(&LDYCharacter::CallbackOn, this, 0));
@@ -130,9 +130,9 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		sprintf_s(IdlebuffFile, "%s%d%s", Filename, i + 1, IdleFile);
+		sprintf_s(IdlebuffFile, "%s%s%d%s", IdleBreakFolder, Filename, i + 1, IdleFile);
 
-		m_pHeroBody_IdleBreak[i] = new LDYSkinnedMesh(Idlebuff, IdlebuffFile);
+		m_pHeroBody_IdleBreak[i] = MESHLOADER->GetSkinnedMesh(IdlebuffFile);
 		m_pHeroBody_IdleBreak[i]->SetPosition(D3DXVECTOR3(0, 0, 0));
 		m_pHeroBody_IdleBreak[i]->SetRandomTrackPosition();
 		m_pHeroBody_IdleBreak[i]->SetCallbackfunction(bind(&LDYCharacter::CallbackOn, this, 0));
@@ -148,9 +148,9 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		sprintf_s(SMGbuffFile, "%s%d%s", Filename, i + 1, SMGFile);
+		sprintf_s(SMGbuffFile, "%s%s%d%s", SMGFolder, Filename, i + 1, SMGFile);
 
-		m_pHeroBody_SMG[i] = new LDYSkinnedMesh(SMGbuff, SMGbuffFile);
+		m_pHeroBody_SMG[i] = MESHLOADER->GetSkinnedMesh(SMGbuffFile);
 		m_pHeroBody_SMG[i]->SetPosition(D3DXVECTOR3(0, 0, 0));
 		m_pHeroBody_SMG[i]->SetRandomTrackPosition();
 		m_pHeroBody_SMG[i]->SetCallbackfunction(bind(&LDYCharacter::CallbackOn, this, 0));
@@ -170,46 +170,49 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 	char* HeadFile = "HeroHeadLv";
 
 	for (int i = 0; i < 2; ++i) {
-		sprintf_s(HeadbuffFile, "%s%d%s", HeadFile, i + 1, XfileExtension);
-		m_pHeroHead[i] = new LDYSkinnedMesh_Head(HeadbuffFolder, HeadbuffFile);
+		sprintf_s(HeadbuffFile, "%s%s%d%s", HeadFolder,HeadFile, i + 1, XfileExtension);
+		m_pHeroHead[i] = MESHLOADER->GetSkinnedMeshHead(HeadbuffFile); 
 
 	}
 
 	//무기 메쉬 세팅  mp5
 	char WP_MP5Folder[1024];
 	char* MP5wpFolder = "Weapon/";
-	sprintf_s(WP_MP5Folder, "%s%s", Foldername, MP5wpFolder);
-
+	
 	char* MP5Filename = "Wp_MP5.X";
+	sprintf_s(WP_MP5Folder, "%s%s", MP5wpFolder, MP5Filename);
 
-	m_pWeapon_MP5 = new LDYSkinnedMesh_Weapon(WP_MP5Folder, MP5Filename);
+	m_pWeapon_MP5 = MESHLOADER->GetSkinnedMeshWeapon(WP_MP5Folder);
 
 	//aa12
 	char WP_AA12Folder[1024];
 	char* AA12wpFolder = "Weapon/";
-	sprintf_s(WP_AA12Folder, "%s%s", Foldername, AA12wpFolder);
-
 	char* AA12Filename = "Wp_AA12.X";
+	sprintf_s(WP_AA12Folder, "%s%s", AA12wpFolder, AA12Filename);
 
-	m_pWeapon_AA12 = new LDYSkinnedMesh_Weapon(WP_AA12Folder, AA12Filename);
+
+	m_pWeapon_AA12 = MESHLOADER->GetSkinnedMeshWeapon(WP_AA12Folder);
+	
 
 	//ar6
 	char WP_AR6Folder[1024];
 	char* AR6wpFolder = "Weapon/";
-	sprintf_s(WP_AR6Folder, "%s%s", Foldername, AR6wpFolder);
-
 	char* AR6Filename = "Wp_AR6.X";
+	sprintf_s(WP_AR6Folder, "%s%s", AR6wpFolder, AR6Filename);
 
-	m_pWeapon_AR6 = new LDYSkinnedMesh_Weapon(WP_AR6Folder, AR6Filename);
+	
+	m_pWeapon_AR6 = MESHLOADER->GetSkinnedMeshWeapon(WP_AR6Folder);
+	
 
 	//m4
 	char WP_M4Folder[1024];
 	char* M4wpFolder = "Weapon/";
-	sprintf_s(WP_M4Folder, "%s%s", Foldername, M4wpFolder);
-
 	char* M4Filename = "Wp_M4.X";
+	sprintf_s(WP_M4Folder, "%s%s", M4wpFolder, M4Filename);
 
-	m_pWeapon_M4 = new LDYSkinnedMesh_Weapon(WP_M4Folder, M4Filename);
+	
+	m_pWeapon_M4 = MESHLOADER->GetSkinnedMeshWeapon(WP_M4Folder);
+
 
 
 }
