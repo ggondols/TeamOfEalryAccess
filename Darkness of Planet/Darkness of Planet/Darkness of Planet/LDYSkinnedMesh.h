@@ -76,7 +76,7 @@ public:
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
-	void SetScale(float f) { m_fScale = f; }
+	void SetScale(float f) { m_fScale =f;}
 protected:
 
 	void Load(char* szFolder, char* szFilename);

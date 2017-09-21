@@ -151,6 +151,9 @@
     <Filter Include="#3D Framework\Manager\NodeManager">
       <UniqueIdentifier>{17151d22-bbc4-425c-93cf-90b36f54dce8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\SkinnedMeshLoader">
+      <UniqueIdentifier>{4cfd8936-5947-4f44-a289-e129d7664dd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -402,6 +405,9 @@
     <ClInclude Include="TeicNodeManager.h">
       <Filter>#3D Framework\Manager\NodeManager</Filter>
     </ClInclude>
+    <ClInclude Include="TeicSkinnedMeshLoader.h">
+      <Filter>#3D Framework\Manager\SkinnedMeshLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -634,6 +640,9 @@
     </ClCompile>
     <ClCompile Include="TeicNodeManager.cpp">
       <Filter>#3D Framework\Manager\NodeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicSkinnedMeshLoader.cpp">
+      <Filter>#3D Framework\Manager\SkinnedMeshLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

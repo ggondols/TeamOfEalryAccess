@@ -39,6 +39,8 @@ HRESULT cGameNode::Setup(bool managerInit)
 		WAYMANAGER->Setup();
 		NODEMANAGER->Setup(257);
 		DATABASE->Setup();
+		MESHLOADER->Setup();
+		
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -109,6 +111,9 @@ void cGameNode::Release()
 
 		DATABASE->Destroy();
 		DATABASE->releaseSingleton();
+
+		MESHLOADER->Destroy();
+		MESHLOADER->releaseSingleton();
 	}
 }
 
