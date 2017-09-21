@@ -11,7 +11,7 @@ DataBase::~DataBase()
 
 void DataBase::Setup()
 {
-	//LoadItemData();
+	LoadItemData();
 }
 
 void DataBase::Destroy()
@@ -25,14 +25,15 @@ void DataBase::Destroy()
 
 void DataBase::LoadItemData(void)
 {
-	FILE* fp = 0;
+	FILE* fp = NULL;
 	fopen_s(&fp, "Data/ItemData.txt", "r");
+	
+	string keyName;
 
 	while (!feof(fp))
 	{
 		char szBuf[1024] = { '\0', };
 		char szPath[1024] = { '\0', };
-		string keyName;
 
 		fgets(szBuf, 1024, fp);
 
@@ -92,5 +93,9 @@ void DataBase::LoadItemData(void)
 
 float DataBase::GetItemValue(string itemName)
 {
-	return 0.0f;
+	mapItemDataIter it = m_mapItemData.find(itemName);
+	if (it != m_mapItemData.end())
+	{
+		return it->second->fValue;
+	}
 }
