@@ -601,8 +601,8 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void LDYcJustTestScene::Render()
 {
 
-	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
-	//if (m_pSkyDome)m_pSkyDome->Render();
+	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if(m_pGrid)m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();

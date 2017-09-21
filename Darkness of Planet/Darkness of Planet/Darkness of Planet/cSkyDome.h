@@ -12,7 +12,8 @@ private:
 	D3DXHANDLE				m_hMatWorld;
 	D3DXHANDLE				m_hMatView;
 	D3DXHANDLE				m_hMatProjection;
-
+	D3DXHANDLE				m_hfNight;
+	float					m_fNightvalue;
 public:
 	cSkyDome();
 	~cSkyDome();

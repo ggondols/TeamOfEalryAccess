@@ -6,6 +6,7 @@ cSkyDome::cSkyDome()
 	:m_pEffect(NULL)
 	, m_pMesh(NULL)
 	, m_dMatarial(0)
+	, m_fNightvalue(0.1)
 {
 }
 
@@ -37,10 +38,12 @@ void cSkyDome::Setup()
 	m_hMatView = m_pEffect->GetParameterByName(0, "matView");
 	m_hMatProjection = m_pEffect->GetParameterByName(0, "matProjection");
 	m_hTexture = m_pEffect->GetParameterByName(0, "DiffuseMap_Tex");
+	m_hfNight = m_pEffect->GetParameterByName(0, "night");
 }
 
 void cSkyDome::Update()
 {
+	m_fNightvalue += 0.001;
 }
 
 void cSkyDome::Render()
@@ -59,6 +62,7 @@ void cSkyDome::Render()
 	m_pEffect->SetMatrix(m_hMatWorld, &matWorld);
 	m_pEffect->SetMatrix(m_hMatView, &matView);
 	m_pEffect->SetMatrix(m_hMatProjection, &matProjection);
+	m_pEffect->SetFloat(m_hfNight, m_fNightvalue);
 	LPDIRECT3DTEXTURE9 texture;
 	texture = TEXTUREMANAGER->GetTexture("shader/Skybox/skydome1.jpg");
 	m_pEffect->SetTexture(m_hTexture, texture);
