@@ -163,7 +163,6 @@
     <ClInclude Include="cHeightMap.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectPool.h" />
-    <ClInclude Include="cShadowMapping.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cSkyBoxCube.h" />
@@ -230,6 +229,7 @@
     <ClInclude Include="TeicMoveSequence.h" />
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
     <ClInclude Include="TeicSkinnedMesh.h" />
+    <ClInclude Include="TeicWayManager.h" />
     <ClInclude Include="UIObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -246,7 +246,6 @@
     <ClCompile Include="cHeightMap.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectPool.cpp" />
-    <ClCompile Include="cShadowMapping.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cSkyBoxCube.cpp" />
@@ -313,6 +312,7 @@
     <ClCompile Include="TeicMoveSequence.cpp" />
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
     <ClCompile Include="TeicSkinnedMesh.cpp" />
+    <ClCompile Include="TeicWayManager.cpp" />
     <ClCompile Include="UIObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
