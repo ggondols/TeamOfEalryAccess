@@ -2341,7 +2341,7 @@ BoundingSquare * LDYCharacter::GetBoundingSquare()
 {
 	/*if (m_pSkinnedMesh)
 	{
-		return m_pSkinnedMesh->m_pBoundingSquare;
+		return &m_pSkinnedMesh->m_pBoundingSquare;
 	}
 	return NULL;*/
 	return NULL;

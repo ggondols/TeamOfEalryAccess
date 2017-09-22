@@ -235,6 +235,12 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
+	if (m_bThread)
+	{
+		m_Rectangle = ST_PN_Rectangle(m_vecEnemy[0]->GetBoundingSquare()->m_fSizeX,
+			m_vecEnemy[0]->GetBoundingSquare()->m_fSizeY,
+			m_vecEnemy[0]->GetBoundingSquare()->m_fSizeZ);
+	}
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
@@ -549,6 +555,7 @@ void TeicJustTestScene::TargetOn()
 		m_EnemyTarget = m_pCharacter->GetPositionYZero();
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
+			m_vecEnemy[i]->SetSpeed(10);
 			if (m_vecEnemy[i]->m_bAttackOn)continue;
 			if (m_vecEnemy[i]->m_bThreadCalOn)continue;
 
@@ -602,7 +609,22 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-
+	if (m_bThread)
+	{
+		D3DXMATRIX matWorld;
+		D3DXMatrixTranslation(&matWorld, 20, 10, -20);
+		D3DXMATRIX    scal;
+		D3DXMatrixScaling(&scal, 0.05, 0.05, 0.05);
+		matWorld = scal* matWorld ;
+		GETDEVICE->SetTexture(0, NULL);
+		GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+		GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+			12,
+			&m_Rectangle.m_vecVertex[0],
+			sizeof(ST_PN_VERTEX));
+		
+	}
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
@@ -765,7 +787,7 @@ void TeicJustTestScene::WayUpdate()
 			TeicCollisionMove* tempmove;
 			tempmove = new TeicCollisionMove;
 			tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
-			tempmove->SetSpeed(5);
+			tempmove->SetSpeed(m_vecEnemy[i]->m_fSpeed);
 			tempmove->SetFrom(m_vecEnemy[i]->GetPosition());
 			tempmove->SetTo(m_vecEnemyWay[i][1]);
 			tempmove->SetRoationAngle(m_vecEnemy[i]->GetRoationAngle());

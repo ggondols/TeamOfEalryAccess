@@ -30,6 +30,7 @@ public:
 	//bool			 m_bSlotOn;
 	float			 m_fAngle;
 	D3DXVECTOR3		 m_vPreviousPosition;
+	float			 m_fSpeed;
 public:
 	void SetSlot(bool on);
 	bool GetSlot();
@@ -54,6 +55,7 @@ public:
 	void SetCollision(bool on);
 	bool GetCollision();
 	POINT GetNodeNum();
+	void SetSpeed(float s) { m_fSpeed = s; }
 public:
 	TeicEnemy();
 	~TeicEnemy();

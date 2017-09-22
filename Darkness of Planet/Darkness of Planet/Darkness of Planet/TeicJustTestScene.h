@@ -37,6 +37,7 @@ private:
 	
 	int						m_iBodyUpgrade;
 public:
+	ST_PN_Rectangle			m_Rectangle;
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;
 	TeicAstar*				m_pAstar;
