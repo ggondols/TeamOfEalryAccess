@@ -52,6 +52,18 @@ TeicSkinnedMesh * cSkinnedMeshManager::GetTeiSkinnedMesh(char * szFolder, char *
 	return m_mapTeiSkinnedMesh[sFullPath];
 }
 
+BoundingSquare  cSkinnedMeshManager::GetTeiBoundingSquare(char * szFolder, char * szFilename)
+{
+	std::string sFullPath(szFolder);
+	sFullPath += std::string(szFilename);
+
+	if (m_mapTeiSkinnedMesh.find(sFullPath) == m_mapTeiSkinnedMesh.end())
+	{
+		
+	}
+	return m_mapTeiSkinnedMesh[sFullPath]->m_pBoundingSquare;
+}
+
 LDYSkinnedMesh * cSkinnedMeshManager::GetLDYSkinnedMesh(char * szFolder, char * szFilename)
 {
 	std::string sFullPath(szFolder);

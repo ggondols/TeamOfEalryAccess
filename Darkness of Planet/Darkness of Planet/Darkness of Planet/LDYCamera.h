@@ -22,6 +22,7 @@ public:
 	void Update(D3DXVECTOR3 pvTarget);
 	D3DXVECTOR3 getEye(void) { return m_vEye; }
 	D3DXVECTOR3 getLook(void) { return *m_pvTarget; }
+	float getAngleY(void) { return m_fangleY; }
 
 };
 

@@ -35,7 +35,7 @@ void cDeviceManager::Setup(void)
 	dpp.Windowed = true;        ///true에서 바꿈
 	dpp.BackBufferFormat = D3DFMT_UNKNOWN;  ///D3DFMT_UNKNOWN에서 바꿈
 	dpp.EnableAutoDepthStencil = TRUE;
-	dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 	     ///새롭게 추가함
 		////새롭게 추가함
 
@@ -64,8 +64,6 @@ void cDeviceManager::Destroy(void)
 {
 
 	SAFE_RELEASE(m_pD3D);
-	ULONG ul = m_pD3DDevice->Release();// SAFE_RELEASE(m_pD3DDevice);
-	//	assert(ul == 0 && "삭제되지 않은 COM 객체가 있습니다.");																																																															   //구
-
-
+	ULONG ul = m_pD3DDevice->Release(); /*SAFE_RELEASE(m_pD3DDevice);
+	assert(ul == 0 && "삭제되지 않은 COM 객체가 있습니다.");	*/																											
 }

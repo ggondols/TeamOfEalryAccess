@@ -139,6 +139,21 @@
     <Filter Include="헤더 파일\기타">
       <UniqueIdentifier>{97a722a2-ce22-49a4-9fa3-cb5c4b442a5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\DataBase">
+      <UniqueIdentifier>{492a11b2-a20c-4a58-acdf-31076c460c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\HeightMapManager">
+      <UniqueIdentifier>{2bbd426a-4976-4691-92b4-18ecce01b967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\WayManager">
+      <UniqueIdentifier>{80e99149-a43a-4ad8-8297-28a7c1e58531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\NodeManager">
+      <UniqueIdentifier>{17151d22-bbc4-425c-93cf-90b36f54dce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\SkinnedMeshLoader">
+      <UniqueIdentifier>{4cfd8936-5947-4f44-a289-e129d7664dd4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="테스트용 폴더\쉐이더 테스트">
       <UniqueIdentifier>{b57b2e1d-73b0-4444-975f-e3310e6c288b}</UniqueIdentifier>
     </Filter>
@@ -378,6 +393,33 @@
     <ClInclude Include="cSkyBoxCube.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="cSkyDome.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="DataBase.h">
+      <Filter>#3D Framework\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkyCloud.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicHeightMapManager.h">
+      <Filter>#3D Framework\Manager\HeightMapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicWayManager.h">
+      <Filter>#3D Framework\Manager\WayManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicNodeManager.h">
+      <Filter>#3D Framework\Manager\NodeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicSkinnedMeshLoader.h">
+      <Filter>#3D Framework\Manager\SkinnedMeshLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicSkinnedMeshParent.h">
+      <Filter>#3D Framework\Mesh\Tei</Filter>
+    </ClInclude>
+    <ClInclude Include="cShadowMapping.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
     <ClInclude Include="HankcDefferedRenderTest.h">
       <Filter>테스트용 폴더\쉐이더 테스트</Filter>
     </ClInclude>
@@ -597,6 +639,33 @@
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
     <ClCompile Include="cSkyBoxCube.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="DataBase.cpp">
+      <Filter>#3D Framework\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkyDome.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkyCloud.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicHeightMapManager.cpp">
+      <Filter>#3D Framework\Manager\HeightMapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicWayManager.cpp">
+      <Filter>#3D Framework\Manager\WayManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicNodeManager.cpp">
+      <Filter>#3D Framework\Manager\NodeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicSkinnedMeshLoader.cpp">
+      <Filter>#3D Framework\Manager\SkinnedMeshLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicSkinnedMeshParent.cpp">
+      <Filter>#3D Framework\Mesh\Tei</Filter>
+    </ClCompile>
+    <ClCompile Include="cShadowMapping.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
     <ClCompile Include="HankcDefferedRenderTest.cpp">

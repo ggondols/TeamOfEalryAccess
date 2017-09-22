@@ -27,6 +27,7 @@ private:
 	LDYSkinnedMesh_Weapon*		m_pWeapon_AR6;
 	LDYSkinnedMesh_Weapon*		m_pWeapon_M4;
 	LDYSkinnedMesh_Weapon*		m_pWeapon_MP5;
+	LDYSkinnedMesh_Weapon*		m_pWeapon_FireGun;
 
 	LDYSkinnedMesh*				m_pHeroBody_MP5[4];
 	LDYSkinnedMesh*				m_pHeroBody_Melee[4];
@@ -45,7 +46,8 @@ private:
 	StateType					m_eStType;
 	bool						m_bRun;
 	
-
+public:
+	POINT				m_pPreviousPoint;
 
 public:
 	void Setup(char* Foldername, char* Filename);
@@ -62,12 +64,14 @@ public:
 	void SetPosition(D3DXVECTOR3 position);
 	void SetAnimation(int num);
 	int GetAninum();
-	void Update();
+	void Update(float angle);
 	void SetMoving(bool on);
 	bool GetMoving();
 	void SetAttacking(bool on);
 	bool GetAttacking();
 	POINT GetNodeNum();
+	D3DXVECTOR3 GetPositionYZero();
+	BoundingSquare * GetBoundingSquare();
 	WeaponType getWeaponType() {return m_eWpType;}
 	StateType getStateType() { return m_eStType; }
 

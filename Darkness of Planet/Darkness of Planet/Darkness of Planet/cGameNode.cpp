@@ -35,6 +35,12 @@ HRESULT cGameNode::Setup(bool managerInit)
 		MATERIALMANAGER->Setup();
 		RND->Setup();
 		UIOBJECTMANAGER->Setup();
+		HEIGHTMAPMANAGER->Setup();
+		WAYMANAGER->Setup();
+		NODEMANAGER->Setup(257);
+		DATABASE->Setup();
+		MESHLOADER->Setup();
+		
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -53,7 +59,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		D3DX_PI / 4.0f,
 		rc.right / (float)rc.bottom,
 		1,
-		20000);
+		3000);
 	GETDEVICE->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
@@ -93,6 +99,21 @@ void cGameNode::Release()
 
 		UIOBJECTMANAGER->Destroy();
 		UIOBJECTMANAGER->releaseSingleton();
+
+		//HEIGHTMAPMANAGER->Destroy();  맵정보를 받아오는 곳에서 delete하면 안해줘도된다.
+		HEIGHTMAPMANAGER->releaseSingleton();
+
+		WAYMANAGER->Destroy();
+		WAYMANAGER->releaseSingleton();
+
+		NODEMANAGER->Destroy();
+		NODEMANAGER->releaseSingleton();
+
+		DATABASE->Destroy();
+		DATABASE->releaseSingleton();
+
+		MESHLOADER->Destroy();
+		MESHLOADER->releaseSingleton();
 	}
 }
 
@@ -106,13 +127,13 @@ void cGameNode::Render()
 
 LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+	
 	switch (iMessage)
 	{
 	case WM_LBUTTONDOWN:
 	{
 		g_isLButtonDown = true;
 		g_isLButtonUp = false;
-		
 	}
 	break;
 	case WM_RBUTTONDOWN:
@@ -143,6 +164,13 @@ LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPar
 	case WM_MOUSEWHEEL:
 	{
 		g_MouseWheel = GET_WHEEL_DELTA_WPARAM(wParam);
+	}
+	break;
+	case WM_SETCURSOR:
+	{
+		SetCursor(NULL);
+		GETDEVICE->ShowCursor(g_bCursor);
+		return true;
 	}
 	break;
 	case WM_COMMAND:

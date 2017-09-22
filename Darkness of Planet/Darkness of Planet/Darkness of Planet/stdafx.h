@@ -12,6 +12,7 @@
 #include <windows.h>
 
 // C 런타임 헤더 파일입니다.
+#include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
@@ -25,6 +26,7 @@ extern bool g_isLButtonDown;
 extern bool g_isRButtonDown;
 extern bool g_isLButtonUp;
 extern bool g_isRButtonUp;
+extern bool g_bCursor;
 extern int g_MouseWheel;
 
 
@@ -62,11 +64,16 @@ extern int g_MouseWheel;
 #define TEXTUREMANAGER cTextureManager::getSingleton()
 #define FONTMANAGER cFontManager::getSingleton()
 #define UIOBJECTMANAGER UIObjectManager::getSingleton()
-
+#define HEIGHTMAPMANAGER TeicHeightMapManager::getSingleton()
+#define WAYMANAGER	TeicWayManager::getSingleton()
+#define NODEMANAGER TeicNodeManager::getSingleton()
+#define MESHLOADER TeicSkinnedMeshLoader::getSingleton()
 //## 일반적인 클래스 메크로##//
 #define RND cRandomFunction::getSingleton()
 
 #define OBJECTPOOL cObjectPool::getSingleton()
+
+#define DATABASE DataBase::getSingleton()
 
 //## 디바이스 메크로##//
 #define GETDEVICE cDeviceManager::getSingleton()->GetDevice()
@@ -118,12 +125,16 @@ public: virtual void Set##funName(varType var){\
 #include "cTextureManager.h"
 #include "cFontManager.h"
 #include "UIObjectManager.h"
-
+#include "TeicHeightMapManager.h"
+#include "TeicWayManager.h"
+#include "TeicNodeManager.h"
+#include "TeicSkinnedMeshLoader.h"
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 #include "cSkinnedMeshManager.h"
 
 // 전역 싱글톤 클래스(디파인)
 #include "cObjectPool.h"
+#include "DataBase.h"
 
 // 일반 클래스 헤더(싱글톤 버전1 : 템플릿)
 #include "cRandomFunction.h"

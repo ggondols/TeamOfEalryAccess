@@ -1,5 +1,7 @@
 #pragma once
 struct ST_BONE;
+#include "HankcNode.h"
+#include "TeicSkinnedMeshParent.h"
 //###############################################
 //#												#
 //#		이동,위치,스케일,콜백이 적용된          #
@@ -12,11 +14,12 @@ struct ST_BONE;
 //#					Made by 태영				#
 //###############################################
 
-class TeicSkinnedMesh
+class TeicSkinnedMesh:public TeicSkinnedMeshParent
 {
 	friend class cSkinnedMeshManager;
 
 protected:
+	
 	//하나만 생성
 	ST_BONE*					m_pRootFrame;
 	DWORD						m_dwWorkingPaletteSize;
@@ -49,6 +52,7 @@ protected:
 	D3DXMATRIX					m_RotationMat;
 	bool m_bCollision;
 public:
+	BoundingSquare			m_pBoundingSquare;
 	float m_fZealotdiffer;
 	
 	void SetCallbackfunction(CallbackBindFunction function);
@@ -59,6 +63,7 @@ public:
 	void SetRandomTrackPosition(); // 테스트용
 	void SetRotationAngle(float angle); 
 	void SetRotationMatrix(D3DXMATRIX rotation) { m_RotationMat = rotation; }
+	
 	D3DXVECTOR3* GetPositionPointer() { return  &m_vPosition; }
 	
 	void SetAnimation(int num);

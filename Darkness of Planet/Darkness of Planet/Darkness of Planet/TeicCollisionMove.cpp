@@ -24,6 +24,7 @@ TeicCollisionMove::TeicCollisionMove()
 	m_Speed = 1.0;
 
 	m_Callback = NULL;
+	m_fRotationAngle = 0.0f;
 }
 
 
@@ -45,8 +46,8 @@ void TeicCollisionMove::SetCallback(CallbackBindFunction func)
 
 void TeicCollisionMove::CalRotation()
 {
-
-	D3DXVECTOR3 vDirection = m_previous - m_present;
+	
+	/*D3DXVECTOR3 vDirection = m_previous - m_present;
 
 	if (D3DXVec3LengthSq(&vDirection) <= 0.00001)
 		return;
@@ -65,8 +66,36 @@ void TeicCollisionMove::CalRotation()
 	if (m_pSkinnedTarget)
 	{
 		m_pSkinnedTarget->SetRotationMatrix(matR);
+	}*/
+
+	D3DXVECTOR3 vDirection = m_present -m_previous;
+	if (D3DXVec3LengthSq(&vDirection) <= 0.00001)
+		return;
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	D3DXVECTOR3 base = D3DXVECTOR3(1, 0, 0);
+	D3DXVECTOR3 Cross;
+	D3DXVec3Cross(&Cross,&base, &vDirection);
+	float targetangle =acosf( D3DXVec3Dot(&base, &vDirection));
+	if (Cross.y < 0) targetangle = D3DX_PI*2 - targetangle;
+
+	if (targetangle > m_fRotationAngle)
+	{
+		m_fRotationAngle += 0.05;
+		if (m_fRotationAngle > targetangle) m_fRotationAngle = targetangle;
+	}
+	else
+	{
+		m_fRotationAngle -= 0.05;
+		if (m_fRotationAngle < targetangle) m_fRotationAngle = targetangle;
 	}
 	
+	
+	
+	if (m_pSkinnedTarget)
+	{
+		m_pSkinnedTarget->SetRotationAngle(m_fRotationAngle);
+	}
 }
 
 void TeicCollisionMove::Start()

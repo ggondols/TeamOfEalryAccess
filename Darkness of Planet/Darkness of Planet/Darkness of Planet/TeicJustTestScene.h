@@ -12,6 +12,9 @@
 #include "TeicAstarShort.h"
 #include "TeicBresenham.h"
 #include "cSphere.h"
+#include "LDYCharacter.h"
+#include "cSkyBoxCube.h"
+#include "LDYCamera.h"
 
 class iMap;
 
@@ -21,38 +24,33 @@ class TeicJustTestScene:public cGameNode
 {
 
 private:
-	
+	LDYCamera*				m_pCamera;
+	cSkyBoxCube*			m_pSkyBox;
 	TeicBresenham*			m_pBresenham;
-	Hank::cCamera*			m_pCamera;
 	Hank::cGrid*			m_pGrid;
-
 	iMap*					m_pMap;
-
-
-	cUIObject*			m_pUITest;
-	cUIObject*			m_pUITest2;
-	LPD3DXSPRITE		m_pSprite;
+	LPD3DXFONT				m_pFont;
 
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
 	
-	
+	int						m_iBodyUpgrade;
 public:
 	HankcGrid*				m_pNode;
-	TeicCharacter*		m_pCharacter;
-	TeicAstar*			m_pAstar;
-	TeicAstarShort*     m_pAstarShort;
+	LDYCharacter*			m_pCharacter;
+	TeicAstar*				m_pAstar;
+	TeicAstarShort*		    m_pAstarShort;
 	bool					m_bThread;
 	bool					m_bAstarThread;
 	bool					m_bAttackOn;
-	vector<TeicEnemy*>			m_vecEnemy;
-	vector< vector<D3DXVECTOR3>> m_vecEnemyWay;
-	vector<TeicMoveSequence*>  m_vecEnemyCollisionMove;
-	D3DXVECTOR3				m_EnemyTarget;
-	vector<POINT>				m_vecBresnhamNode;
-	vector<bool>                m_vecAttackSlot;
-	POINT						m_pAttackNode;
+	vector<TeicEnemy*>				m_vecEnemy;
+	vector< vector<D3DXVECTOR3>>	m_vecEnemyWay;
+	vector<TeicMoveSequence*>		m_vecEnemyCollisionMove;
+	vector<POINT>					m_vecBresnhamNode;
+	vector<bool>					m_vecAttackSlot;
+	POINT							m_pAttackNode;
+	D3DXVECTOR3						m_EnemyTarget;
 public:
 
 	virtual HRESULT Setup();
@@ -67,15 +65,31 @@ public:
 	void ChangeGridInfo();
 	void TargetOn();
 	bool CheckStraight(TeicEnemy* A);
+	float EnemyEnemyDistance(TeicEnemy* A, TeicEnemy* B);
 	float EnemyPlayerDistance(TeicEnemy* ene);
 	bool TotalCollisionCheck();
-	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);
 	bool CheckSlot();
 	bool ChangeCheckPoint();
 	void AngleChange(TeicEnemy* A);
-	
+	void WayUpdate();
+	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);  //A와 B가 같은가?
 public:
 	TeicJustTestScene();
 	~TeicJustTestScene();
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

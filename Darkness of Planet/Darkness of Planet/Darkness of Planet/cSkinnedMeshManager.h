@@ -28,6 +28,7 @@ public:
 
 	cSkinnedMesh* GetSkinnedMesh(char* szFolder, char* szFilename);
 	TeicSkinnedMesh* GetTeiSkinnedMesh(char* szFolder, char* szFilename); //추가 김태영 2017.09.11
+	BoundingSquare GetTeiBoundingSquare(char* szFolder, char* szFilename); //추가 김태영 2017.09.11
 	LDYSkinnedMesh* GetLDYSkinnedMesh(char* szFolder, char* szFilename); //추가 이동윤 2017.09.15
 	LDYSkinnedMesh_Weapon* GetLDYSkinnedMesh_Weapon(char* szFolder, char* szFilename); //추가 이동윤 2017.09.15
 	LDYSkinnedMesh_Head* GetLDYSkinnedMesh_Head(char* szFolder, char* szFilename); //추가 이동윤 2017.09.15

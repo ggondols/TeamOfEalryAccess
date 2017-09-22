@@ -1,4 +1,5 @@
 #pragma once
+#include "TeicSkinnedMeshParent.h"
 struct ST_BONE;
 //###############################################
 //#												#
@@ -12,18 +13,19 @@ struct ST_BONE;
 //#											#
 //###############################################
 
-class LDYSkinnedMesh
+class LDYSkinnedMesh:public TeicSkinnedMeshParent
 {
 	friend class cSkinnedMeshManager;
 
 protected:
 	//하나만 생성
+	
 	ST_BONE*					m_pRootFrame;
 	DWORD						m_dwWorkingPaletteSize;
 	D3DXMATRIX*					m_pmWorkingPalette;
 	LPD3DXEFFECT				m_pEffect;
 	D3DXMATRIX					m_Move;
-
+	float						m_fScale;
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 
@@ -51,7 +53,7 @@ protected:
 
 
 public:
-
+	BoundingSquare*				m_pBoundingSquare;
 	D3DXMATRIX					m_matHead;
 	D3DXMATRIX					m_matWeapon;
 
@@ -76,6 +78,7 @@ public:
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
+	void SetScale(float f) { m_fScale =f;}
 protected:
 
 	void Load(char* szFolder, char* szFilename);

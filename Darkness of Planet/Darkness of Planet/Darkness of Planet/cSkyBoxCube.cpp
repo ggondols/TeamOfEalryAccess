@@ -37,7 +37,7 @@ void cSkyBoxCube::Setup()
 
 	D3DXCreateCubeTextureFromFile(
 		GETDEVICE,
-		"shader/Skybox/64bit.dds",
+		"shader/Skybox/Texture2.dds",
 		&m_pCubeTexture);
 
 	m_pEffect = LoadEffect("shader/Skybox/Skybox.fx");
@@ -49,7 +49,6 @@ void cSkyBoxCube::Setup()
 
 void cSkyBoxCube::Update()
 {
-
 }
 
 void cSkyBoxCube::Render(LDYCamera * pCamera)
@@ -60,7 +59,7 @@ void cSkyBoxCube::Render(LDYCamera * pCamera)
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 10.0f, 10.0f, 10.0f);
+	D3DXMatrixScaling(&matS, 100.0f, 100.0f, 100.0f);
 	matViewProjection = matS*matView*matProjection;
 	m_pEffect->SetMatrix(m_hViewProjection, &matViewProjection);
 	m_pEffect->SetVector(m_hvViewPosition, &D3DXVECTOR4(pCamera->getEye(), 1));
@@ -90,7 +89,6 @@ LPD3DXEFFECT cSkyBoxCube::LoadEffect(const char * szFileName)
 #ifdef _DEBUG
 	dwShaderFlag = dwShaderFlag | D3DXSHADER_DEBUG;		//셰이더를 디버그모드로 컴파일하겠다 ( 디버그모드로 해야 잘못된 컴파일 오류가 날때 Error 버퍼에 오류정보가 들어간다 ) 
 #endif
-
 														//fx 파일로 부터 셰이더 객체 생성
 	D3DXCreateEffectFromFile(
 		GETDEVICE,				// 디바이스

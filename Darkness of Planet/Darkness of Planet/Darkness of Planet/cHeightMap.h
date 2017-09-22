@@ -13,9 +13,9 @@ public:
 	cHeightMap(void);
 	virtual ~cHeightMap(void);
 
-	virtual void Load(char* szFolder,
-		char* szFile,
-		char* szTexture,
+	virtual void Load(string szFolder,
+		string szFile,
+		string szTexture,
 		DWORD dwBytesPerPixel = 1);
 
 	// iMap override
