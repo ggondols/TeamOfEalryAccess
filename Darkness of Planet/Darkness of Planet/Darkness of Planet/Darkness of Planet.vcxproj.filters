@@ -139,6 +139,12 @@
     <Filter Include="헤더 파일\기타">
       <UniqueIdentifier>{97a722a2-ce22-49a4-9fa3-cb5c4b442a5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="테스트용 폴더\쉐이더 테스트">
+      <UniqueIdentifier>{b57b2e1d-73b0-4444-975f-e3310e6c288b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="테스트용 폴더\쉐이더 테스트\클래스">
+      <UniqueIdentifier>{d035cbf2-8de4-4909-a145-ff4f0feebb33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -372,6 +378,12 @@
     <ClInclude Include="cSkyBoxCube.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="HankcDefferedRenderTest.h">
+      <Filter>테스트용 폴더\쉐이더 테스트</Filter>
+    </ClInclude>
+    <ClInclude Include="DefferedBufferClass.h">
+      <Filter>테스트용 폴더\쉐이더 테스트\클래스</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -586,6 +598,12 @@
     </ClCompile>
     <ClCompile Include="cSkyBoxCube.cpp">
       <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="HankcDefferedRenderTest.cpp">
+      <Filter>테스트용 폴더\쉐이더 테스트</Filter>
+    </ClCompile>
+    <ClCompile Include="DefferedBufferClass.cpp">
+      <Filter>테스트용 폴더\쉐이더 테스트\클래스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
