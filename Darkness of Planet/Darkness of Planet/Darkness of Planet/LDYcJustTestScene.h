@@ -76,7 +76,7 @@ public:
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
 
-	cShadowMapping*					m_pShadow;
+	//cShadowMapping*					m_pShadow;
 
 public:
 
