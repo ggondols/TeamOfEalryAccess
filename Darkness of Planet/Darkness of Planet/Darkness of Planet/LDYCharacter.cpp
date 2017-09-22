@@ -2344,5 +2344,123 @@ BoundingSquare * LDYCharacter::GetBoundingSquare()
 		return &m_pSkinnedMesh->m_pBoundingSquare;
 	}
 	return NULL;*/
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Melee[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_MP5[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case WP_FireGun:
+		{
+			return m_pHeroBody_SMG[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case WP_FireGun:
+		{
+			return m_pHeroBody_Base[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_AA12:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_AR6:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_M4:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case Wp_MP5:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+		case WP_FireGun:
+		{
+			return m_pHeroBody_IdleBreak[m_iBodyLv]->m_pBoundingSquare;
+		}
+		break;
+
+		}
+	}
+	break;
+	}
+
 	return NULL;
 }
