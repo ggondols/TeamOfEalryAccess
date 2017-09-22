@@ -33,15 +33,15 @@ void cShadowMapping::Setup()
 		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
 		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
 	{
-
+		int a = 0;
 	}
 
 	// 그림자 맵과 동일한 크기의 깊이버퍼도 만들어줘야 한다.
 	if (FAILED(GETDEVICE->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
-		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE,
+		D3DFMT_D24S8, D3DMULTISAMPLE_NONE, 0, TRUE,
 		&m_pShadowDepthStencil, NULL)))
 	{
-
+		int a = 0;
 	}
 
 	LPD3DXBUFFER pAdjacencyTorus;
@@ -79,7 +79,7 @@ void cShadowMapping::Setup()
 
 	m_hCmatWorld = m_pCreateShadow->GetParameterByName(0, "matWorld");
 	m_hCmatLightView = m_pCreateShadow->GetParameterByName(0, "matLightView");
-	m_hCmatLightProjection = m_pCreateShadow->GetParameterByName(0, "matLightProjection");
+	m_hCmatLightProjection = m_pCreateShadow->GetParameterByName(0, "gLightProjectionMatrix");
 
 
 	m_hApplyTexture = m_pApplyShadow->GetParameterByName(0, "ShadowMap_Tex");
@@ -92,17 +92,15 @@ void cShadowMapping::Setup()
 
 	
 
-	
-
-
 	 m_vec4LightPosition = { 500.0f,500.0f ,-500.0f ,1.0f };
 	 gObjectColor = { 1.00f, 1.00f, 0.00f, 1.00f };
 	 gDiscColor = { 0.00f, 1.00f, 1.00f, 1.00f };
 
-	
+	D3DXMatrixIdentity(&matCWorld);
 	D3DXMatrixScaling(&matS, 2, 2, 2);
-	D3DXMatrixTranslation(&matCWorld, 0.0f, -20.0f, 0.0f);
-	matCWorld *= matS;
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, 0.0f, -40.0f, 0.0f);
+	matCWorld = matS*matT;
 
 	{
 		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
@@ -112,7 +110,10 @@ void cShadowMapping::Setup()
 	}
 
 	{
-		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
+		RECT rc;
+		GetClientRect(g_hWnd, &rc);
+		//GETDEVICE->GetTransform(D3DTS_PROJECTION, &matLightProjection);
+		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1, 3000);
 	}
 
 }
@@ -135,33 +136,6 @@ void cShadowMapping::Render()
 
 	matViewProjection = matView*matProjection;
 
-	/*D3DXMATRIXA16  matView, matProjection, matViewProjection, matCWorld;
-
-	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
-	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
-	matViewProjection = matView*matProjection;*/
-	/*D3DXVECTOR4 m_vec4LightPosition = { 500.0f,500.0f ,-500.0f ,1.0f };
-	D3DXVECTOR4 gObjectColor = { 1.00f, 1.00f, 0.00f, 1.00f };
-	D3DXVECTOR4 gDiscColor = { 0.00f, 1.00f, 1.00f, 1.00f };
-
-	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 2, 2, 2);
-	D3DXMatrixTranslation(&matCWorld, 0.0f, -20.0f, 0.0f);
-	matCWorld *= matS;
-
-	D3DXMATRIXA16 matLightView;
-	{
-		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
-		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
-	}
-
-	D3DXMATRIXA16 matLightProjection;
-	{
-		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
-	}*/
-
 	LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
 	LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
 	GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
@@ -173,23 +147,22 @@ void cShadowMapping::Render()
 
 	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
 	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-	if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
-	{
-		GETDEVICE->SetRenderTarget(0, pShadowSurface);
-		SAFE_RELEASE(pShadowSurface);
-	}
+	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
+
+	GETDEVICE->SetRenderTarget(0, pShadowSurface);
 	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
+
+	SAFE_RELEASE(pShadowSurface);
 
 	// 저번 프레임에 그렸던 그림자 정보를 지움
 	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
-
 
 
 	// 그림자 만들기 쉐이더 전역변수들을 설정
 	m_pCreateShadow->SetMatrix(m_hCmatWorld, &matWorld);
 	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
 	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
-
+	
 	// 그림자 만들기 쉐이더를 시작
 	{
 		UINT numPasses = 0;
@@ -208,29 +181,29 @@ void cShadowMapping::Render()
 		m_pCreateShadow->End();
 	}
 
-
+	
 	//////////////////////////////
 	// 2. 그림자 입히기
 	//////////////////////////////
 
-	// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
 	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
-	// 저번 프레임에 그렸던 그림자 정보를 지움
-	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
-
 	SAFE_RELEASE(pHWBackBuffer);
 	SAFE_RELEASE(pHWDepthStencilBuffer);
+	
 
 	// 그림자 입히기 쉐이더 전역변수들을 설정
-	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);	//원환체
+	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);		//원환체
 	m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
 	m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
 	m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
+
 	m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
 	m_pApplyShadow->SetVector(m_hAgObjectColor, &gObjectColor);
-	m_pApplyShadow->SetTexture("ShadowMap_Tex", m_pShadowRenderTarget);
+
+	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
 
 
 	// 쉐이더를 시작한다.
@@ -254,7 +227,6 @@ void cShadowMapping::Render()
 		}
 	}
 	m_pApplyShadow->End();
-
 
 }
 

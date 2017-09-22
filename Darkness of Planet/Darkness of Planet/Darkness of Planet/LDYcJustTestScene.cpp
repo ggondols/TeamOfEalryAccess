@@ -604,15 +604,15 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void LDYcJustTestScene::Render()
 {
-
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
 	if (m_pShadow)m_pShadow->Render();
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
 	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if(m_pGrid)m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
-
 	
 	if (m_bThread)
 	{
