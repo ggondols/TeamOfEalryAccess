@@ -39,6 +39,7 @@ class LDYCharacter;
 class cSkyBoxCube;
 class cSkyDome;
 class cSkyCloud;
+class cShadowMapping;
 
 
 class LDYcJustTestScene :public cGameNode
@@ -77,6 +78,7 @@ public:
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
 
+	//cShadowMapping*					m_pShadow;
 
 public:
 

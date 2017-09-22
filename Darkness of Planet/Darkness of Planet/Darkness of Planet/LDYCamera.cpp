@@ -6,7 +6,7 @@ LDYCamera::LDYCamera()
 	, m_fangleY(0.0f)
 	, m_fangleX(0.0f)
 	, m_isLButtonDown(false)
-	, m_fDistance(9.0f)
+	, m_fDistance(8.0f)
 	, m_vEye(0, 0, -m_fDistance)
 	, getMousePos(false)
 {

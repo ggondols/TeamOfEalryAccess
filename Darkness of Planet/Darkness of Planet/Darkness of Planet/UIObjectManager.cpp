@@ -74,6 +74,7 @@ void UIObjectManager::AddChild(string key, UI_TYPE type)
 		case UITYPE_IMAGE:
 			pChild = new cUIImageView;
 			pChild->SetTag(findUI->GetChildSize() + 1);
+			pChild->SetAlpha(findUI->GetAlpha());
 			findUI->AddChild(pChild);
 			break;
 		case UITYPE_TEXT:
@@ -98,6 +99,18 @@ void UIObjectManager::SetPosition(string key, float x, float y)
 void UIObjectManager::SetPosition(string key, int tag, float x, float y)
 {
 	FindRoot(key)->GetChildByTag(tag)->SetPosition(x, y);
+}
+
+void UIObjectManager::SetAlpha(string key, DWORD alpha)
+{
+	cUIImageView* pImageView = (cUIImageView*)FindRoot(key);
+	if (pImageView) pImageView->SetAlpha(alpha);
+}
+
+void UIObjectManager::SetAlpha(string key, int tag, DWORD alpha)
+{
+	cUIImageView* pImageView = (cUIImageView*)FindRoot(key)->GetChildByTag(tag);
+	if (pImageView) pImageView->SetAlpha(alpha);
 }
 
 void UIObjectManager::SetTexture(string key, string fileAddress)
@@ -165,7 +178,7 @@ cUIObject * UIObjectManager::GetChildByTag(string key, int tag)
 	return FindRoot(key)->GetChildByTag(tag);
 }
 
-bool UIObjectManager::GetCollidedRect(string key, float x, float y)
+bool UIObjectManager::CheckCollidedRect(string key, float x, float y)
 {
 	RECT rc;
 	FindRoot(key)->GetRect(&rc);
@@ -181,7 +194,7 @@ bool UIObjectManager::GetCollidedRect(string key, float x, float y)
 	return false;
 }
 
-bool UIObjectManager::GetCollidedRect(string key, int tag, float x, float y)
+bool UIObjectManager::CheckCollidedRect(string key, int tag, float x, float y)
 {
 	RECT rc;
 	FindRoot(key)->GetChildByTag(tag)->GetRect(&rc);

@@ -411,6 +411,9 @@
     <ClInclude Include="TeicSkinnedMeshParent.h">
       <Filter>#3D Framework\Mesh\Tei</Filter>
     </ClInclude>
+    <ClInclude Include="cShadowMapping.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -649,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="TeicSkinnedMeshParent.cpp">
       <Filter>#3D Framework\Mesh\Tei</Filter>
+    </ClCompile>
+    <ClCompile Include="cShadowMapping.cpp">
+      <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

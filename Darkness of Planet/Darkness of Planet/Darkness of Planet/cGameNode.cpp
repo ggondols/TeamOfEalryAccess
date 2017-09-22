@@ -59,7 +59,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		D3DX_PI / 4.0f,
 		rc.right / (float)rc.bottom,
 		1,
-		20000);
+		3000);
 	GETDEVICE->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);

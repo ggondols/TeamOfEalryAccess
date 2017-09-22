@@ -130,32 +130,41 @@ HRESULT LJHcJustTestScene::Setup()
 	//////////Á¤Çö
 	D3DVIEWPORT9 viewport;
 	GETDEVICE->GetViewport(&viewport);
-	//cUIImageView* pAimImage = new cUIImageView;
-	//pAimImage->SetTexture("./UI/aimNormal.png");
-	//pAimImage->SetPosition(viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
-	//pAimImage->SetIsCenter(true);
-	//pAimImage->SetScale(0.1f, 0.1f);
+
+	//UIOBJECTMANAGER->AddRoot("aimTest", UITYPE_IMAGE, true);
+	//UIOBJECTMANAGER->SetTexture("aimTest", "./UI/aimNormal.png");
+	//UIOBJECTMANAGER->SetPosition("aimTest", viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
+	//UIOBJECTMANAGER->SetScale("aimTest", 0.1f, 0.1f);
+
+	//cUIImageView* pLifeImageDown = new cUIImageView;
+	//pLifeImageDown->SetTexture("./UI/lifeBarDown.bmp");
+	//pLifeImageDown->SetPosition(10, viewport.Height - 30);
+	//cUIImageView* pLifeImageUp = new cUIImageView;
+	//pLifeImageUp->SetTexture("./UI/lifeBarUp.bmp");
 	//
-	//UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, true);
-	UIOBJECTMANAGER->AddRoot("aimTest2", UITYPE_IMAGE, true);
-	UIOBJECTMANAGER->SetTexture("aimTest2", "./UI/aimNormal.png");
-	UIOBJECTMANAGER->SetPosition("aimTest2", viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
-	UIOBJECTMANAGER->SetScale("aimTest2", 0.1f, 0.1f);
+	//UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
+	//UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
 
-	cUIImageView* pLifeImageDown = new cUIImageView;
-	pLifeImageDown->SetTexture("./UI/lifeBarDown.bmp");
-	pLifeImageDown->SetPosition(10, viewport.Height - 30);
-	cUIImageView* pLifeImageUp = new cUIImageView;
-	pLifeImageUp->SetTexture("./UI/lifeBarUp.bmp");
+	//cUIImageView* pInventoryImage = new cUIImageView;
+	//pInventoryImage->SetTexture("./UI/inventory.png");
+	//UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
 
-	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
-	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
+	UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
+	UIOBJECTMANAGER->SetTexture("inventory", "./UI/inventory.png");
+	UIOBJECTMANAGER->SetAlpha("inventory", 200);
+	UIOBJECTMANAGER->SetPosition("inventory", 50.0f, 20.0f);
 
-	cUIImageView* pInventoryImage = new cUIImageView;
-	pInventoryImage->SetTexture("./UI/inventory.png");
-	UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
+	for (size_t row = 0; row < 5; row++)
+	{
+		for (size_t col = 0; col < 5; col++)
+		{
+			int index = (row * 5 + col) + 1;
+			UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
+			UIOBJECTMANAGER->SetPosition("inventory", index, col * 100.0f + 9.0f, row * 100.0f + 9.0f);
+		}
+	}
 
-
+	UIOBJECTMANAGER->SetTexture("inventory", 12, "UI/Icon_M4.png");
 
 	///////////µ¿À±
 
@@ -356,15 +365,15 @@ void LJHcJustTestScene::Update()
 	ChangeGridInfo();
 
 
-	cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest2");
-	pAim->SetTexture("./UI/aimNormal.png");
+	/*cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
+	pAim->SetTexture("./UI/aimNormal.png");*/
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	/*if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 	{
 		pAim->SetTexture("./UI/aimHit.png");
 	}
@@ -374,7 +383,7 @@ void LJHcJustTestScene::Update()
 		cUIObject* child = UIOBJECTMANAGER->GetChildByTag("lifeTest2", 1);
 		child->SetSize(ST_SIZE(child->GetSize().fWidth - 20 > 0 ? child->GetSize().fWidth - 20 : 0,
 			child->GetSize().fHeight));
-	}
+	}*/
 
 	
 

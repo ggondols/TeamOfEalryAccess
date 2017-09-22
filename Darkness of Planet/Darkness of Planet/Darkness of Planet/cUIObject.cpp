@@ -6,6 +6,7 @@ cUIObject::cUIObject(void)
 	, m_stSize(0, 0)
 	, m_pParent(NULL)
 	, m_nTag(0)
+	, m_dwAlpha(255)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
