@@ -160,7 +160,6 @@ HRESULT LJHcJustTestScene::Setup()
 		{
 			int index = (row * 5 + col) + 1;
 			UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
-			UIOBJECTMANAGER->SetTexture("inventory", index, "UI/Icon_Empty.png");
 			UIOBJECTMANAGER->SetPosition("inventory", index, col * 100.0f + 9.0f, row * 100.0f + 9.0f);
 		}
 	}

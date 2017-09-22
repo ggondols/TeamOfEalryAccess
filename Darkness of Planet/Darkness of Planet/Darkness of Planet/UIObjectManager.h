@@ -54,8 +54,8 @@ public:
 
 	cUIObject* FindRoot(string key);
 	cUIObject* GetChildByTag(string key, int tag);
-	bool GetCollidedRect(string key, float x, float y);
-	bool GetCollidedRect(string key, int tag, float x, float y);
+	bool CheckCollidedRect(string key, float x, float y);
+	bool CheckCollidedRect(string key, int tag, float x, float y);
 	bool CheckShowState(string key);
 
 	void Setup();

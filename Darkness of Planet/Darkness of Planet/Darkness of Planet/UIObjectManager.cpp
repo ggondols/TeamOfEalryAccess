@@ -178,7 +178,7 @@ cUIObject * UIObjectManager::GetChildByTag(string key, int tag)
 	return FindRoot(key)->GetChildByTag(tag);
 }
 
-bool UIObjectManager::GetCollidedRect(string key, float x, float y)
+bool UIObjectManager::CheckCollidedRect(string key, float x, float y)
 {
 	RECT rc;
 	FindRoot(key)->GetRect(&rc);
@@ -194,7 +194,7 @@ bool UIObjectManager::GetCollidedRect(string key, float x, float y)
 	return false;
 }
 
-bool UIObjectManager::GetCollidedRect(string key, int tag, float x, float y)
+bool UIObjectManager::CheckCollidedRect(string key, int tag, float x, float y)
 {
 	RECT rc;
 	FindRoot(key)->GetChildByTag(tag)->GetRect(&rc);
