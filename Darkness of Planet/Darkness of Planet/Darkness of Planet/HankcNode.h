@@ -1,6 +1,7 @@
 #pragma once
 class HankcNode;
 class TeicEnemy;
+class TeicSkinnedMeshParent;
 //###############################################
 //#												#
 //#		Total Node Initialize with Astar		#	
@@ -18,7 +19,8 @@ class TeicEnemy;
 enum Boundingtype
 {
 	Bounding_Enemy,
-	Bounding_Object
+	Bounding_Object,
+	Bounding_Character
 
 };
 
@@ -27,9 +29,17 @@ struct BoundingSquare
 	float m_fSizeX;
 	float m_fSizeY;
 	float m_fSizeZ;
+	D3DXVECTOR3 m_vXdir;
+	D3DXVECTOR3 m_vYdir;
+	D3DXVECTOR3 m_vZdir;
 	D3DXVECTOR3 m_vCenterPos;
 	Boundingtype st_Type;
-	TeicEnemy*  m_pEnemy;               //////////적 정보 추가
+	TeicSkinnedMeshParent*  m_pSkinnedObject;               //////////object 정보
+	bool		m_bIsPicked;
+	 
+	
+
+
 };
 
 enum INTERFACETYPE

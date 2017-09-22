@@ -45,6 +45,7 @@ class LDYcJustTestScene :public cGameNode
 {
 
 private:
+
 	LDYCamera*				m_pCamera;
 	cSkyBoxCube*			m_pSkyBox;
 	cSkyDome*				m_pSkyDome;
@@ -60,6 +61,7 @@ private:
 
 	int						m_iBodyUpgrade;
 public:
+
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;
 	TeicAstar*				m_pAstar;

@@ -71,6 +71,7 @@ public:
 	bool GetAttacking();
 	POINT GetNodeNum();
 	D3DXVECTOR3 GetPositionYZero();
+	BoundingSquare * GetBoundingSquare();
 	WeaponType getWeaponType() {return m_eWpType;}
 	StateType getStateType() { return m_eStType; }
 

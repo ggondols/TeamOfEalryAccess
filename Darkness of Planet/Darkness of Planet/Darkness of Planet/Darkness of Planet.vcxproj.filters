@@ -408,6 +408,9 @@
     <ClInclude Include="TeicSkinnedMeshLoader.h">
       <Filter>#3D Framework\Manager\SkinnedMeshLoader</Filter>
     </ClInclude>
+    <ClInclude Include="TeicSkinnedMeshParent.h">
+      <Filter>#3D Framework\Mesh\Tei</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -643,6 +646,9 @@
     </ClCompile>
     <ClCompile Include="TeicSkinnedMeshLoader.cpp">
       <Filter>#3D Framework\Manager\SkinnedMeshLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicSkinnedMeshParent.cpp">
+      <Filter>#3D Framework\Mesh\Tei</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,8 @@ cAllocateHierarchy::cAllocateHierarchy(void)
 	: m_sFolder("")
 	, m_dwDefaultPaletteSize(0)
 	, m_dwMaxPaletteSize(0)
+	, m_vMin(FLT_MAX, FLT_MAX, FLT_MAX)
+	, m_vMax(FLT_MIN, FLT_MIN, FLT_MIN)
 {
 }
 
@@ -92,6 +94,21 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 			pMeshData->pMesh->GetFVF(),
 			GETDEVICE,
 			&pBoneMesh->pOrigMesh);
+		DWORD dwBytesPerVertex = pMeshData->pMesh->GetNumBytesPerVertex();
+		BYTE* pV = 0;
+		pMeshData->pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+		DWORD dwNumVertices = pMeshData->pMesh->GetNumVertices();
+		for (DWORD i = 0; i < dwNumVertices; ++i)
+		{
+			D3DXVECTOR3* v = (D3DXVECTOR3*)&pV[i * dwBytesPerVertex];
+			if (m_vMax.x < v->x) m_vMax.x = v->x;
+			if (m_vMax.y < v->y) m_vMax.y = v->y;
+			if (m_vMax.z < v->z) m_vMax.z = v->z;
+			if (m_vMin.x > v->x) m_vMin.x = v->x;
+			if (m_vMin.y > v->y) m_vMin.y = v->y;
+			if (m_vMin.z > v->z) m_vMin.z = v->z;
+		}
+		pMeshData->pMesh->UnlockVertexBuffer();
 	}
 
 	if(pSkinInfo)

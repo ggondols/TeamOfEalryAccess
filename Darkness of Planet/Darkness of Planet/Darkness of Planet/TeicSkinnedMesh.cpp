@@ -15,7 +15,8 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	, m_bCollision(false)
 
 {
-	TeicSkinnedMesh* pSkinnedMesh = SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
+	TeicSkinnedMesh* pSkinnedMesh =	SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
+	
 
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
@@ -56,6 +57,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	m_iNum = 0;
 	D3DXMatrixIdentity(&m_RotationMat);
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
+	
 }
 TeicSkinnedMesh::TeicSkinnedMesh()
 	: m_pRootFrame(NULL)
@@ -69,6 +71,7 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 	D3DXMatrixIdentity(&m_RotationMat);
 	m_iNum = 0;
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
+	
 }
 
 
@@ -79,7 +82,7 @@ TeicSkinnedMesh::~TeicSkinnedMesh()
 	SAFE_DELETE(m_pmWorkingPalette);
 	SAFE_RELEASE(m_pEffect);
 	SAFE_RELEASE(m_pAnimController);
-
+	
 	
 
 }
@@ -91,7 +94,7 @@ void TeicSkinnedMesh::SetNextAni()
 	m_pAnimController->SetTrackAnimationSet(m_iCurrentAniNum, pAnimset);
 
 
-
+	
 	SAFE_RELEASE(pAnimset);
 
 
@@ -134,7 +137,21 @@ void TeicSkinnedMesh::Load(char* szDirectory, char* szFilename)
 		NULL,
 		(LPD3DXFRAME*)&m_pRootFrame,
 		&m_pAnimController);
-
+	
+	m_pBoundingSquare.m_bIsPicked = false;
+	m_pBoundingSquare.m_fSizeX = ah.GetMax().x - ah.GetMin().x;
+	m_pBoundingSquare.m_fSizeY = ah.GetMax().y - ah.GetMin().y;
+	m_pBoundingSquare.m_fSizeZ = ah.GetMax().z - ah.GetMin().z;
+	//m_pBoundingSquare.m_pSkinnedObject = this;
+	m_pBoundingSquare.m_vCenterPos = (ah.GetMin() + ah.GetMax()) / 2;
+	m_pBoundingSquare.m_vXdir = D3DXVECTOR3(ah.GetMax().x - ah.GetMin().x, 0, 0);
+	D3DXVec3Normalize(&m_pBoundingSquare.m_vXdir,&m_pBoundingSquare.m_vXdir);
+	m_pBoundingSquare.m_vYdir = D3DXVECTOR3(0, ah.GetMax().y - ah.GetMin().y, 0);
+	D3DXVec3Normalize(&m_pBoundingSquare.m_vYdir, &m_pBoundingSquare.m_vYdir);
+	m_pBoundingSquare.m_vZdir = D3DXVECTOR3(0, 0, ah.GetMax().z - ah.GetMin().z);
+	D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
+	
+	//m_pBoundingSquare.
 	if (m_pmWorkingPalette)
 		delete[] m_pmWorkingPalette;
 

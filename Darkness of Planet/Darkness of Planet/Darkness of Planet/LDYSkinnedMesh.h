@@ -1,4 +1,5 @@
 #pragma once
+#include "TeicSkinnedMeshParent.h"
 struct ST_BONE;
 //###############################################
 //#												#
@@ -12,12 +13,13 @@ struct ST_BONE;
 //#											#
 //###############################################
 
-class LDYSkinnedMesh
+class LDYSkinnedMesh:public TeicSkinnedMeshParent
 {
 	friend class cSkinnedMeshManager;
 
 protected:
 	//하나만 생성
+	
 	ST_BONE*					m_pRootFrame;
 	DWORD						m_dwWorkingPaletteSize;
 	D3DXMATRIX*					m_pmWorkingPalette;
@@ -51,7 +53,7 @@ protected:
 
 
 public:
-
+	BoundingSquare*				m_pBoundingSquare;
 	D3DXMATRIX					m_matHead;
 	D3DXMATRIX					m_matWeapon;
 

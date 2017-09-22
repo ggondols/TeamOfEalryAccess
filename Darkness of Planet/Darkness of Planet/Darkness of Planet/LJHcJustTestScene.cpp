@@ -286,7 +286,7 @@ void LJHcJustTestScene::Update()
 		{
 			if (D3DXVec3Length(&(m_vecEnemy[i]->GetPositionYzero() - m_pCharacter->GetPositionYZero())) < m_vecEnemy[i]->m_fAttackRange)
 			{
-				if (!m_vecEnemy[i]->m_bSlotOn)continue;
+				if (!m_vecEnemy[i]->GetSlot())continue;
 				m_vecEnemy[i]->m_bAttackOn = true;
 				m_vecEnemy[i]->m_bThreadCalOn = false;
 			}
@@ -506,7 +506,7 @@ void LJHcJustTestScene::ChangeGridInfo()
 			{
 				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
 				{
-					if (m_vecEnemy[i] == m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pEnemy)
+					if (m_vecEnemy[i]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
 					{
 						m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
 							m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
@@ -520,12 +520,12 @@ void LJHcJustTestScene::ChangeGridInfo()
 			{
 				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo = new nNodeBoundInfo;
 				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(
-					m_vecEnemy[i]->m_BoundingBox);
+					m_vecEnemy[i]->GetBoundingSquare());
 			}
 			else
 			{
 				m_pNode->m_vRow[m_vecEnemy[i]->m_PresentGrid.y].m_vCol[m_vecEnemy[i]->m_PresentGrid.x].m_pBoundInfo->m_vecBounding.push_back(
-					m_vecEnemy[i]->m_BoundingBox);
+					m_vecEnemy[i]->GetBoundingSquare());
 			}
 			m_vecEnemy[i]->m_PreviousGrid = m_vecEnemy[i]->GetNodeNum();
 		}
@@ -659,7 +659,7 @@ bool LJHcJustTestScene::CheckSlot()
 	}
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-		m_vecEnemy[i]->m_bSlotOn = false;
+		m_vecEnemy[i]->SetSlot(false);
 		if (m_bAttackOn)
 			m_vecEnemy[i]->m_bThreadCalOn = true;
 	}
@@ -686,7 +686,7 @@ bool LJHcJustTestScene::CheckSlot()
 					m_vecAttackSlot[count] = true;
 					for (int a = 0; a < m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding.size(); a++)
 					{
-						m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[a]->m_pEnemy->m_bSlotOn = true;
+						m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[a]->m_pSkinnedObject->m_bSlotOn = true;
 					}
 				}
 				else
@@ -744,7 +744,7 @@ void LJHcJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
-		if (A->m_bSlotOn && B->m_bSlotOn)
+		if (A->GetSlot() && B->GetSlot())
 		{
 			float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));
 			float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_EnemyTarget));

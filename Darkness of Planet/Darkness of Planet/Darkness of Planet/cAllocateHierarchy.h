@@ -35,7 +35,8 @@ public:
 	SYNTHESIZE(std::string, m_sFolder, Folder);
 	SYNTHESIZE(DWORD, m_dwDefaultPaletteSize, DefaultPaletteSize);
 	SYNTHESIZE(DWORD, m_dwMaxPaletteSize, MaxPaletteSize);
-
+	SYNTHESIZE(D3DXVECTOR3, m_vMin, Min);
+	SYNTHESIZE(D3DXVECTOR3, m_vMax, Max);
 	// ID3DXAllocateHierarchy
 
 	//------------------------------------------------------------------------

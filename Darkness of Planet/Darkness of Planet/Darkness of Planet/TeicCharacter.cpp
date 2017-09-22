@@ -26,6 +26,9 @@ void TeicCharacter::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicCharacter::CallbackOn, this, 0));
 	m_pCtrl = new TeicPhysicsCrtCtrl;
 	
+	m_pSkinnedMesh->m_pBoundingSquare = SKINMANAGER->GetTeiBoundingSquare(Foldername, Filename);
+	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
+	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;
 }
 
 void TeicCharacter::CallbackOn(int n)

@@ -14,7 +14,7 @@ TeicEnemy::TeicEnemy()
 	m_fAttackRange = 6;
 	m_bAttackOn = false;
 	m_bThreadCalOn = false;
-	m_bSlotOn = false;
+	/*m_bSlotOn = false;*/
 	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.0f;
 }
@@ -25,19 +25,44 @@ TeicEnemy::~TeicEnemy()
 }
 
 
+void TeicEnemy::SetSlot(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->m_bSlotOn = on;
+	}
+}
+
+bool TeicEnemy::GetSlot()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->m_bSlotOn;;
+	}
+}
+
+BoundingSquare * TeicEnemy::GetBoundingSquare()
+{
+	if (m_pSkinnedMesh)
+	{
+		return &m_pSkinnedMesh->m_pBoundingSquare;
+	}
+	return NULL;
+}
+
 void TeicEnemy::Setup(char* Foldername, char* Filename)
 {
+	
 	m_pSkinnedMesh = new TeicSkinnedMesh(Foldername, Filename);
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicEnemy::CallbackOn, this, 0));
-	m_BoundingBox = new BoundingSquare;
-	m_BoundingBox->m_fSizeX = 1;
-	m_BoundingBox->m_fSizeY = 1;
-	m_BoundingBox->m_fSizeZ = 1;
-	m_BoundingBox->m_vCenterPos = m_pSkinnedMesh->GetPosition();
-	m_BoundingBox->st_Type = Bounding_Enemy;
-	m_BoundingBox->m_pEnemy = this;
+	
+	
+	m_pSkinnedMesh->m_pBoundingSquare = SKINMANAGER->GetTeiBoundingSquare(Foldername, Filename);
+	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
+	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;;
+
 }
 
 void TeicEnemy::CallbackOn(int n)
@@ -64,7 +89,7 @@ void TeicEnemy::UpdateAndRender()
 	if (m_pSkinnedMesh)
 	{
 		m_pSkinnedMesh->UpdateAndRender();
-		m_BoundingBox->m_vCenterPos = m_pSkinnedMesh->GetPosition();
+		
 	}
 }
 

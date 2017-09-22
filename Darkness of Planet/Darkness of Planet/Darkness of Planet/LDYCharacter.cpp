@@ -2336,3 +2336,13 @@ D3DXVECTOR3 LDYCharacter::GetPositionYZero()
 	}
 	return D3DXVECTOR3();
 }
+
+BoundingSquare * LDYCharacter::GetBoundingSquare()
+{
+	/*if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->m_pBoundingSquare;
+	}
+	return NULL;*/
+	return NULL;
+}

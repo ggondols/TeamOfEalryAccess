@@ -231,6 +231,7 @@
     <ClInclude Include="TeicPhysicsCrtCtrl.h" />
     <ClInclude Include="TeicSkinnedMesh.h" />
     <ClInclude Include="TeicSkinnedMeshLoader.h" />
+    <ClInclude Include="TeicSkinnedMeshParent.h" />
     <ClInclude Include="TeicWayManager.h" />
     <ClInclude Include="UIObjectManager.h" />
   </ItemGroup>
@@ -316,6 +317,7 @@
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp" />
     <ClCompile Include="TeicSkinnedMesh.cpp" />
     <ClCompile Include="TeicSkinnedMeshLoader.cpp" />
+    <ClCompile Include="TeicSkinnedMeshParent.cpp" />
     <ClCompile Include="TeicWayManager.cpp" />
     <ClCompile Include="UIObjectManager.cpp" />
   </ItemGroup>
