@@ -157,6 +157,12 @@
     <Filter Include="#3D Framework\Collision">
       <UniqueIdentifier>{021ed0d8-7167-4e06-9862-d74f36be7d20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링">
+      <UniqueIdentifier>{24c9193d-9fa6-403f-828c-9c2d661df52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링\클래스">
+      <UniqueIdentifier>{270963c9-8cb2-465a-ba24-84fb4c1d7029}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -420,6 +426,12 @@
     <ClInclude Include="TeicObbCollision.h">
       <Filter>#3D Framework\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="HankcDefferedRenderTest.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링</Filter>
+    </ClInclude>
+    <ClInclude Include="DefferedBufferClass.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -664,6 +676,12 @@
     </ClCompile>
     <ClCompile Include="TeicObbCollision.cpp">
       <Filter>#3D Framework\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="HankcDefferedRenderTest.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링</Filter>
+    </ClCompile>
+    <ClCompile Include="DefferedBufferClass.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
