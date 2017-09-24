@@ -18,7 +18,7 @@ TeicEnemy::TeicEnemy()
 	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.0f;
 	m_fSpeed = 5.0f;
-	
+
 }
 
 
@@ -26,6 +26,91 @@ TeicEnemy::~TeicEnemy()
 {
 }
 
+
+void TeicEnemy::MakeBoundingBox()
+{
+	vector<ST_PN_VERTEX>	m_vecVertex;
+	vector<D3DXVECTOR3>	vecVertex;
+	vector<DWORD>		vecIndex;
+	float fCubeSizeX = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeX / 2;
+	float fCubeSizeY = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeY / 2;
+	float fCubeSizeZ = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeZ / 2;
+	D3DXVECTOR3	center = m_pSkinnedMesh->m_pBoundingSquare.m_vCenterPos;
+
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y - fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y + fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y + fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y - fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y - fCubeSizeY, center.z + fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y + fCubeSizeY, center.z + fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y + fCubeSizeY, center.z + fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y - fCubeSizeY, center.z + fCubeSizeZ));
+
+	vector<D3DXVECTOR3> vecNormal;
+	vecNormal.push_back(D3DXVECTOR3(0, 0, -1));
+	vecNormal.push_back(D3DXVECTOR3(0, 0, 1));
+	vecNormal.push_back(D3DXVECTOR3(-1, 0, 0));
+	vecNormal.push_back(D3DXVECTOR3(1, 0, 0));
+	vecNormal.push_back(D3DXVECTOR3(0, 1, 0));
+	vecNormal.push_back(D3DXVECTOR3(0, -1, 0));
+
+	//앞
+	vecIndex.push_back(0);
+	vecIndex.push_back(1);
+	vecIndex.push_back(2);
+	vecIndex.push_back(0);
+	vecIndex.push_back(2);
+	vecIndex.push_back(3);
+	//뒤
+	vecIndex.push_back(4);
+	vecIndex.push_back(6);
+	vecIndex.push_back(5);
+	vecIndex.push_back(4);
+	vecIndex.push_back(7);
+	vecIndex.push_back(6);
+	//좌
+	vecIndex.push_back(4);
+	vecIndex.push_back(5);
+	vecIndex.push_back(1);
+	vecIndex.push_back(4);
+	vecIndex.push_back(1);
+	vecIndex.push_back(0);
+	//우
+	vecIndex.push_back(3);
+	vecIndex.push_back(2);
+	vecIndex.push_back(6);
+	vecIndex.push_back(3);
+	vecIndex.push_back(6);
+	vecIndex.push_back(7);
+	//상
+	vecIndex.push_back(1);
+	vecIndex.push_back(5);
+	vecIndex.push_back(6);
+	vecIndex.push_back(1);
+	vecIndex.push_back(6);
+	vecIndex.push_back(2);
+	//하
+	vecIndex.push_back(4);
+	vecIndex.push_back(0);
+	vecIndex.push_back(3);
+	vecIndex.push_back(4);
+	vecIndex.push_back(3);
+	vecIndex.push_back(7);
+
+	for (size_t i = 0; i < vecIndex.size(); ++i)
+	{
+		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
+		D3DXVECTOR3 n = vecNormal[i / 6];
+		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
+	}
+	D3DXMATRIX matWorld;
+	//D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixRotationY(&matWorld, m_pSkinnedMesh->GetAngle());
+	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
+	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_vecVertex[0], sizeof(ST_PN_VERTEX));
+
+}
 
 void TeicEnemy::SetSlot(bool on)
 {
@@ -54,13 +139,13 @@ BoundingSquare * TeicEnemy::GetBoundingSquare()
 
 void TeicEnemy::Setup(char* Foldername, char* Filename)
 {
-	
+
 	m_pSkinnedMesh = new TeicSkinnedMesh(Foldername, Filename);
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicEnemy::CallbackOn, this, 0));
-	
-	
+
+
 	m_pSkinnedMesh->m_pBoundingSquare = SKINMANAGER->GetTeiBoundingSquare(Foldername, Filename);
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
 	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;;
@@ -95,8 +180,9 @@ void TeicEnemy::UpdateAndRender()
 	if (m_pSkinnedMesh)
 	{
 		m_pSkinnedMesh->UpdateAndRender();
-		
+
 	}
+	MakeBoundingBox();
 }
 
 void TeicEnemy::SetAnimationIndex(int nIndex)
@@ -123,7 +209,7 @@ float TeicEnemy::GetRoationAngle()
 		return m_fAngle;
 	}
 	return 0.0f;
-	
+
 }
 
 void TeicEnemy::SetRotationMatrix(D3DXMATRIX rotation)

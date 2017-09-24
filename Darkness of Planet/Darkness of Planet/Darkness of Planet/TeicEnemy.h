@@ -20,8 +20,9 @@ private:
 	TeicSkinnedMesh*	m_pSkinnedMesh;
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
-public:
 	
+public:
+	void MakeBoundingBox();
 	POINT m_PresentGrid;
 	POINT m_PreviousGrid;
 	float			 m_fBoundingSize;
