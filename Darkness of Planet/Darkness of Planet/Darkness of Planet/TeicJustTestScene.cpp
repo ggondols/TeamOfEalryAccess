@@ -7,7 +7,8 @@
 #include "TeicPhysicsCrtCtrl.h"
 #include "cUIImageView.h"
 #include "cUITextView.h"
-
+#include "cSkyDome.h"
+#include "cSkyCloud.h"
 static CRITICAL_SECTION cs;
 
 
@@ -104,6 +105,8 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pFont(NULL)
 	, m_pCollision(NULL)
 	, m_pShoot(NULL)
+	,m_pSkyDome(NULL)
+	, m_pSkyCloud(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -127,7 +130,8 @@ TeicJustTestScene::~TeicJustTestScene()
 
 	}
 	SAFE_DELETE(m_pCollision);
-
+	SAFE_DELETE(m_pSkyDome);
+	SAFE_DELETE(m_pSkyCloud);
 }
 
 
@@ -229,7 +233,16 @@ HRESULT TeicJustTestScene::Setup()
 	m_pShoot = new TeicShoot;
 	m_pShoot->Setup(m_pNode, m_pCamera, m_pCharacter);
 	
+	m_pTempEnemy = new TeicEnemy;
+	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
+	m_pTempEnemy->SetPosition(D3DXVECTOR3(0,0,0));
+	m_pTempEnemy->SetAnimation(0);
 
+	m_pSkyDome = new cSkyDome;
+	m_pSkyDome->Setup();
+
+	m_pSkyCloud = new cSkyCloud;
+	m_pSkyCloud->Setup();
 
 	return S_OK;
 }
@@ -247,11 +260,9 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		m_pShoot->Shoot();
-	}
 	
+	if (m_pSkyDome)m_pSkyDome->Update();
+	if (m_pSkyCloud)m_pSkyCloud->Update();
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
@@ -286,7 +297,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -297,7 +308,7 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}*/
+	}
 
 
 
@@ -633,19 +644,23 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-	
-	m_pShoot->Render();
+	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+
+
+	//m_pTempEnemy->UpdateAndRender();
+	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	m_pTempSPhere->Setup(D3DXVECTOR3( 0,10,0), 0.1f);
-	m_pTempSPhere->Render();
+	/*m_pTempSPhere->Setup(D3DXVECTOR3( 0,10,0), 0.1f);
+	m_pTempSPhere->Render();*/
 	/*m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
-	m_pTempSPhere->Render();
-*/
+	m_pTempSPhere->Render();*/
+
 
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();

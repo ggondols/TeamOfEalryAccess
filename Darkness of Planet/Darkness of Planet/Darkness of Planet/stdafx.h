@@ -306,14 +306,14 @@ struct ST_PN_Rectangle
 	{
 		vector<D3DXVECTOR3>	vecVertex;
 		vector<DWORD>		vecIndex;
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, -fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, -fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, -fCubeSizeY, fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, fCubeSizeY, fCubeSizeZ));
+		vecVertex.push_back(D3DXVECTOR3(0, 0, 0));
+		vecVertex.push_back(D3DXVECTOR3(0, fCubeSizeY, 0));
+		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, fCubeSizeY, 0));
+		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, 0, 0));
+		vecVertex.push_back(D3DXVECTOR3(0, 0, fCubeSizeZ));
+		vecVertex.push_back(D3DXVECTOR3(0, fCubeSizeY, fCubeSizeZ));
 		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, fCubeSizeY, fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, -fCubeSizeY, fCubeSizeZ));
+		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, 0, fCubeSizeZ));
 
 		vector<D3DXVECTOR3> vecNormal;
 		vecNormal.push_back(D3DXVECTOR3(0, 0, -1));

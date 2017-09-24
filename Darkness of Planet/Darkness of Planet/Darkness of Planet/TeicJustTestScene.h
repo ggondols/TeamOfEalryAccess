@@ -15,17 +15,20 @@
 #include "LDYCharacter.h"
 #include "cSkyBoxCube.h"
 #include "LDYCamera.h"
-#include "cSphere.h"
 #include "TeicObbCollision.h"
 #include "TeicShoot.h"
+
 class iMap;
 
 class cUIObject;
-
+class cSkyDome;
+class cSkyCloud;
 class TeicJustTestScene:public cGameNode
 {
 
 private:
+	cSkyDome*						m_pSkyDome;
+	cSkyCloud*						m_pSkyCloud;
 	TeicShoot*				m_pShoot;
 	TeicObbCollision*		m_pCollision;
 	LDYCamera*				m_pCamera;
@@ -57,7 +60,7 @@ public:
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
 public:
-	
+	TeicEnemy*  m_pTempEnemy;
 	cSphere*	m_pTempSPhere;
 	virtual HRESULT Setup();
 	virtual void Release();
