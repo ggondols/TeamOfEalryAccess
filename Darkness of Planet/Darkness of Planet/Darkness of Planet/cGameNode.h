@@ -1,9 +1,14 @@
 #pragma once
 #include "cGameNode.h"
+#include "structs.h"
 
 class cSceneInfo
 {
 public:
+	std::list< LightOmni_s* >			m_pLightOmni;
+	std::list< LightDirectional_s* >	m_pLightDirectional;
+	std::list< LightSpot_s* >			m_pLightSpot;
+
 	D3DXVECTOR4 m_vecAmbientColor;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "HankRenderer.h"
 
+
 const unsigned int kiNumRTs = 3;
 
 class HankcDeferrendRenderer : public HankRenderer

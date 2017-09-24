@@ -242,6 +242,7 @@
     <ClInclude Include="TeicSkinnedMeshParent.h" />
     <ClInclude Include="TeicWayManager.h" />
     <ClInclude Include="UIObjectManager.h" />
+    <ClInclude Include="structs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cActionMove.cpp" />
