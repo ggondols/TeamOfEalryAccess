@@ -58,8 +58,8 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 	float deltaX = g_ptMouse.y - m_ptPrevMouse.y;
 	float deltaY = g_ptMouse.x - m_ptPrevMouse.x;
 
-	m_fangleX += deltaX / 50.0f;
-	m_fangleY += deltaY / 50.0f;
+	m_fangleX += deltaX / 100.0f;
+	m_fangleY += deltaY / 100.0f;
 
 	if (m_fangleX < -D3DX_PI / 4.0f + 0.0001f)
 		m_fangleX = -D3DX_PI / 4.0f + 0.0001f;

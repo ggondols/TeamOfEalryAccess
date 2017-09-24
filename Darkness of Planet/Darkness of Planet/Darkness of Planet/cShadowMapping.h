@@ -1,7 +1,8 @@
 #pragma once
 
 class LDYCharacter;
-class iMap;
+class LDYiMap;
+class LDYHeightMap;
 
 class cShadowMapping
 {
@@ -15,6 +16,7 @@ private:
 	LPD3DXMESH				m_pTorus;
 
 	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
+	LPDIRECT3DTEXTURE9		m_pMapRenderTarget;
 	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
 
 	//create fx¿ëÇÚµé
@@ -43,9 +45,9 @@ private:
 	D3DXMATRIXA16			matLightProjection;
 
 	LDYCharacter*			m_pCharacter;
-	iMap*							m_pMap;
+	LDYHeightMap*							m_pMap;
 	LPD3DXMESH mapmesh;
-
+	LPD3DXEFFECT			m_pMapShadow;
 public:
 	cShadowMapping();
 	~cShadowMapping();

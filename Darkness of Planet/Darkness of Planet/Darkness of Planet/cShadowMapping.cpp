@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "cShadowMapping.h"
-#include "iMap.h"
+#include "LDYiMap.h"
 #include "LDYCharacter.h"
-#include "cHeightMap.h"
+#include "LDYHeightMap.h"
 
 
 cShadowMapping::cShadowMapping()
@@ -16,6 +16,8 @@ cShadowMapping::cShadowMapping()
 	,m_pMap(NULL)
 	, m_pCharacter(NULL)
 	, mapmesh(NULL)
+	, m_pMapRenderTarget(NULL)
+	, m_pMapShadow(NULL)
 {
 	D3DXMatrixIdentity(&matWorld);
 }
@@ -29,6 +31,8 @@ cShadowMapping::~cShadowMapping()
 	SAFE_RELEASE(m_pShadowDepthStencil);
 	SAFE_RELEASE(m_pApplyShadow);
 	SAFE_RELEASE(m_pCreateShadow);
+	SAFE_RELEASE(m_pMapRenderTarget);
+	SAFE_RELEASE(m_pMapShadow);
 
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
@@ -51,6 +55,14 @@ void cShadowMapping::Setup()
 	{
 
 	}
+
+	if (FAILED(GETDEVICE->CreateTexture(shadowMapSize, shadowMapSize,
+		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
+		D3DPOOL_DEFAULT, &m_pMapRenderTarget, NULL)))
+	{
+
+	}
+
 
 	// 그림자 맵과 동일한 크기의 깊이버퍼도 만들어줘야 한다.
 	if (FAILED(GETDEVICE->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
@@ -115,7 +127,6 @@ void cShadowMapping::Setup()
 	D3DXMatrixScaling(&matS, 2, 2, 2);
 	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, 40.0f, -40.0f, 40.0f);
-	matCWorld = matS*matT;
 
 	{
 		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
@@ -130,8 +141,12 @@ void cShadowMapping::Setup()
 		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1, 3000);
 	}
 
-	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
+	m_pMap = new LDYHeightMap;
+	m_pMap->Load("map/","HeightMap.raw","terrian.jpg",1);
+
+	D3DXMatrixScaling(&matWorld, 0.04f, 0.04f, 0.04f);
 	//D3DXMatrixTranslation(&matWorld, 20.0f, 0.0f, -20.0f);
+	m_pMapShadow = LoadEffect("shader/shadow/TextureMapping.fx");
 
 }
 
@@ -191,7 +206,6 @@ void cShadowMapping::Render()
 		}
 		m_pCreateShadow->End();
 	}
-
 	
 	//////////////////////////////
 	// 2. 그림자 입히기
@@ -205,6 +219,12 @@ void cShadowMapping::Render()
 	SAFE_RELEASE(pHWBackBuffer);
 	SAFE_RELEASE(pHWDepthStencilBuffer);
 	
+	/*GETDEVICE->Clear(NULL,
+		NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCOLOR_XRGB(255, 0, 0),
+		1.0f, 0);*/
+
 
 	// 그림자 입히기 쉐이더 전역변수들을 설정
 	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);		//원환체
@@ -217,6 +237,9 @@ void cShadowMapping::Render()
 
 	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
 
+	LPDIRECT3DTEXTURE9 tex;
+	tex = TEXTUREMANAGER->GetTexture("map/terrain.jpg");
+	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
 
 	// 쉐이더를 시작한다.
 	UINT numPasses = 0;
@@ -233,6 +256,7 @@ void cShadowMapping::Render()
 				m_pApplyShadow->SetMatrix(m_hAmatWorld, &matCWorld);
 				m_pApplyShadow->SetVector(m_hAgObjectColor, &gDiscColor);
 				m_pApplyShadow->CommitChanges();
+				//if (m_pMap) m_pMap->Render();
 				//m_pDisc->DrawSubset(0);
 				if (m_pMap) mapmesh=m_pMap->getMesh();
 				mapmesh->DrawSubset(0);
@@ -243,6 +267,8 @@ void cShadowMapping::Render()
 	m_pApplyShadow->End();
 
 	//if (m_pMap) m_pMap->Render();
+
+	
 
 }
 
