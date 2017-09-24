@@ -7,7 +7,7 @@
 #include "HankcJustTestScene.h"
 #include "cTestMain.h"
 #include "LoadingScene.h"
-
+#include "HankcDefferedRenderTest.h"
 cMainGame::cMainGame()
 {
 }
@@ -27,7 +27,7 @@ HRESULT cMainGame::Setup()
 	SCENEMANAGER->addScene("TeicJustTestScene", new TeicJustTestScene);
 	SCENEMANAGER->addScene("LDYcJustTestScene", new LDYcJustTestScene);
 	SCENEMANAGER->addScene("LJHcJustTestScene", new LJHcJustTestScene);
-	SCENEMANAGER->addScene("HankcJustTestScene", new HankcJustTestScene);
+	SCENEMANAGER->addScene("HankcDefferedRenderTest", new HankcDefferedRenderTest);
 	SCENEMANAGER->addScene("cTestMain", new cTestMain);
 
 	SCENEMANAGER->addScene("LoadingScene", new LoadingScene);
@@ -50,7 +50,7 @@ void cMainGame::Update()
 	
 	if (KEYMANAGER->isOnceKeyDown('1'))
 	{
-		SCENEMANAGER->changeScene("HankcJustTestScene");
+		SCENEMANAGER->changeScene("HankcDefferedRenderTest");
 	}
 	if (KEYMANAGER->isOnceKeyDown('2'))
 	{

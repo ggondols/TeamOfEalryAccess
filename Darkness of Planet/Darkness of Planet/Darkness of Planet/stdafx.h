@@ -397,3 +397,23 @@ typedef void(*CALLBACK_FUNCTION)(void);
 typedef void(*CALLBACK_FUNCTION_PARAMETER)(void*);
 typedef std::function<void()> CallbackBindFunction; // 이것은 함수포인터 방식에서의 typedef void(*pFunc)(void); 에 해당함.
 
+
+// Debuging 용 스트링 템플릿
+// 아무 변수나 받아서 스트링으로 바꿔서 리턴해줌
+template <class T>
+std::string toString(const T & t)
+{
+	std::ostringstream oss;		// create stream
+	oss << t;					// insert value to stream
+	return oss.str();			// return as a string
+}
+
+//for example 
+//string frameRate = string("FPS: ") + toString( Some dinamic value );
+
+//m_pFont->DrawText(NULL,			//pSprite
+//	frameRate.c_str(),					//pString
+//	-1,									//Count
+//	&font_rect,							//pRect
+//	DT_LEFT | DT_NOCLIP,					//Format,
+//	D3DCOLOR_ARGB(255, 255, 255, 0));	//colour
