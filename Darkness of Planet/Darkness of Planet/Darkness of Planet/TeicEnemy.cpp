@@ -10,8 +10,8 @@ TeicEnemy::TeicEnemy()
 	temp.x = temp.y = 0;
 	m_PresentGrid = temp;
 	m_PreviousGrid = temp;
-	m_fBoundingSize = 2;
-	m_fAttackRange = 6;
+	m_fBoundingSize = 2.0f;
+	m_fAttackRange = 8;
 	m_bAttackOn = false;
 	m_bThreadCalOn = false;
 	/*m_bSlotOn = false;*/
@@ -64,7 +64,7 @@ void TeicEnemy::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
 	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;;
 	m_pSkinnedMesh->m_pCopy = m_pSkinnedMesh->m_pBoundingSquare;
-
+	//m_fBoundingSize = CalBoundingSize();
 }
 
 void TeicEnemy::CallbackOn(int n)
@@ -204,5 +204,28 @@ POINT TeicEnemy::GetNodeNum()
 	temp.x = 0;
 	temp.y = 0;
 	return temp;
+}
+
+float TeicEnemy::CalBoundingSize()
+{
+	float A = 0;
+	if (m_pSkinnedMesh)
+	{
+		if (A < m_pSkinnedMesh->m_pCopy.m_fSizeX * m_pSkinnedMesh->m_fScaleSize)
+		{
+			A = m_pSkinnedMesh->m_pCopy.m_fSizeX * m_pSkinnedMesh->m_fScaleSize;
+		}
+		if (A < m_pSkinnedMesh->m_pCopy.m_fSizeY * m_pSkinnedMesh->m_fScaleSize)
+		{
+			A = m_pSkinnedMesh->m_pCopy.m_fSizeY * m_pSkinnedMesh->m_fScaleSize;
+		}
+		if (A < m_pSkinnedMesh->m_pCopy.m_fSizeZ * m_pSkinnedMesh->m_fScaleSize)
+		{
+			A = m_pSkinnedMesh->m_pCopy.m_fSizeZ * m_pSkinnedMesh->m_fScaleSize;
+		}
+
+		return A;
+	}
+	return 0.0f;
 }
 

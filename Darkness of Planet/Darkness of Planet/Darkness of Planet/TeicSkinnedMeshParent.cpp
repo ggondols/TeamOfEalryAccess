@@ -5,6 +5,7 @@
 TeicSkinnedMeshParent::TeicSkinnedMeshParent()
 {
 	m_bSlotOn = false;
+	m_bHit = false;
 }
 
 

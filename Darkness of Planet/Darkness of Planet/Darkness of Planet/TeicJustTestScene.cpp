@@ -102,6 +102,8 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_iBodyUpgrade(1)
 	, m_pSkyBox(NULL)
 	, m_pFont(NULL)
+	, m_pCollision(NULL)
+	, m_pShoot(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -112,7 +114,7 @@ TeicJustTestScene::~TeicJustTestScene()
 {
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
-
+	SAFE_DELETE(m_pShoot);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
@@ -124,6 +126,7 @@ TeicJustTestScene::~TeicJustTestScene()
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
 
 	}
+	SAFE_DELETE(m_pCollision);
 
 }
 
@@ -218,11 +221,16 @@ HRESULT TeicJustTestScene::Setup()
 
 
 
-	m_pTempEnemy = new TeicEnemy;
-	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
-	m_pTempEnemy->SetPosition(D3DXVECTOR3(0, 0, 0));
-	m_pTempEnemy->SetAnimation(0);
+	
 	m_pTempSPhere = new cSphere;
+
+	m_pCollision = new TeicObbCollision;
+	
+	m_pShoot = new TeicShoot;
+	m_pShoot->Setup(m_pNode, m_pCamera, m_pCharacter);
+	
+
+
 	return S_OK;
 }
 
@@ -239,11 +247,11 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	m_pTempEnemy->SetPosition(D3DXVECTOR3(m_pTempEnemy->GetPosition().x - 0.001, m_pTempEnemy->GetPosition().y, m_pTempEnemy->GetPosition().z));
-	m_pTempEnemy->SetRotationAngle(m_pTempEnemy->GetRoationAngle() - 0.001);
-	m_Rectangle = ST_PN_Rectangle(m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2,
-		m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2,
-		m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		m_pShoot->Shoot();
+	}
+	
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
@@ -295,6 +303,14 @@ void TeicJustTestScene::Update()
 
 	if (m_bThread)
 	{
+		//CleanHit();
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+		{
+			m_pShoot->Shoot();
+		}
+		
+
+
 		WayUpdate();
 		CheckSlot();
 		for (int i = 0; i < m_vecEnemy.size(); i++)
@@ -386,6 +402,8 @@ void TeicJustTestScene::Update()
 
 
 	UIOBJECTMANAGER->Update();
+	
+	
 }
 
 void TeicJustTestScene::CallbackOn(int number)
@@ -422,6 +440,8 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
+		if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
+			return false;
 		float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));
 		float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_EnemyTarget));
 
@@ -613,17 +633,19 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-	m_pTempEnemy->UpdateAndRender();
-
-	GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	
-	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
+	m_pShoot->Render();
+	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+	m_pTempSPhere->Setup(D3DXVECTOR3( 0,10,0), 0.1f);
+	m_pTempSPhere->Render();
+	/*m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
 	m_pTempSPhere->Render();
-
+*/
 
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
@@ -635,6 +657,7 @@ void TeicJustTestScene::Render()
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
+			if(!m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
 			m_vecEnemy[i]->UpdateAndRender();
 		}
 		/*char str[2056];
@@ -817,6 +840,15 @@ void TeicJustTestScene::WayUpdate()
 	m_EnemyTarget = m_pCharacter->GetPositionYZero();
 }
 
+void TeicJustTestScene::CleanHit()
+{
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+
+		m_vecEnemy[i]->GetSkinnedMesh()->m_bHit = false;
+	}
+}
+
 bool TeicJustTestScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)
 {
 	if (abs(A.x - B.x) < 0.0001 &&
@@ -837,6 +869,8 @@ void TeicJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
+		if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
+			return ;
 		if (A->GetSlot() && B->GetSlot())
 		{
 			float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));

@@ -45,7 +45,7 @@ private:
 	WeaponType					m_eWpType;
 	StateType					m_eStType;
 	bool						m_bRun;
-	
+
 public:
 	POINT				m_pPreviousPoint;
 
@@ -72,8 +72,10 @@ public:
 	POINT GetNodeNum();
 	D3DXVECTOR3 GetPositionYZero();
 	BoundingSquare * GetBoundingSquare();
-	WeaponType getWeaponType() {return m_eWpType;}
+	WeaponType getWeaponType() { return m_eWpType; }
 	StateType getStateType() { return m_eStType; }
+
+	TeicPhysicsCrtCtrl* getCrtCtrl() {return m_pCtrl;}
 
 public:
 

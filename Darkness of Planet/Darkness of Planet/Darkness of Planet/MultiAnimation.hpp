@@ -7,6 +7,7 @@ float4		vMaterialDiffuse;	// : MATERIALDIFFUSE = { 0.8f, 0.8f, 0.8f, 1.0f };
 float4		vWorldLightPos		= float4( 0.00, 500.00, -500.00, 1.00 );
 float4		vWorldCameraPos		= float4( -50.00, 50.00, -50.00, 1.00 );
 
+
 float4x4	g_mWorld			: WORLD;
 float4x4	g_mViewProj			: VIEWPROJECTION;
 texture		g_txScene;

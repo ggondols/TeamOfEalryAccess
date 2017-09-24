@@ -51,7 +51,9 @@ protected:
 	
 	D3DXMATRIX					m_RotationMat;
 	bool m_bCollision;
+	
 public:
+	float m_fScaleSize;
 	BoundingSquare			m_pBoundingSquare;
 	BoundingSquare			m_pCopy;
 	float m_fZealotdiffer;

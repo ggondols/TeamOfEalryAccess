@@ -163,6 +163,9 @@
     <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링\클래스">
       <UniqueIdentifier>{270963c9-8cb2-465a-ba24-84fb4c1d7029}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Shoot">
+      <UniqueIdentifier>{def739e9-6ad2-43fc-bd51-4b07f203dd19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -435,6 +438,15 @@
     <ClInclude Include="HankcDeferrendRenderer.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
+    <ClInclude Include="TeicShoot.h">
+      <Filter>#3D Framework\Shoot</Filter>
+    </ClInclude>
+    <ClInclude Include="LDYiMap.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
+    <ClInclude Include="LDYHeightMap.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -688,6 +700,15 @@
     </ClCompile>
     <ClCompile Include="HankcDeferrendRenderer.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicShoot.cpp">
+      <Filter>#3D Framework\Shoot</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYiMap.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYHeightMap.cpp">
+      <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

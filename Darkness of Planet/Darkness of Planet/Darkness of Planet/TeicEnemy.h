@@ -56,6 +56,7 @@ public:
 	bool GetCollision();
 	POINT GetNodeNum();
 	void SetSpeed(float s) { m_fSpeed = s; }
+	float CalBoundingSize();
 public:
 	TeicEnemy();
 	~TeicEnemy();
