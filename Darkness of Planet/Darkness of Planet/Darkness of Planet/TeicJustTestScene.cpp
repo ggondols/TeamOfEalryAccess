@@ -103,6 +103,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pSkyBox(NULL)
 	, m_pFont(NULL)
 	, m_pCollision(NULL)
+	, m_pShoot(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -113,7 +114,7 @@ TeicJustTestScene::~TeicJustTestScene()
 {
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
-
+	SAFE_DELETE(m_pShoot);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
@@ -224,6 +225,11 @@ HRESULT TeicJustTestScene::Setup()
 	m_pTempSPhere = new cSphere;
 
 	m_pCollision = new TeicObbCollision;
+	
+	m_pShoot = new TeicShoot;
+	m_pShoot->Setup(m_pNode, m_pCamera, m_pCharacter);
+	
+
 
 	return S_OK;
 }
@@ -241,6 +247,10 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		m_pShoot->Shoot();
+	}
 	
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
@@ -276,7 +286,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -287,12 +297,20 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}
+	}*/
 
 
 
 	if (m_bThread)
 	{
+		//CleanHit();
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+		{
+			m_pShoot->Shoot();
+		}
+		
+
+
 		WayUpdate();
 		CheckSlot();
 		for (int i = 0; i < m_vecEnemy.size(); i++)
@@ -384,6 +402,8 @@ void TeicJustTestScene::Update()
 
 
 	UIOBJECTMANAGER->Update();
+	
+	
 }
 
 void TeicJustTestScene::CallbackOn(int number)
@@ -614,9 +634,11 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void TeicJustTestScene::Render()
 {
 	
-
+	m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	
+
+	m_pTempSPhere->Setup(D3DXVECTOR3( 0,10,0), 0.1f);
+	m_pTempSPhere->Render();
 	/*m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2);
@@ -635,6 +657,7 @@ void TeicJustTestScene::Render()
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
+			if(!m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
 			m_vecEnemy[i]->UpdateAndRender();
 		}
 		/*char str[2056];
@@ -815,6 +838,15 @@ void TeicJustTestScene::WayUpdate()
 		}
 	}
 	m_EnemyTarget = m_pCharacter->GetPositionYZero();
+}
+
+void TeicJustTestScene::CleanHit()
+{
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+
+		m_vecEnemy[i]->GetSkinnedMesh()->m_bHit = false;
+	}
 }
 
 bool TeicJustTestScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)

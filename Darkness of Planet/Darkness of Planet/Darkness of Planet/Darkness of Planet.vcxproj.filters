@@ -435,6 +435,9 @@
     <ClInclude Include="DefferedBufferClass.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
+    <ClInclude Include="TeicShoot.h">
+      <Filter>#3D Framework\Shoot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -685,6 +688,9 @@
     </ClCompile>
     <ClCompile Include="DefferedBufferClass.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicShoot.cpp">
+      <Filter>#3D Framework\Shoot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

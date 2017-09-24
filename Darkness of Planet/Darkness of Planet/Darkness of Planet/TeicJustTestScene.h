@@ -17,6 +17,7 @@
 #include "LDYCamera.h"
 #include "cSphere.h"
 #include "TeicObbCollision.h"
+#include "TeicShoot.h"
 class iMap;
 
 class cUIObject;
@@ -25,6 +26,7 @@ class TeicJustTestScene:public cGameNode
 {
 
 private:
+	TeicShoot*				m_pShoot;
 	TeicObbCollision*		m_pCollision;
 	LDYCamera*				m_pCamera;
 	cSkyBoxCube*			m_pSkyBox;
@@ -76,6 +78,7 @@ public:
 	bool ChangeCheckPoint();
 	void AngleChange(TeicEnemy* A);
 	void WayUpdate();
+	void CleanHit();
 	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);  //A와 B가 같은가?
 public:
 	TeicJustTestScene();
