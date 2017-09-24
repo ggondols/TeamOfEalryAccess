@@ -21,6 +21,7 @@ private:
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
 public:
+	
 	POINT m_PresentGrid;
 	POINT m_PreviousGrid;
 	float			 m_fBoundingSize;

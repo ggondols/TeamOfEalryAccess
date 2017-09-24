@@ -229,6 +229,10 @@ HRESULT TeicJustTestScene::Setup()
 	m_pShoot = new TeicShoot;
 	m_pShoot->Setup(m_pNode, m_pCamera, m_pCharacter);
 	
+	m_pTempEnemy = new TeicEnemy;
+	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
+	m_pTempEnemy->SetPosition(D3DXVECTOR3(0,0,0));
+	m_pTempEnemy->SetAnimation(0);
 
 
 	return S_OK;
@@ -247,10 +251,7 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		m_pShoot->Shoot();
-	}
+	
 	
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
@@ -286,7 +287,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -297,7 +298,7 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}*/
+	}
 
 
 
@@ -633,19 +634,19 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-	
-	m_pShoot->Render();
+	//m_pTempEnemy->UpdateAndRender();
+	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	m_pTempSPhere->Setup(D3DXVECTOR3( 0,10,0), 0.1f);
-	m_pTempSPhere->Render();
+	/*m_pTempSPhere->Setup(D3DXVECTOR3( 0,10,0), 0.1f);
+	m_pTempSPhere->Render();*/
 	/*m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
-	m_pTempSPhere->Render();
-*/
+	m_pTempSPhere->Render();*/
+
 
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();

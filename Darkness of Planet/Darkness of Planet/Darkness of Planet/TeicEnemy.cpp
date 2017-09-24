@@ -18,6 +18,7 @@ TeicEnemy::TeicEnemy()
 	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.0f;
 	m_fSpeed = 5.0f;
+	
 }
 
 
@@ -64,6 +65,9 @@ void TeicEnemy::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
 	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;;
 	m_pSkinnedMesh->m_pCopy = m_pSkinnedMesh->m_pBoundingSquare;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlX = 3.0f;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlY = 0.5f;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlZ = 0.0f;
 	//m_fBoundingSize = CalBoundingSize();
 }
 

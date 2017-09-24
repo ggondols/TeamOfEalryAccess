@@ -57,7 +57,7 @@ public:
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
 public:
-	
+	TeicEnemy*  m_pTempEnemy;
 	cSphere*	m_pTempSPhere;
 	virtual HRESULT Setup();
 	virtual void Release();
