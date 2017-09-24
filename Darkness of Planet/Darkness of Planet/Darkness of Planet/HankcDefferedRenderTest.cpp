@@ -29,7 +29,7 @@ HRESULT HankcDefferedRenderTest::Setup()
 
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
-
+	//추가하면
 	return S_OK;
 }
 
