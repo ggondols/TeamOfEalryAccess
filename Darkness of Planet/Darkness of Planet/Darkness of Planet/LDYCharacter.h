@@ -38,7 +38,7 @@ private:
 
 	CallbackBindFunction		m_Callback;
 	CallbackBindFunction		m_AttackCallback;
-	TeicPhysicsCrtCtrl*			m_pCtrl;
+	
 
 	int							m_iHeadLv;
 	int							m_iBodyLv;
@@ -47,6 +47,7 @@ private:
 	bool						m_bRun;
 
 public:
+	TeicPhysicsCrtCtrl*			m_pCtrl;
 	POINT				m_pPreviousPoint;
 
 public:

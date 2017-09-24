@@ -46,6 +46,8 @@ void TeicEnemy::MakeBoundingBox()
 	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y + fCubeSizeY, center.z + fCubeSizeZ));
 	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y - fCubeSizeY, center.z + fCubeSizeZ));
 
+	
+
 	vector<D3DXVECTOR3> vecNormal;
 	vecNormal.push_back(D3DXVECTOR3(0, 0, -1));
 	vecNormal.push_back(D3DXVECTOR3(0, 0, 1));
@@ -104,8 +106,15 @@ void TeicEnemy::MakeBoundingBox()
 		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
 	}
 	D3DXMATRIX matWorld;
-	//D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixRotationY(&matWorld, m_pSkinnedMesh->GetAngle());
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMATRIX trans;
+	D3DXMatrixTranslation(&trans, -center.x, -center.y, -center.z);
+	D3DXMATRIX ro;
+	D3DXMatrixRotationY(&ro, m_pSkinnedMesh->GetAngle());
+	matWorld = trans*ro;
+	D3DXMatrixTranslation(&trans, center.x, center.y, center.z);
+	matWorld = matWorld* trans;
+	//D3DXMatrixRotationY(&matWorld, m_pSkinnedMesh->GetAngle());
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
 	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_vecVertex[0], sizeof(ST_PN_VERTEX));

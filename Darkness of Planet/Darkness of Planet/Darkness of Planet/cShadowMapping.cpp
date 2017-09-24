@@ -31,7 +31,8 @@ cShadowMapping::~cShadowMapping()
 	SAFE_RELEASE(m_pCreateShadow);
 
 	SAFE_DELETE(m_pMap);
-	SAFE_DELETE(m_pCharacter);
+	//SAFE_DELETE(m_pCharacter);
+	SAFE_DELETE(m_pCharacter->m_pCtrl);
 
 }
 

@@ -12,9 +12,9 @@ void TeicShoot::Setup(HankcGrid *node, LDYCamera *camera, LDYCharacter* characte
 	m_vShootPosition = D3DXVECTOR3(0, 0, 0);
 	m_pCharacter = character;
 	D3DXCreateLine(GETDEVICE, m_pLine);
-	m_stBulletSquare.m_fSizeY = 0.1f;
-	m_stBulletSquare.m_fSizeX = 0.1f;
-	m_stBulletSquare.m_fSizeZ = 0.1f;
+	m_stBulletSquare.m_fSizeY = 0.01f;
+	m_stBulletSquare.m_fSizeX = 0.01f;
+	m_stBulletSquare.m_fSizeZ = 0.01f;
 	m_stBulletSquare.m_vCenterPos = D3DXVECTOR3(0, 0, 0);
 	m_stBulletSquare.m_vXdir = D3DXVECTOR3(1, 0, 0);
 	m_stBulletSquare.m_vYdir = D3DXVECTOR3(0, 1, 0);
