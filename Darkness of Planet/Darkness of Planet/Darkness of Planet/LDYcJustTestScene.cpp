@@ -123,7 +123,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
-	SAFE_DELETE(m_pCharacter);
+	//SAFE_DELETE(m_pCharacter);
 	SAFE_DELETE(m_pSkyBox);
 	SAFE_DELETE(m_pSkyDome);
 	SAFE_DELETE(m_pSkyCloud);
@@ -302,7 +302,7 @@ void LDYcJustTestScene::Update()
 	if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
-	if (m_pShadow)m_pShadow->Update();
+	//if (m_pShadow)m_pShadow->Update();
 
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
@@ -763,11 +763,11 @@ void LDYcJustTestScene::Render()
 	m_pApplyShadow->End();
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
-	if (m_pSkyDome)m_pSkyDome->Render();
-	if (m_pSkyCloud)m_pSkyCloud->Render();
-	if(m_pGrid)m_pGrid->Render();
-	//if (m_pMap) m_pMap->Render();
-	//if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	/*if (m_pSkyDome)m_pSkyDome->Render();*/
+	//if (m_pSkyCloud)m_pSkyCloud->Render();
+	//if(m_pGrid)m_pGrid->Render();
+	/*if (m_pMap) m_pMap->Render();
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
 	
 	if (m_bThread)
 	{

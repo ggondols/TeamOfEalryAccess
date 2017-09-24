@@ -59,7 +59,7 @@ void cSkyBoxCube::Render(LDYCamera * pCamera)
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, 100.0f, 100.0f, 100.0f);
+	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
 	matViewProjection = matS*matView*matProjection;
 	m_pEffect->SetMatrix(m_hViewProjection, &matViewProjection);
 	m_pEffect->SetVector(m_hvViewPosition, &D3DXVECTOR4(pCamera->getEye(), 1));
