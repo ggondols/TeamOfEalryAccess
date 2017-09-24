@@ -16,6 +16,7 @@
 #include "cSkyBoxCube.h"
 #include "LDYCamera.h"
 #include "cSphere.h"
+#include "TeicObbCollision.h"
 class iMap;
 
 class cUIObject;
@@ -24,6 +25,7 @@ class TeicJustTestScene:public cGameNode
 {
 
 private:
+	TeicObbCollision*		m_pCollision;
 	LDYCamera*				m_pCamera;
 	cSkyBoxCube*			m_pSkyBox;
 	TeicBresenham*			m_pBresenham;
@@ -37,7 +39,7 @@ private:
 	
 	int						m_iBodyUpgrade;
 public:
-	ST_PN_Rectangle			m_Rectangle;
+	
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;
 	TeicAstar*				m_pAstar;
@@ -53,7 +55,7 @@ public:
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
 public:
-	TeicEnemy*	m_pTempEnemy;
+	
 	cSphere*	m_pTempSPhere;
 	virtual HRESULT Setup();
 	virtual void Release();

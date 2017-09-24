@@ -102,6 +102,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_iBodyUpgrade(1)
 	, m_pSkyBox(NULL)
 	, m_pFont(NULL)
+	, m_pCollision(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -124,6 +125,7 @@ TeicJustTestScene::~TeicJustTestScene()
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
 
 	}
+	SAFE_DELETE(m_pCollision);
 
 }
 
@@ -218,11 +220,11 @@ HRESULT TeicJustTestScene::Setup()
 
 
 
-	m_pTempEnemy = new TeicEnemy;
-	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
-	m_pTempEnemy->SetPosition(D3DXVECTOR3(0, 0, 0));
-	m_pTempEnemy->SetAnimation(0);
+	
 	m_pTempSPhere = new cSphere;
+
+	m_pCollision = new TeicObbCollision;
+
 	return S_OK;
 }
 
@@ -239,11 +241,7 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	m_pTempEnemy->SetPosition(D3DXVECTOR3(m_pTempEnemy->GetPosition().x - 0.001, m_pTempEnemy->GetPosition().y, m_pTempEnemy->GetPosition().z));
-	m_pTempEnemy->SetRotationAngle(m_pTempEnemy->GetRoationAngle() - 0.001);
-	m_Rectangle = ST_PN_Rectangle(m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2,
-		m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2,
-		m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
+	
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
@@ -613,17 +611,17 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-	m_pTempEnemy->UpdateAndRender();
-
-	GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	
-	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
+
+	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	
+	/*m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2);
 	m_pTempSPhere->Render();
 	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
 	m_pTempSPhere->Render();
-
+*/
 
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
