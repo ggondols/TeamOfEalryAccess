@@ -96,7 +96,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 	D3DXMATRIX matT;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
-	m_matWorld =/* matR **/m_matRotation* matT;
+	m_matWorld =matR * matT;
 
 }
 

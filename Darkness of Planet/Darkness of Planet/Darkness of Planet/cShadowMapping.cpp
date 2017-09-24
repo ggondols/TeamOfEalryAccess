@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "cShadowMapping.h"
+#include "iMap.h"
+#include "LDYCharacter.h"
+#include "cHeightMap.h"
 
 
 cShadowMapping::cShadowMapping()
@@ -10,6 +13,9 @@ cShadowMapping::cShadowMapping()
 	, m_pShadowRenderTarget(NULL)
 	, m_pShadowDepthStencil(NULL)
 	, gRotationY(0.0f)
+	,m_pMap(NULL)
+	, m_pCharacter(NULL)
+	, mapmesh(NULL)
 {
 	D3DXMatrixIdentity(&matWorld);
 }
@@ -24,16 +30,26 @@ cShadowMapping::~cShadowMapping()
 	SAFE_RELEASE(m_pApplyShadow);
 	SAFE_RELEASE(m_pCreateShadow);
 
+	SAFE_DELETE(m_pMap);
+	SAFE_DELETE(m_pCharacter);
+
 }
 
 void cShadowMapping::Setup()
 {
+	m_pCharacter = new LDYCharacter;
+	char* BodyName = "HeroBodyLv";
+	char buff[1024];
+	sprintf_s(buff, "%s%d", BodyName, 1);
+	m_pCharacter->Setup("object/xFile/", "HeroBodyLv");
+	m_pCharacter->SetPosition(D3DXVECTOR3(20, 20, 20));
+
 	const int shadowMapSize = 2048;
 	if (FAILED(GETDEVICE->CreateTexture(shadowMapSize, shadowMapSize,
 		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
 		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
 	{
-		int a = 0;
+
 	}
 
 	// 그림자 맵과 동일한 크기의 깊이버퍼도 만들어줘야 한다.
@@ -41,7 +57,6 @@ void cShadowMapping::Setup()
 		D3DFMT_D24S8, D3DMULTISAMPLE_NONE, 0, TRUE,
 		&m_pShadowDepthStencil, NULL)))
 	{
-		int a = 0;
 	}
 
 	LPD3DXBUFFER pAdjacencyTorus;
@@ -99,7 +114,7 @@ void cShadowMapping::Setup()
 	D3DXMatrixIdentity(&matCWorld);
 	D3DXMatrixScaling(&matS, 2, 2, 2);
 	D3DXMATRIXA16 matT;
-	D3DXMatrixTranslation(&matT, 0.0f, -40.0f, 0.0f);
+	D3DXMatrixTranslation(&matT, 40.0f, -40.0f, 40.0f);
 	matCWorld = matS*matT;
 
 	{
@@ -112,21 +127,16 @@ void cShadowMapping::Setup()
 	{
 		RECT rc;
 		GetClientRect(g_hWnd, &rc);
-		//GETDEVICE->GetTransform(D3DTS_PROJECTION, &matLightProjection);
 		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1, 3000);
 	}
+
+	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
+	//D3DXMatrixTranslation(&matWorld, 20.0f, 0.0f, -20.0f);
 
 }
 
 void cShadowMapping::Update()
 {
-	gRotationY += 0.4f * D3DX_PI / 180.0f;
-	if (gRotationY > 2 * D3DX_PI)
-	{
-		gRotationY -= 2 * D3DX_PI;
-	}
-
-	D3DXMatrixRotationY(&matWorld, gRotationY);
 }
 
 void cShadowMapping::Render()
@@ -149,12 +159,13 @@ void cShadowMapping::Render()
 	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
 	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
 
+
 	GETDEVICE->SetRenderTarget(0, pShadowSurface);
 	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
 
 	SAFE_RELEASE(pShadowSurface);
 
-	// 저번 프레임에 그렸던 그림자 정보를 지움
+	// 저번 프레임에 그\렸던 그림자 정보를 지움
 	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
 
 
@@ -173,7 +184,7 @@ void cShadowMapping::Render()
 				m_pCreateShadow->BeginPass(i);
 				{
 					// 원환체를 그린다.
-					m_pTorus->DrawSubset(0);
+					m_pCharacter->UpdateAndRender();
 				}
 				m_pCreateShadow->EndPass();
 			}
@@ -185,6 +196,7 @@ void cShadowMapping::Render()
 	//////////////////////////////
 	// 2. 그림자 입히기
 	//////////////////////////////
+	//if (m_pMap) m_pMap->Render();
 
 	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
 	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
@@ -215,18 +227,22 @@ void cShadowMapping::Render()
 			m_pApplyShadow->BeginPass(i);
 			{
 				// 원환체를 그린다.
-				m_pTorus->DrawSubset(0);
+				m_pCharacter->UpdateAndRender();
 
 				// 디스크를 그린다.
 				m_pApplyShadow->SetMatrix(m_hAmatWorld, &matCWorld);
 				m_pApplyShadow->SetVector(m_hAgObjectColor, &gDiscColor);
 				m_pApplyShadow->CommitChanges();
-				m_pDisc->DrawSubset(0);
+				//m_pDisc->DrawSubset(0);
+				if (m_pMap) mapmesh=m_pMap->getMesh();
+				mapmesh->DrawSubset(0);
 			}
 			m_pApplyShadow->EndPass();
 		}
 	}
 	m_pApplyShadow->End();
+
+	//if (m_pMap) m_pMap->Render();
 
 }
 

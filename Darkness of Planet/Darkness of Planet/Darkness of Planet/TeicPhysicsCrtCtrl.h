@@ -50,6 +50,8 @@ public:
 	void setAttacking(bool on) { m_bAttacking = on; }
 	void setMoving(bool on) { m_bMoving = on; }
 	float getAngle() { return m_fAngle; }
+	D3DXMATRIX getCrtCtrlMatrix() { return m_matWorld; }
+
 
 
 public:

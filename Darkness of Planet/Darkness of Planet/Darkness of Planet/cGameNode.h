@@ -1,4 +1,13 @@
 #pragma once
+#include "cGameNode.h"
+
+class cSceneInfo
+{
+public:
+	D3DXVECTOR4 m_vecAmbientColor;
+};
+
+
 class cGameNode
 {
 protected:
@@ -22,5 +31,6 @@ public:
 
 	//virtual INT_PTR CALLBACK  About(HWND, UINT, WPARAM, LPARAM);
 
-
+	//게임 씬의 정보를 가진다.
+	cSceneInfo* m_pSceneInfo;
 };

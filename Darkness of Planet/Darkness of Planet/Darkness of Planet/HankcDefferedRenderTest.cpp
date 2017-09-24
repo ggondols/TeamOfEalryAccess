@@ -30,6 +30,12 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pGrid->Setup();
 	//추가하면
+
+
+	//디퍼드 리소스 설정하기
+
+
+
 	return S_OK;
 }
 

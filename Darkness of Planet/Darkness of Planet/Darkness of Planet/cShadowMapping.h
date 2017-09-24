@@ -1,4 +1,8 @@
 #pragma once
+
+class LDYCharacter;
+class iMap;
+
 class cShadowMapping
 {
 
@@ -27,18 +31,20 @@ private:
 	D3DXHANDLE				m_hAmatViewProjection;
 	D3DXHANDLE				m_hAgObjectColor;
 
-	D3DXMATRIXA16 matWorld;
-	float gRotationY;
+	D3DXMATRIXA16			matWorld;
+	float					gRotationY;
 	D3DXMATRIXA16  matView, matProjection, matViewProjection, matCWorld;
 
-	D3DXVECTOR4 m_vec4LightPosition;
-	D3DXVECTOR4 gObjectColor;
-	D3DXVECTOR4 gDiscColor;
-	D3DXMATRIXA16 matS;
-	D3DXMATRIXA16 matLightView;
-	D3DXMATRIXA16 matLightProjection;
+	D3DXVECTOR4				m_vec4LightPosition;
+	D3DXVECTOR4				gObjectColor;
+	D3DXVECTOR4				gDiscColor;
+	D3DXMATRIXA16			matS;
+	D3DXMATRIXA16			matLightView;
+	D3DXMATRIXA16			matLightProjection;
 
-
+	LDYCharacter*			m_pCharacter;
+	iMap*							m_pMap;
+	LPD3DXMESH mapmesh;
 
 public:
 	cShadowMapping();
