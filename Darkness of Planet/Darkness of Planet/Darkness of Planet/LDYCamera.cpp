@@ -81,14 +81,14 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 		}
 		g_MouseWheel = 0;
 
-		if (m_fDistance <= 6.0f)
+		/*if (m_fDistance <= 6.0f)
 		{
 			m_fDistance = 6.0f;
 		}
 		else if (m_fDistance >= 12.0f)
 		{
 			m_fDistance = 12.0f;
-		}
+		}*/
 	}
 
 	D3DXMATRIXA16 matRX;
