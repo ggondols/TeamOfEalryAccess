@@ -59,20 +59,20 @@ void TeicShoot::Shoot()
 }
 void TeicShoot::CalRotation()
 {
-	GETDEVICE->GetTransform(D3DTS_VIEW, &matR);
-	//D3DXMatrixLookAtLH(&matR,
-	//	&D3DXVECTOR3(0, 0, 0),
-	//	&m_vShootDir,
-	//	&D3DXVECTOR3(0, 1, 0));
-	//D3DXMatrixTranspose(&matR, &matR);
-	//D3DXMATRIX	skinnedRot;
-	//D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
-	//matR = matR* skinnedRot;
-	D3DXVec3TransformNormal(&m_stBulletSquare.m_vXdir, &m_stBulletSquare.m_vXdir, &matR);
+	
+
+	D3DXMatrixLookAtLH(&matR,
+		&m_vShootPosition,
+		&m_vFinish,
+		&D3DXVECTOR3(0, 1, 0));
+	matR._41 = matR._42 = matR._43 = 0.0f;
+	D3DXMatrixTranspose(&matR, &matR);
+	
+	D3DXVec3TransformNormal(&m_stBulletSquare.m_vXdir, &D3DXVECTOR3(1, 0, 0), &matR);
 	D3DXVec3Normalize(&m_stBulletSquare.m_vXdir, &m_stBulletSquare.m_vXdir);
-	D3DXVec3TransformNormal(&m_stBulletSquare.m_vYdir, &m_stBulletSquare.m_vYdir, &matR);
+	D3DXVec3TransformNormal(&m_stBulletSquare.m_vYdir, &D3DXVECTOR3(0, 1, 0), &matR);
 	D3DXVec3Normalize(&m_stBulletSquare.m_vYdir, &m_stBulletSquare.m_vYdir);
-	D3DXVec3TransformNormal(&m_stBulletSquare.m_vZdir, &m_stBulletSquare.m_vZdir, &matR);
+	D3DXVec3TransformNormal(&m_stBulletSquare.m_vZdir, &D3DXVECTOR3(0, 0, 1), &matR);
 	D3DXVec3Normalize(&m_stBulletSquare.m_vZdir, &m_stBulletSquare.m_vZdir);
 
 
@@ -81,20 +81,35 @@ void TeicShoot::CalRotation()
 
 void TeicShoot::Render()
 {
+	D3DXVECTOR3 temp = m_pCharacter->GetPosition();
+	temp.y = 10;
 	ST_PC_VERTEX vertex[6];
-	vertex[0].p = m_vShootPosition;
+	vertex[0].p = temp;
 	vertex[0].c = D3DCOLOR_XRGB(255, 0, 0);
-	vertex[1].p = m_vFinish;
+	vertex[1].p = temp + m_stBulletSquare.m_vXdir;
 	vertex[1].c = D3DCOLOR_XRGB(255, 0, 0);
 
-	vertex[2].p = m_vShootPosition;
+	vertex[2].p = temp;
 	vertex[2].c = D3DCOLOR_XRGB(0, 255, 0);
-	vertex[3].p = D3DXVECTOR3(0, 0, 0);
+	vertex[3].p = temp + m_stBulletSquare.m_vYdir;
 	vertex[3].c = D3DCOLOR_XRGB(0, 255, 0);
-	vertex[4].p = m_vFinish;
+
+	vertex[4].p = temp;
 	vertex[4].c = D3DCOLOR_XRGB(0, 0, 255);
-	vertex[5].p = D3DXVECTOR3(0, 0, 0);
+	vertex[5].p = temp + m_stBulletSquare.m_vZdir;
 	vertex[5].c = D3DCOLOR_XRGB(0, 0, 255);
+
+
+
+
+	//vertex[2].p = m_vShootPosition;
+	//vertex[2].c = D3DCOLOR_XRGB(0, 255, 0);
+	//vertex[3].p = D3DXVECTOR3(0, 0, 0);
+	//vertex[3].c = D3DCOLOR_XRGB(0, 255, 0);
+	//vertex[4].p = m_vFinish;
+	//vertex[4].c = D3DCOLOR_XRGB(0, 0, 255);
+	//vertex[5].p = D3DXVECTOR3(0, 0, 0);
+	//vertex[5].c = D3DCOLOR_XRGB(0, 0, 255);
 
 
 	/*vertex[3].p = D3DXVECTOR3(10, 0, 10);
@@ -114,9 +129,10 @@ void TeicShoot::Render()
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 
 	D3DXMATRIX trans;
-	D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
-	m_stRect = ST_PN_Rectangle(m_stBulletSquare.m_fSizeZ, 0.5, 0.5);
-	GETDEVICE->SetTransform(D3DTS_WORLD, &(matR));
+	D3DXMatrixTranslation(&trans, 0,0,0);
+	m_stRect = ST_PN_Rectangle(m_stBulletSquare.m_fSizeX , m_stBulletSquare.m_fSizeY , m_stBulletSquare.m_fSizeZ);
+	
+	GETDEVICE->SetTransform(D3DTS_WORLD, &(matR*trans));
 	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
 	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_stRect.m_vecVertex[0], sizeof(ST_PN_VERTEX));
 	

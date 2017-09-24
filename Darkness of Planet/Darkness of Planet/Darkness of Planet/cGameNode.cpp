@@ -3,7 +3,8 @@
 #include "cGameNode.h"
 
 cGameNode::cGameNode()
-	:_managerInit(FALSE)
+	: _managerInit(FALSE)
+	, m_pSceneInfo(NULL)
 {
 }
 

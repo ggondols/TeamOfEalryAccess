@@ -112,6 +112,9 @@ public: virtual void Set##funName(varType var){\
 }
 
 
+//각종 디파인
+#define PURE_VIRTUAL 0
+
 // 유틸리티 헤더
 #include "commonFunction.h"
 
@@ -303,14 +306,14 @@ struct ST_PN_Rectangle
 	{
 		vector<D3DXVECTOR3>	vecVertex;
 		vector<DWORD>		vecIndex;
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, -fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, -fCubeSizeY, -fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, -fCubeSizeY, fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(-fCubeSizeX, fCubeSizeY, fCubeSizeZ));
+		vecVertex.push_back(D3DXVECTOR3(0, 0, 0));
+		vecVertex.push_back(D3DXVECTOR3(0, fCubeSizeY, 0));
+		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, fCubeSizeY, 0));
+		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, 0, 0));
+		vecVertex.push_back(D3DXVECTOR3(0, 0, fCubeSizeZ));
+		vecVertex.push_back(D3DXVECTOR3(0, fCubeSizeY, fCubeSizeZ));
 		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, fCubeSizeY, fCubeSizeZ));
-		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, -fCubeSizeY, fCubeSizeZ));
+		vecVertex.push_back(D3DXVECTOR3(fCubeSizeX, 0, fCubeSizeZ));
 
 		vector<D3DXVECTOR3> vecNormal;
 		vecNormal.push_back(D3DXVECTOR3(0, 0, -1));
@@ -408,6 +411,14 @@ std::string toString(const T & t)
 	return oss.str();			// return as a string
 }
 
+#if defined( DEBUG ) | defined( _DEBUG )
+#define V(x)		{ hr = x; if( FAILED( hr )) { /*g_Log.WriteD3DError( __FILE__, (DWORD)__LINE__, hr, DXGetErrorString9(hr), #x );*/ DebugBreak(); }}
+#define V_RETURN(x) { hr = x; if( FAILED( hr )) { /*g_Log.WriteD3DError( __FILE__, (DWORD)__LINE__, hr, DXGetErrorString9(hr), #x );*/ DebugBreak(); return hr; }} 
+#else
+#define V(x)		{ hr = x; }
+#define V_RETURN(x) { hr = x; if( FAILED( hr )) { return hr; } }
+#endif
+
 //for example 
 //string frameRate = string("FPS: ") + toString( Some dinamic value );
 
@@ -417,3 +428,4 @@ std::string toString(const T & t)
 //	&font_rect,							//pRect
 //	DT_LEFT | DT_NOCLIP,					//Format,
 //	D3DCOLOR_ARGB(255, 255, 255, 0));	//colour
+

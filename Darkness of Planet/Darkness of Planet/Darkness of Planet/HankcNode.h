@@ -29,6 +29,9 @@ struct BoundingSquare
 	float m_fSizeX;
 	float m_fSizeY;
 	float m_fSizeZ;
+	float m_fControlX;
+	float m_fControlY;
+	float m_fControlZ;
 	D3DXVECTOR3 m_vXdir;
 	D3DXVECTOR3 m_vYdir;
 	D3DXVECTOR3 m_vZdir;

@@ -2,6 +2,9 @@
 
 class DefferedBufferClass
 {
+private:
+	
+
 public:
 	DefferedBufferClass();
 	~DefferedBufferClass();

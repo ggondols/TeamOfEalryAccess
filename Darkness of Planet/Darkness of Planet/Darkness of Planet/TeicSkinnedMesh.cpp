@@ -143,6 +143,7 @@ void TeicSkinnedMesh::Load(char* szDirectory, char* szFilename)
 	m_pBoundingSquare.m_fSizeX = ah.GetMax().x - ah.GetMin().x;
 	m_pBoundingSquare.m_fSizeY = ah.GetMax().y - ah.GetMin().y;
 	m_pBoundingSquare.m_fSizeZ = ah.GetMax().z - ah.GetMin().z;
+	m_pBoundingSquare.m_fControlX = m_pBoundingSquare.m_fControlY = m_pBoundingSquare.m_fControlZ = 0.0f;
 	//m_pBoundingSquare.m_pSkinnedObject = this;
 	m_pBoundingSquare.m_vCenterPos = (ah.GetMin() + ah.GetMax()) / 2;
 	m_pBoundingSquare.m_vXdir = D3DXVECTOR3(ah.GetMax().x - ah.GetMin().x, 0, 0);
@@ -186,9 +187,9 @@ void TeicSkinnedMesh::UpdateAndRender()
 	
 		mat = scal* m_RotationMat*mat;
 		D3DXVec3TransformCoord(&m_pBoundingSquare.m_vCenterPos, &m_pCopy.m_vCenterPos, &mat);
-		m_pBoundingSquare.m_fSizeX = m_pCopy.m_fSizeX *0.05;
-		m_pBoundingSquare.m_fSizeY = m_pCopy.m_fSizeY *0.05;
-		m_pBoundingSquare.m_fSizeZ = m_pCopy.m_fSizeZ *0.05;
+		m_pBoundingSquare.m_fSizeX = m_pCopy.m_fSizeX *m_fScaleSize - m_pBoundingSquare.m_fControlX;
+		m_pBoundingSquare.m_fSizeY = m_pCopy.m_fSizeY *m_fScaleSize - m_pBoundingSquare.m_fControlY;
+		m_pBoundingSquare.m_fSizeZ = m_pCopy.m_fSizeZ *m_fScaleSize - m_pBoundingSquare.m_fControlZ;
 
 		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vXdir, &m_pCopy.m_vXdir, &m_RotationMat);
 		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vYdir, &m_pCopy.m_vYdir, &m_RotationMat);

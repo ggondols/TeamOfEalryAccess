@@ -176,7 +176,6 @@
     <ClInclude Include="cUIObject.h" />
     <ClInclude Include="cUITextView.h" />
     <ClInclude Include="DataBase.h" />
-    <ClInclude Include="DefferedBufferClass.h" />
     <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFont.h" />
@@ -202,10 +201,12 @@
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cTimer.h" />
     <ClInclude Include="DarknessofPlanet.h" />
+    <ClInclude Include="HankcDeferrendRenderer.h" />
     <ClInclude Include="HankcDefferedRenderTest.h" />
     <ClInclude Include="HankcGrid.h" />
     <ClInclude Include="HankcJustTestScene.h" />
     <ClInclude Include="HankcNode.h" />
+    <ClInclude Include="HankRenderer.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="LDYCamera.h" />
     <ClInclude Include="LDYCharacter.h" />
@@ -241,6 +242,7 @@
     <ClInclude Include="TeicSkinnedMeshParent.h" />
     <ClInclude Include="TeicWayManager.h" />
     <ClInclude Include="UIObjectManager.h" />
+    <ClInclude Include="structs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cActionMove.cpp" />
@@ -269,7 +271,6 @@
     <ClCompile Include="cUIObject.cpp" />
     <ClCompile Include="cUITextView.cpp" />
     <ClCompile Include="DataBase.cpp" />
-    <ClCompile Include="DefferedBufferClass.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFont.cpp" />
@@ -293,10 +294,12 @@
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cTimer.cpp" />
     <ClCompile Include="DarknessofPlanet.cpp" />
+    <ClCompile Include="HankcDeferrendRenderer.cpp" />
     <ClCompile Include="HankcDefferedRenderTest.cpp" />
     <ClCompile Include="HankcGrid.cpp" />
     <ClCompile Include="HankcJustTestScene.cpp" />
     <ClCompile Include="HankcNode.cpp" />
+    <ClCompile Include="HankRenderer.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="LDYCamera.cpp" />
     <ClCompile Include="LDYCharacter.cpp" />
