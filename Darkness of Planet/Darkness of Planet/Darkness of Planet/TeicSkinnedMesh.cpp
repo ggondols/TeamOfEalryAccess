@@ -151,6 +151,7 @@ void TeicSkinnedMesh::Load(char* szDirectory, char* szFilename)
 	m_pBoundingSquare.m_vZdir = D3DXVECTOR3(0, 0, ah.GetMax().z - ah.GetMin().z);
 	D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
 	
+	
 	//m_pBoundingSquare.
 	if (m_pmWorkingPalette)
 		delete[] m_pmWorkingPalette;
@@ -183,6 +184,17 @@ void TeicSkinnedMesh::UpdateAndRender()
 		D3DXMatrixScaling(&scal, 0.05, 0.05, 0.05);
 	
 		mat = scal* m_RotationMat*mat;
+		D3DXVec3TransformCoord(&m_pBoundingSquare.m_vCenterPos, &m_pCopy.m_vCenterPos, &mat);
+		m_pBoundingSquare.m_fSizeX = m_pCopy.m_fSizeX *0.05;
+		m_pBoundingSquare.m_fSizeY = m_pCopy.m_fSizeY *0.05;
+		m_pBoundingSquare.m_fSizeZ = m_pCopy.m_fSizeZ *0.05;
+
+		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vXdir, &m_pCopy.m_vXdir, &m_RotationMat);
+		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vYdir, &m_pCopy.m_vYdir, &m_RotationMat);
+		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vZdir, &m_pCopy.m_vZdir, &m_RotationMat);
+		D3DXVec3Normalize(&m_pBoundingSquare.m_vXdir, &m_pBoundingSquare.m_vXdir);
+		D3DXVec3Normalize(&m_pBoundingSquare.m_vYdir, &m_pBoundingSquare.m_vYdir);
+		D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
 	}

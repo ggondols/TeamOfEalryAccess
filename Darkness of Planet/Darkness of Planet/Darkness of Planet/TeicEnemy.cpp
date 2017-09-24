@@ -63,6 +63,7 @@ void TeicEnemy::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->m_pBoundingSquare = SKINMANAGER->GetTeiBoundingSquare(Foldername, Filename);
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
 	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;;
+	m_pSkinnedMesh->m_pCopy = m_pSkinnedMesh->m_pBoundingSquare;
 
 }
 

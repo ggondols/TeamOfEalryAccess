@@ -43,11 +43,19 @@ void cSphere::Setup(float x, float y)
 
 }
 
+void cSphere::Setup(D3DXVECTOR3 center, float radius)
+{
+	m_center = center;
+	D3DXCreateSphere(GETDEVICE, radius, 50, 50, &m_pMesh, NULL);
+	D3DXMatrixTranslation(&m_matworld, m_center.x, m_center.y, m_center.z);
+	
+	
+}
+
 void cSphere::Render()
 {
 
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
-	m_matworld._42 = 15;
 	GETDEVICE->SetTransform(D3DTS_WORLD, &m_matworld);
 	GETDEVICE->SetTexture(0, NULL);
 	if (Red)

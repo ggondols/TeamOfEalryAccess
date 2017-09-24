@@ -24,7 +24,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
 			pSkinnedMesh->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, temp, (i + 1) * 10 + j));
-			
+
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 			//temp->m_vecEnemy[i * 10 + j]->GetBoundingSquare()->m_pSkinnedObject = temp->m_vecEnemy[i * 10 + j]->GetSkinnedMesh();
 		}
@@ -124,7 +124,7 @@ TeicJustTestScene::~TeicJustTestScene()
 		SAFE_DELETE(m_vecEnemyCollisionMove[i]);
 
 	}
-	
+
 }
 
 
@@ -181,7 +181,7 @@ HRESULT TeicJustTestScene::Setup()
 	/////////////태영
 	m_pFont = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
 	m_pGrid->Setup();
-	
+
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
 
 	//노드 추가 합니다.
@@ -216,9 +216,13 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pBresenham = new TeicBresenham;
 
-	m_pBresenham->FindNode(100, -100, 150, -200);
 
 
+	m_pTempEnemy = new TeicEnemy;
+	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
+	m_pTempEnemy->SetPosition(D3DXVECTOR3(0, 0, 0));
+	m_pTempEnemy->SetAnimation(0);
+	m_pTempSPhere = new cSphere;
 	return S_OK;
 }
 
@@ -235,12 +239,12 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	if (m_bThread)
-	{
-		m_Rectangle = ST_PN_Rectangle(m_vecEnemy[0]->GetBoundingSquare()->m_fSizeX,
-			m_vecEnemy[0]->GetBoundingSquare()->m_fSizeY,
-			m_vecEnemy[0]->GetBoundingSquare()->m_fSizeZ);
-	}
+	m_pTempEnemy->SetPosition(D3DXVECTOR3(m_pTempEnemy->GetPosition().x - 0.001, m_pTempEnemy->GetPosition().y, m_pTempEnemy->GetPosition().z));
+	m_pTempEnemy->SetRotationAngle(m_pTempEnemy->GetRoationAngle() - 0.001);
+	m_Rectangle = ST_PN_Rectangle(m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2,
+		m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2,
+		m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
+
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
@@ -274,7 +278,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -285,7 +289,7 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}
+	}*/
 
 
 
@@ -334,7 +338,7 @@ void TeicJustTestScene::Update()
 							m_vecEnemy[i]->SetAnimation(1);
 						}
 					}
-					
+
 				}
 				else if (m_vecEnemy[i]->GetAninum() != 1)
 				{
@@ -368,8 +372,8 @@ void TeicJustTestScene::Update()
 			{
 				if (m_vecEnemy[i]->m_bAttackOn == false)
 				{
-					if(m_vecEnemy[i]->GetAninum() != 0)
-					m_vecEnemy[i]->SetAnimation(0);
+					if (m_vecEnemy[i]->GetAninum() != 0)
+						m_vecEnemy[i]->SetAnimation(0);
 				}
 			}
 			m_vecEnemy[i]->m_vPreviousPosition = m_vecEnemy[i]->GetPositionYzero();
@@ -609,22 +613,18 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-	if (m_bThread)
-	{
-		D3DXMATRIX matWorld;
-		D3DXMatrixTranslation(&matWorld, 20, 10, -20);
-		D3DXMATRIX    scal;
-		D3DXMatrixScaling(&scal, 0.05, 0.05, 0.05);
-		matWorld = scal* matWorld ;
-		GETDEVICE->SetTexture(0, NULL);
-		GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
-		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
-		GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-			12,
-			&m_Rectangle.m_vecVertex[0],
-			sizeof(ST_PN_VERTEX));
-		
-	}
+	m_pTempEnemy->UpdateAndRender();
+
+	GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	
+	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
+	m_pTempSPhere->Render();
+	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2);
+	m_pTempSPhere->Render();
+	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
+	m_pTempSPhere->Render();
+
+
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
@@ -751,7 +751,7 @@ void TeicJustTestScene::AngleChange(TeicEnemy * A)
 	matR = matR* skinnedRot;*/
 
 
-	D3DXVECTOR3 A_B = m_pCharacter->GetPositionYZero()- A->GetPositionYzero();
+	D3DXVECTOR3 A_B = m_pCharacter->GetPositionYZero() - A->GetPositionYzero();
 	D3DXVec3Normalize(&A_B, &A_B);
 
 	D3DXVECTOR3 base = D3DXVECTOR3(1, 0, 0);
@@ -760,7 +760,7 @@ void TeicJustTestScene::AngleChange(TeicEnemy * A)
 	float targetangle = acosf(D3DXVec3Dot(&base, &A_B));
 	if (Cross.y < 0) targetangle = D3DX_PI * 2 - targetangle;
 	float Angle = A->GetRoationAngle();
-	if (targetangle >Angle)
+	if (targetangle > Angle)
 	{
 		Angle += 0.05;
 		if (Angle > targetangle) Angle = targetangle;
@@ -850,33 +850,33 @@ void TeicJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 			if (D3DXVec3Length(&A_B) < 0.01)A_B = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
 			D3DXVec3Normalize(&A_B, &A_B);
 			A_B = A_B * 0.1;
-	//		D3DXVec3TransformCoord(&A_B, &A_B, &Rotation);
+			//		D3DXVec3TransformCoord(&A_B, &A_B, &Rotation);
 
 			D3DXVECTOR3 B_A = D3DXVECTOR3(A->GetPositionYzero() - B->GetPositionYzero());
 			if (D3DXVec3Length(&B_A) < 0.01)B_A = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
 			D3DXVec3Normalize(&B_A, &B_A);
 			B_A = B_A * 0.1;
-	//		D3DXVec3TransformCoord(&B_A, &B_A, &Rotation);
+			//		D3DXVec3TransformCoord(&B_A, &B_A, &Rotation);
 
 			if (Adist < Bdist)
 			{
-				
 
-					B->SetPosition(B->GetPositionYzero() + A_B);
-				
+
+				B->SetPosition(B->GetPositionYzero() + A_B);
+
 
 			}
 			else
 			{
-				
 
-					A->SetPosition(A->GetPositionYzero() + B_A);
 
-				
+				A->SetPosition(A->GetPositionYzero() + B_A);
+
+
 			}
-			
 
-			
+
+
 
 		}
 	}

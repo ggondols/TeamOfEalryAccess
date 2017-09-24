@@ -14,6 +14,7 @@ public:
 	cSphere();
 	~cSphere();
 	void Setup(float x, float y);
+	void Setup(D3DXVECTOR3 center, float radius);
 	void cSphere::setGo2(float x, float y);
 	void Render();
 	void Update();
