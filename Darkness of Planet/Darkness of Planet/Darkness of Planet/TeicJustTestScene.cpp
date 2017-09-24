@@ -7,7 +7,8 @@
 #include "TeicPhysicsCrtCtrl.h"
 #include "cUIImageView.h"
 #include "cUITextView.h"
-
+#include "cSkyDome.h"
+#include "cSkyCloud.h"
 static CRITICAL_SECTION cs;
 
 
@@ -104,6 +105,8 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pFont(NULL)
 	, m_pCollision(NULL)
 	, m_pShoot(NULL)
+	,m_pSkyDome(NULL)
+	, m_pSkyCloud(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -127,7 +130,8 @@ TeicJustTestScene::~TeicJustTestScene()
 
 	}
 	SAFE_DELETE(m_pCollision);
-
+	SAFE_DELETE(m_pSkyDome);
+	SAFE_DELETE(m_pSkyCloud);
 }
 
 
@@ -234,6 +238,11 @@ HRESULT TeicJustTestScene::Setup()
 	m_pTempEnemy->SetPosition(D3DXVECTOR3(0,0,0));
 	m_pTempEnemy->SetAnimation(0);
 
+	m_pSkyDome = new cSkyDome;
+	m_pSkyDome->Setup();
+
+	m_pSkyCloud = new cSkyCloud;
+	m_pSkyCloud->Setup();
 
 	return S_OK;
 }
@@ -252,7 +261,8 @@ void TeicJustTestScene::Release()
 void TeicJustTestScene::Update()
 {
 	
-	
+	if (m_pSkyDome)m_pSkyDome->Update();
+	if (m_pSkyCloud)m_pSkyCloud->Update();
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
@@ -634,6 +644,10 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
+	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+
+
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
