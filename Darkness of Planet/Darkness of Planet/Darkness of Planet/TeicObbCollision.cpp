@@ -2,6 +2,15 @@
 #include "TeicObbCollision.h"
 
 
+TeicObbCollision::TeicObbCollision()
+{
+}
+
+
+TeicObbCollision::~TeicObbCollision()
+{
+}
+
 bool TeicObbCollision::CheckCollision(BoundingSquare * A, BoundingSquare * B)
 {
 	double c[3][3];
@@ -11,7 +20,7 @@ bool TeicObbCollision::CheckCollision(BoundingSquare * A, BoundingSquare * B)
 	int i;
 	const double cutoff = 0.999999;
 	bool existsParallelPair = false;
-	D3DXVECTOR3 diff = A->m_vCenterPos - B->m_vCenterPos;
+	D3DXVECTOR3 diff =  B->m_vCenterPos - A->m_vCenterPos;
 
 
 	////////////////
@@ -170,11 +179,46 @@ bool TeicObbCollision::CheckCollision(BoundingSquare * A, BoundingSquare * B)
 	return TRUE;
 }
 
-TeicObbCollision::TeicObbCollision()
-{
-}
 
+//
+//bool TeicObbCollision::ObbRayCollision()
+//{
+//	bool AABBtoRay(AABB a, Vector3 o, Vector3 d, Vector3& p)
+//	{
+//		float t_min = 0;
+//		float t_max = MAX_FLOAT;
+//
+//		for (int i = 0; i<3; i++)
+//		{
+//			if (abs(d[i]) < EPSILON)
+//			{
+//				if (o[i] < a.min[i] ||
+//					o[i] > a.max[i])
+//					return false;
+//			}
+//			else
+//			{
+//				float denom = 1.0f / d[i];
+//				float t1 = (-o[i] - a.min[i]) * denom;
+//				float t2 = (-o[i] - a.max[i]) * denom;
+//
+//				if (t1 > t2)
+//				{
+//					swap(t1, t2);
+//				}
+//
+//				t_min = max(t_min, t1);
+//				t_max = min(t_max, t2);
+//
+//				if (t_min > t_max)
+//					return false;
+//
+//			}
+//		}
+//
+//		p = o + t_min * d;
+//
+//		return true;
+//	}
+//}
 
-TeicObbCollision::~TeicObbCollision()
-{
-}

@@ -140,9 +140,9 @@ void TeicSkinnedMesh::Load(char* szDirectory, char* szFilename)
 		&m_pAnimController);
 	
 	m_pBoundingSquare.m_bIsPicked = false;
-	m_pBoundingSquare.m_fSizeX = ah.GetMax().x - ah.GetMin().x;
-	m_pBoundingSquare.m_fSizeY = ah.GetMax().y - ah.GetMin().y;
-	m_pBoundingSquare.m_fSizeZ = ah.GetMax().z - ah.GetMin().z;
+	m_pBoundingSquare.m_fSizeX = (ah.GetMax().x - ah.GetMin().x)/2;
+	m_pBoundingSquare.m_fSizeY = (ah.GetMax().y - ah.GetMin().y)/2;
+	m_pBoundingSquare.m_fSizeZ = (ah.GetMax().z - ah.GetMin().z)/2;
 	m_pBoundingSquare.m_fControlX = m_pBoundingSquare.m_fControlY = m_pBoundingSquare.m_fControlZ = 0.0f;
 	//m_pBoundingSquare.m_pSkinnedObject = this;
 	m_pBoundingSquare.m_vCenterPos = (ah.GetMin() + ah.GetMax()) / 2;
