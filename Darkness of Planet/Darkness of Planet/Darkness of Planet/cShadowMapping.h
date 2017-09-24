@@ -16,7 +16,6 @@ private:
 	LPD3DXMESH				m_pTorus;
 
 	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
-	LPDIRECT3DTEXTURE9		m_pMapRenderTarget;
 	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
 
 	//create fx¿ëÇÚµé
@@ -46,8 +45,8 @@ private:
 
 	LDYCharacter*			m_pCharacter;
 	LDYHeightMap*							m_pMap;
-	LPD3DXMESH mapmesh;
-	LPD3DXEFFECT			m_pMapShadow;
+	LPD3DXMESH				mapmesh;
+	//LPD3DXEFFECT			m_pMapShadow;
 public:
 	cShadowMapping();
 	~cShadowMapping();

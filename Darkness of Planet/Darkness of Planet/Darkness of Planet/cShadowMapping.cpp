@@ -16,8 +16,6 @@ cShadowMapping::cShadowMapping()
 	,m_pMap(NULL)
 	, m_pCharacter(NULL)
 	, mapmesh(NULL)
-	, m_pMapRenderTarget(NULL)
-	, m_pMapShadow(NULL)
 {
 	D3DXMatrixIdentity(&matWorld);
 }
@@ -31,8 +29,6 @@ cShadowMapping::~cShadowMapping()
 	SAFE_RELEASE(m_pShadowDepthStencil);
 	SAFE_RELEASE(m_pApplyShadow);
 	SAFE_RELEASE(m_pCreateShadow);
-	SAFE_RELEASE(m_pMapRenderTarget);
-	SAFE_RELEASE(m_pMapShadow);
 
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
@@ -56,12 +52,6 @@ void cShadowMapping::Setup()
 
 	}
 
-	if (FAILED(GETDEVICE->CreateTexture(shadowMapSize, shadowMapSize,
-		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
-		D3DPOOL_DEFAULT, &m_pMapRenderTarget, NULL)))
-	{
-
-	}
 
 
 	// 그림자 맵과 동일한 크기의 깊이버퍼도 만들어줘야 한다.
@@ -146,7 +136,6 @@ void cShadowMapping::Setup()
 
 	D3DXMatrixScaling(&matWorld, 0.04f, 0.04f, 0.04f);
 	//D3DXMatrixTranslation(&matWorld, 20.0f, 0.0f, -20.0f);
-	m_pMapShadow = LoadEffect("shader/shadow/TextureMapping.fx");
 
 }
 

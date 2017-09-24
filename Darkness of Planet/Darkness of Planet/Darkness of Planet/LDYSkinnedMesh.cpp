@@ -154,7 +154,7 @@ void LDYSkinnedMesh::UpdateAndRender()
 {
 	if (m_pAnimController)
 	{
-		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime()*0.5, NULL);
 		Blending();
 	}
 

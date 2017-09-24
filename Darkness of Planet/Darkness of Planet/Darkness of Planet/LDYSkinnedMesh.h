@@ -63,6 +63,8 @@ public:
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
 	void UpdateAndRender();
+	void OnlyRender();
+	void OnlyUpdate();
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move) { m_Move = move; }
 	void SetRandomTrackPosition(); // 테스트용
@@ -85,6 +87,7 @@ protected:
 	LPD3DXEFFECT LoadEffect(char* szFilename);
 	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
 	void Render(ST_BONE* pBone = NULL);
+
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
 	void Blending();

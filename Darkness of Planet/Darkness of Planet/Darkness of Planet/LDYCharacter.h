@@ -55,6 +55,8 @@ public:
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
 	void UpdateAndRender();
+	void Render();
+	void matUpdate();
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move);
 	void SetRotationAngle(float angle);
