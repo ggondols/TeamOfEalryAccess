@@ -154,11 +154,8 @@
     <Filter Include="#3D Framework\Manager\SkinnedMeshLoader">
       <UniqueIdentifier>{4cfd8936-5947-4f44-a289-e129d7664dd4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="테스트용 폴더\쉐이더 테스트">
-      <UniqueIdentifier>{b57b2e1d-73b0-4444-975f-e3310e6c288b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="테스트용 폴더\쉐이더 테스트\클래스">
-      <UniqueIdentifier>{d035cbf2-8de4-4909-a145-ff4f0feebb33}</UniqueIdentifier>
+    <Filter Include="#3D Framework\Collision">
+      <UniqueIdentifier>{021ed0d8-7167-4e06-9862-d74f36be7d20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -336,9 +333,6 @@
     <ClInclude Include="TeicAstar.h">
       <Filter>#3D Framework\Astar\Tei</Filter>
     </ClInclude>
-    <ClInclude Include="TeicMoveSequence.h">
-      <Filter>#3D Framework\Action\Tei</Filter>
-    </ClInclude>
     <ClInclude Include="TeicJustTestScene.h">
       <Filter>테스트용 폴더</Filter>
     </ClInclude>
@@ -420,11 +414,11 @@
     <ClInclude Include="cShadowMapping.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="HankcDefferedRenderTest.h">
-      <Filter>테스트용 폴더\쉐이더 테스트</Filter>
+    <ClInclude Include="TeicMoveSequence.h">
+      <Filter>#3D Framework\Action\Tei</Filter>
     </ClInclude>
-    <ClInclude Include="DefferedBufferClass.h">
-      <Filter>테스트용 폴더\쉐이더 테스트\클래스</Filter>
+    <ClInclude Include="TeicObbCollision.h">
+      <Filter>#3D Framework\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -668,11 +662,8 @@
     <ClCompile Include="cShadowMapping.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="HankcDefferedRenderTest.cpp">
-      <Filter>테스트용 폴더\쉐이더 테스트</Filter>
-    </ClCompile>
-    <ClCompile Include="DefferedBufferClass.cpp">
-      <Filter>테스트용 폴더\쉐이더 테스트\클래스</Filter>
+    <ClCompile Include="TeicObbCollision.cpp">
+      <Filter>#3D Framework\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

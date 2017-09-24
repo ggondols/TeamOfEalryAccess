@@ -15,7 +15,7 @@
 #include "LDYCharacter.h"
 #include "cSkyBoxCube.h"
 #include "LDYCamera.h"
-
+#include "cSphere.h"
 class iMap;
 
 class cUIObject;
@@ -37,6 +37,7 @@ private:
 	
 	int						m_iBodyUpgrade;
 public:
+	ST_PN_Rectangle			m_Rectangle;
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;
 	TeicAstar*				m_pAstar;
@@ -52,7 +53,8 @@ public:
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
 public:
-
+	TeicEnemy*	m_pTempEnemy;
+	cSphere*	m_pTempSPhere;
 	virtual HRESULT Setup();
 	virtual void Release();
 	virtual void Render();

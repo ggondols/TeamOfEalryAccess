@@ -53,7 +53,7 @@ protected:
 
 
 public:
-	BoundingSquare*				m_pBoundingSquare;
+	BoundingSquare				m_pBoundingSquare;
 	D3DXMATRIX					m_matHead;
 	D3DXMATRIX					m_matWeapon;
 

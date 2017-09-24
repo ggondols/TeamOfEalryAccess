@@ -53,6 +53,7 @@ protected:
 	bool m_bCollision;
 public:
 	BoundingSquare			m_pBoundingSquare;
+	BoundingSquare			m_pCopy;
 	float m_fZealotdiffer;
 	
 	void SetCallbackfunction(CallbackBindFunction function);
