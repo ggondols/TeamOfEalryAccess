@@ -276,7 +276,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -287,7 +287,7 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}*/
+	}
 
 
 
@@ -420,6 +420,8 @@ bool TeicJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
+		if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
+			return false;
 		float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));
 		float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_EnemyTarget));
 
@@ -835,6 +837,8 @@ void TeicJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
+		if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
+			return ;
 		if (A->GetSlot() && B->GetSlot())
 		{
 			float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));

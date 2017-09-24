@@ -13,6 +13,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	, m_vPosition(0, 0, 0)
 	, m_fAngle(0.0f)
 	, m_bCollision(false)
+	, m_fScaleSize(0.05f)
 
 {
 	TeicSkinnedMesh* pSkinnedMesh =	SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
@@ -181,7 +182,7 @@ void TeicSkinnedMesh::UpdateAndRender()
 		D3DXMATRIX    scal;
 	
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		D3DXMatrixScaling(&scal, 0.05, 0.05, 0.05);
+		D3DXMatrixScaling(&scal, m_fScaleSize, m_fScaleSize, m_fScaleSize);
 	
 		mat = scal* m_RotationMat*mat;
 		D3DXVec3TransformCoord(&m_pBoundingSquare.m_vCenterPos, &m_pCopy.m_vCenterPos, &mat);

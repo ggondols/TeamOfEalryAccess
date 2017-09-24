@@ -163,6 +163,9 @@
     <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링\클래스">
       <UniqueIdentifier>{270963c9-8cb2-465a-ba24-84fb4c1d7029}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Shoot">
+      <UniqueIdentifier>{def739e9-6ad2-43fc-bd51-4b07f203dd19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
