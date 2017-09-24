@@ -7,4 +7,5 @@ DefferedBufferClass::DefferedBufferClass()
 
 DefferedBufferClass::~DefferedBufferClass()
 {
+	//¿ä·¸°Ô 
 }
