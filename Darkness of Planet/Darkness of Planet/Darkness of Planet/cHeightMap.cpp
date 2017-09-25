@@ -47,6 +47,7 @@ void cHeightMap::Load(string szFolder,
 	m_nTile = nRow - 1;
 	vector<ST_PNT_VERTEX> vecVertex;
 	m_vecVertex.resize(nNumVertex);
+	vecVertex.resize(nNumVertex);
 	//for (int z = 0; z < nRow; ++z)
 	for (int z = nRow - 1; z >= 0; --z)
 	{

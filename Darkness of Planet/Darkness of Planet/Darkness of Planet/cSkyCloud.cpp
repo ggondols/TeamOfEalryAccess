@@ -58,10 +58,10 @@ void cSkyCloud::Render()
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 	D3DXMATRIXA16 matS,matRY,matRX,matT;
-	D3DXMatrixScaling(&matS, 650.0f, 650.0f, 650.0f);
+	D3DXMatrixScaling(&matS, 1300.0f, 1300.0f, 1300.0f);
 	D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
 	D3DXMatrixRotationY(&matRY, ftest);
-	D3DXMatrixTranslation(&matT, 128.5f, -m_trans, -128.5f);
+	D3DXMatrixTranslation(&matT, 511.5f, -m_trans, -511.5f);
 	matWorld = matS*matRY*matT*matWorld;
 
 	//테스트충돌

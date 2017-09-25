@@ -55,9 +55,9 @@ void cSkyDome::Render()
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 
 	D3DXMATRIXA16 matS,matR,matT;
-	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixScaling(&matS, 3.0f, 3.0f, 3.0f);
 	D3DXMatrixRotationX(&matR, -D3DX_PI / 2);
-	D3DXMatrixTranslation(&matT, 128.5f, 0.0f, -128.5f);
+	D3DXMatrixTranslation(&matT, 512.0f, 0.0f, -512.0f);
 	matWorld = matS*matR*matT*matWorld;
 
 	m_pEffect->SetMatrix(m_hMatWorld, &matWorld);
