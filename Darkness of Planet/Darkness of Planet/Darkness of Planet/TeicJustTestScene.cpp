@@ -101,7 +101,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_bAstarThread(false)
 	, m_pCamera(NULL)
 	, m_iBodyUpgrade(1)
-	, m_pSkyBox(NULL)
+
 	, m_pFont(NULL)
 	, m_pCollision(NULL)
 	, m_pShoot(NULL)
@@ -122,7 +122,7 @@ TeicJustTestScene::~TeicJustTestScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
-	SAFE_DELETE(m_pSkyBox);
+	
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -167,8 +167,7 @@ HRESULT TeicJustTestScene::Setup()
 	///////////µ¿À±
 
 
-	m_pSkyBox = new cSkyBoxCube;
-	m_pSkyBox->Setup();
+	
 
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
@@ -268,7 +267,7 @@ void TeicJustTestScene::Update()
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
-	if (m_pSkyBox) m_pSkyBox->Update();
+	
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
@@ -662,7 +661,7 @@ void TeicJustTestScene::Render()
 	m_pTempSPhere->Render();*/
 
 
-	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
