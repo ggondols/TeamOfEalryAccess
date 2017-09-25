@@ -191,7 +191,7 @@ cUIObject * UIObjectManager::GetSelectChild(string key, cUIObject * elseObject)
 {
 	cUIObject* pUIObject = NULL;
 
-	pUIObject = FindRoot(key)->GetChildByPosition(g_ptMouse);
+	pUIObject = FindRoot(key)->GetChildByPosition(g_ptMouse, elseObject);
 
 	return pUIObject;
 }

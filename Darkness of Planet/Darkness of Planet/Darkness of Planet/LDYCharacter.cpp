@@ -1632,7 +1632,13 @@ int LDYCharacter::GetAninum()
 
 void LDYCharacter::Update(float angle)
 {
-	m_pCtrl->Update(angle);
+	float charAngle = angle;
+	if (UIOBJECTMANAGER->CheckShowState("inventory"))
+	{
+		charAngle += D3DX_PI;
+		m_pCtrl->GetPosition();
+	}
+	m_pCtrl->Update(charAngle);
 
 	if (KEYMANAGER->isOnceKeyDown('H'))
 	{

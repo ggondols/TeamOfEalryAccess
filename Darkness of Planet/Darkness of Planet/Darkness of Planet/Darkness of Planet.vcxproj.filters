@@ -166,6 +166,9 @@
     <Filter Include="#3D Framework\여현구 임시저장소">
       <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\여현구 임시저장소">
+      <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="#3D Framework\Manager\SoundManager">
       <UniqueIdentifier>{adcf3d52-e951-4e85-aafc-172ecd0e8909}</UniqueIdentifier>
     </Filter>
@@ -468,6 +471,12 @@
     <ClInclude Include="LDYMotionBlur.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="LDYMotionBlur.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -736,6 +745,12 @@
     </ClCompile>
     <ClCompile Include="cObjectManager.cpp">
       <Filter>#3D Framework\Manager\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYMotionBlur.cpp">
+      <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
