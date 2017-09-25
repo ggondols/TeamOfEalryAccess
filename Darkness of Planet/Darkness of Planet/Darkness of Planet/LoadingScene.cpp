@@ -64,6 +64,7 @@ HRESULT LoadingScene::Setup()
 	m_pLoading->LoadMesh("Weapon/Wp_FireGun.X", MESH_WEAPON, "object/xFile/", "Weapon/Wp_FireGun.X");
 
 
+	//m_pLoading->LoadHeightMap("terrain", "map/", "HeightMap.raw", "terrain.jpg");
 	m_pLoading->LoadHeightMap("terrain", "map/", "tei2.raw", "tei3.png");
 	//m_pLoading->LoadHeightMap("terrain", "map/", "HeightMap.raw", "terrain.jpg");
 	m_pLoading->LoadTestResource("test", 10, 10);

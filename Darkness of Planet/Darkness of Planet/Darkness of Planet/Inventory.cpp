@@ -87,15 +87,14 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		m_pSelectItem = UIOBJECTMANAGER->GetSelectChild("inventory");
 		if (m_pSelectItem)
 		{
-			GetCursorPos(&g_ptMouse);
-			ScreenToClient(g_hWnd, &g_ptMouse);
+			m_ptPrevMouse = g_ptMouse;
 			m_ptSavePosition = m_pSelectItem->GetPointPosition();
 		}
 	}
 
 	if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON) && m_pSelectItem)
 	{
-		cUIObject* pUpPositionInventory = UIOBJECTMANAGER->GetSelectChild("inventory");
+		cUIObject* pUpPositionInventory = UIOBJECTMANAGER->GetSelectChild("inventory", m_pSelectItem);
 		cUIObject* pUpPositionEquipment = UIOBJECTMANAGER->GetSelectChild("equipment");
 		if (pUpPositionInventory)
 		{
@@ -103,7 +102,8 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 			m_vecItems[m_pSelectItem->GetTag() - 1] = m_vecItems[pUpPositionInventory->GetTag() - 1];
 			m_vecItems[pUpPositionInventory->GetTag() - 1] = temp;
 		}
-		else if (pUpPositionEquipment)
+		
+		if (pUpPositionEquipment)
 		{
 			if (m_vecItems[m_pSelectItem->GetTag() - 1].stType == m_vecEquipments[pUpPositionEquipment->GetTag() - 1].stType)
 			{
@@ -132,16 +132,12 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		POINT ptCurrentMouse;
 		POINT ptAddPoint;
 
-		GetCursorPos(&ptCurrentMouse);
-		ScreenToClient(g_hWnd, &ptCurrentMouse);
-
-		ptAddPoint.x = (ptCurrentMouse.x - g_ptMouse.x);
-		ptAddPoint.y = (ptCurrentMouse.y - g_ptMouse.y);
+		ptAddPoint.x = (g_ptMouse.x - m_ptPrevMouse.x);
+		ptAddPoint.y = (g_ptMouse.y - m_ptPrevMouse.y);
 		m_pSelectItem->SetPosition(m_pSelectItem->GetPointPosition().x + ptAddPoint.x,
 			m_pSelectItem->GetPointPosition().y + ptAddPoint.y);
-		//m_pSelectItem->SetPosition(ptCurrentMouse.x, ptCurrentMouse.y);
 
-		g_ptMouse = ptCurrentMouse;
+		m_ptPrevMouse = g_ptMouse;
 	}
 
 	//for each(auto e in m_vecEquipments)
@@ -211,3 +207,4 @@ bool Inventory::CheckHaveItem(string itemName)
 void Inventory::ChangeEquipment(string partName, string addPartName)
 {
 }
+

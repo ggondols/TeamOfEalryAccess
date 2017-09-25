@@ -41,7 +41,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		NODEMANAGER->Setup(257);
 		DATABASE->Setup();
 		MESHLOADER->Setup();
-		
+		SOUNDMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -115,6 +115,10 @@ void cGameNode::Release()
 
 		MESHLOADER->Destroy();
 		MESHLOADER->releaseSingleton();
+
+		SOUNDMANAGER->Release();
+		SOUNDMANAGER->releaseSingleton();
+
 	}
 }
 

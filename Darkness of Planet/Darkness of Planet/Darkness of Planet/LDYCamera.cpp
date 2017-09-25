@@ -45,6 +45,13 @@ void LDYCamera::Setup(D3DXVECTOR3 * pvTarget /*=NULL*/)
 
 void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 {
+	/*if (UIOBJECTMANAGER->CheckShowState("inventory"))
+	{
+		m_ptPrevMouse = g_ptMouse;
+		m_fangleY = D3DX_PI;
+		return;
+	}*/
+
 	if (pvTarget)
 	{
 		m_vTartget.x = pvTarget.x;
@@ -93,6 +100,19 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 		}*/
 	}
 
+	m_vEye = D3DXVECTOR3(0, 0, -m_fDistance);
+
+	if (UIOBJECTMANAGER->CheckShowState("inventory"))
+	{
+		m_ptPrevMouse = g_ptMouse;
+		m_fangleX = 0;
+		m_fangleY = D3DX_PI;
+		m_vEye = D3DXVECTOR3(0, 0, -8);
+		m_vTartget.x = pvTarget.x + 2.0f;
+		m_vTartget.y = pvTarget.y + 3.0f;
+		m_vTartget.z = pvTarget.z;
+	}
+
 	D3DXMATRIXA16 matRX;
 	D3DXMATRIXA16 matRY;
 	D3DXMatrixRotationX(&matRX, m_fangleX);
@@ -100,7 +120,6 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 
 	D3DXMATRIXA16 matR = matRX * matRY;
 
-	m_vEye = D3DXVECTOR3(0, 0, -m_fDistance);
 	D3DXVec3TransformCoord(&m_vEye, &m_vEye, &matR);
 
 	D3DXVECTOR3 vTarget = D3DXVECTOR3(0, 0, 0);

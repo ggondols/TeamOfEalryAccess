@@ -162,6 +162,7 @@
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cHeightMap.h" />
     <ClInclude Include="cObject.h" />
+    <ClInclude Include="cObjectManager.h" />
     <ClInclude Include="cObjectPool.h" />
     <ClInclude Include="cShadowMapping.h" />
     <ClInclude Include="cSkinnedMesh.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="LDYcJustTestScene.h" />
     <ClInclude Include="LDYHeightMap.h" />
     <ClInclude Include="LDYiMap.h" />
+    <ClInclude Include="LDYMotionBlur.h" />
     <ClInclude Include="LDYSkinnedMesh.h" />
     <ClInclude Include="LDYSkinnedMesh_Head.h" />
     <ClInclude Include="LDYSkinnedMesh_Weapon.h" />
@@ -221,6 +223,7 @@
     <ClInclude Include="Loading.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="commonFunction.h" />
@@ -258,6 +261,7 @@
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cHeightMap.cpp" />
     <ClCompile Include="cObject.cpp" />
+    <ClCompile Include="cObjectManager.cpp" />
     <ClCompile Include="cObjectPool.cpp" />
     <ClCompile Include="cShadowMapping.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
@@ -308,12 +312,14 @@
     <ClCompile Include="LDYcJustTestScene.cpp" />
     <ClCompile Include="LDYHeightMap.cpp" />
     <ClCompile Include="LDYiMap.cpp" />
+    <ClCompile Include="LDYMotionBlur.cpp" />
     <ClCompile Include="LDYSkinnedMesh.cpp" />
     <ClCompile Include="LDYSkinnedMesh_Head.cpp" />
     <ClCompile Include="LDYSkinnedMesh_Weapon.cpp" />
     <ClCompile Include="LJHcJustTestScene.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
+    <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
