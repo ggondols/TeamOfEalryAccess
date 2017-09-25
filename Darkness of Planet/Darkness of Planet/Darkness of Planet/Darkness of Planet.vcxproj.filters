@@ -75,9 +75,6 @@
     <Filter Include="소스 파일\TaeYeongDelete">
       <UniqueIdentifier>{f568e5bc-ac15-4014-95fd-42172f89d482}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\여현구 임시저장소">
-      <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="#3D Framework\Camera\Hank">
       <UniqueIdentifier>{6e4922f9-6329-4c34-819e-55c28043e855}</UniqueIdentifier>
     </Filter>
@@ -165,6 +162,9 @@
     </Filter>
     <Filter Include="#3D Framework\Shoot">
       <UniqueIdentifier>{def739e9-6ad2-43fc-bd51-4b07f203dd19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\여현구 임시저장소">
+      <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -450,6 +450,9 @@
     <ClInclude Include="structs.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -712,6 +715,9 @@
     </ClCompile>
     <ClCompile Include="LDYHeightMap.cpp">
       <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
