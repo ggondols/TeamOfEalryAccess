@@ -28,10 +28,10 @@ void cUIImageView::SetScale(float x, float y)
 
 void cUIImageView::Render(LPD3DXSPRITE pSprite)
 {
+	
 	D3DXIMAGE_INFO stImageInfo;
 	LPDIRECT3DTEXTURE9 pTexture = TEXTUREMANAGER->GetTextureEx(m_sTexture, &stImageInfo);
 	pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-
 	pSprite->SetTransform(&m_matWorld);
 	RECT rc;
 	SetRect(&rc, 0, 0, m_stSize.fWidth, m_stSize.fHeight);
