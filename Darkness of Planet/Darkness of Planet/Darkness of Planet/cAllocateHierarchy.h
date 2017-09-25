@@ -70,7 +70,8 @@ public:
 	//		Pointer to the patch mesh object if patch data found
 	//	pMaterials
 	//		Array of materials used in the mesh
-	//	pEffectInstances
+	//	p
+	Instances
 	//		Array of effect instances used in the mesh
 	//	NumMaterials
 	//		Num elements in the pMaterials array

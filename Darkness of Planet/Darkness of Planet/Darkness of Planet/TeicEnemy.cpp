@@ -121,6 +121,14 @@ void TeicEnemy::MakeBoundingBox()
 
 }
 
+void TeicEnemy::SetScaleSize(float a)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->m_fScaleSize = a;
+	}
+}
+
 void TeicEnemy::SetSlot(bool on)
 {
 	if (m_pSkinnedMesh)
@@ -193,7 +201,7 @@ void TeicEnemy::UpdateAndRender()
 		m_pSkinnedMesh->UpdateAndRender();
 
 	}
-	MakeBoundingBox();
+	//MakeBoundingBox();
 }
 
 void TeicEnemy::SetAnimationIndex(int nIndex)

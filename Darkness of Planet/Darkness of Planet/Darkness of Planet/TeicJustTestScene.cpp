@@ -40,7 +40,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 	{
 		char str[256];
 		//sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", (int)temp->m_vecEnemy[i]->GetPosition().x, (int)temp->m_vecEnemy[i]->GetPosition().y, (int)temp->m_vecEnemy[i]->GetPosition().z);
-		
+
 		//temp->m_vecEnemyWay[i] = WAYMANAGER->GetWay(str);
 		//S(%d, %d, %d)L(0, 0, 0)", 200, 0, -100);
 		temp->m_vecEnemyWay[i] = WAYMANAGER->GetWay("S(200,0,-100)L(0,0,0)");
@@ -110,7 +110,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pFont(NULL)
 	, m_pCollision(NULL)
 	, m_pShoot(NULL)
-	,m_pSkyDome(NULL)
+	, m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
 	, m_pInventory(NULL)
 
@@ -129,7 +129,7 @@ TeicJustTestScene::~TeicJustTestScene()
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
 	SAFE_DELETE(m_pInventory);
-	
+
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -172,7 +172,7 @@ HRESULT TeicJustTestScene::Setup()
 	///////////µ¿À±
 
 
-	
+
 
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
@@ -229,17 +229,17 @@ HRESULT TeicJustTestScene::Setup()
 
 
 
-	
+
 	m_pTempSPhere = new cSphere;
 
 	m_pCollision = new TeicObbCollision;
-	
+
 	m_pShoot = new TeicShoot;
 	m_pShoot->Setup(m_pNode, m_pCamera, m_pCharacter);
-	
+
 	m_pTempEnemy = new TeicEnemy;
 	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
-	m_pTempEnemy->SetPosition(D3DXVECTOR3(0,0,0));
+	m_pTempEnemy->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pTempEnemy->SetAnimation(0);
 
 	m_pSkyDome = new cSkyDome;
@@ -247,6 +247,29 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pSkyCloud = new cSkyCloud;
 	m_pSkyCloud->Setup();
+
+
+	for (int i = 0; i < 3; i++)
+	{
+		m_pBoss[i] = new TeicEnemy;
+	}
+	m_pBoss[0]->Setup("object/xFile/spiderQueen/", "spiderQueen.X");
+	m_pBoss[1]->Setup("object/xFile/Arkus/", "Arkus.X");
+	m_pBoss[2]->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
+
+
+	m_pBoss[0]->SetPosition(D3DXVECTOR3(50, 100, -100));
+	m_pBoss[1]->SetPosition(D3DXVECTOR3(80, 100, -100));
+	m_pBoss[2]->SetPosition(D3DXVECTOR3(100, 100, -100));
+
+	m_pBoss[0]->SetAnimation(0);
+	m_pBoss[1]->SetAnimation(0);
+	m_pBoss[2]->SetAnimation(0);
+
+	m_pBoss[0]->SetScaleSize(0.1);
+	m_pBoss[1]->SetScaleSize(0.1);
+	m_pBoss[2]->SetScaleSize(0.1);
+
 
 	return S_OK;
 }
@@ -273,7 +296,7 @@ void TeicJustTestScene::Update()
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
-	
+
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
@@ -324,7 +347,7 @@ void TeicJustTestScene::Update()
 		{
 			m_pShoot->Shoot();
 		}
-		
+
 
 
 		WayUpdate();
@@ -418,8 +441,8 @@ void TeicJustTestScene::Update()
 
 
 	UIOBJECTMANAGER->Update();
-	
-	
+
+
 }
 
 void TeicJustTestScene::CallbackOn(int number)
@@ -653,6 +676,11 @@ void TeicJustTestScene::Render()
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if (m_pInventory) m_pInventory->Render();
 
+
+	for (int i = 0; i < 3; i++)
+	{
+		m_pBoss[i]->UpdateAndRender();
+	}
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -667,7 +695,7 @@ void TeicJustTestScene::Render()
 	m_pTempSPhere->Render();*/
 
 
-	
+
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
@@ -677,8 +705,8 @@ void TeicJustTestScene::Render()
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
-			if(!m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
-			m_vecEnemy[i]->UpdateAndRender();
+			if (!m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
+				m_vecEnemy[i]->UpdateAndRender();
 		}
 		/*char str[2056];
 		RECT rc = RectMake(300, 300, 1000, 1000);
@@ -890,7 +918,7 @@ void TeicJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 		if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
-			return ;
+			return;
 		if (A->GetSlot() && B->GetSlot())
 		{
 			float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));

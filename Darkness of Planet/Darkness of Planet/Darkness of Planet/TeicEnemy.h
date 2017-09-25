@@ -34,6 +34,7 @@ public:
 	D3DXVECTOR3		 m_vPreviousPosition;
 	float			 m_fSpeed;
 public:
+	void SetScaleSize(float a);
 	void SetSlot(bool on);
 	bool GetSlot();
 	BoundingSquare* GetBoundingSquare();

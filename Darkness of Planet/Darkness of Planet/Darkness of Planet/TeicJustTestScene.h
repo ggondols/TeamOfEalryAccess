@@ -67,6 +67,7 @@ public:
 public:
 	TeicEnemy*  m_pTempEnemy;
 	cSphere*	m_pTempSPhere;
+	TeicEnemy*	m_pBoss[3];
 	virtual HRESULT Setup();
 	virtual void Release();
 	virtual void Render();

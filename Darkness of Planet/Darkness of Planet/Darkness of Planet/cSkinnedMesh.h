@@ -17,7 +17,8 @@ private:
 	ST_BONE*					m_pRootFrame;			
 	DWORD						m_dwWorkingPaletteSize;
 	D3DXMATRIX*					m_pmWorkingPalette;
-	LPD3DXEFFECT				m_pEffect;
+	LPD3DX
+		m_pEffect;
 
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;

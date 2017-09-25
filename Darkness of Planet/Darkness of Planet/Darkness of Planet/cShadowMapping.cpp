@@ -91,7 +91,8 @@ void cShadowMapping::Setup()
 
 	
 
-	m_pCreateShadow = LoadEffect("shader/shadow/CreateShadow.fx");
+	m_pCreateShadow = Load
+	("shader/shadow/CreateShadow.fx");
 	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx");
 
 
