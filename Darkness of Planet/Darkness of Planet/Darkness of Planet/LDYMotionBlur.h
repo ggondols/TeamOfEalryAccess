@@ -6,15 +6,16 @@
 
 class LDYCharacter;
 
-struct SCREEN_VERTEX
-{
-	D3DXVECTOR4 pos;
-	DWORD clr;
-	D3DXVECTOR2 tex1;
 
-	static const DWORD FVF;
+
+struct OBJECT
+{
+	D3DXVECTOR3 g_vWorldPos;
+	D3DXMATRIXA16 g_mWorld;
+	D3DXMATRIXA16 g_mWorldLast;
+	LPD3DXMESH g_pMesh;
+	LPDIRECT3DTEXTURE9 g_pMeshTexture;
 };
-const DWORD                 SCREEN_VERTEX::FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 
 struct CRenderTargetSet
 {
@@ -26,7 +27,7 @@ class LDYMotionBlur
 
 private:
 
-	ID3DXEffect*                g_pEffect = NULL;       // D3DX effect interface
+	ID3DXEffect*                g_pEffect;       // D3DX effect interface
 	D3DFORMAT                   g_VelocityTexFormat;    // Texture format for velocity textures
 	SCREEN_VERTEX				g_Vertex[4];
 
@@ -37,6 +38,8 @@ private:
 	LPDIRECT3DSURFACE9          g_pPixelVelocitySurf1;
 	LPDIRECT3DTEXTURE9          g_pPixelVelocityTexture2;
 	LPDIRECT3DSURFACE9          g_pPixelVelocitySurf2;
+	LPD3DXMESH                  g_pMesh1;
+	LPDIRECT3DTEXTURE9          g_pMeshTexture1;
 
 	LPDIRECT3DTEXTURE9          g_pLastFrameVelocityTexture;
 	LPDIRECT3DSURFACE9          g_pLastFrameVelocitySurf;
@@ -67,11 +70,12 @@ private:
 	D3DXHANDLE                  g_hTechWorldWithVelocity;
 	D3DXHANDLE                  g_hPostProcessMotionBlur;
 
-	int                         g_nPasses = 0;          // Number of passes required to render
-	int                         g_nRtUsed = 0;          // Number of render targets used by each pass
+	int                         g_nPasses = 2;          // Number of passes required to render
+	int                         g_nRtUsed = 1;          // Number of render targets used by each pass
 	CRenderTargetSet			g_aRTSet[2];            // Two sets of render targets
 	CRenderTargetSet*           g_pCurFrameRTSet;      // Render target set for current frame
 	CRenderTargetSet*           g_pLastFrameRTSet;     // Render target set for last frame
+	OBJECT*                     g_pScene1Object[40];
 
 public:
 	LDYMotionBlur();
@@ -80,6 +84,7 @@ public:
 	void Setup();
 	void Update();
 	void Render();
+	void SetupFullscreenQuad();
 
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 };

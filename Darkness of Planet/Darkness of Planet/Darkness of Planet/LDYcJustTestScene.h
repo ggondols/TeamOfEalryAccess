@@ -40,6 +40,7 @@ class cSkyBoxCube;
 class cSkyDome;
 class cSkyCloud;
 class cShadowMapping;
+class LDYMotionBlur;
 
 
 class LDYcJustTestScene :public cGameNode
@@ -109,6 +110,7 @@ public:
 	D3DXMATRIXA16			matLightProjection;
 
 	D3DXMATRIX				matHeightWorld;
+	LDYMotionBlur*			motionBlur;
 
 public:
 

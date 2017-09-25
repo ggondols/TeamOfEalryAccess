@@ -377,6 +377,16 @@ struct ST_PN_Rectangle
 		}
 	}
 };
+
+struct SCREEN_VERTEX
+{
+	D3DXVECTOR4 pos;
+	DWORD clr;
+	D3DXVECTOR2 tex1;
+
+	static const DWORD FVF;
+};
+const DWORD     SCREEN_VERTEX::FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 /////////////////////////////// 
 //////김태영 전용 구조체///////
 //enum Nodetype { WALL, PASS };
