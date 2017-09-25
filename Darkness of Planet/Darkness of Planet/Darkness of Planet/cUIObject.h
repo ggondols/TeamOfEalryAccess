@@ -23,6 +23,7 @@ public:
 	virtual void GetRect(RECT* pRect);
 	virtual cUIObject* GetChildByTag(int nTag);
 	virtual cUIObject* GetChildByPosition(POINT ptMouse);
+	virtual cUIObject* GetChildByPosition(POINT ptMouse, cUIObject* elseObject);
 	virtual POINT GetPointPosition();
 
 	virtual int GetChildSize() { return m_vecChild.size(); }

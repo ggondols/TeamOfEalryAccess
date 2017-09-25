@@ -34,6 +34,7 @@ private:
 	vector<ST_INVENTORY_ITEM>	m_vecItems;
 	vector<ST_EQUIPMENT_ITEM>	m_vecEquipments;
 	cUIObject*					m_pSelectItem;
+	POINT						m_ptPrevMouse;
 	POINT						m_ptSavePosition;
 
 public:

@@ -182,11 +182,16 @@ cUIObject * UIObjectManager::GetSelectChild(string key)
 {
 	cUIObject* pUIObject = NULL;
 
-	POINT ptMouse;
-	GetCursorPos(&ptMouse);
-	ScreenToClient(g_hWnd, &ptMouse);
+	pUIObject = FindRoot(key)->GetChildByPosition(g_ptMouse);
 
-	pUIObject = FindRoot(key)->GetChildByPosition(ptMouse);
+	return pUIObject;
+}
+
+cUIObject * UIObjectManager::GetSelectChild(string key, cUIObject * elseObject)
+{
+	cUIObject* pUIObject = NULL;
+
+	pUIObject = FindRoot(key)->GetChildByPosition(g_ptMouse);
 
 	return pUIObject;
 }
@@ -196,11 +201,7 @@ bool UIObjectManager::CheckCollidedRect(string key, float x, float y)
 	RECT rc;
 	FindRoot(key)->GetRect(&rc);
 
-	POINT ptMouse;
-	GetCursorPos(&ptMouse);
-	ScreenToClient(g_hWnd, &ptMouse);
-
-	if(PtInRect(&rc, ptMouse))
+	if(PtInRect(&rc, g_ptMouse))
 	{
 		return true;
 	}
@@ -212,11 +213,7 @@ bool UIObjectManager::CheckCollidedRect(string key, int tag, float x, float y)
 	RECT rc;
 	FindRoot(key)->GetChildByTag(tag)->GetRect(&rc);
 
-	POINT ptMouse;
-	GetCursorPos(&ptMouse);
-	ScreenToClient(g_hWnd, &ptMouse);
-
-	if (PtInRect(&rc, ptMouse))
+	if (PtInRect(&rc, g_ptMouse))
 	{
 		return true;
 	}

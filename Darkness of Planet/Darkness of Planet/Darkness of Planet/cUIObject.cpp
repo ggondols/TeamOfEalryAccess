@@ -103,6 +103,26 @@ cUIObject * cUIObject::GetChildByPosition(POINT ptMouse)
 	return pChild;
 }
 
+cUIObject * cUIObject::GetChildByPosition(POINT ptMouse, cUIObject * elseObject)
+{
+	cUIObject* pChild = NULL;
+
+	for (size_t i = 0; i < m_vecChild.size(); i++)
+	{
+		RECT rc;
+		m_vecChild[i]->GetRect(&rc);
+		if (PtInRect(&rc, ptMouse))
+		{
+			if (m_vecChild[i] == elseObject) continue;
+
+			pChild = m_vecChild[i];
+			break;
+		}
+	}
+
+	return pChild;
+}
+
 POINT cUIObject::GetPointPosition()
 {
 	POINT temp;
