@@ -18,6 +18,9 @@
 
 *.sln.docstates
 
+shader/
+[Ss]kybox/
+
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)

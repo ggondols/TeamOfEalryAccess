@@ -23,6 +23,8 @@ class iMap;
 class cUIObject;
 class cSkyDome;
 class cSkyCloud;
+class Inventory;
+
 class TeicJustTestScene:public cGameNode
 {
 
@@ -32,7 +34,7 @@ private:
 	TeicShoot*				m_pShoot;
 	TeicObbCollision*		m_pCollision;
 	LDYCamera*				m_pCamera;
-	cSkyBoxCube*			m_pSkyBox;
+	
 	TeicBresenham*			m_pBresenham;
 	Hank::cGrid*			m_pGrid;
 	iMap*					m_pMap;
@@ -43,6 +45,9 @@ private:
 	float					m_fTime3;
 	
 	int						m_iBodyUpgrade;
+
+	// 인벤토리 추가
+	Inventory*				m_pInventory;
 public:
 	
 	HankcGrid*				m_pNode;

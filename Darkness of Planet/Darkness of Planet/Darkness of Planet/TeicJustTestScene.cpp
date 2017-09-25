@@ -9,6 +9,8 @@
 #include "cUITextView.h"
 #include "cSkyDome.h"
 #include "cSkyCloud.h"
+#include "Inventory.h"
+
 static CRITICAL_SECTION cs;
 
 
@@ -101,12 +103,13 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_bAstarThread(false)
 	, m_pCamera(NULL)
 	, m_iBodyUpgrade(1)
-	, m_pSkyBox(NULL)
+
 	, m_pFont(NULL)
 	, m_pCollision(NULL)
 	, m_pShoot(NULL)
 	,m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
+	, m_pInventory(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -122,7 +125,8 @@ TeicJustTestScene::~TeicJustTestScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
-	SAFE_DELETE(m_pSkyBox);
+	SAFE_DELETE(m_pInventory);
+	
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -158,17 +162,14 @@ HRESULT TeicJustTestScene::Setup()
 	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
 	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
 
-	cUIImageView* pInventoryImage = new cUIImageView;
-	pInventoryImage->SetTexture("./UI/inventory.png");
-	UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
-
+	m_pInventory = new Inventory;
+	m_pInventory->Setup();
 
 
 	///////////µ¿À±
 
 
-	m_pSkyBox = new cSkyBoxCube;
-	m_pSkyBox->Setup();
+	
 
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
@@ -260,7 +261,8 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	
+
+	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 
@@ -268,7 +270,7 @@ void TeicJustTestScene::Update()
 	{
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
-	if (m_pSkyBox) m_pSkyBox->Update();
+	
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
@@ -646,7 +648,7 @@ void TeicJustTestScene::Render()
 {
 	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
-
+	if (m_pInventory) m_pInventory->Render();
 
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
@@ -662,7 +664,7 @@ void TeicJustTestScene::Render()
 	m_pTempSPhere->Render();*/
 
 
-	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();

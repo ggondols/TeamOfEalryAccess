@@ -273,7 +273,6 @@ HRESULT LDYcJustTestScene::Setup()
 
 
 
-	m_vec4LightPosition = { 500.0f,500.0f ,-500.0f ,1.0f };
 
 	D3DXMatrixIdentity(&matHeightWorld);
 
@@ -649,9 +648,14 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void LDYcJustTestScene::Render()
 {
-	{
+	D3DXVECTOR3 light= m_pCamera->getEye();
+
+	{	
+		m_vec4LightPosition = { light.x+2.0f,light.y,light.z+2.0f,1.0f };
 		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
 		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPosition();
+		vLookatPt.x += 5.0f;
+		vLookatPt.z -= 5.0f;
 		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
 	}
@@ -659,7 +663,7 @@ void LDYcJustTestScene::Render()
 	{
 		RECT rc;
 		GetClientRect(g_hWnd, &rc);
-		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1, 3000);
+		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI/4.0f, rc.right / (float)rc.bottom, 1, 3000);
 	}
 	
 	D3DXMATRIX matWorld,matView, matProjection, matViewProjection;
@@ -706,7 +710,6 @@ void LDYcJustTestScene::Render()
 			{
 				m_pCreateShadow->BeginPass(i);
 				{
-					// 원환체를 그린다.
 					m_pCharacter->UpdateAndRender();
 				}
 				m_pCreateShadow->EndPass();

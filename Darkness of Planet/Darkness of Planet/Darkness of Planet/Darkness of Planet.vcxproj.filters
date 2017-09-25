@@ -75,9 +75,6 @@
     <Filter Include="소스 파일\TaeYeongDelete">
       <UniqueIdentifier>{f568e5bc-ac15-4014-95fd-42172f89d482}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\여현구 임시저장소">
-      <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="#3D Framework\Camera\Hank">
       <UniqueIdentifier>{6e4922f9-6329-4c34-819e-55c28043e855}</UniqueIdentifier>
     </Filter>
@@ -165,6 +162,15 @@
     </Filter>
     <Filter Include="#3D Framework\Shoot">
       <UniqueIdentifier>{def739e9-6ad2-43fc-bd51-4b07f203dd19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\여현구 임시저장소">
+      <UniqueIdentifier>{3b3afb8d-4504-41c4-bc19-3ae36b03a7cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\SoundManager">
+      <UniqueIdentifier>{adcf3d52-e951-4e85-aafc-172ecd0e8909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\ObjectManager">
+      <UniqueIdentifier>{e2aec6f7-4a3b-494d-94a9-711ff89dcff9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -450,6 +456,18 @@
     <ClInclude Include="structs.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
+    <ClInclude Include="cSoundManager.h">
+      <Filter>#3D Framework\Manager\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjectManager.h">
+      <Filter>#3D Framework\Manager\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="LDYMotionBlur.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -711,6 +729,18 @@
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
     <ClCompile Include="LDYHeightMap.cpp">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundManager.cpp">
+      <Filter>#3D Framework\Manager\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjectManager.cpp">
+      <Filter>#3D Framework\Manager\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYMotionBlur.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>

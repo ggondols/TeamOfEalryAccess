@@ -32,9 +32,9 @@ void TeicEnemy::MakeBoundingBox()
 	vector<ST_PN_VERTEX>	m_vecVertex;
 	vector<D3DXVECTOR3>	vecVertex;
 	vector<DWORD>		vecIndex;
-	float fCubeSizeX = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeX / 2;
-	float fCubeSizeY = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeY / 2;
-	float fCubeSizeZ = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeZ / 2;
+	float fCubeSizeX = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeX ;
+	float fCubeSizeY = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeY ;
+	float fCubeSizeZ = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeZ ;
 	D3DXVECTOR3	center = m_pSkinnedMesh->m_pBoundingSquare.m_vCenterPos;
 
 	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y - fCubeSizeY, center.z - fCubeSizeZ));
@@ -159,9 +159,11 @@ void TeicEnemy::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
 	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;;
 	m_pSkinnedMesh->m_pCopy = m_pSkinnedMesh->m_pBoundingSquare;
-	m_pSkinnedMesh->m_pBoundingSquare.m_fControlX = 3.0f;
-	m_pSkinnedMesh->m_pBoundingSquare.m_fControlY = 0.5f;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlX = 1.0f;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlY = 0.3f;
 	m_pSkinnedMesh->m_pBoundingSquare.m_fControlZ = 0.0f;
+
+	
 	//m_fBoundingSize = CalBoundingSize();
 }
 

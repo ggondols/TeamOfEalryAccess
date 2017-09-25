@@ -80,6 +80,11 @@ public:
 
 	TeicPhysicsCrtCtrl* getCrtCtrl() {return m_pCtrl;}
 
+	// 인벤토리를 위한 임시함수..
+	void SetWeaponType(WeaponType type) { m_eWpType = type; }
+	void SetHeadLv(int HeadLv) { m_iHeadLv = HeadLv; }
+	void SetBodyLv(int BodyLv) { m_iBodyLv = BodyLv; }
+
 public:
 
 	LDYCharacter();

@@ -12,9 +12,9 @@ void TeicShoot::Setup(HankcGrid *node, LDYCamera *camera, LDYCharacter* characte
 	m_vShootPosition = D3DXVECTOR3(0, 0, 0);
 	m_pCharacter = character;
 	D3DXCreateLine(GETDEVICE, m_pLine);
-	m_stBulletSquare.m_fSizeY = 0.01f;
-	m_stBulletSquare.m_fSizeX = 0.01f;
-	m_stBulletSquare.m_fSizeZ = 0.01f;
+	m_stBulletSquare.m_fSizeY = 0.1;
+	m_stBulletSquare.m_fSizeX = 0.1;
+	m_stBulletSquare.m_fSizeZ = 0.1;
 	m_stBulletSquare.m_vCenterPos = D3DXVECTOR3(0, 0, 0);
 	m_stBulletSquare.m_vXdir = D3DXVECTOR3(1, 0, 0);
 	m_stBulletSquare.m_vYdir = D3DXVECTOR3(0, 1, 0);
@@ -25,20 +25,34 @@ void TeicShoot::Setup(HankcGrid *node, LDYCamera *camera, LDYCharacter* characte
 
 void TeicShoot::Shoot()
 {
+	m_vecPoint.clear();
+	m_vecTargetNode.clear();
 	m_vShootPosition = m_pCamera->getEye();
 	m_vShootDir = m_pCamera->getShootTarget() - m_vShootPosition;
 	D3DXVec3Normalize(&m_vShootDir, &m_vShootDir);
 	m_vFinish = m_vShootPosition + m_vShootDir* m_fShootDistance;
 
 	m_stBulletSquare.m_vCenterPos = (m_vShootPosition + m_vFinish) / 2;
-	m_stBulletSquare.m_fSizeZ = m_fShootDistance;
+	m_stBulletSquare.m_fSizeZ = m_fShootDistance/2;
 	CalRotation();
-	m_vecPoint = m_pBresenham->FindNode(m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z,
+	m_vecPoint = m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
 		m_vFinish.x, m_vFinish.z);
+	m_vecDeletePoint= m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
+		m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
 	for (int i = 0; i < m_vecPoint.size(); i++)
 	{
 		if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
 			m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
+		int a = 0;
+		for (int j = 0; j < m_vecDeletePoint.size(); j++)
+		{
+			if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
+				m_vecPoint[i].y == m_vecDeletePoint[j].y)
+			{
+				a = 1;
+			}
+		}
+		if(a==0)
 		m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x] );
 	}
 	for (int i = 0; i < m_vecTargetNode.size(); i++)
@@ -128,14 +142,17 @@ void TeicShoot::Render()
 	GETDEVICE->DrawPrimitiveUP(D3DPT_LINELIST,3, vertex, sizeof(ST_PC_VERTEX));
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 
-	D3DXMATRIX trans;
+
+
+	MakeBoundingBox();
+	/*D3DXMATRIX trans;
 	D3DXMatrixTranslation(&trans, 0,0,0);
 	m_stRect = ST_PN_Rectangle(m_stBulletSquare.m_fSizeX , m_stBulletSquare.m_fSizeY , m_stBulletSquare.m_fSizeZ);
 	
 	GETDEVICE->SetTransform(D3DTS_WORLD, &(matR*trans));
 	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
 	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_stRect.m_vecVertex[0], sizeof(ST_PN_VERTEX));
-	
+	*/
 }
 
 
@@ -158,4 +175,100 @@ TeicShoot::~TeicShoot()
 	SAFE_DELETE(m_pLine);
 	SAFE_DELETE(m_pObbcollision);
 	SAFE_DELETE(m_pBresenham);
+}
+
+
+
+
+void TeicShoot::MakeBoundingBox()
+{
+	vector<ST_PN_VERTEX>	m_vecVertex;
+	vector<D3DXVECTOR3>	vecVertex;
+	vector<DWORD>		vecIndex;
+	float fCubeSizeX = m_stBulletSquare.m_fSizeX;
+	float fCubeSizeY = m_stBulletSquare.m_fSizeY;
+	float fCubeSizeZ = m_stBulletSquare.m_fSizeZ;
+	D3DXVECTOR3	center = m_stBulletSquare.m_vCenterPos;
+
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y - fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y + fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y + fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y - fCubeSizeY, center.z - fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y - fCubeSizeY, center.z + fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x - fCubeSizeX, center.y + fCubeSizeY, center.z + fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y + fCubeSizeY, center.z + fCubeSizeZ));
+	vecVertex.push_back(D3DXVECTOR3(center.x + fCubeSizeX, center.y - fCubeSizeY, center.z + fCubeSizeZ));
+
+
+
+	vector<D3DXVECTOR3> vecNormal;
+	vecNormal.push_back(D3DXVECTOR3(0, 0, -1));
+	vecNormal.push_back(D3DXVECTOR3(0, 0, 1));
+	vecNormal.push_back(D3DXVECTOR3(-1, 0, 0));
+	vecNormal.push_back(D3DXVECTOR3(1, 0, 0));
+	vecNormal.push_back(D3DXVECTOR3(0, 1, 0));
+	vecNormal.push_back(D3DXVECTOR3(0, -1, 0));
+
+	//앞
+	vecIndex.push_back(0);
+	vecIndex.push_back(1);
+	vecIndex.push_back(2);
+	vecIndex.push_back(0);
+	vecIndex.push_back(2);
+	vecIndex.push_back(3);
+	//뒤
+	vecIndex.push_back(4);
+	vecIndex.push_back(6);
+	vecIndex.push_back(5);
+	vecIndex.push_back(4);
+	vecIndex.push_back(7);
+	vecIndex.push_back(6);
+	//좌
+	vecIndex.push_back(4);
+	vecIndex.push_back(5);
+	vecIndex.push_back(1);
+	vecIndex.push_back(4);
+	vecIndex.push_back(1);
+	vecIndex.push_back(0);
+	//우
+	vecIndex.push_back(3);
+	vecIndex.push_back(2);
+	vecIndex.push_back(6);
+	vecIndex.push_back(3);
+	vecIndex.push_back(6);
+	vecIndex.push_back(7);
+	//상
+	vecIndex.push_back(1);
+	vecIndex.push_back(5);
+	vecIndex.push_back(6);
+	vecIndex.push_back(1);
+	vecIndex.push_back(6);
+	vecIndex.push_back(2);
+	//하
+	vecIndex.push_back(4);
+	vecIndex.push_back(0);
+	vecIndex.push_back(3);
+	vecIndex.push_back(4);
+	vecIndex.push_back(3);
+	vecIndex.push_back(7);
+
+	for (size_t i = 0; i < vecIndex.size(); ++i)
+	{
+		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
+		D3DXVECTOR3 n = vecNormal[i / 6];
+		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
+	}
+	D3DXMATRIX matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMATRIX trans;
+	D3DXMatrixTranslation(&trans, -center.x, -center.y, -center.z);
+	
+	matWorld = trans*matR;
+	D3DXMatrixTranslation(&trans, center.x, center.y, center.z);
+	matWorld = matWorld* trans;
+	//D3DXMatrixRotationY(&matWorld, m_pSkinnedMesh->GetAngle());
+	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
+	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_vecVertex[0], sizeof(ST_PN_VERTEX));
+
 }

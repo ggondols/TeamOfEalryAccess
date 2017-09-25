@@ -11,6 +11,9 @@
 //#		shoot 매니저 입니다.					#
 //#		2017-09-24								#	
 //#					Made by 태영				#
+//#     Setup이후에 Shoot함수를 쓰면 됩니다		#
+//#		Render를하면 총알이 나가는 궤적을		#
+//#     볼 수 있습니다.							#
 //###############################################
 class TeicShoot
 {
@@ -30,6 +33,7 @@ private:
 	ST_PN_Rectangle			m_stRect;
 	D3DXMATRIX matR;
 	vector<POINT>			m_vecPoint;
+	vector<POINT>			m_vecDeletePoint;
 	vector<HankcNode*>		m_vecTargetNode;
 public:
 	void Setup(HankcGrid* node, LDYCamera* camera, LDYCharacter* character);
@@ -39,5 +43,6 @@ public:
 public:
 	TeicShoot();
 	~TeicShoot();
+	void MakeBoundingBox();
 };
 

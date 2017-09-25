@@ -19,6 +19,8 @@ class iMap;
 
 class cUIObject;
 
+class Inventory;
+
 class LJHcJustTestScene:public cGameNode
 {
 
@@ -29,6 +31,7 @@ private:
 	Hank::cGrid*			m_pGrid;
 	iMap*					m_pMap;
 
+	Inventory*				m_pInventory;
 
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료

@@ -240,7 +240,7 @@ void cShadowMapping::Render()
 			m_pApplyShadow->BeginPass(i);
 			{
 				// 원환체를 그린다.
-				m_pCharacter->UpdateAndRender();
+				//m_pCharacter->UpdateAndRender();
 
 				// 디스크를 그린다.
 				m_pApplyShadow->SetMatrix(m_hAmatWorld, &matCWorld);

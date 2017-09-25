@@ -45,6 +45,8 @@ void LDYCamera::Setup(D3DXVECTOR3 * pvTarget /*=NULL*/)
 
 void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 {
+	if (UIOBJECTMANAGER->CheckShowState("inventory")) return;
+
 	if (pvTarget)
 	{
 		m_vTartget.x = pvTarget.x;
