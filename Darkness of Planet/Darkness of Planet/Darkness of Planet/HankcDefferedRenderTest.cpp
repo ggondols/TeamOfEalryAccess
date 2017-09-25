@@ -21,7 +21,7 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pGrid = new Hank::cGrid;
 
 	m_pCharacter = new TeicCharacter;
-	m_pCharacter->Setup("object/xFile/tiger/", "tiger.X");
+	m_pCharacter->Setup("object/xFile/tree/", "Tree_01.X");
 	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&HankcDefferedRenderTest::CallbackOn, this, 0));

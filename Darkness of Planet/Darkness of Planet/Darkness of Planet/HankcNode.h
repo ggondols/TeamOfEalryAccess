@@ -26,17 +26,18 @@ enum Boundingtype
 
 struct BoundingSquare
 {
-	float m_fSizeX;
-	float m_fSizeY;
-	float m_fSizeZ;
-	float m_fControlX;
-	float m_fControlY;
-	float m_fControlZ;
-	D3DXVECTOR3 m_vXdir;
-	D3DXVECTOR3 m_vYdir;
-	D3DXVECTOR3 m_vZdir;
-	D3DXVECTOR3 m_vCenterPos;
-	Boundingtype st_Type;
+	// It's OBB Box Maker, You can make just half side of box then it would be work
+	float m_fSizeX;											// Half size of long X from center pos
+	float m_fSizeY;											// Half size of long Y from center pos
+	float m_fSizeZ;											// Half size of long Z from center pos
+	float m_fControlX;										// No need care about it, fill just 0
+	float m_fControlY;										// No need care about it, fill just 0
+	float m_fControlZ;										// No need care about it, fill just 0
+	D3DXVECTOR3 m_vXdir;									// If it is static mesh then just 1,0,0		
+	D3DXVECTOR3 m_vYdir;									// If it is static mesh then just 0,1,0
+	D3DXVECTOR3 m_vZdir;									// If it is static mesh then just 0,0,1
+	D3DXVECTOR3 m_vCenterPos;								// Center Pos
+	Boundingtype st_Type;									// Type of object, You must fill up this from the upper list
 	TeicSkinnedMeshParent*  m_pSkinnedObject;               //////////object Á¤º¸
 	bool		m_bIsPicked;
 	 
