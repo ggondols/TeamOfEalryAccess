@@ -181,33 +181,21 @@ void cHeightMap::Load(string szFolder,
 			{
 				if (Col >= 0 && Col < (m_nTile) / 3.0)
 				{
-					Subsetnumber = 0;
+					//Subsetnumber = 0;
+					Subsetnumber = 6;
 				}
 				else if (Col >= (m_nTile) / 3.0 && Col < (m_nTile)* 2.0 / 3.0)
 				{
-					Subsetnumber = 4;
-				}
-				else if (Col >= (m_nTile) *2.0 / 3.0 && Col <= (m_nTile))
-				{
+					//Subsetnumber = 1;
 					Subsetnumber = 7;
 				}
-			}
-			else if (Row >= (m_nTile) / 3.0 && Row < (m_nTile)* 2.0 / 3.0)
-			{
-				if (Col >= 0 && Col < (m_nTile) / 3.0)
-				{
-					Subsetnumber = 1;
-				}
-				else if (Col >= (m_nTile) / 3.0 && Col < (m_nTile)* 2.0 / 3.0)
-				{
-					Subsetnumber = 5;
-				}
 				else if (Col >= (m_nTile) *2.0 / 3.0 && Col <= (m_nTile))
 				{
+					//Subsetnumber = 2;
 					Subsetnumber = 8;
 				}
 			}
-			else if (Row >= (m_nTile) *2.0/ 3.0 && Row <= (m_nTile))
+			else if (Row >= (m_nTile) / 3.0 && Row < (m_nTile)* 2.0 / 3.0)
 			{
 				if (Col >= 0 && Col < (m_nTile) / 3.0)
 				{
@@ -215,11 +203,29 @@ void cHeightMap::Load(string szFolder,
 				}
 				else if (Col >= (m_nTile) / 3.0 && Col < (m_nTile)* 2.0 / 3.0)
 				{
-					Subsetnumber = 6;
+					Subsetnumber = 4;
 				}
 				else if (Col >= (m_nTile) *2.0 / 3.0 && Col <= (m_nTile))
 				{
-					Subsetnumber = 9;
+					Subsetnumber = 5;
+				}
+			}
+			else if (Row >= (m_nTile) *2.0/ 3.0 && Row <= (m_nTile))
+			{
+				if (Col >= 0 && Col < (m_nTile) / 3.0)
+				{
+					//Subsetnumber = 6;
+					Subsetnumber = 0;
+				}
+				else if (Col >= (m_nTile) / 3.0 && Col < (m_nTile)* 2.0 / 3.0)
+				{
+					//Subsetnumber = 7;
+					Subsetnumber = 1;
+				}
+				else if (Col >= (m_nTile) *2.0 / 3.0 && Col <= (m_nTile))
+				{
+					//Subsetnumber = 8;
+					Subsetnumber = 2;
 				}
 			}
 			meshverticesAttri[count] = Subsetnumber;
@@ -253,9 +259,17 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 {
 	/*if (x < 0 || z < 0 || x > m_nTile || z > m_nTile)
 		return false;*/
-	if (x < 0 || z > 0 || x > m_nTile || z < -m_nTile)
+	if (x < 0 || z > 0 || x > m_nTile*2 || z < -m_nTile*2)
 		return false;
 
+	if (x > m_nTile)
+	{
+		x -= m_nTile;
+	}
+	if (z < -m_nTile)
+	{
+		z += m_nTile;
+	}
 	//  1--3
 	//  |\ |
 	//  | \|
@@ -294,7 +308,7 @@ void cHeightMap::Render(D3DXVECTOR3 Characterposition)
 {
 	
 	//GETDEVICE->SetTexture(0, 0);
-	
+	//MeshRender(0);
 	
 
 

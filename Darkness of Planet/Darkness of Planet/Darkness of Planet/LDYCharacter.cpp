@@ -1700,7 +1700,8 @@ void LDYCharacter::Update(float angle)
 
 	if (m_bRun)
 	{
-		m_pCtrl->SetSpeed(1.5f);
+		m_pCtrl->SetSpeed(20.0f);
+		////////////////
 	}
 	else {
 		m_pCtrl->SetSpeed(0.5f);

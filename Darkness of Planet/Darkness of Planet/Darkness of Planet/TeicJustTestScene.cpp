@@ -302,7 +302,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -313,7 +313,7 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}
+	}*/
 
 
 
