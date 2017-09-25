@@ -651,11 +651,11 @@ void LDYcJustTestScene::Render()
 	D3DXVECTOR3 light= m_pCamera->getEye();
 
 	{	
-		m_vec4LightPosition = { light.x-5.0f,light.y+8.0f,light.z - 5.0f,1.0f };
+		m_vec4LightPosition = { light.x+2.0f,light.y,light.z+2.0f,1.0f };
 		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
 		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPosition();
-		vLookatPt.x += 10.0f;
-		vLookatPt.z += 10.0f;
+		vLookatPt.x += 5.0f;
+		vLookatPt.z -= 5.0f;
 		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
 	}
