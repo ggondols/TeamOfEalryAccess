@@ -9,6 +9,8 @@
 #include "cUITextView.h"
 #include "cSkyDome.h"
 #include "cSkyCloud.h"
+#include "Inventory.h"
+
 static CRITICAL_SECTION cs;
 
 
@@ -107,6 +109,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pShoot(NULL)
 	,m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
+	, m_pInventory(NULL)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -122,6 +125,7 @@ TeicJustTestScene::~TeicJustTestScene()
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
+	SAFE_DELETE(m_pInventory);
 	
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -158,10 +162,8 @@ HRESULT TeicJustTestScene::Setup()
 	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
 	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
 
-	cUIImageView* pInventoryImage = new cUIImageView;
-	pInventoryImage->SetTexture("./UI/inventory.png");
-	UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
-
+	m_pInventory = new Inventory;
+	m_pInventory->Setup();
 
 
 	///////////µ¿À±
@@ -259,7 +261,8 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	
+
+	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 
@@ -645,7 +648,7 @@ void TeicJustTestScene::Render()
 {
 	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
-
+	if (m_pInventory) m_pInventory->Render();
 
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
