@@ -17,9 +17,11 @@ HRESULT LoadingScene::Setup()
 	m_pLoading->Setup();
 
 	
-
-
-	for (int i = 0; i < 2; i++)
+	D3DXVECTOR3 temp = D3DXVECTOR3(200, 0, -100);
+	char str[256];
+	sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", 200, 0, -100);
+	m_pLoading->LoadWay2(str, NODEMANAGER->GetNode(), temp, D3DXVECTOR3(0, 0, 0));
+	/*for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -29,7 +31,7 @@ HRESULT LoadingScene::Setup()
 			m_pLoading->LoadWay2(str, NODEMANAGER->GetNode(), temp, D3DXVECTOR3(0, 0, 0));
 
 		}
-	}
+	}*/
 	//m_pLoading->LoadMesh("", MESH_NORMAL, "object/xFile/", "MP5_Aim_Anims/HeroBodyLv",i,"_MP5.X");
 	
 
@@ -62,7 +64,8 @@ HRESULT LoadingScene::Setup()
 	m_pLoading->LoadMesh("Weapon/Wp_FireGun.X", MESH_WEAPON, "object/xFile/", "Weapon/Wp_FireGun.X");
 
 
-	m_pLoading->LoadHeightMap("terrain", "map/", "Terrain_Plat_raw.raw", "Terrain_Plat_texture.png");
+	//m_pLoading->LoadHeightMap("terrain", "map/", "HeightMap.raw", "terrain.jpg");
+	m_pLoading->LoadHeightMap("terrain", "map/", "tei2.raw", "tei3.png");
 	//m_pLoading->LoadHeightMap("terrain", "map/", "HeightMap.raw", "terrain.jpg");
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);

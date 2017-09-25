@@ -39,8 +39,11 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 	for (int i = 0; i < temp->m_vecEnemyWay.size(); i++)
 	{
 		char str[256];
-		sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", (int)temp->m_vecEnemy[i]->GetPosition().x, (int)temp->m_vecEnemy[i]->GetPosition().y, (int)temp->m_vecEnemy[i]->GetPosition().z);
-		temp->m_vecEnemyWay[i] = WAYMANAGER->GetWay(str);
+		//sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", (int)temp->m_vecEnemy[i]->GetPosition().x, (int)temp->m_vecEnemy[i]->GetPosition().y, (int)temp->m_vecEnemy[i]->GetPosition().z);
+		
+		//temp->m_vecEnemyWay[i] = WAYMANAGER->GetWay(str);
+		//S(%d, %d, %d)L(0, 0, 0)", 200, 0, -100);
+		temp->m_vecEnemyWay[i] = WAYMANAGER->GetWay("S(200,0,-100)L(0,0,0)");
 		temp->m_vecEnemyCollisionMove[i] = new TeicMoveSequence;
 
 		for (int j = 0; j < temp->m_vecEnemyWay[i].size(); j++)
@@ -317,7 +320,7 @@ void TeicJustTestScene::Update()
 	if (m_bThread)
 	{
 		//CleanHit();
-		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+		if (KEYMANAGER->isOnceKeyDown('Q'))
 		{
 			m_pShoot->Shoot();
 		}
@@ -666,7 +669,7 @@ void TeicJustTestScene::Render()
 
 	
 	m_pGrid->Render();
-	if (m_pMap) m_pMap->Render();
+	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
 
 
