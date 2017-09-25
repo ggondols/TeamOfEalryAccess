@@ -453,6 +453,9 @@
     <ClInclude Include="Inventory.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="LDYMotionBlur.h">
+      <Filter>이동윤 임시저장소</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -718,6 +721,9 @@
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYMotionBlur.cpp">
+      <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

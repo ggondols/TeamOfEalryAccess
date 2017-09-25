@@ -214,6 +214,7 @@
     <ClInclude Include="LDYcJustTestScene.h" />
     <ClInclude Include="LDYHeightMap.h" />
     <ClInclude Include="LDYiMap.h" />
+    <ClInclude Include="LDYMotionBlur.h" />
     <ClInclude Include="LDYSkinnedMesh.h" />
     <ClInclude Include="LDYSkinnedMesh_Head.h" />
     <ClInclude Include="LDYSkinnedMesh_Weapon.h" />
@@ -308,6 +309,7 @@
     <ClCompile Include="LDYcJustTestScene.cpp" />
     <ClCompile Include="LDYHeightMap.cpp" />
     <ClCompile Include="LDYiMap.cpp" />
+    <ClCompile Include="LDYMotionBlur.cpp" />
     <ClCompile Include="LDYSkinnedMesh.cpp" />
     <ClCompile Include="LDYSkinnedMesh_Head.cpp" />
     <ClCompile Include="LDYSkinnedMesh_Weapon.cpp" />
