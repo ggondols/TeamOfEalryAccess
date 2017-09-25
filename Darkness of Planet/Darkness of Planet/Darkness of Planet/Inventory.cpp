@@ -16,9 +16,12 @@ Inventory::~Inventory()
 
 void Inventory::Setup()
 {
-	//m_pCharacter = new LDYCharacter;
-	//m_pCharacter->Setup("object/xFile/", "HeroBodyLv");
-	//m_pCharacter->SetPosition(D3DXVECTOR3(20, 20, 20));
+	m_pCharacter = new LDYCharacter;
+	char* BodyName = "HeroBodyLv";
+	char buff[1024];
+	sprintf_s(buff, "%s%d", BodyName, 1);
+	m_pCharacter->Setup("object/xFile/", "HeroBodyLv");
+	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 10));
 
 	UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
 	UIOBJECTMANAGER->SetTexture("inventory", "./UI/inventory.png");
@@ -59,10 +62,6 @@ void Inventory::Setup()
 
 void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 {
-	//m_pCharacter->Update(camera->getAngleY());
-	//D3DXVECTOR3 test1 = camera->getEye();
-	//D3DXVECTOR3 test2 = D3DXVECTOR3(0, 0, 10);
-	//m_pCharacter->SetPosition(test1 - test2);
 	
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
@@ -100,9 +99,9 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		cUIObject* pUpPositionEquipment = UIOBJECTMANAGER->GetSelectChild("equipment");
 		if (pUpPositionInventory)
 		{
-			string tempName = m_vecItems[m_pSelectItem->GetTag() - 1].sName;
-			m_vecItems[m_pSelectItem->GetTag() - 1].sName = m_vecItems[pUpPositionInventory->GetTag() - 1].sName;
-			m_vecItems[pUpPositionInventory->GetTag() - 1].sName = tempName;
+			ST_INVENTORY_ITEM temp = m_vecItems[m_pSelectItem->GetTag() - 1];
+			m_vecItems[m_pSelectItem->GetTag() - 1] = m_vecItems[pUpPositionInventory->GetTag() - 1];
+			m_vecItems[pUpPositionInventory->GetTag() - 1] = temp;
 		}
 		else if (pUpPositionEquipment)
 		{
@@ -136,8 +135,8 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		GetCursorPos(&ptCurrentMouse);
 		ScreenToClient(g_hWnd, &ptCurrentMouse);
 
-		ptAddPoint.x = (ptCurrentMouse.x - g_ptMouse.x) * 2;
-		ptAddPoint.y = (ptCurrentMouse.y - g_ptMouse.y) * 2;
+		ptAddPoint.x = (ptCurrentMouse.x - g_ptMouse.x);
+		ptAddPoint.y = (ptCurrentMouse.y - g_ptMouse.y);
 		m_pSelectItem->SetPosition(m_pSelectItem->GetPointPosition().x + ptAddPoint.x,
 			m_pSelectItem->GetPointPosition().y + ptAddPoint.y);
 		//m_pSelectItem->SetPosition(ptCurrentMouse.x, ptCurrentMouse.y);
