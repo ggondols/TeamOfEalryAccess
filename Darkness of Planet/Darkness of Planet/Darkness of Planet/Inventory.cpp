@@ -11,18 +11,10 @@ Inventory::Inventory()
 
 Inventory::~Inventory()
 {
-	//SAFE_DELETE(m_pCharacter);
 }
 
 void Inventory::Setup()
 {
-	m_pCharacter = new LDYCharacter;
-	char* BodyName = "HeroBodyLv";
-	char buff[1024];
-	sprintf_s(buff, "%s%d", BodyName, 1);
-	m_pCharacter->Setup("object/xFile/", "HeroBodyLv");
-	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 10));
-
 	UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
 	UIOBJECTMANAGER->SetTexture("inventory", "./UI/inventory.png");
 	UIOBJECTMANAGER->SetAlpha("inventory", 200);
@@ -62,12 +54,13 @@ void Inventory::Setup()
 
 void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 {
-	
+	m_pCharacter = character;
+
+	bool showState = UIOBJECTMANAGER->CheckShowState("inventory");
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
-		bool showState = !UIOBJECTMANAGER->CheckShowState("inventory");
-		UIOBJECTMANAGER->SetShowState("inventory", showState);
-		UIOBJECTMANAGER->SetShowState("equipment", showState);
+		UIOBJECTMANAGER->SetShowState("inventory", !showState);
+		UIOBJECTMANAGER->SetShowState("equipment", !showState);
 	}
 
 	string sFileAddress = "UI/Icon_";
@@ -82,7 +75,7 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		UIOBJECTMANAGER->SetTexture("equipment", i + 1, sFileAddress + m_vecEquipments[i].sName + sFileType);
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && showState)
 	{
 		m_pSelectItem = UIOBJECTMANAGER->GetSelectChild("inventory");
 		if (m_pSelectItem)
@@ -114,12 +107,12 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 
 			for each(auto e in m_vecEquipments)
 			{
-				if (e.sName == "MP5") character->SetWeaponType(Wp_MP5);
-				else if (e.sName == "M4") character->SetWeaponType(Wp_M4);
-				else if (e.sName == "Mask") character->SetHeadLv(0);
-				else if (e.sName == "Helmet") character->SetHeadLv(1);
-				else if (e.sName == "Armor") character->SetBodyLv(0);
-				else if (e.sName == "FullArmor") character->SetBodyLv(2);
+				if (e.sName == "MP5") m_pCharacter->SetWeaponType(Wp_MP5);
+				else if (e.sName == "M4") m_pCharacter->SetWeaponType(Wp_M4);
+				else if (e.sName == "Mask") m_pCharacter->SetHeadLv(0);
+				else if (e.sName == "Helmet") m_pCharacter->SetHeadLv(1);
+				else if (e.sName == "Armor") m_pCharacter->SetBodyLv(0);
+				else if (e.sName == "FullArmor") m_pCharacter->SetBodyLv(2);
 			}
 		}
 
@@ -153,7 +146,12 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 
 void Inventory::Render()
 {
-	//if (m_pCharacter && UIOBJECTMANAGER->CheckShowState("inventory")) m_pCharacter->UpdateAndRender();
+	if (m_pCharacter && UIOBJECTMANAGER->CheckShowState("inventory"))
+	{
+		//UIOBJECTMANAGER->SetShowState("equipment", false);
+		m_pCharacter->UpdateAndRender();
+		//UIOBJECTMANAGER->SetShowState("equipment", true);
+	}
 }
 
 void Inventory::AddItem(string itemName, int count)

@@ -245,9 +245,17 @@ void LJHcJustTestScene::Release()
 
 void LJHcJustTestScene::Update()
 {
-	m_bThread = false;
-
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
+
+	m_bThread = false;
+	//if (UIOBJECTMANAGER->CheckShowState("inventory"))
+	//{
+	//	m_bThread = false;
+	//}
+	//else
+	//{
+	//	m_bThread = true;
+	//}
 
 	if (m_pSkyBox) m_pSkyBox->Update();
 	m_pCamera->Update(m_pCharacter->GetPosition());
