@@ -22,6 +22,8 @@ public:
 	virtual void SetSizeHeight(float height) { m_stSize.fHeight = height; }
 	virtual void GetRect(RECT* pRect);
 	virtual cUIObject* GetChildByTag(int nTag);
+	virtual cUIObject* GetChildByPosition(POINT ptMouse);
+	virtual POINT GetPointPosition();
 
 	virtual int GetChildSize() { return m_vecChild.size(); }
 };

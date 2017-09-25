@@ -5,6 +5,7 @@
 #include "TeicPhysicsCrtCtrl.h"
 #include "cUIImageView.h"
 #include "cUITextView.h"
+#include "Inventory.h"
 
 static CRITICAL_SECTION cs;
 
@@ -98,7 +99,7 @@ LJHcJustTestScene::LJHcJustTestScene()
 	, m_pCamera(NULL)
 	, m_iBodyUpgrade(1)
 	, m_pSkyBox(NULL)
-
+	, m_pInventory(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -108,7 +109,8 @@ LJHcJustTestScene::~LJHcJustTestScene()
 {
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
-	
+	SAFE_DELETE(m_pInventory);
+
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
@@ -149,7 +151,10 @@ HRESULT LJHcJustTestScene::Setup()
 	//pInventoryImage->SetTexture("./UI/inventory.png");
 	//UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
 
-	UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
+	m_pInventory = new Inventory;
+	m_pInventory->Setup();
+
+	/*UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
 	UIOBJECTMANAGER->SetTexture("inventory", "./UI/inventory.png");
 	UIOBJECTMANAGER->SetAlpha("inventory", 200);
 	UIOBJECTMANAGER->SetPosition("inventory", 50.0f, 20.0f);
@@ -162,9 +167,7 @@ HRESULT LJHcJustTestScene::Setup()
 			UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
 			UIOBJECTMANAGER->SetPosition("inventory", index, col * 100.0f + 9.0f, row * 100.0f + 9.0f);
 		}
-	}
-
-	UIOBJECTMANAGER->SetTexture("inventory", 12, "UI/Icon_M4.png");
+	}*/
 
 	///////////µ¿À±
 
@@ -242,7 +245,10 @@ void LJHcJustTestScene::Release()
 
 void LJHcJustTestScene::Update()
 {
-	
+	m_bThread = false;
+
+	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
+
 	if (m_pSkyBox) m_pSkyBox->Update();
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
@@ -368,10 +374,10 @@ void LJHcJustTestScene::Update()
 	/*cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
 	pAim->SetTexture("./UI/aimNormal.png");*/
 
-	if (KEYMANAGER->isOnceKeyDown('I'))
-	{
-		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
-	}
+	//if (KEYMANAGER->isOnceKeyDown('I'))
+	//{
+	//	UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
+	//}
 
 	/*if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 	{
@@ -615,6 +621,7 @@ float LJHcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void LJHcJustTestScene::Render()
 {
+	if (m_pInventory) m_pInventory->Render();
 
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();

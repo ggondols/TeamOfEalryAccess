@@ -178,6 +178,19 @@ cUIObject * UIObjectManager::GetChildByTag(string key, int tag)
 	return FindRoot(key)->GetChildByTag(tag);
 }
 
+cUIObject * UIObjectManager::GetSelectChild(string key)
+{
+	cUIObject* pUIObject = NULL;
+
+	POINT ptMouse;
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
+
+	pUIObject = FindRoot(key)->GetChildByPosition(ptMouse);
+
+	return pUIObject;
+}
+
 bool UIObjectManager::CheckCollidedRect(string key, float x, float y)
 {
 	RECT rc;
