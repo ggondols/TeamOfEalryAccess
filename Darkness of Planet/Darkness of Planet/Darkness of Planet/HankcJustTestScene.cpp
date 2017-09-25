@@ -587,7 +587,7 @@ void HankcJustTestScene::Render()
 
 	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
-	if (m_pMap) m_pMap->Render();
+	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
 
 

@@ -2,15 +2,23 @@
 #include "cHeightMap.h"
 
 cHeightMap::cHeightMap(void)
-	: m_pMesh(NULL)
-	, m_nTile(0)
+
+	:m_nTile(0)
 {
+	for (int i = 0; i < 4; i++)
+	{
+		m_pMesh[i] = NULL;
+	}
 }
 
 cHeightMap::~cHeightMap(void)
 {
-	SAFE_RELEASE(m_pMesh);
-	
+	for (int i = 0; i < 4; i++)
+	{
+		SAFE_RELEASE(m_pMesh[i]);
+	}
+
+
 }
 
 void cHeightMap::Load(string szFolder,
@@ -47,7 +55,7 @@ void cHeightMap::Load(string szFolder,
 			unsigned char c = fgetc(fp);
 			int i = z * nRow + x;
 			//////////////////////ÀÌºÎºÐ ¹Ù²ã¼­ Å©±â¹Ù²Þ 0.1f
-			vecVertex[i].p = D3DXVECTOR3(x, (c*0.1f) - 10.0f, (z - (nRow - 1)));
+			vecVertex[i].p = D3DXVECTOR3(x, (c*0.5) - 10.0f, (z - (nRow - 1)));
 			vecVertex[i].n = D3DXVECTOR3(0, 1, 50);
 			vecVertex[i].t = D3DXVECTOR2(x / (float)m_nTile, z / (float)m_nTile);
 
@@ -106,40 +114,139 @@ void cHeightMap::Load(string szFolder,
 			vecIndex.push_back(_3); vecIndex.push_back(_2); vecIndex.push_back(_1);
 		}
 	}
+	m_vecVertexCopy.resize(vecVertex.size());
+	for (int i = 0; i < 4; i++)
+	{
+		D3DXMATRIX temp;
+		switch (i)
+		{
+		case	0:
+			m_vecVertexCopy = vecVertex;
+			break;
+		case 1:
+			D3DXMatrixTranslation(&temp, nRow, 0, 0);
+			for (int a = 0; a < m_vecVertexCopy.size(); a++)
+			{
+				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
+			}
+			break;
+		case 2:
+			D3DXMatrixTranslation(&temp, 0, 0, -nRow);
+			for (int a = 0; a < m_vecVertexCopy.size(); a++)
+			{
+				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
+			}
+			break;
+		case 3:
+			D3DXMatrixTranslation(&temp, nRow, 0, -nRow);
+			for (int a = 0; a < m_vecVertexCopy.size(); a++)
+			{
+				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
+			}
+			break;
+		}
 
-	D3DXCreateMeshFVF(vecIndex.size() / 3,
-		vecVertex.size(),
-		D3DXMESH_MANAGED | D3DXMESH_32BIT,
-		ST_PNT_VERTEX::FVF,
-		GETDEVICE,
-		&m_pMesh);
+		D3DXCreateMeshFVF(vecIndex.size() / 3,
+			m_vecVertexCopy.size(),
+			D3DXMESH_MANAGED | D3DXMESH_32BIT,
+			ST_PNT_VERTEX::FVF,
+			GETDEVICE,
+			&m_pMesh[i]);
 
-	ST_PNT_VERTEX* pV = 0;
-	m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
-	memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(ST_PNT_VERTEX));
-	m_pMesh->UnlockVertexBuffer();
+		ST_PNT_VERTEX* pV = 0;
+		m_pMesh[i]->LockVertexBuffer(0, (LPVOID*)&pV);
+		memcpy(pV, &m_vecVertexCopy[0], m_vecVertexCopy.size() * sizeof(ST_PNT_VERTEX));
+		m_pMesh[i]->UnlockVertexBuffer();
 
-	DWORD* pI = 0;
-	m_pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
-	memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
-	m_pMesh->UnlockIndexBuffer();
+		DWORD* pI = 0;
+		m_pMesh[i]->LockIndexBuffer(0, (LPVOID*)&pI);
+		memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
+		m_pMesh[i]->UnlockIndexBuffer();
 
-	DWORD* pA = 0;
-	m_pMesh->LockAttributeBuffer(0, &pA);
-	ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
-	m_pMesh->UnlockAttributeBuffer();
+		/*DWORD* pA = 0;
+		m_pMesh[i]->LockAttributeBuffer(0, &pA);
+		ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
+		m_pMesh[i]->UnlockAttributeBuffer();*/
 
-	vector<DWORD> vecAdj(vecIndex.size());
-	m_pMesh->GenerateAdjacency(0, &vecAdj[0]);
+		DWORD* meshverticesAttri = 0;
+		int count = 0;
+		m_pMesh[i]->LockAttributeBuffer(0, &meshverticesAttri);
+		for (int j = 0; j < vecIndex.size(); j += 3)
+		{
+			int Cal = j / 6;
+			int Row = Cal / (m_nTile);
+			int Col = Cal % (m_nTile);
+			int Subsetnumber;
+			if (Row >= 0 && Row < (m_nTile) / 3.0)
+			{
+				if (Col >= 0 && Col < (m_nTile) / 3.0)
+				{
+					Subsetnumber = 0;
+				}
+				else if (Col >= (m_nTile) / 3.0 && Col < (m_nTile)* 2.0 / 3.0)
+				{
+					Subsetnumber = 4;
+				}
+				else if (Col >= (m_nTile) *2.0 / 3.0 && Col <= (m_nTile))
+				{
+					Subsetnumber = 7;
+				}
+			}
+			else if (Row >= (m_nTile) / 3.0 && Row < (m_nTile)* 2.0 / 3.0)
+			{
+				if (Col >= 0 && Col < (m_nTile) / 3.0)
+				{
+					Subsetnumber = 1;
+				}
+				else if (Col >= (m_nTile) / 3.0 && Col < (m_nTile)* 2.0 / 3.0)
+				{
+					Subsetnumber = 5;
+				}
+				else if (Col >= (m_nTile) *2.0 / 3.0 && Col <= (m_nTile))
+				{
+					Subsetnumber = 8;
+				}
+			}
+			else if (Row >= (m_nTile) *2.0/ 3.0 && Row <= (m_nTile))
+			{
+				if (Col >= 0 && Col < (m_nTile) / 3.0)
+				{
+					Subsetnumber = 3;
+				}
+				else if (Col >= (m_nTile) / 3.0 && Col < (m_nTile)* 2.0 / 3.0)
+				{
+					Subsetnumber = 6;
+				}
+				else if (Col >= (m_nTile) *2.0 / 3.0 && Col <= (m_nTile))
+				{
+					Subsetnumber = 9;
+				}
+			}
+			meshverticesAttri[count] = Subsetnumber;
+			count++;
+		}
 
-	m_pMesh->OptimizeInplace(
-		D3DXMESHOPT_ATTRSORT |
-		D3DXMESHOPT_COMPACT |
-		D3DXMESHOPT_VERTEXCACHE,
-		&vecAdj[0], 0, 0, 0);
 
-	ZeroMemory(&m_stMtl, sizeof(D3DMATERIAL9));
-	m_stMtl.Ambient = m_stMtl.Diffuse = m_stMtl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
+
+		vector<DWORD> vecAdj(vecIndex.size());
+		m_pMesh[i]->GenerateAdjacency(0, &vecAdj[0]);
+
+		m_pMesh[i]->OptimizeInplace(
+			D3DXMESHOPT_ATTRSORT |
+			D3DXMESHOPT_COMPACT |
+			D3DXMESHOPT_VERTEXCACHE,
+			&vecAdj[0], 0, 0, 0);
+
+
+
+	}
+
+
+	m_stMtl = MATERIALMANAGER->GetGrayWhite();
+
+	GETDEVICE->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_ANISOTROPIC);
+	GETDEVICE->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC);
+	GETDEVICE->SetSamplerState(0, D3DSAMP_MAXANISOTROPY, 4);
 }
 
 bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
@@ -157,7 +264,7 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 	int nZ = z + m_nTile - 1;
 
 	float fDeltaX = x - nX;
-	float fDeltaZ = (z + m_nTile- 1) - nZ;
+	float fDeltaZ = (z + m_nTile - 1) - nZ;
 
 	int _0 = (nZ + 0) * (m_nTile + 1) + nX + 0;
 	int _1 = (nZ + 1) * (m_nTile + 1) + nX + 0;
@@ -179,18 +286,193 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 		y = (_31 * fDeltaX + _32 * fDeltaZ).y + m_vecVertex[_3].y;
 	}
 
+
 	return true;
 }
 
-void cHeightMap::Render()
+void cHeightMap::Render(D3DXVECTOR3 Characterposition)
+{
+	
+	//GETDEVICE->SetTexture(0, 0);
+	
+	
+
+
+	int centerX = Characterposition.x / (m_nTile/3.0f);
+	int centerY = (-Characterposition.z) / (m_nTile / 3.0f);
+
+	int num = centerX + (centerY * 6);
+	for (int i = -1; i < 2; i ++)
+	{
+		for (int j = -1	; j < 2; j++)
+		{
+			if (num + j + i*(6) < 0)continue;
+			if (num + j + i*(6) > 35)continue;
+			MeshRender(num + j + i*(6));
+		}
+	}
+	
+}
+
+void cHeightMap::MeshRender(int num)
 {
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture(m_sTexture));
-	//GETDEVICE->SetTexture(0, 0);
-	
 	GETDEVICE->SetMaterial(&m_stMtl);
-	GETDEVICE->SetFVF(m_pMesh->GetFVF());
-	m_pMesh->DrawSubset(0);
+
+	switch (num)
+	{
+		case	0:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(0);
+			break;
+		case	1:	
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(1);
+			break;
+		case	2:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(2);
+			break;
+		case	3:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(0);
+			break;
+		case	4:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(1);
+			break;
+		case	5:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(2);
+			break;
+		case	6:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(3);
+			break;
+		case	7:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(4);
+			break;
+		case	8:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(5);
+			break;
+		case	9:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(3);
+			break;
+		case	10:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(4);
+			break;
+		case	11:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(5);
+			break;
+		case	12:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(6);
+			break;
+		case	13:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(7);
+			break;
+		case	14:
+			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+			m_pMesh[0]->DrawSubset(8);
+			break;
+		case	15:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(6);
+			break;
+		case	16:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(7);
+			break;
+		case	17:
+			GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+			m_pMesh[1]->DrawSubset(8);
+			break;
+		case	18:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(0);
+			break;
+		case	19:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(1);
+			break;
+		case	20:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(2);
+			break;
+		case	21:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(0);
+			break;
+		case	22:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(1);
+			break;
+		case	23:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(2);
+			break;
+		case	24:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(3);
+			break;
+		case	25:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(4);
+			break;
+		case	26:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(5);
+			break;
+		case	27:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(3);
+			break;
+		case	28:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(4);
+			break;
+		case	29:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(5);
+			break;
+		case	30:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(6);
+			break;
+		case	31:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(7);
+			break;
+		case	32:
+			GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+			m_pMesh[2]->DrawSubset(8);
+			break;
+		case	33:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(6);
+			break;
+		case	34:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(7);
+			break;
+		case	35:
+			GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+			m_pMesh[3]->DrawSubset(8);
+			break;
+
+		default:
+		break;
+	}
+
+
+	
 }

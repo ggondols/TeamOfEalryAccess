@@ -35,15 +35,15 @@ void TeicShoot::Shoot()
 	m_stBulletSquare.m_vCenterPos = (m_vShootPosition + m_vFinish) / 2;
 	m_stBulletSquare.m_fSizeZ = m_fShootDistance/2;
 	CalRotation();
-	m_vecPoint = m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
+	m_vecPoint = m_pBresenham->FindNodeAccuracy(m_vShootPosition.x, m_vShootPosition.z,
 		m_vFinish.x, m_vFinish.z);
-	m_vecDeletePoint= m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
-		m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
+	/*m_vecDeletePoint= m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
+		m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);*/
 	for (int i = 0; i < m_vecPoint.size(); i++)
 	{
 		if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
 			m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
-		int a = 0;
+		/*int a = 0;
 		for (int j = 0; j < m_vecDeletePoint.size(); j++)
 		{
 			if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
@@ -52,7 +52,7 @@ void TeicShoot::Shoot()
 				a = 1;
 			}
 		}
-		if(a==0)
+		if(a==0)*/
 		m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x] );
 	}
 	for (int i = 0; i < m_vecTargetNode.size(); i++)
