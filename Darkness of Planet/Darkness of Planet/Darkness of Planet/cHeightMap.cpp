@@ -308,15 +308,12 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 void cHeightMap::Render(D3DXVECTOR3 Characterposition)
 {
 	
-	//GETDEVICE->SetTexture(0, 0);
-	//MeshRender(0);
-	
-
-
 	int centerX = Characterposition.x / (m_nTile/3.0f);
 	int centerY = (-Characterposition.z) / (m_nTile / 3.0f);
 
 	int num = centerX + (centerY * 6);
+
+	//beginpass
 	for (int i = -1; i < 2; i ++)
 	{
 		for (int j = -1	; j < 2; j++)
@@ -326,7 +323,7 @@ void cHeightMap::Render(D3DXVECTOR3 Characterposition)
 			MeshRender(num + j + i*(6));
 		}
 	}
-	
+	//endpass
 }
 
 void cHeightMap::MeshRender(int num)
