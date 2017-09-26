@@ -125,21 +125,21 @@ void cHeightMap::Load(string szFolder,
 			m_vecVertexCopy = vecVertex;
 			break;
 		case 1:
-			D3DXMatrixTranslation(&temp, nRow, 0, 0);
+			D3DXMatrixTranslation(&temp, m_nTile, 0, 0);
 			for (int a = 0; a < m_vecVertexCopy.size(); a++)
 			{
 				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
 			}
 			break;
 		case 2:
-			D3DXMatrixTranslation(&temp, 0, 0, -nRow);
+			D3DXMatrixTranslation(&temp, 0, 0, -m_nTile);
 			for (int a = 0; a < m_vecVertexCopy.size(); a++)
 			{
 				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
 			}
 			break;
 		case 3:
-			D3DXMatrixTranslation(&temp, nRow, 0, -nRow);
+			D3DXMatrixTranslation(&temp, m_nTile, 0, -m_nTile);
 			for (int a = 0; a < m_vecVertexCopy.size(); a++)
 			{
 				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
