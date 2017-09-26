@@ -22,8 +22,7 @@ void cDeviceManager::Setup(void)
 
 	D3DPRESENT_PARAMETERS dpp;
 	//ZeroMemory(&dpp, sizeof(dpp));
-	//dpp.Swap
-	= D3DSWAPEFFECT_DISCARD;
+	//dpp.SwapEffect= D3DSWAPEFFECT_DISCARD;
 	//dpp.Windowed = FALSE;        ///true¿¡¼­ ¹Ù²Þ
 	//dpp.BackBufferFormat = D3DFMT_X8R8G8B8;  ///D3DFMT_UNKNOWN¿¡¼­ ¹Ù²Þ
 	//dpp.EnableAutoDepthStencil = TRUE;

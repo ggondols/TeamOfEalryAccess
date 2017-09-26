@@ -40,11 +40,13 @@ STDMETHODIMP cAllocateHierarchy::CreateFrame( THIS_ LPCSTR Name, LPD3DXFRAME *pp
 	return S_OK;
 }
 
+
+
+
 STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 	CONST D3DXMESHDATA *pMeshData,
 	CONST D3DXMATERIAL *pMaterials,
-	CONST D3DX
-	INSTANCE *pEffectInstances,
+	CONST D3DXEFFECTINSTANCE *pEffectInstances,
 	DWORD NumMaterials, 
 	CONST DWORD *pAdjacency,
 	LPD3DXSKININFO pSkinInfo,
