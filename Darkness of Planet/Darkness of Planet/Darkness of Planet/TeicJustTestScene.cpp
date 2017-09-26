@@ -258,7 +258,7 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss[2]->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
 
 
-	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 80, -150));
+	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 30, -150));
 	m_pBoss[1]->SetPosition(D3DXVECTOR3(80, 100, -100));
 	m_pBoss[2]->SetPosition(D3DXVECTOR3(100, 100, -100));
 
