@@ -121,6 +121,14 @@ void TeicEnemy::MakeBoundingBox()
 
 }
 
+void TeicEnemy::SetNextAni()
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->SetNextAni();
+	}
+}
+
 void TeicEnemy::SetScaleSize(float a)
 {
 	if (m_pSkinnedMesh)
