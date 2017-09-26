@@ -12,6 +12,7 @@ DataBase::~DataBase()
 void DataBase::Setup()
 {
 	LoadItemData();
+	LoadAIData();
 }
 
 void DataBase::Destroy()
@@ -96,6 +97,57 @@ void DataBase::LoadAIData()
 	FILE* fp = NULL;
 	fopen_s(&fp, "Data/AIData.txt", "r");
 
+	string keyName;
+	keyName.clear();
+
+	mapTimePositionData mapTimeToPosData;
+	mapTimeToPosData.clear();
+
+	float fTimeTemp;
+	D3DXVECTOR3 vPosTemp;
+
+	while (!feof(fp))
+	{
+		char szBuf[1024] = { '\0', };
+		char szPath[1024] = { '\0', };
+
+		fgets(szBuf, 1024, fp);
+
+		if (strlen(szBuf) == 0)
+			continue;
+
+		sscanf_s(szBuf, "%s", szPath, 1024);
+
+		if (!strcmp(szPath, "name"))
+		{
+			if (keyName.empty())
+			{
+				sscanf_s(szBuf, "%*s %s", szPath, 1024);
+				keyName = szPath;
+			}
+			else
+			{
+				m_mapAIData.insert(make_pair(keyName, mapTimeToPosData));
+				keyName.clear();
+				mapTimeToPosData.clear();
+			}
+		}
+		else if (!strcmp(szPath, "time"))
+		{
+			sscanf_s(szBuf, "%*s %f", &fTimeTemp);
+		}
+		else if (!strcmp(szPath, "position"))
+		{
+			float x, y, z;
+			sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
+			vPosTemp = D3DXVECTOR3(x, y, z);
+
+			mapTimeToPosData.insert(make_pair(fTimeTemp, vPosTemp));
+		}
+	}
+
+	m_mapAIData.insert(make_pair(keyName, mapTimeToPosData));
+
 	fclose(fp);
 }
 
@@ -125,6 +177,10 @@ D3DXVECTOR3 DataBase::GetPosition(float time, mapTimePositionData& mapTimeData)
 			D3DXVECTOR3 result;
 			D3DXVec3Lerp(&result, &prevIter->second, &iter->second, t);
 			return result;
+		}
+		else if (time == iter->first)
+		{
+			return iter->second;
 		}
 	}
 
