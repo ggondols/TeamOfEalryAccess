@@ -486,6 +486,9 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>#3D Framework\Loading</Filter>
     </ClInclude>
+    <ClInclude Include="TeicEffect.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -769,6 +772,9 @@
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
       <Filter>#3D Framework\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicEffect.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
