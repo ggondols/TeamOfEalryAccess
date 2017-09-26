@@ -156,12 +156,6 @@ void LDYSkinnedMesh::Load(char* szDirectory, char* szFilename)
 
 void LDYSkinnedMesh::UpdateAndRender()
 {
-	if (m_pAnimController)
-	{
-		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime()*0.5, NULL);
-		Blending();
-	}
-
 	if (m_pRootFrame)
 	{
 		D3DXMATRIXA16 mat;
@@ -175,6 +169,15 @@ void LDYSkinnedMesh::UpdateAndRender()
 		Render(m_pRootFrame);
 		//다른부위 매트릭스 가져오기
 		getAnotherMatrix(m_pRootFrame, NULL);
+	}
+}
+
+void LDYSkinnedMesh::AnimControllerUpdate()
+{
+	if (m_pAnimController)
+	{
+		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+		Blending();
 	}
 }
 

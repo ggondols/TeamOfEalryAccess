@@ -654,6 +654,10 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void LDYcJustTestScene::Render()
 {
+
+	if (motionBlur)motionBlur->Render();
+
+
 	//D3DXVECTOR3 light= m_pCamera->getEye();
 
 	//{	
@@ -758,7 +762,7 @@ void LDYcJustTestScene::Render()
 	//		m_pApplyShadow->BeginPass(i);
 	//		{
 	//			// 원환체를 그린다.
-	//			m_pCharacter->UpdateAndRender();
+				m_pCharacter->UpdateAndRender();
 
 	//			// 디스크를 그린다.
 	//			m_pApplyShadow->SetMatrix(m_hAmatWorld, &matHeightWorld);
@@ -770,12 +774,12 @@ void LDYcJustTestScene::Render()
 	//	}
 	//}
 	//m_pApplyShadow->End();
-	if (motionBlur)motionBlur->Render();
+
+	//if (m_pSkyDome)m_pSkyDome->Render();
+	//if (m_pSkyCloud)m_pSkyCloud->Render();
+	if(m_pGrid)m_pGrid->Render();
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
-	/*if (m_pSkyDome)m_pSkyDome->Render();*/
-	//if (m_pSkyCloud)m_pSkyCloud->Render();
-	//if(m_pGrid)m_pGrid->Render();
 	/*if (m_pMap) m_pMap->Render();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
 	
