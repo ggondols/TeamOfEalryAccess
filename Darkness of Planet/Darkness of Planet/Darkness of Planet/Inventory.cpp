@@ -154,6 +154,10 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 void Inventory::Render()
 {
 	//if (m_pCharacter && UIOBJECTMANAGER->CheckShowState("inventory")) m_pCharacter->UpdateAndRender();
+	if (m_pCharacter && UIOBJECTMANAGER->CheckShowState("inventory"))
+	{
+		m_pCharacter->UpdateAndRender();
+	}
 }
 
 void Inventory::AddItem(string itemName, int count)

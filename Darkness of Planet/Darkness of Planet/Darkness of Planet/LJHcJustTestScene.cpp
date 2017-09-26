@@ -246,7 +246,7 @@ void LJHcJustTestScene::Release()
 void LJHcJustTestScene::Update()
 {
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
-
+	
 	m_bThread = false;
 	//if (UIOBJECTMANAGER->CheckShowState("inventory"))
 	//{
