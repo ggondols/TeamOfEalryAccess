@@ -19,6 +19,8 @@ private:
 	int					m_nTile;
 	vector<D3DXVECTOR3>	m_vecVertex;
 	vector<ST_PNT_VERTEX>	m_vecVertexCopy;
+	vector<LPD3DXMESH> m_vecMesh;
+
 public:
 	cHeightMap(void);
 	virtual ~cHeightMap(void);
@@ -32,7 +34,8 @@ public:
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
 	virtual void Render(D3DXVECTOR3 Characterposition) override;
 	void MeshRender(int num);
-	LPD3DXMESH getMesh() override { return m_pMesh[0]; }
+	virtual void MeshRender(D3DXVECTOR3 Characterposition) override;
+	void OnlyMeshRender(int num);
 };
 
 

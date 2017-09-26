@@ -12,7 +12,11 @@
 #include "TeicAstarShort.h"
 #include "TeicBresenham.h"
 
+struct MapMesh {
 
+	LPD3DXMESH	mesh;
+	int			drawsubset;
+};
 
 
 enum WeaponType {
@@ -111,6 +115,7 @@ public:
 
 	D3DXMATRIX				matHeightWorld;
 	LDYMotionBlur*			motionBlur;
+	vector<LPD3DXMESH>		m_vecMapMesh;
 
 public:
 

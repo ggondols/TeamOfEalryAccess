@@ -286,9 +286,9 @@ void LDYMotionBlur::Render()
 		{
 
 			for (int rt = 0; rt < g_nRtUsed; ++rt)
-
-			GETDEVICE->SetRenderTarget(rt, g_pCurFrameRTSet->pRT[iPass][rt]);
-
+			{
+				GETDEVICE->SetRenderTarget(rt, g_pCurFrameRTSet->pRT[iPass][rt]);
+			}
 			g_pEffect->BeginPass(iPass);
 			g_pScene1Object[iObject]->g_pMesh->DrawSubset(0);
 			g_pEffect->EndPass();
@@ -301,6 +301,7 @@ void LDYMotionBlur::Render()
 	{
 		GETDEVICE->SetRenderTarget(rt, apOriginalRenderTarget[rt]);
 	}
+
 	SAFE_RELEASE(apOriginalRenderTarget[0]);
 	GETDEVICE->SetRenderState(D3DRS_ZENABLE, FALSE);
 

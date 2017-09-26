@@ -658,122 +658,123 @@ void LDYcJustTestScene::Render()
 	if (motionBlur)motionBlur->Render();
 
 
-	//D3DXVECTOR3 light= m_pCamera->getEye();
+	D3DXVECTOR3 light= m_pCamera->getEye();
 
-	//{	
-	//	m_vec4LightPosition = { light.x+2.0f,light.y,light.z+2.0f,1.0f };
-	//	D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
-	//	D3DXVECTOR3 vLookatPt = m_pCharacter->GetPosition();
-	//	vLookatPt.x += 5.0f;
-	//	vLookatPt.z -= 5.0f;
-	//	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-	//	D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
-	//}
+	{	
+		m_vec4LightPosition = { light.x+2.0f,light.y,light.z+2.0f,1.0f };
+		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
+		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPosition();
+		vLookatPt.x += 5.0f;
+		vLookatPt.z -= 5.0f;
+		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	}
 
-	//{
-	//	RECT rc;
-	//	GetClientRect(g_hWnd, &rc);
-	//	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI/4.0f, rc.right / (float)rc.bottom, 1, 3000);
-	//}
-	//
-	//D3DXMATRIX matWorld,matView, matProjection, matViewProjection;
-	//GETDEVICE->GetTransform(D3DTS_WORLD, &matWorld);
-	//GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
-	//GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
+	{
+		RECT rc;
+		GetClientRect(g_hWnd, &rc);
+		D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI/4.0f, rc.right / (float)rc.bottom, 1, 3000);
+	}
+	
+	D3DXMATRIX matWorld,matView, matProjection, matViewProjection;
+	GETDEVICE->GetTransform(D3DTS_WORLD, &matWorld);
+	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 
-	//matViewProjection = matView*matProjection;
+	matViewProjection = matView*matProjection;
 
-	//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-	//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-	//GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
-	//GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+	LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+	LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+	GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
+	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
 
-	////////////////////////////////
-	//// 1. 그림자 만들기
-	////////////////////////////////
+	//////////////////////////////
+	// 1. 그림자 만들기
+	//////////////////////////////
 
-	//// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
-	//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-	//m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
-
-
-	//GETDEVICE->SetRenderTarget(0, pShadowSurface);
-	//GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
-
-	//SAFE_RELEASE(pShadowSurface);
-
-	//// 저번 프레임에 그\렸던 그림자 정보를 지움
-	//GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
+	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
 
 
-	//// 그림자 만들기 쉐이더 전역변수들을 설정
-	//m_pCreateShadow->SetMatrix(m_hCmatWorld, &matWorld);
-	//m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
-	//m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
+	GETDEVICE->SetRenderTarget(0, pShadowSurface);
+	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
 
-	//// 그림자 만들기 쉐이더를 시작
-	//{
-	//	UINT numPasses = 0;
-	//	m_pCreateShadow->Begin(&numPasses, NULL);
-	//	{
-	//		for (UINT i = 0; i < numPasses; ++i)
-	//		{
-	//			m_pCreateShadow->BeginPass(i);
-	//			{
-	//				m_pCharacter->UpdateAndRender();
-	//			}
-	//			m_pCreateShadow->EndPass();
-	//		}
-	//	}
-	//	m_pCreateShadow->End();
-	//}
+	SAFE_RELEASE(pShadowSurface);
 
-	////////////////////////////////
-	//// 2. 그림자 입히기
-	////////////////////////////////
+	// 저번 프레임에 그\렸던 그림자 정보를 지움
+	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
 
-	//////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
-	//GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
-	//GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
-	//SAFE_RELEASE(pHWBackBuffer);
-	//SAFE_RELEASE(pHWDepthStencilBuffer);
+	// 그림자 만들기 쉐이더 전역변수들을 설정
+	m_pCreateShadow->SetMatrix(m_hCmatWorld, &matWorld);
+	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
+	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
 
-	//// 그림자 입히기 쉐이더 전역변수들을 설정
-	//m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);		//원환체
-	//m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
-	//m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
-	//m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
+	// 그림자 만들기 쉐이더를 시작
+	{
+		UINT numPasses = 0;
+		m_pCreateShadow->Begin(&numPasses, NULL);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				m_pCreateShadow->BeginPass(i);
+				{
+					m_pCharacter->UpdateAndRender();
+				}
+				m_pCreateShadow->EndPass();
+			}
+		}
+		m_pCreateShadow->End();
+	}
 
-	//m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
+	//////////////////////////////
+	// 2. 그림자 입히기
+	//////////////////////////////
 
-	//m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
+	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
+	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
-	//LPDIRECT3DTEXTURE9 tex;
-	//tex = TEXTUREMANAGER->GetTexture("map/terrain.jpg");
-	//m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+	SAFE_RELEASE(pHWBackBuffer);
+	SAFE_RELEASE(pHWDepthStencilBuffer);
 
-	//// 쉐이더를 시작한다.
-	//UINT numPasses = 0;
-	//m_pApplyShadow->Begin(&numPasses, NULL);
-	//{
-	//	for (UINT i = 0; i < numPasses; ++i)
-	//	{
-	//		m_pApplyShadow->BeginPass(i);
-	//		{
-	//			// 원환체를 그린다.
+	// 그림자 입히기 쉐이더 전역변수들을 설정
+	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);		//원환체
+	m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
+	m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
+	m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
+
+	m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
+
+	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
+
+	LPDIRECT3DTEXTURE9 tex;
+	tex = TEXTUREMANAGER->GetTexture("map/terrain.jpg");
+	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+
+	// 쉐이더를 시작한다.
+	UINT numPasses = 0;
+	m_pApplyShadow->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			m_pApplyShadow->BeginPass(i);
+			{
+				// 원환체를 그린다.
 				m_pCharacter->UpdateAndRender();
 
-	//			// 디스크를 그린다.
-	//			m_pApplyShadow->SetMatrix(m_hAmatWorld, &matHeightWorld);
-	//			m_pApplyShadow->CommitChanges();
-	//			if (m_pMap) m_pHeightMapmesh = m_pMap->getMesh();
-	//			m_pHeightMapmesh->DrawSubset(0);
-	//		}
-	//		m_pApplyShadow->EndPass();
-	//	}
-	//}
-	//m_pApplyShadow->End();
+				// 디스크를 그린다.
+				m_pApplyShadow->SetMatrix(m_hAmatWorld, &matHeightWorld);
+				m_pApplyShadow->CommitChanges();
+				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+				
+			}
+			m_pApplyShadow->EndPass();
+		}
+	}
+	m_pApplyShadow->End();
+
 
 	//if (m_pSkyDome)m_pSkyDome->Render();
 	//if (m_pSkyCloud)m_pSkyCloud->Render();
@@ -1007,6 +1008,7 @@ void LDYcJustTestScene::WayUpdate()
 		}
 	}
 }
+
 
 LPD3DXEFFECT LDYcJustTestScene::LoadEffect(const char * szFileName)
 {
