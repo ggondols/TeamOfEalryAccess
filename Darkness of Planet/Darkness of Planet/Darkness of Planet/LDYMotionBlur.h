@@ -1,11 +1,9 @@
 #pragma once
 
 #define NUM_OBJECTS 40
-#define NUM_WALLS 250
 #define MOVESTYLE_DEFAULT 0
 
 class LDYCharacter;
-
 
 
 struct OBJECT

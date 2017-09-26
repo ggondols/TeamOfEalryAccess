@@ -194,7 +194,7 @@ void LDYMotionBlur::Update()
 
 void LDYMotionBlur::Render()
 {
-	GETDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
 
 	LPDIRECT3DSURFACE9 pOriginalRenderTarget;
 	GETDEVICE->GetRenderTarget(0, &pOriginalRenderTarget);
@@ -225,6 +225,9 @@ void LDYMotionBlur::Render()
 			vPos.x = cosf(g_fObjectSpeed * fTime + 2 * D3DX_PI / 10 * iObject) * fRadius;
 			vPos.y = 0.0f;
 			vPos.z = sinf(g_fObjectSpeed * fTime + 2 * D3DX_PI / 10 * iObject) * fRadius - 5.0f;
+			/*vPos.x = 0.0f;
+			vPos.y = 0.0f;
+			vPos.z = 0.0f;*/
 		}
 
 		g_pScene1Object[iObject]->g_vWorldPos = vPos;
@@ -315,7 +318,7 @@ void LDYMotionBlur::Render()
 	}
 	g_pEffect->End();
 
-
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 void LDYMotionBlur::SetupFullscreenQuad()

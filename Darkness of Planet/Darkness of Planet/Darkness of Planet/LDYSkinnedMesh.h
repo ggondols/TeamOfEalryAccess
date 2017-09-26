@@ -63,8 +63,7 @@ public:
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
 	void UpdateAndRender();
-	void OnlyRender();
-	void OnlyUpdate();
+	void AnimControllerUpdate();
 	void SetAnimationIndex(int nIndex);
 	void SetMove(D3DXMATRIX& move) { m_Move = move; }
 	void SetRandomTrackPosition(); // 테스트용
