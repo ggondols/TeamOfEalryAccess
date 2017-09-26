@@ -65,7 +65,7 @@ HRESULT LoadingScene::Setup()
 
 
 	//m_pLoading->LoadHeightMap("terrain", "map/", "HeightMap.raw", "terrain.jpg");
-	m_pLoading->LoadHeightMap("terrain", "map/", "tei2.raw", "tei3.png");
+	m_pLoading->LoadHeightMap("terrain", "map/", "final2.raw", "final2.bmp");
 	//m_pLoading->LoadHeightMap("terrain", "map/", "HeightMap.raw", "terrain.jpg");
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);

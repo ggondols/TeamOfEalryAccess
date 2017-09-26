@@ -175,6 +175,12 @@
     <Filter Include="#3D Framework\Manager\ObjectManager">
       <UniqueIdentifier>{e2aec6f7-4a3b-494d-94a9-711ff89dcff9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Loading">
+      <UniqueIdentifier>{a439c382-a1b0-47d1-99f6-a27b7b43f40b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\EffectManager">
+      <UniqueIdentifier>{d0a8f725-255c-40e0-b9a5-326bfead8cfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -390,12 +396,6 @@
     <ClInclude Include="TeicBresenham.h">
       <Filter>#3D Framework\Bresenham</Filter>
     </ClInclude>
-    <ClInclude Include="Loading.h">
-      <Filter>#3D Framework\정현 임시저장</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingScene.h">
-      <Filter>#3D Framework\정현 임시저장</Filter>
-    </ClInclude>
     <ClInclude Include="UIObjectManager.h">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
     </ClInclude>
@@ -479,6 +479,12 @@
     </ClInclude>
     <ClInclude Include="cModel.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Loading.h">
+      <Filter>#3D Framework\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>#3D Framework\Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -680,12 +686,6 @@
     <ClCompile Include="TeicBresenham.cpp">
       <Filter>#3D Framework\Bresenham</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingScene.cpp">
-      <Filter>#3D Framework\정현 임시저장</Filter>
-    </ClCompile>
-    <ClCompile Include="Loading.cpp">
-      <Filter>#3D Framework\정현 임시저장</Filter>
-    </ClCompile>
     <ClCompile Include="UIObjectManager.cpp">
       <Filter>#3D Framework\Manager\UIObjectManager</Filter>
     </ClCompile>
@@ -763,6 +763,12 @@
     </ClCompile>
     <ClCompile Include="cModel.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Loading.cpp">
+      <Filter>#3D Framework\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>#3D Framework\Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

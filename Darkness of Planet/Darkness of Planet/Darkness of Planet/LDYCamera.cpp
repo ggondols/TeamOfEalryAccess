@@ -82,11 +82,11 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 	{
 		if (g_MouseWheel > 0)
 		{
-			m_fDistance -= 0.5f;
+			m_fDistance -= 2.0f;
 		}
 		else if (g_MouseWheel < 0)
 		{
-			m_fDistance += 0.5f;
+			m_fDistance += 2.0f;
 		}
 		g_MouseWheel = 0;
 

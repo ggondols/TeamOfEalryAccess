@@ -12,6 +12,7 @@ DataBase::~DataBase()
 void DataBase::Setup()
 {
 	LoadItemData();
+	LoadAIData();
 }
 
 void DataBase::Destroy()
@@ -91,11 +92,111 @@ void DataBase::LoadItemData(void)
 	fclose(fp);
 }
 
+void DataBase::LoadAIData()
+{
+	FILE* fp = NULL;
+	fopen_s(&fp, "Data/AIData.txt", "r");
+
+	string keyName;
+	keyName.clear();
+
+	mapTimePositionData mapTimeToPosData;
+	mapTimeToPosData.clear();
+
+	float fTimeTemp;
+	D3DXVECTOR3 vPosTemp;
+
+	while (!feof(fp))
+	{
+		char szBuf[1024] = { '\0', };
+		char szPath[1024] = { '\0', };
+
+		fgets(szBuf, 1024, fp);
+
+		if (strlen(szBuf) == 0)
+			continue;
+
+		sscanf_s(szBuf, "%s", szPath, 1024);
+
+		if (!strcmp(szPath, "name"))
+		{
+			if (keyName.empty())
+			{
+				sscanf_s(szBuf, "%*s %s", szPath, 1024);
+				keyName = szPath;
+			}
+			else
+			{
+				m_mapAIData.insert(make_pair(keyName, mapTimeToPosData));
+				keyName.clear();
+				mapTimeToPosData.clear();
+			}
+		}
+		else if (!strcmp(szPath, "time"))
+		{
+			sscanf_s(szBuf, "%*s %f", &fTimeTemp);
+		}
+		else if (!strcmp(szPath, "position"))
+		{
+			float x, y, z;
+			sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
+			vPosTemp = D3DXVECTOR3(x, y, z);
+
+			mapTimeToPosData.insert(make_pair(fTimeTemp, vPosTemp));
+		}
+	}
+
+	m_mapAIData.insert(make_pair(keyName, mapTimeToPosData));
+
+	fclose(fp);
+}
+
 float DataBase::GetItemValue(string itemName)
 {
 	mapItemDataIter it = m_mapItemData.find(itemName);
 	if (it != m_mapItemData.end())
 	{
 		return it->second->fValue;
+	}
+}
+
+D3DXVECTOR3 DataBase::GetPosition(float time, mapTimePositionData& mapTimeData)
+{
+	mapTimePositionDataIter prevIter;
+	if (time < mapTimeData.begin()->first) return mapTimeData.begin()->second;
+
+	for (mapTimePositionDataIter iter = mapTimeData.begin(); iter != mapTimeData.end(); iter++)
+	{
+		if (time > iter->first)
+		{
+			prevIter = iter;
+		}
+		else if (time < iter->first)
+		{
+			float t = (time - prevIter->first) / (iter->first - prevIter->first);
+			D3DXVECTOR3 result;
+			D3DXVec3Lerp(&result, &prevIter->second, &iter->second, t);
+			return result;
+		}
+		else if (time == iter->first)
+		{
+			return iter->second;
+		}
+	}
+
+	if (time > prevIter->first)
+	{
+		return prevIter->second;
+	}
+}
+
+D3DXVECTOR3 DataBase::GetTimeToPosition(string aiName, float time)
+{
+	mapAIDataIter AINameIter = m_mapAIData.find(aiName);
+	if (AINameIter != m_mapAIData.end())
+	{
+		D3DXVECTOR3 vPosition;
+		vPosition = GetPosition(time, AINameIter->second);
+		return vPosition;
 	}
 }

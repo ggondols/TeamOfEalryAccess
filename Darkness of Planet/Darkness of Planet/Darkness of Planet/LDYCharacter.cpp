@@ -1969,6 +1969,15 @@ void LDYCharacter::Update(float angle)
 		}
 
 	}
+	for (int i = 0; i < 4; ++i) {
+
+		m_pHeroBody_IdleBreak[i]->AnimControllerUpdate();
+		m_pHeroBody_Base[i]->AnimControllerUpdate();
+		m_pHeroBody_SMG[i]->AnimControllerUpdate();
+		m_pHeroBody_MP5[i]->AnimControllerUpdate();
+		m_pHeroBody_Melee[i]->AnimControllerUpdate();
+	}
+
 }
 
 void LDYCharacter::SetMoving(bool on)

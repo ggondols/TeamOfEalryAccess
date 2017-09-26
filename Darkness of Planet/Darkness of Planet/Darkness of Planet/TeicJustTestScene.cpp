@@ -253,12 +253,12 @@ HRESULT TeicJustTestScene::Setup()
 	{
 		m_pBoss[i] = new TeicEnemy;
 	}
-	m_pBoss[0]->Setup("object/xFile/spiderQueen/", "spiderQueen.X");
+	m_pBoss[0]->Setup("object/xFile/Valak/", "Valak.X");
 	m_pBoss[1]->Setup("object/xFile/Arkus/", "Arkus.X");
 	m_pBoss[2]->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
 
 
-	m_pBoss[0]->SetPosition(D3DXVECTOR3(50, 100, -100));
+	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 30, -150));
 	m_pBoss[1]->SetPosition(D3DXVECTOR3(80, 100, -100));
 	m_pBoss[2]->SetPosition(D3DXVECTOR3(100, 100, -100));
 
@@ -288,6 +288,14 @@ void TeicJustTestScene::Release()
 void TeicJustTestScene::Update()
 {
 
+	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	{
+		m_pBoss[0]->SetNextAni();
+	}
+	if (KEYMANAGER->isOnceKeyDown('0'))
+	{
+		m_pBoss[0]->SetAnimation(0);
+	}
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
@@ -675,7 +683,10 @@ void TeicJustTestScene::Render()
 	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if (m_pInventory) m_pInventory->Render();
-
+	char str[2056];
+	RECT rc = RectMake(200, 200, 1000, 1000);
+	sprintf_s(str, "number:%d",m_pBoss[0]->GetAninum()-1);
+	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -713,7 +724,7 @@ void TeicJustTestScene::Render()
 		sprintf_s(str, "1 %.2f	%.2f	%.2f	2 %.2f	%.2f	%.2f",
 			m_vecEnemy[0]->GetPosition().x, m_vecEnemy[0]->GetPosition().y, m_vecEnemy[0]->GetPosition().z,
 			m_vecEnemy[1]->GetPosition().x, m_vecEnemy[1]->GetPosition().y, m_vecEnemy[1]->GetPosition().z);
-		m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));*/
+		m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0))*/
 	}
 
 	UIOBJECTMANAGER->Render();

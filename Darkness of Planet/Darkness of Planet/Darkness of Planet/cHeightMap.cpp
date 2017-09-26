@@ -125,21 +125,21 @@ void cHeightMap::Load(string szFolder,
 			m_vecVertexCopy = vecVertex;
 			break;
 		case 1:
-			D3DXMatrixTranslation(&temp, nRow, 0, 0);
+			D3DXMatrixTranslation(&temp, m_nTile, 0, 0);
 			for (int a = 0; a < m_vecVertexCopy.size(); a++)
 			{
 				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
 			}
 			break;
 		case 2:
-			D3DXMatrixTranslation(&temp, 0, 0, -nRow);
+			D3DXMatrixTranslation(&temp, 0, 0, -m_nTile);
 			for (int a = 0; a < m_vecVertexCopy.size(); a++)
 			{
 				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
 			}
 			break;
 		case 3:
-			D3DXMatrixTranslation(&temp, nRow, 0, -nRow);
+			D3DXMatrixTranslation(&temp, m_nTile, 0, -m_nTile);
 			for (int a = 0; a < m_vecVertexCopy.size(); a++)
 			{
 				D3DXVec3TransformCoord(&m_vecVertexCopy[a].p, &vecVertex[a].p, &temp);
@@ -308,15 +308,12 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 void cHeightMap::Render(D3DXVECTOR3 Characterposition)
 {
 	
-	//GETDEVICE->SetTexture(0, 0);
-	//MeshRender(0);
-	
-
-
 	int centerX = Characterposition.x / (m_nTile/3.0f);
 	int centerY = (-Characterposition.z) / (m_nTile / 3.0f);
 
 	int num = centerX + (centerY * 6);
+
+	//beginpass
 	for (int i = -1; i < 2; i ++)
 	{
 		for (int j = -1	; j < 2; j++)
@@ -326,7 +323,7 @@ void cHeightMap::Render(D3DXVECTOR3 Characterposition)
 			MeshRender(num + j + i*(6));
 		}
 	}
-	
+	//endpass
 }
 
 void cHeightMap::MeshRender(int num)

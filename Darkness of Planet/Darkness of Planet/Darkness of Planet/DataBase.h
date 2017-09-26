@@ -22,17 +22,26 @@ class DataBase : public cSingletonBase<DataBase>
 private:
 	typedef map<string, ST_ITEM_DATA*> mapItemData;
 	typedef map<string, ST_ITEM_DATA*>::iterator mapItemDataIter;
+	typedef map<float, D3DXVECTOR3> mapTimePositionData;
+	typedef map<float, D3DXVECTOR3>::iterator mapTimePositionDataIter;
+	typedef map<string, mapTimePositionData> mapAIData;
+	typedef map<string, mapTimePositionData>::iterator mapAIDataIter;
 
 private:
 	mapItemData	m_mapItemData;
+	mapAIData	m_mapAIData;
+
+	D3DXVECTOR3 GetPosition(float time, mapTimePositionData& mapTimeData);
 
 public:
 	DataBase();
 	~DataBase();
 
 	void LoadItemData();
+	void LoadAIData();
 	void Setup();
 	void Destroy();
 	float GetItemValue(string itemName);
+	D3DXVECTOR3 GetTimeToPosition(string aiName, float time);
 };
 
