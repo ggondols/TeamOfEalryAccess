@@ -178,6 +178,9 @@
     <Filter Include="#3D Framework\Loading">
       <UniqueIdentifier>{a439c382-a1b0-47d1-99f6-a27b7b43f40b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\EffectManager">
+      <UniqueIdentifier>{d0a8f725-255c-40e0-b9a5-326bfead8cfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
