@@ -318,15 +318,18 @@ void cHeightMap::Render(D3DXVECTOR3 Characterposition)
 	{
 		for (int j = -1	; j < 2; j++)
 		{
-			if (num + j + i*(6) < 0)continue;
-			if (num + j + i*(6) > 35)continue;
+			if (centerX + j < 0)continue;
+			if (centerX + j > 5)continue;
+			if (centerY +i < 0)continue;
+			if (centerY + i > 5)continue;
+		
 			MeshRender(num + j + i*(6));
 		}
 	}
 	//endpass
 }
 
-void cHeightMap::MeshRender(int num)
+void cHeightMap::MeshRender(int number)
 {
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -334,7 +337,7 @@ void cHeightMap::MeshRender(int num)
 	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture(m_sTexture));
 	GETDEVICE->SetMaterial(&m_stMtl);
 
-	switch (num)
+	switch (number)
 	{
 		case	0:
 			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());

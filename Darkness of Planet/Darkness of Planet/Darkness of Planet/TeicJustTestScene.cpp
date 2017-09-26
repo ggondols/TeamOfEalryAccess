@@ -270,7 +270,8 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss[1]->SetScaleSize(0.1);
 	m_pBoss[2]->SetScaleSize(0.1);
 
-
+	m_ptest = new TeicEffect;
+	m_ptest->Setup("df", 10, 0, 0);
 	return S_OK;
 }
 
@@ -287,7 +288,7 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-
+	m_ptest->Update();
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		m_pBoss[0]->SetNextAni();
@@ -680,6 +681,7 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
+	m_ptest->Render();
 	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if (m_pInventory) m_pInventory->Render();
