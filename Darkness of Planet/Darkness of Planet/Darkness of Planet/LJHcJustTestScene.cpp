@@ -6,6 +6,7 @@
 #include "cUIImageView.h"
 #include "cUITextView.h"
 #include "Inventory.h"
+#include "cSkyDome.h"
 
 static CRITICAL_SECTION cs;
 
@@ -98,8 +99,9 @@ LJHcJustTestScene::LJHcJustTestScene()
 	, m_bAstarThread(false)
 	, m_pCamera(NULL)
 	, m_iBodyUpgrade(1)
-	, m_pSkyBox(NULL)
+	//, m_pSkyBox(NULL)
 	, m_pInventory(NULL)
+	, m_pSkyDome(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -111,11 +113,13 @@ LJHcJustTestScene::~LJHcJustTestScene()
 	SAFE_DELETE(m_pAstarShort);
 	SAFE_DELETE(m_pInventory);
 
+	SAFE_DELETE(m_pSkyDome);
+
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
-	SAFE_DELETE(m_pSkyBox);
+	//SAFE_DELETE(m_pSkyBox);
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -151,29 +155,17 @@ HRESULT LJHcJustTestScene::Setup()
 	//pInventoryImage->SetTexture("./UI/inventory.png");
 	//UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
 
+	m_pSkyDome = new cSkyDome;
+	m_pSkyDome->Setup();
+
 	m_pInventory = new Inventory;
 	m_pInventory->Setup();
-
-	/*UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
-	UIOBJECTMANAGER->SetTexture("inventory", "./UI/inventory.png");
-	UIOBJECTMANAGER->SetAlpha("inventory", 200);
-	UIOBJECTMANAGER->SetPosition("inventory", 50.0f, 20.0f);
-
-	for (size_t row = 0; row < 5; row++)
-	{
-		for (size_t col = 0; col < 5; col++)
-		{
-			int index = (row * 5 + col) + 1;
-			UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
-			UIOBJECTMANAGER->SetPosition("inventory", index, col * 100.0f + 9.0f, row * 100.0f + 9.0f);
-		}
-	}*/
 
 	///////////µ¿À±
 
 
-	m_pSkyBox = new cSkyBoxCube;
-	m_pSkyBox->Setup();
+	//m_pSkyBox = new cSkyBoxCube;
+	//m_pSkyBox->Setup();
 
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
@@ -248,17 +240,10 @@ void LJHcJustTestScene::Update()
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
 
-	m_bThread = false;
-	//if (UIOBJECTMANAGER->CheckShowState("inventory"))
-	//{
-	//	m_bThread = false;
-	//}
-	//else
-	//{
-	//	m_bThread = true;
-	//}
+	if (m_pSkyDome) m_pSkyDome->Update();
+	//m_bThread = false;
 
-	if (m_pSkyBox) m_pSkyBox->Update();
+	//if (m_pSkyBox) m_pSkyBox->Update();
 	m_pCamera->Update(m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
@@ -632,11 +617,12 @@ void LJHcJustTestScene::Render()
 {
 	if (m_pInventory) m_pInventory->Render();
 
-	if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter && !UIOBJECTMANAGER->CheckShowState("inventory")) m_pCharacter->UpdateAndRender();
 
+	if (m_pSkyDome) m_pSkyDome->Render();
 
 	if (m_bThread)
 	{

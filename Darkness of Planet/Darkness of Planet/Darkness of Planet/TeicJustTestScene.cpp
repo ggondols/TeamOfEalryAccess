@@ -253,12 +253,12 @@ HRESULT TeicJustTestScene::Setup()
 	{
 		m_pBoss[i] = new TeicEnemy;
 	}
-	m_pBoss[0]->Setup("object/xFile/Valak/", "Valak.X");
+	m_pBoss[0]->Setup("", "IceEffect.X");
 	m_pBoss[1]->Setup("object/xFile/Arkus/", "Arkus.X");
 	m_pBoss[2]->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
 
 
-	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 30, -150));
+	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 40, -150));
 	m_pBoss[1]->SetPosition(D3DXVECTOR3(80, 100, -100));
 	m_pBoss[2]->SetPosition(D3DXVECTOR3(100, 100, -100));
 
@@ -270,7 +270,10 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss[1]->SetScaleSize(0.1);
 	m_pBoss[2]->SetScaleSize(0.1);
 
+	m_ptest = new TeicEffect;
+	m_ptest->Setup("df", 10, 0, 0);
 
+	
 	return S_OK;
 }
 
@@ -287,7 +290,7 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-
+	m_ptest->Update();
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		m_pBoss[0]->SetNextAni();
@@ -680,9 +683,13 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-	if (m_pSkyDome)m_pSkyDome->Render();
+	
+
+
+	m_ptest->Render();
+	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
-	if (m_pInventory) m_pInventory->Render();
+	if (m_pInventory) m_pInventory->Render();*/
 	char str[2056];
 	RECT rc = RectMake(200, 200, 1000, 1000);
 	sprintf_s(str, "number:%d",m_pBoss[0]->GetAninum()-1);
@@ -708,7 +715,8 @@ void TeicJustTestScene::Render()
 
 
 	m_pGrid->Render();
-	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
+	//if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
+	if (m_pMap)m_pMap->frustumcullingRender();
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
 
 

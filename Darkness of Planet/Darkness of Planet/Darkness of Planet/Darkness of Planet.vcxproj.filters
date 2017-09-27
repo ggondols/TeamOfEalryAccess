@@ -181,6 +181,9 @@
     <Filter Include="#3D Framework\Manager\EffectManager">
       <UniqueIdentifier>{d0a8f725-255c-40e0-b9a5-326bfead8cfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\EffectManager\Particle">
+      <UniqueIdentifier>{97bd9fa6-5578-4535-8ef6-f2fbe25ea789}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -483,6 +486,21 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>#3D Framework\Loading</Filter>
     </ClInclude>
+    <ClInclude Include="TeicEffect.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicEffectParent.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicParticle.h">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicParticleSystem.h">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicIceExplosion.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
     <ClInclude Include="cEffectManager.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
@@ -772,6 +790,21 @@
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
       <Filter>#3D Framework\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicEffect.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicEffectParent.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicParticle.cpp">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicParticleSystem.cpp">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicIceExplosion.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
     <ClCompile Include="cEffectManager.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>

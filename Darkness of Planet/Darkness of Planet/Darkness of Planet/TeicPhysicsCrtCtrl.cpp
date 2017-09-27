@@ -14,7 +14,7 @@ TeicPhysicsCrtCtrl::TeicPhysicsCrtCtrl()
 	, m_bRunning(false)
 	, m_bgetMousePos(false)
 	, m_fangleX(0.0f)
-	
+
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matRotation);
@@ -27,9 +27,9 @@ TeicPhysicsCrtCtrl::~TeicPhysicsCrtCtrl()
 
 void TeicPhysicsCrtCtrl::Update(float angle)
 {
-	
-	m_fAngle = angle-D3DX_PI/2;
-	
+
+	m_fAngle = angle - D3DX_PI / 2;
+
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
@@ -74,12 +74,24 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 	if (m_fAcceleration > 0.001*m_fSpeedSetting) m_fAcceleration = 0.001f*m_fSpeedSetting;
 	m_fSpeed += m_fAcceleration;
 	if (m_fSpeed > 0.1*m_fSpeedSetting)m_fSpeed = 0.1*m_fSpeedSetting;
+
+
 	if (m_fSpeed < 0)
 	{
-		m_fSpeed = 0;
-		m_bMoving = false;
-		m_fAcceleration = 0;
+		if (KEYMANAGER->isStayKeyDown('S'))
+		{
+			m_fSpeed = -0.1*m_fSpeedSetting;
+		}
+		else
+		{
+			m_fSpeed = 0;
+			m_bMoving = false;
+			m_fAcceleration = 0;
+		}
+		
 	}
+
+
 
 	m_vPos.x += cosf(m_fAngle) * m_fSpeed;
 	m_vPos.z -= sinf(m_fAngle) * m_fSpeed;
@@ -96,7 +108,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 	D3DXMATRIX matT;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
-	m_matWorld =matR * matT;
+	m_matWorld = matR * matT;
 
 }
 

@@ -39,6 +39,8 @@ public:
 
 	void SetPosition(string key, float x, float y);
 	void SetPosition(string key, int tag, float x, float y);
+	void SetSize(string key, float x, float y);
+	void SetSize(string key, int tag, float x, float y);
 
 	// UIImageView에서만 사용..
 	void SetAlpha(string key, DWORD alpha);
@@ -48,6 +50,15 @@ public:
 	void SetScale(string key, float x, float y);
 	void SetScale(string key, int tag, float x, float y);
 	// UIImageView에서만 사용 여기까지..
+
+	// UITextView에서만 사용..
+	void SetText(string key, string text);
+	void SetText(string key, int tag, string text);
+	void SetTime(string key, float* time);
+	void SetTime(string key, int tag, float* time);
+	void SetDrawTextFormat(string key, DWORD formet);
+	void SetDrawTextFormat(string key, int tag, DWORD formet);
+	// UITextView에서만 사용.. 여기까지..
 
 	void SetShowState(string key, bool isShow);
 	void ReleaseRoot(string key);

@@ -318,15 +318,25 @@ void cHeightMap::Render(D3DXVECTOR3 Characterposition)
 	{
 		for (int j = -1	; j < 2; j++)
 		{
-			if (num + j + i*(6) < 0)continue;
-			if (num + j + i*(6) > 35)continue;
+			if (centerX + j < 0)continue;
+			if (centerX + j > 5)continue;
+			if (centerY +i < 0)continue;
+			if (centerY + i > 5)continue;
+		
 			MeshRender(num + j + i*(6));
 		}
 	}
 	//endpass
 }
 
-void cHeightMap::MeshRender(int num)
+void cHeightMap::frustumcullingRender()
+{
+	DotWorldSpace();
+	SetPlane();
+	CheckRender();
+}
+
+void cHeightMap::MeshRender(int number)
 {
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -334,7 +344,7 @@ void cHeightMap::MeshRender(int num)
 	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture(m_sTexture));
 	GETDEVICE->SetMaterial(&m_stMtl);
 
-	switch (num)
+	switch (number)
 	{
 		case	0:
 			GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
@@ -487,4 +497,91 @@ void cHeightMap::MeshRender(int num)
 
 
 	
+}
+
+void cHeightMap::DotWorldSpace()
+{
+	//				   5---------6
+	//				  /|	   / |
+	//               / |      /  |
+	//				/  4-----/---7
+	//				1-------2   
+	//				|		|
+	//				|		|
+	//				0-------3
+
+	m_Dot[0] = D3DXVECTOR3(-1, -1, 0);
+	m_Dot[1] = D3DXVECTOR3(-1, 1, 0);
+	m_Dot[2] = D3DXVECTOR3(1, 1, 0);
+	m_Dot[3] = D3DXVECTOR3(1, -1, 0);
+
+	m_Dot[4] = D3DXVECTOR3(-1, -1, 1);
+	m_Dot[5] = D3DXVECTOR3(-1, 1, 1);
+	m_Dot[6] = D3DXVECTOR3(1, 1, 1);
+	m_Dot[7] = D3DXVECTOR3(1, -1, 1);
+
+	D3DXMATRIX PorjectionInverse;
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &PorjectionInverse);
+	D3DXMatrixInverse(&PorjectionInverse, NULL, &PorjectionInverse);
+
+	for (int i = 0; i < 8; i++)
+	{
+		D3DXVec3TransformCoord(&m_Dot[i], &m_Dot[i], &PorjectionInverse);
+	}
+	D3DXMATRIX ViewSpace;
+	GETDEVICE->GetTransform(D3DTS_VIEW, &ViewSpace);
+	D3DXMatrixInverse(&ViewSpace, NULL, &ViewSpace);
+	for (int i = 0; i < 8; i++)
+	{
+		D3DXVec3TransformCoord(&m_Dot[i], &m_Dot[i], &ViewSpace);
+	}
+}
+
+void cHeightMap::SetPlane()
+{
+	///앞쪽 평면    
+	D3DXPlaneFromPoints(&m_Plane[0], &m_Dot[1], &m_Dot[2], &m_Dot[3]);
+	//위쪽 평면
+	D3DXPlaneFromPoints(&m_Plane[1], &m_Dot[1], &m_Dot[5], &m_Dot[6]);
+	//오른쪽 평면
+	D3DXPlaneFromPoints(&m_Plane[2], &m_Dot[2], &m_Dot[6], &m_Dot[7]);
+	//아래쪽 평면
+	D3DXPlaneFromPoints(&m_Plane[3], &m_Dot[0], &m_Dot[3], &m_Dot[7]);
+	//왼쪽 평면
+	D3DXPlaneFromPoints(&m_Plane[4], &m_Dot[5], &m_Dot[1], &m_Dot[0]);
+	//뒤쪽 평면
+	D3DXPlaneFromPoints(&m_Plane[5], &m_Dot[6], &m_Dot[5], &m_Dot[4]);
+}
+
+void cHeightMap::CheckRender()
+{
+	D3DXVECTOR3 CenterDot[36];
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			CenterDot[j + i * 6] = D3DXVECTOR3(m_nTile / 6.0 + m_nTile / 3.0 *j, 0, -m_nTile / 6.0 - m_nTile / 3.0 *i);
+		}
+	}
+	float radius = D3DXVec3Length(&(CenterDot[0] - D3DXVECTOR3(0, 0, 0)));
+	for (int i = 0; i < 36; i++)
+	{
+		if (CheckShow(CenterDot[i], radius) == true)
+		{
+			MeshRender(i);
+		}
+	}
+}
+
+bool cHeightMap::CheckShow(D3DXVECTOR3 center, float radius)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		float distance;
+		distance = (D3DXPlaneDotCoord(&m_Plane[i], &center));
+		if (distance - radius >= 0)
+			return false;
+	}
+
+	return true;
 }
