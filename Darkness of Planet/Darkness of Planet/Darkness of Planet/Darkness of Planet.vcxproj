@@ -157,11 +157,13 @@
     <ClInclude Include="cAction.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
+    <ClInclude Include="cEffectManager.h" />
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cHeightMap.h" />
     <ClInclude Include="cModel.h" />
+    <ClInclude Include="cModelManager.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectManager.h" />
     <ClInclude Include="cObjectPool.h" />
@@ -257,11 +259,13 @@
     <ClCompile Include="cAction.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
+    <ClCompile Include="cEffectManager.cpp" />
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cHeightMap.cpp" />
     <ClCompile Include="cModel.cpp" />
+    <ClCompile Include="cModelManager.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectManager.cpp" />
     <ClCompile Include="cObjectPool.cpp" />

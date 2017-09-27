@@ -477,14 +477,20 @@
     <ClInclude Include="LDYMotionBlur.h">
       <Filter>이동윤 임시저장소</Filter>
     </ClInclude>
-    <ClInclude Include="cModel.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Loading.h">
       <Filter>#3D Framework\Loading</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
       <Filter>#3D Framework\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="cEffectManager.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClInclude>
+    <ClInclude Include="cModel.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClInclude>
+    <ClInclude Include="cModelManager.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -761,14 +767,20 @@
     <ClCompile Include="LDYMotionBlur.cpp">
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
-    <ClCompile Include="cModel.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Loading.cpp">
       <Filter>#3D Framework\Loading</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
       <Filter>#3D Framework\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="cEffectManager.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="cModel.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="cModelManager.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

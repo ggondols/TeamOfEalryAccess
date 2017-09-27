@@ -24,6 +24,8 @@ private:
 	map<string, LDYSkinnedMesh_Head*>::iterator		m_iterSkinnedMesh_Head;
 	map<string, LDYSkinnedMesh_Weapon*>				m_mapSkinnedMesh_Weapon;
 	map<string, LDYSkinnedMesh_Weapon*>::iterator	m_iterSkinnedMesh_Weapon;
+	map<string, LDYSkinnedMesh*>					m_mapStaticMesh;
+	map<string, LDYSkinnedMesh*>::iterator			m_iterSmapStaticMesh;
 public:
 	void AddSkinnedMesh(const char* keyname,  char* foldername,  char* filename);
 	void AddSkinnedMeshHead(const char* keyname,  char* foldername,  char* filename);
@@ -31,6 +33,10 @@ public:
 	LDYSkinnedMesh*	GetSkinnedMesh(char* keyname);
 	LDYSkinnedMesh_Head*	GetSkinnedMeshHead(char* keyname);
 	LDYSkinnedMesh_Weapon*	GetSkinnedMeshWeapon(char* keyname);
+
+	//스킨드 메쉬 get statiac Mesh
+	LDYSkinnedMesh*	GetStaticMesh(char* keyname);
+
 	void Setup();
 	void Destroy();
 	TeicSkinnedMeshLoader();

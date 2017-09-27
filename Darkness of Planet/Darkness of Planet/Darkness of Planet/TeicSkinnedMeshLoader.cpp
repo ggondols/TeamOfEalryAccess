@@ -108,6 +108,11 @@ LDYSkinnedMesh_Weapon * TeicSkinnedMeshLoader::GetSkinnedMeshWeapon(char * keyna
 	return NULL;
 }
 
+LDYSkinnedMesh * TeicSkinnedMeshLoader::GetStaticMesh(char * keyname)
+{
+	return nullptr;
+}
+
 void TeicSkinnedMeshLoader::Setup()
 {
 }
