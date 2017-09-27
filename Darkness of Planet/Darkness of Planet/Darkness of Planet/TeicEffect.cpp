@@ -249,6 +249,10 @@ void TeicEffect::Start()
 {
 }
 
+void TeicEffect::Stop()
+{
+}
+
 
 
 LPD3DXEFFECT TeicEffect::LoadEffect(const char* szFileName)

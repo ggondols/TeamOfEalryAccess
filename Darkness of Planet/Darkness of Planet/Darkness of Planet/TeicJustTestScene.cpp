@@ -253,7 +253,7 @@ HRESULT TeicJustTestScene::Setup()
 	{
 		m_pBoss[i] = new TeicEnemy;
 	}
-	m_pBoss[0]->Setup("", "IceEffect.X");
+	m_pBoss[0]->Setup("sprites/", "IceEffect.X");
 	m_pBoss[1]->Setup("object/xFile/Arkus/", "Arkus.X");
 	m_pBoss[2]->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
 
@@ -270,9 +270,9 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss[1]->SetScaleSize(0.1);
 	m_pBoss[2]->SetScaleSize(0.1);
 
-	m_ptest = new TeicEffect;
-	m_ptest->Setup("df", 10, 0, 0);
-
+	m_ptest = new TeicIceExplosion;
+	m_ptest->Setup(D3DXVECTOR3(150, 40, -150));
+	m_ptest->Start();
 	
 	return S_OK;
 }
@@ -291,6 +291,7 @@ void TeicJustTestScene::Release()
 void TeicJustTestScene::Update()
 {
 	m_ptest->Update();
+
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		m_pBoss[0]->SetNextAni();
@@ -695,10 +696,10 @@ void TeicJustTestScene::Render()
 	sprintf_s(str, "number:%d",m_pBoss[0]->GetAninum()-1);
 	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
 		m_pBoss[i]->UpdateAndRender();
-	}
+	}*/
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);

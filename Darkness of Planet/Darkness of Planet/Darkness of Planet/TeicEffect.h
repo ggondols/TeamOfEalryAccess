@@ -20,6 +20,7 @@ public:
 	virtual	void Update();
 	virtual void Render();
 	virtual void Start();
+	virtual void Stop();
 	LPD3DXEFFECT LoadEffect(const char * szFileName);
 	TeicEffect();
 	~TeicEffect();

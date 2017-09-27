@@ -93,6 +93,9 @@ void TeicParticleSystem::Setup(D3DXVECTOR3 center, float Maxparticle, float life
 	GETDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 
+void TeicParticleSystem::Setup2(D3DXVECTOR3 start, float startVar, D3DXVECTOR3 end, float endVar, float Maxparticle, float lifespan, float lifespanVariance, float angleX, float angleXvar, float angleY, float angleYvar, float angleZ, float angleZvar, float speed, float speedvar, D3DXVECTOR3 startcolor, int startcolorvar, D3DXVECTOR3 endcolor, int endcolorvar, char * texture, float dotsize, float radius, bool loop)
+{
+}
 
 
 void TeicParticleSystem::Update()

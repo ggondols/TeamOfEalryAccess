@@ -37,6 +37,34 @@ void TeicParticle::Setup(ST_PC_VERTEX * vertex, float liftspan, float startsize,
 	m_fTime = 0;
 }
 
+void TeicParticle::Setup2(ST_PC_VERTEX * vertex, float liftspan, D3DXVECTOR3 endposition, float angleX, float angleY, float angleZ, float speed, D3DXVECTOR3 startcolor, D3DXVECTOR3 finishcolor, bool loop)
+{
+	m_pVertex = vertex;
+	m_pVertexSample = *vertex;
+	m_fLifeSpan = liftspan;          
+	
+
+	
+	m_vLastPosition = endposition;
+	m_fCurveAngleX = angleX;
+	m_fCurveAngleY = angleY;
+	m_fCurveAngleZ = angleZ;
+
+	m_fSpeed = speed;
+	m_dwStartColor = startcolor;
+	m_dwFinishColor = finishcolor;
+
+	//d3dcolor 선형보간 어렵다
+	m_alpha = 255;
+
+	m_delta = (255 * 0.016667) / m_fLifeSpan;
+	m_loop = loop;
+	m_distance = 0;
+	m_deltadistance = 0.016667 * m_fSpeed;
+	m_fTime = 0;
+
+}
+
 
 
 void TeicParticle::Update()
@@ -74,6 +102,45 @@ void TeicParticle::Update()
 
 
 
+
+
+}
+
+void TeicParticle::Update2()
+{
+	if (!m_Start)return;
+	m_fTime += TIMEMANAGER->getElapsedTime();
+	m_distance += m_deltadistance;
+	D3DXMATRIX m_rotMatX, m_rotMatY, m_rotMatZ, matworld;
+	
+	D3DXMatrixRotationX(&m_rotMatX, m_fCurveAngleX);
+	D3DXMatrixRotationY(&m_rotMatY, m_fCurveAngleY);
+	D3DXMatrixRotationZ(&m_rotMatZ, m_fCurveAngleZ);
+	matworld = m_rotMatX*m_rotMatY*m_rotMatZ;
+
+	
+	D3DXVec3Lerp(&m_pVertex->p, &m_pVertexSample.p, &m_vLastPosition, m_fTime / m_fLifeSpan);
+
+	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &matworld);
+
+	m_alpha -= m_delta;
+	D3DXVec3Lerp(&m_dwNowcolor, &m_dwStartColor, &m_dwFinishColor, m_fTime);
+	(*m_pVertex).c = D3DCOLOR_ARGB((int)m_alpha, (int)m_dwNowcolor.x, (int)m_dwNowcolor.y, (int)m_dwNowcolor.z);
+	if (m_alpha < 0)
+	{
+		if (!m_loop)
+		{
+			m_Start = false;
+			(*m_pVertex).c = D3DCOLOR_ARGB(0, (int)m_dwNowcolor.x, (int)m_dwNowcolor.y, (int)m_dwNowcolor.z);
+		}
+		else
+		{
+			m_fTime = 0;
+			m_distance = 0;
+			m_alpha = 255;
+		}
+
+	}
 
 
 }

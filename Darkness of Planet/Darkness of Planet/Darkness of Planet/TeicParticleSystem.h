@@ -14,6 +14,16 @@ public:
 		float endrotvar, float speed, float speedvar, D3DXVECTOR3 startcolor, int startcolorvar,
 		D3DXVECTOR3 endcolor, int endcolorvar,
 		char* texture, float dotsize, float radius, bool loop);
+
+	void Setup2(D3DXVECTOR3 start, float startVar, D3DXVECTOR3 end,float endVar,	
+		float Maxparticle, float lifespan, float lifespanVariance,
+		float angleX, float angleXvar, float angleY, float angleYvar, float angleZ, float angleZvar,
+		float speed, float speedvar, D3DXVECTOR3 startcolor, int startcolorvar,
+		D3DXVECTOR3 endcolor, int endcolorvar,
+		char* texture, float dotsize, float radius, bool loop);
+
+
+	
 	void Update();
 	void Render();
 	void Release();

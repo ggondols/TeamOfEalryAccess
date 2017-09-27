@@ -17,7 +17,7 @@
 #include "LDYCamera.h"
 #include "TeicObbCollision.h"
 #include "TeicShoot.h"
-#include "TeicEffect.h"
+#include "TeicIceExplosion.h"
 class iMap;
 
 class cUIObject;
@@ -29,7 +29,7 @@ class TeicJustTestScene:public cGameNode
 {
 
 private:
-	TeicEffect*						m_ptest;
+	TeicIceExplosion*				m_ptest;
 	cSkyDome*						m_pSkyDome;
 	cSkyCloud*						m_pSkyCloud;
 	TeicShoot*				m_pShoot;
