@@ -530,6 +530,293 @@ void LDYCharacter::UpdateAndRender()
 
 }
 
+void LDYCharacter::MeshRender()
+{
+	D3DXMATRIX matRX, matRY, matRZ;
+	D3DXMATRIX matHead, matWeapon;
+	int degreeX, degreeY, degreeZ;
+
+	if (m_eStType == ST_Attack)
+	{
+		degreeX = 4;
+		degreeY = 0;
+		degreeZ = 2;
+	}
+	else
+	{
+		degreeX = 33;
+		degreeY = 37;
+		degreeZ = 39;
+	}
+
+	D3DXMatrixRotationX(&matRX, D3DXToDegree(degreeX));
+	D3DXMatrixRotationY(&matRY, D3DXToDegree(degreeY));
+	D3DXMatrixRotationZ(&matRZ, D3DXToDegree(degreeZ));
+
+	D3DXMatrixTranslation(&matHead, 0.0f, -4.5f, 0.0f);
+	D3DXMatrixTranslation(&matWeapon, -0.0f, 0.0f, 0.0f);
+	matWeapon = matRX*matRY*matRZ;
+
+
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Melee[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_Melee[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_MP5[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_MP5[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_AA12->m_matWeapon = matWeapon;
+			m_pWeapon_AA12->ShaderMeshRender();
+
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_AR6->m_matWeapon = matWeapon;
+			m_pWeapon_AR6->ShaderMeshRender();
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_M4->m_matWeapon = matWeapon;
+			m_pWeapon_M4->ShaderMeshRender();
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_MP5[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_MP5[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_MP5[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_MP5->m_matWeapon = matWeapon;
+			m_pWeapon_MP5->ShaderMeshRender();
+		}
+		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			D3DXMATRIX matT;
+			D3DXMatrixRotationY(&matT, D3DX_PI);
+			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
+			m_pWeapon_FireGun->ShaderMeshRender();
+		}
+		break;
+
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_AA12->m_matWeapon = matWeapon;
+			m_pWeapon_AA12->ShaderMeshRender();
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_AR6->m_matWeapon = matWeapon;
+			m_pWeapon_AR6->ShaderMeshRender();
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_M4->m_matWeapon = matWeapon;
+			m_pWeapon_M4->ShaderMeshRender();
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_MP5->m_matWeapon = matWeapon;
+			m_pWeapon_MP5->ShaderMeshRender();
+		}
+		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			D3DXMATRIX matT;
+			D3DXMatrixRotationY(&matT, D3DX_PI);
+			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
+			m_pWeapon_FireGun->ShaderMeshRender();
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+		}
+		break;
+		case Wp_AA12:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_AA12->m_matWeapon = matWeapon;
+			m_pWeapon_AA12->ShaderMeshRender();
+		}
+		break;
+		case Wp_AR6:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_AR6->m_matWeapon = matWeapon;
+			m_pWeapon_AR6->ShaderMeshRender();
+		}
+		break;
+		case Wp_M4:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_M4->m_matWeapon = matWeapon;
+			m_pWeapon_M4->ShaderMeshRender();
+		}
+		break;
+		case Wp_MP5:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_MP5->m_matWeapon = matWeapon;
+			m_pWeapon_MP5->ShaderMeshRender();
+		}
+		break;
+		case WP_FireGun:
+		{
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+
+			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
+			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+
+			D3DXMATRIX matT;
+			D3DXMatrixRotationY(&matT, D3DX_PI);
+			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
+			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
+			m_pWeapon_FireGun->ShaderMeshRender();
+		}
+		break;
+		}
+	}
+	break;
+	}
+
+
+
+}
+
 void LDYCharacter::SetAnimationIndex(int nIndex)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetAnimationIndex(nIndex);

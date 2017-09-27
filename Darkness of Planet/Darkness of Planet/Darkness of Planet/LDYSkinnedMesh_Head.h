@@ -72,7 +72,10 @@ public:
 	void SetShield(int n) { m_iShield = n; }
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
+	void MeshRender(ST_BONE * pBone);
+	void ShaderMeshRender();
 	int GetAninum() { return m_iNum; }
+	
 protected:
 
 	void Load(char* szFolder, char* szFilename);

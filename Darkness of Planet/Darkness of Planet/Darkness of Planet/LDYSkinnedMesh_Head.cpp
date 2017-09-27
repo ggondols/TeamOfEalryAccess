@@ -75,6 +75,77 @@ void LDYSkinnedMesh_Head::SetNextAni()
 		m_iNum = 0;
 }
 
+void LDYSkinnedMesh_Head::MeshRender(ST_BONE* pBone)
+{
+	
+	assert(pBone);
+
+	// 각 프레임의 메시 컨테이너에 있는 pSkinInfo를 이용하여 영향받는 모든 
+	// 프레임의 매트릭스를 ppBoneMatrixPtrs에 연결한다.
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+
+		// get bone combinations
+		LPD3DXBONECOMBINATION pBoneCombos =
+			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
+
+
+		// for each palette
+		for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
+		{
+			// set each transform into the palette
+			for (DWORD dwPalEntry = 0; dwPalEntry < pBoneMesh->dwNumPaletteEntries; ++dwPalEntry)
+			{
+				DWORD dwMatrixIndex = pBoneCombos[dwAttrib].BoneId[dwPalEntry];
+				if (dwMatrixIndex != UINT_MAX)
+				{
+					m_pmWorkingPalette[dwPalEntry] =
+						pBoneMesh->pBoneOffsetMatrices[dwMatrixIndex] *
+						(*pBoneMesh->ppBoneMatrixPtrs[dwMatrixIndex]);
+				}
+			}
+
+			pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+	
+		}
+	}
+
+	//재귀적으로 모든 프레임에 대해서 실행.
+	if (pBone->pFrameSibling)
+	{
+		MeshRender((ST_BONE*)pBone->pFrameSibling);
+	}
+
+	if (pBone->pFrameFirstChild)
+	{
+		MeshRender((ST_BONE*)pBone->pFrameFirstChild);
+	}
+
+
+}
+
+void LDYSkinnedMesh_Head::ShaderMeshRender()
+{
+
+	if (m_pAnimController)
+	{
+		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+		Blending();
+	}
+
+	if (m_pRootFrame)
+	{
+
+		Update(m_pRootFrame, NULL);
+		SetupWorldMatrix(m_pRootFrame, &m_matHead);
+		MeshRender(m_pRootFrame);
+	}
+
+	
+}
+
+
 
 
 
