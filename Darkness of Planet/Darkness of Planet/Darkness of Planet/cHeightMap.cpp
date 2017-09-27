@@ -497,7 +497,6 @@ void cHeightMap::MeshRender(int number)
 
 }
 
-	
 
 
 void cHeightMap::DotWorldSpace()
