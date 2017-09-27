@@ -39,6 +39,12 @@ void cSkyDome::Setup()
 	m_hMatProjection = m_pEffect->GetParameterByName(0, "matProjection");
 	m_hTexture = m_pEffect->GetParameterByName(0, "DiffuseMap_Tex");
 	m_hfNight = m_pEffect->GetParameterByName(0, "night");
+	
+	UIOBJECTMANAGER->AddRoot("skydometime", UITYPE_TEXT, true);
+	UIOBJECTMANAGER->SetPosition("skydometime", 1000, 10);
+	UIOBJECTMANAGER->SetSize("skydometime", 100, 30);
+	UIOBJECTMANAGER->SetDrawTextFormat("skydometime", DT_CENTER | DT_VCENTER | DT_WORDBREAK);
+	UIOBJECTMANAGER->SetTime("skydometime", &m_fNightvalue);
 }
 
 void cSkyDome::Update()

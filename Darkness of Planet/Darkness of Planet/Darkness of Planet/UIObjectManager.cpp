@@ -101,6 +101,16 @@ void UIObjectManager::SetPosition(string key, int tag, float x, float y)
 	FindRoot(key)->GetChildByTag(tag)->SetPosition(x, y);
 }
 
+void UIObjectManager::SetSize(string key, float x, float y)
+{
+	FindRoot(key)->SetSize(ST_SIZE(x, y));
+}
+
+void UIObjectManager::SetSize(string key, int tag, float x, float y)
+{
+	FindRoot(key)->GetChildByTag(tag)->SetSize(ST_SIZE(x, y));
+}
+
 void UIObjectManager::SetAlpha(string key, DWORD alpha)
 {
 	cUIImageView* pImageView = (cUIImageView*)FindRoot(key);
@@ -135,6 +145,42 @@ void UIObjectManager::SetScale(string key, int tag, float x, float y)
 {
 	cUIImageView* pImageView = (cUIImageView*)FindRoot(key)->GetChildByTag(tag);
 	if (pImageView) pImageView->SetScale(x, y);
+}
+
+void UIObjectManager::SetText(string key, string text)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key);
+	if (pTextView) pTextView->SetText(text);
+}
+
+void UIObjectManager::SetText(string key, int tag, string text)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key)->GetChildByTag(tag);
+	if (pTextView) pTextView->SetText(text);
+}
+
+void UIObjectManager::SetTime(string key, float* time)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key);
+	if (pTextView) pTextView->SetTimeAddress(time);
+}
+
+void UIObjectManager::SetTime(string key, int tag, float * time)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key)->GetChildByTag(tag);
+	if (pTextView) pTextView->SetTimeAddress(time);
+}
+
+void UIObjectManager::SetDrawTextFormat(string key, DWORD formet)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key);
+	if (pTextView) pTextView->SetDrawTextFormat(formet);
+}
+
+void UIObjectManager::SetDrawTextFormat(string key, int tag, DWORD formet)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key)->GetChildByTag(tag);
+	if (pTextView) pTextView->SetDrawTextFormat(formet);
 }
 
 void UIObjectManager::SetShowState(string key, bool isShow)

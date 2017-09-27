@@ -21,12 +21,14 @@ class cUIObject;
 
 class Inventory;
 
+class SkyDome;
+
 class LJHcJustTestScene:public cGameNode
 {
 
 private:
 	LDYCamera*				m_pCamera;
-	cSkyBoxCube*			m_pSkyBox;
+	//cSkyBoxCube*			m_pSkyBox;
 	TeicBresenham*			m_pBresenham;
 	Hank::cGrid*			m_pGrid;
 	iMap*					m_pMap;
@@ -38,6 +40,8 @@ private:
 	float					m_fTime3;
 
 	int						m_iBodyUpgrade;
+
+	cSkyDome*				m_pSkyDome;
 public:
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;

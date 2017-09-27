@@ -272,6 +272,10 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_ptest = new TeicEffect;
 	m_ptest->Setup("df", 10, 0, 0);
+
+	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	return S_OK;
 }
 
@@ -681,19 +685,22 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
+	
+
+
 	m_ptest->Render();
-	if (m_pSkyDome)m_pSkyDome->Render();
+	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
-	if (m_pInventory) m_pInventory->Render();
+	if (m_pInventory) m_pInventory->Render();*/
 	char str[2056];
 	RECT rc = RectMake(200, 200, 1000, 1000);
 	sprintf_s(str, "number:%d",m_pBoss[0]->GetAninum()-1);
 	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
 		m_pBoss[i]->UpdateAndRender();
-	}
+	}*/
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
