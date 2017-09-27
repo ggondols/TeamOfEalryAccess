@@ -779,7 +779,7 @@ void LDYcJustTestScene::Render()
 		}
 	}
 	m_pApplyShadow->End();
-
+	//될거야이제~
 
 	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
