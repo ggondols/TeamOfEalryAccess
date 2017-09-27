@@ -145,7 +145,7 @@ public:
 	void WayUpdate();
 
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
-
+	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
 public:
 	LDYcJustTestScene();
 	~LDYcJustTestScene();

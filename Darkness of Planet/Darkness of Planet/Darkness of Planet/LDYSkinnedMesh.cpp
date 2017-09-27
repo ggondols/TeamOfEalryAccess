@@ -79,7 +79,9 @@ LDYSkinnedMesh::~LDYSkinnedMesh()
 	SAFE_RELEASE(m_pEffect);
 	SAFE_RELEASE(m_pAnimController);
 }
-void LDYSkinnedMesh::MeshRender(ST_BONE* pBone)
+
+
+void LDYSkinnedMesh::MeshRender(ST_BONE* pBone, LPD3DXEFFECT effect)
 {
 
 	assert(pBone);
@@ -93,6 +95,10 @@ void LDYSkinnedMesh::MeshRender(ST_BONE* pBone)
 		// get bone combinations
 		LPD3DXBONECOMBINATION pBoneCombos =
 			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
+
+
+
+
 
 
 		// for each palette
@@ -110,7 +116,37 @@ void LDYSkinnedMesh::MeshRender(ST_BONE* pBone)
 				}
 			}
 
-			pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+			// set the matrix palette into the effect
+			effect->SetMatrixArray("amPalette",
+				m_pmWorkingPalette,
+				pBoneMesh->dwNumPaletteEntries);
+
+
+
+
+			// we're pretty much ignoring the materials we got from the x-file; just set
+			// the texture here
+
+			// set the current number of bones; this tells the effect which shader to use
+			effect->SetInt("CurNumBones", pBoneMesh->dwMaxNumFaceInfls - 1);
+
+			// set the technique we use to draw
+			effect->SetTechnique("Skinning20");
+
+			effect->CommitChanges();
+			//pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+
+			UINT uiPasses, uiPass;
+
+			// run through each pass and draw
+			effect->Begin(&uiPasses, 0);
+			for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+			{
+				effect->BeginPass(uiPass);
+				pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+				effect->EndPass();
+			}
+			effect->End();
 
 		}
 	}
@@ -118,21 +154,21 @@ void LDYSkinnedMesh::MeshRender(ST_BONE* pBone)
 	//재귀적으로 모든 프레임에 대해서 실행.
 	if (pBone->pFrameSibling)
 	{
-		MeshRender((ST_BONE*)pBone->pFrameSibling);
+		MeshRender((ST_BONE*)pBone->pFrameSibling, effect);
 	}
 
 	if (pBone->pFrameFirstChild)
 	{
-		MeshRender((ST_BONE*)pBone->pFrameFirstChild);
+		MeshRender((ST_BONE*)pBone->pFrameFirstChild, effect);
 	}
 
 
 }
 
-void LDYSkinnedMesh::ShaderMeshRender()
+void LDYSkinnedMesh::ShaderMeshRender(LPD3DXEFFECT effect)
 {
 
-	if(m_pRootFrame)
+	if (m_pRootFrame)
 	{
 		D3DXMATRIXA16 mat;
 		D3DXMATRIX    scal;
@@ -142,11 +178,15 @@ void LDYSkinnedMesh::ShaderMeshRender()
 
 		mat = scal*m_RotationMat*mat;
 		Update(m_pRootFrame, &mat);
-		MeshRender(m_pRootFrame);
+		MeshRender(m_pRootFrame,effect);
 		//다른부위 매트릭스 가져오기
 		getAnotherMatrix(m_pRootFrame, NULL);
 	}
+
+
 }
+
+
 
 
 void LDYSkinnedMesh::SetNextAni()

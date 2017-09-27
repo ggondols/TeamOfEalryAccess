@@ -76,6 +76,102 @@ void LDYSkinnedMesh_Weapon::SetNextAni()
 }
 
 
+void LDYSkinnedMesh_Weapon::MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect)
+{
+	assert(pBone);
+
+	// 각 프레임의 메시 컨테이너에 있는 pSkinInfo를 이용하여 영향받는 모든 
+	// 프레임의 매트릭스를 ppBoneMatrixPtrs에 연결한다.
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+
+		// get bone combinations
+		LPD3DXBONECOMBINATION pBoneCombos =
+			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
+
+
+
+
+
+
+		// for each palette
+		for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
+		{
+			// set each transform into the palette
+			for (DWORD dwPalEntry = 0; dwPalEntry < pBoneMesh->dwNumPaletteEntries; ++dwPalEntry)
+			{
+				DWORD dwMatrixIndex = pBoneCombos[dwAttrib].BoneId[dwPalEntry];
+				if (dwMatrixIndex != UINT_MAX)
+				{
+					m_pmWorkingPalette[dwPalEntry] =
+						pBoneMesh->pBoneOffsetMatrices[dwMatrixIndex] *
+						(*pBoneMesh->ppBoneMatrixPtrs[dwMatrixIndex]);
+				}
+			}
+
+			// set the matrix palette into the effect
+			effect->SetMatrixArray("amPalette",
+				m_pmWorkingPalette,
+				pBoneMesh->dwNumPaletteEntries);
+
+
+
+
+			// we're pretty much ignoring the materials we got from the x-file; just set
+			// the texture here
+
+			// set the current number of bones; this tells the effect which shader to use
+			effect->SetInt("CurNumBones", pBoneMesh->dwMaxNumFaceInfls - 1);
+
+			// set the technique we use to draw
+			effect->SetTechnique("Skinning20");
+
+			effect->CommitChanges();
+			//pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+			UINT uiPasses, uiPass;
+
+			// run through each pass and draw
+			effect->Begin(&uiPasses, 0);
+			for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+			{
+				effect->BeginPass(uiPass);
+				pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+				effect->EndPass();
+			}
+			effect->End();
+		}
+	}
+
+	//재귀적으로 모든 프레임에 대해서 실행.
+	if (pBone->pFrameSibling)
+	{
+		MeshRender((ST_BONE*)pBone->pFrameSibling, effect);
+	}
+
+	if (pBone->pFrameFirstChild)
+	{
+		MeshRender((ST_BONE*)pBone->pFrameFirstChild, effect);
+	}
+}
+
+void LDYSkinnedMesh_Weapon::ShaderMeshRender(LPD3DXEFFECT effect)
+{
+	if (m_pAnimController)
+	{
+		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+		Blending();
+	}
+
+	if (m_pRootFrame)
+	{
+
+		Update(m_pRootFrame, NULL);
+		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);
+		MeshRender(m_pRootFrame, effect);
+	}
+}
+
 void LDYSkinnedMesh_Weapon::SetCallbackfunction(CallbackBindFunction function)
 {
 	m_callback = std::move(function);
@@ -122,73 +218,9 @@ void LDYSkinnedMesh_Weapon::Load(char* szDirectory, char* szFilename)
 		SetupBoneMatrixPtrs(m_pRootFrame);
 }
 
-void LDYSkinnedMesh_Weapon::MeshRender(ST_BONE* pBone)
-{
-
-	assert(pBone);
-
-	// 각 프레임의 메시 컨테이너에 있는 pSkinInfo를 이용하여 영향받는 모든 
-	// 프레임의 매트릭스를 ppBoneMatrixPtrs에 연결한다.
-	if (pBone->pMeshContainer)
-	{
-		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
-
-		// get bone combinations
-		LPD3DXBONECOMBINATION pBoneCombos =
-			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
 
 
-		// for each palette
-		for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
-		{
-			// set each transform into the palette
-			for (DWORD dwPalEntry = 0; dwPalEntry < pBoneMesh->dwNumPaletteEntries; ++dwPalEntry)
-			{
-				DWORD dwMatrixIndex = pBoneCombos[dwAttrib].BoneId[dwPalEntry];
-				if (dwMatrixIndex != UINT_MAX)
-				{
-					m_pmWorkingPalette[dwPalEntry] =
-						pBoneMesh->pBoneOffsetMatrices[dwMatrixIndex] *
-						(*pBoneMesh->ppBoneMatrixPtrs[dwMatrixIndex]);
-				}
-			}
 
-			pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
-
-		}
-	}
-
-	//재귀적으로 모든 프레임에 대해서 실행.
-	if (pBone->pFrameSibling)
-	{
-		MeshRender((ST_BONE*)pBone->pFrameSibling);
-	}
-
-	if (pBone->pFrameFirstChild)
-	{
-		MeshRender((ST_BONE*)pBone->pFrameFirstChild);
-	}
-
-
-}
-
-void LDYSkinnedMesh_Weapon::ShaderMeshRender()
-{
-
-	if (m_pAnimController)
-	{
-		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
-		Blending();
-	}
-
-	if (m_pRootFrame)
-	{
-
-		Update(m_pRootFrame, NULL);
-		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);
-		MeshRender(m_pRootFrame);
-	}
-}
 
 
 void LDYSkinnedMesh_Weapon::UpdateAndRender()

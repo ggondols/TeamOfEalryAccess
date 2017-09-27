@@ -53,6 +53,10 @@ public:
 	D3DXMATRIX					m_matWeapon;
 
 public:
+
+	void MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect);
+
+	void ShaderMeshRender(LPD3DXEFFECT effect);
 	float m_fZealotdiffer;
 
 	void SetCallbackfunction(CallbackBindFunction function);
@@ -73,11 +77,12 @@ public:
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
-	void ShaderMeshRender();
+	
 protected:
 
 	void Load(char* szFolder, char* szFilename);
-	void MeshRender(ST_BONE * pBone);
+	
+	
 	
 	LPD3DXEFFECT LoadEffect(char* szFilename);
 	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);

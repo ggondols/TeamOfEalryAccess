@@ -72,8 +72,10 @@ public:
 	void SetShield(int n) { m_iShield = n; }
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
-	void MeshRender(ST_BONE * pBone);
-	void ShaderMeshRender();
+	void MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect);
+
+	void ShaderMeshRender(LPD3DXEFFECT effect);
+
 	int GetAninum() { return m_iNum; }
 	
 protected:

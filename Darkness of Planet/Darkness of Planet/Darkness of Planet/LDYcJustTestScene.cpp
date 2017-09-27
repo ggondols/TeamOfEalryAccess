@@ -261,11 +261,11 @@ HRESULT LDYcJustTestScene::Setup()
 	{
 	}
 
-	m_pCreateShadow = LoadEffect("shader/shadow/CreateShadow.fx");
+	m_pCreateShadow = LoadEffectHpp("MultiAnimationCreateShadow.hpp");
 	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx");
 
 
-	m_hCmatWorld = m_pCreateShadow->GetParameterByName(0, "matWorld");
+	
 	m_hCmatLightView = m_pCreateShadow->GetParameterByName(0, "matLightView");
 	m_hCmatLightProjection = m_pCreateShadow->GetParameterByName(0, "gLightProjectionMatrix");
 
@@ -659,13 +659,18 @@ void LDYcJustTestScene::Render()
 
 	//if (motionBlur)motionBlur->Render();
 
-	D3DXVECTOR3 light = D3DXVECTOR3(500, 500, -500);
-	m_vec4LightPosition = D3DXVECTOR4(light.x, light.y, light.z, 1.0f);
+	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
 
-	D3DXVECTOR3 vEyePt(light.x, light.y, light.z);
-	D3DXVECTOR3 vLookatPt = D3DXVECTOR3(0, 0, 0);
-	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	{
+		m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
+		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
+		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
+		vLookatPt.x += lookx;
+		//vLookatPt.y += 5.0f;
+		vLookatPt.z -= lookz;
+		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	}
 	
 
 	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
@@ -708,12 +713,13 @@ void LDYcJustTestScene::Render()
 	D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
 
 	// 그림자 만들기 쉐이더 전역변수들을 설정
-	m_pCreateShadow->SetMatrix(m_hCmatWorld, &(scal*trans));
+
 	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
 	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
 
 	// 그림자 만들기 쉐이더를 시작
-	{
+	m_pCharacter->MeshRender(m_pCreateShadow);
+	/*{
 		UINT numPasses = 0;
 		m_pCreateShadow->Begin(&numPasses, NULL);
 		{
@@ -721,13 +727,13 @@ void LDYcJustTestScene::Render()
 			{
 				m_pCreateShadow->BeginPass(i);
 				{
-					m_pCharacter->MeshRender();
+					
 				}
 				m_pCreateShadow->EndPass();
 			}
 		}
 		m_pCreateShadow->End();
-	}
+	}*/
 
 	//////////////////////////////
 	// 2. 그림자 입히기
@@ -766,9 +772,7 @@ void LDYcJustTestScene::Render()
 				
 
 				// 디스크를 그린다.
-				m_pApplyShadow->CommitChanges();
-				m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);
-				m_pApplyShadow->CommitChanges();
+				
 				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
 
 			}
@@ -1061,6 +1065,62 @@ LPD3DXEFFECT LDYcJustTestScene::LoadEffect(const char * szFileName)
 		//오류내용을 출력했으니 오류버퍼 해제
 		SAFE_RELEASE(pError);
 		SAFE_DELETE_ARRAY(str);
+
+		return NULL;
+	}
+
+	return pEffect;
+}
+
+LPD3DXEFFECT LDYcJustTestScene::LoadEffectHpp(const char * szFileName)
+{
+	LPD3DXEFFECT pEffect = NULL;
+
+	D3DXMACRO mac[2] =
+	{
+		{ "MATRIX_PALETTE_SIZE_DEFAULT", "35" },
+		{ NULL,                          NULL }
+	};
+
+	D3DCAPS9 caps;
+	D3DXMACRO *pmac = NULL;
+	GETDEVICE->GetDeviceCaps(&caps);
+	if (caps.VertexShaderVersion > D3DVS_VERSION(1, 1))
+		pmac = mac;
+
+	DWORD dwShaderFlags = 0;
+
+#if defined( DEBUG ) || defined( _DEBUG )
+	// Set the D3DXSHADER_DEBUG flag to embed debug information in the shaders.
+	// Setting this flag improves the shader debugging experience, but still allows 
+	// the shaders to be optimized and to run exactly the way they will run in 
+	// the release configuration of this program.
+	dwShaderFlags |= D3DXSHADER_DEBUG;
+#endif
+
+#ifdef DEBUG_VS
+	dwShaderFlags |= D3DXSHADER_FORCE_VS_SOFTWARE_NOOPT;
+#endif
+#ifdef DEBUG_PS
+	dwShaderFlags |= D3DXSHADER_FORCE_PS_SOFTWARE_NOOPT;
+#endif
+
+	ID3DXBuffer* pBuffer = NULL;
+	if (FAILED(D3DXCreateEffectFromFile(GETDEVICE,
+		szFileName,
+		pmac,
+		NULL,
+		dwShaderFlags,
+		NULL,
+		&pEffect,
+		&pBuffer)))
+	{
+		// if creation fails, and debug information has been returned, output debug info
+		if (pBuffer)
+		{
+			OutputDebugStringA((char*)pBuffer->GetBufferPointer());
+			SAFE_RELEASE(pBuffer);
+		}
 
 		return NULL;
 	}

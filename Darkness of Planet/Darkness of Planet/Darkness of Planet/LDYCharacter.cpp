@@ -530,7 +530,7 @@ void LDYCharacter::UpdateAndRender()
 
 }
 
-void LDYCharacter::MeshRender()
+void LDYCharacter::MeshRender(LPD3DXEFFECT effect)
 {
 	D3DXMATRIX matRX, matRY, matRZ;
 	D3DXMATRIX matHead, matWeapon;
@@ -566,79 +566,79 @@ void LDYCharacter::MeshRender()
 		{
 		case Wp_Melee:
 		{
-			m_pHeroBody_Melee[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_Melee[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_Melee[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_AA12:
 		{
-			m_pHeroBody_MP5[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_MP5[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_MP5[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_MP5[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AA12->m_matWeapon = matWeapon;
-			m_pWeapon_AA12->ShaderMeshRender();
+			m_pWeapon_AA12->ShaderMeshRender(effect);
 
 		}
 		break;
 		case Wp_AR6:
 		{
-			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AR6->m_matWeapon = matWeapon;
-			m_pWeapon_AR6->ShaderMeshRender();
+			m_pWeapon_AR6->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_M4:
 		{
-			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_M4->m_matWeapon = matWeapon;
-			m_pWeapon_M4->ShaderMeshRender();
+			m_pWeapon_M4->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_MP5:
 		{
-			m_pHeroBody_MP5[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_MP5[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_MP5[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_MP5[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_MP5->m_matWeapon = matWeapon;
-			m_pWeapon_MP5->ShaderMeshRender();
+			m_pWeapon_MP5->ShaderMeshRender(effect);
 		}
 		break;
 		case WP_FireGun:
 		{
-			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_SMG[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_SMG[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
 			D3DXMatrixRotationY(&matT, D3DX_PI);
 			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
-			m_pWeapon_FireGun->ShaderMeshRender();
+			m_pWeapon_FireGun->ShaderMeshRender(effect);
 		}
 		break;
 
@@ -651,78 +651,78 @@ void LDYCharacter::MeshRender()
 		{
 		case Wp_Melee:
 		{
-			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_AA12:
 		{
-			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AA12->m_matWeapon = matWeapon;
-			m_pWeapon_AA12->ShaderMeshRender();
+			m_pWeapon_AA12->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_AR6:
 		{
-			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AR6->m_matWeapon = matWeapon;
-			m_pWeapon_AR6->ShaderMeshRender();
+			m_pWeapon_AR6->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_M4:
 		{
-			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_M4->m_matWeapon = matWeapon;
-			m_pWeapon_M4->ShaderMeshRender();
+			m_pWeapon_M4->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_MP5:
 		{
-			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_MP5->m_matWeapon = matWeapon;
-			m_pWeapon_MP5->ShaderMeshRender();
+			m_pWeapon_MP5->ShaderMeshRender(effect);
 		}
 		break;
 		case WP_FireGun:
 		{
-			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_Base[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_Base[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
 			D3DXMatrixRotationY(&matT, D3DX_PI);
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
-			m_pWeapon_FireGun->ShaderMeshRender();
+			m_pWeapon_FireGun->ShaderMeshRender(effect);
 		}
 		break;
 		}
@@ -734,78 +734,78 @@ void LDYCharacter::MeshRender()
 		{
 		case Wp_Melee:
 		{
-			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_AA12:
 		{
-			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AA12->m_matWeapon = matWeapon;
-			m_pWeapon_AA12->ShaderMeshRender();
+			m_pWeapon_AA12->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_AR6:
 		{
-			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_AR6->m_matWeapon = matWeapon;
-			m_pWeapon_AR6->ShaderMeshRender();
+			m_pWeapon_AR6->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_M4:
 		{
-			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_M4->m_matWeapon = matWeapon;
-			m_pWeapon_M4->ShaderMeshRender();
+			m_pWeapon_M4->ShaderMeshRender(effect);
 		}
 		break;
 		case Wp_MP5:
 		{
-			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_MP5->m_matWeapon = matWeapon;
-			m_pWeapon_MP5->ShaderMeshRender();
+			m_pWeapon_MP5->ShaderMeshRender(effect);
 		}
 		break;
 		case WP_FireGun:
 		{
-			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender();
+			m_pHeroBody_IdleBreak[m_iBodyLv]->ShaderMeshRender(effect);
 
 			matHead *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matHead;
 			m_pHeroHead[m_iHeadLv]->m_matHead = matHead;
-			m_pHeroHead[m_iHeadLv]->ShaderMeshRender();
+			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
 			D3DXMatrixRotationY(&matT, D3DX_PI);
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
-			m_pWeapon_FireGun->ShaderMeshRender();
+			m_pWeapon_FireGun->ShaderMeshRender(effect);
 		}
 		break;
 		}
