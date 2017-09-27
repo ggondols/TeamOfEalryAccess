@@ -164,7 +164,7 @@ void LDYSkinnedMesh::UpdateAndRender()
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 		D3DXMatrixScaling(&scal, m_fScale, m_fScale, m_fScale);
 
-		mat = scal* m_RotationMat*mat;
+		mat = scal*m_RotationMat*mat;
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
 		//다른부위 매트릭스 가져오기

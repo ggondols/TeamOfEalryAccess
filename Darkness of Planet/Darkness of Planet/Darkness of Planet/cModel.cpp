@@ -4,7 +4,15 @@
 
 
 
-HRESULT cModel::LoadModel(const string& name, LPDIRECT3DDEVICE9 pDevice, bool bSkybox, const std::string& skyName)
+
+cModel::~cModel()
+{
+
+	SAFE_RELEASE(m_pMesh);
+	SAFE_RELEASE(m_pVertexDeclaration);
+}
+
+HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVICE9 pDevice, bool bSkybox)
 {
 	HRESULT hr = S_OK;
 
@@ -14,7 +22,7 @@ HRESULT cModel::LoadModel(const string& name, LPDIRECT3DDEVICE9 pDevice, bool bS
 	}
 
 	// get the directory path.  
-	string pathName = name;
+	string pathName = path + name;
 
 	//
 	// Load the XFile data.
@@ -67,12 +75,12 @@ HRESULT cModel::LoadModel(const string& name, LPDIRECT3DDEVICE9 pDevice, bool bS
 
 				if (bSkybox)
 				{
-					textureFileName = string(skyName + "_" + textureFileName);
+				//	textureFileName = string(skyName + "_" + textureFileName);
 				}
 
 				D3DXIMAGE_INFO tempInfo;
 
-				string diffuseTexName = pathName + textureFileName;
+				string diffuseTexName = path + textureFileName;
 				//TEXTUREMANAGER->GetTextureEx(diffuseTexName, &tempInfo);
 				LPDIRECT3DTEXTURE9 pDiffuseTex = TEXTUREMANAGER->GetTextureEx(diffuseTexName, &tempInfo);
 
@@ -182,6 +190,7 @@ HRESULT cModel::LoadModel(const string& name, LPDIRECT3DDEVICE9 pDevice, bool bS
 
 //여기부터 수정하세요
 	/*
+	//바운드 박스 메이커
 	V_RETURN(m_ObjectSpaceBS.ComputeFromMesh(m_pMesh));
 
 	CAABB MeshBB;
@@ -201,6 +210,22 @@ HRESULT cModel::LoadModel(const string& name, LPDIRECT3DDEVICE9 pDevice, bool bS
 	+ string(" Y: ") +toString( m_BoundingBoxVertices[i].y)  + string(" Z: ") +toString( m_BoundingBoxVertices[i].z ) );
 	}
 	*/
+
+	return hr;
+}
+
+// deprecated
+HRESULT cModel::Render(LPDIRECT3DDEVICE9 pDevice)
+{
+	HRESULT hr = S_OK;
+
+	for (unsigned int i = 0; i < m_mtrls.size(); i++)
+	{
+		// deprecated
+		pDevice->SetMaterial(&m_mtrls[i]);
+		pDevice->SetTexture(0, m_pTextures[i]);
+		m_pMesh->DrawSubset(i);
+	}
 
 	return hr;
 }

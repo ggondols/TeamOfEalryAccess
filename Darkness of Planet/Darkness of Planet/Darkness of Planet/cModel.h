@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 
 const D3DVERTEXELEMENT9 elementsNormalMapping[] =
 {
@@ -43,6 +43,8 @@ public:
 	~cModel();
 public:
 	
-	HRESULT LoadModel(const string & name, LPDIRECT3DDEVICE9 pDevice, bool bSkybox, const std::string & skyName);
+	HRESULT LoadModel(const string& path, const string & name, LPDIRECT3DDEVICE9 pDevice, bool bSkybox = false);
+	HRESULT cModel::Render(LPDIRECT3DDEVICE9 pDevice);
 };
+
 

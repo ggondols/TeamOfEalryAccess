@@ -77,6 +77,7 @@ public:
 	BoundingSquare * GetBoundingSquare();
 	WeaponType getWeaponType() { return m_eWpType; }
 	StateType getStateType() { return m_eStType; }
+	//D3DXMATRIX getMatritxCrtCtrl() { return m_pCtrl->getCrtCtrlMatrix(); }
 
 	TeicPhysicsCrtCtrl* getCrtCtrl() {return m_pCtrl;}
 

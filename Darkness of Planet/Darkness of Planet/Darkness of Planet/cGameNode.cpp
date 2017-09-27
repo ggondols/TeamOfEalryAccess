@@ -42,6 +42,8 @@ HRESULT cGameNode::Setup(bool managerInit)
 		DATABASE->Setup();
 		MESHLOADER->Setup();
 		SOUNDMANAGER->Setup();
+		EFFECTMANAGER->Setup();
+		MODELMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -60,7 +62,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		D3DX_PI / 4.0f,
 		rc.right / (float)rc.bottom,
 		1,
-		3000);
+		1000);
 	GETDEVICE->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
@@ -118,6 +120,12 @@ void cGameNode::Release()
 
 		SOUNDMANAGER->Release();
 		SOUNDMANAGER->releaseSingleton();
+
+		EFFECTMANAGER->FreeAllResources();
+		EFFECTMANAGER->releaseSingleton();
+
+		MODELMANAGER->FreeAllResources();
+		MODELMANAGER->releaseSingleton();
 
 	}
 }

@@ -3,6 +3,7 @@
 #include "HankcCamera.h"
 #include "HankcGrid.h"
 #include "TeicCharacter.h"
+#include "cModel.h"
 
 class HankcDefferedRenderTest : public cGameNode
 {
@@ -11,6 +12,9 @@ private:
 	Hank::cGrid*			m_pGrid;
 
 	TeicCharacter*			m_pCharacter;
+
+	cModel*					m_Tree;
+	cModel*					pNewModel;
 		
 public:
 

@@ -17,7 +17,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 
 {
 	TeicSkinnedMesh* pSkinnedMesh =	SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
-	
+
 
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
 	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;

@@ -20,17 +20,27 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 
-	m_pCharacter = new TeicCharacter;
+	/*m_pCharacter = new TeicCharacter;
 	m_pCharacter->Setup("object/xFile/tree/", "Tree_01.X");
 	m_pCharacter->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&HankcDefferedRenderTest::CallbackOn, this, 0));
-	m_pCharacter->SetSpeed(5);
+	m_pCharacter->SetSpeed(5);*/
 
-	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
+	
+
+	m_pCamera->Setup();
 	m_pGrid->Setup();
 	//추가하면
 
+
+	////오브젝트 추가
+	MODELMANAGER->LoadModel("object/xFile/Tree/", "Tree_02.X");
+	pNewModel = MODELMANAGER->GetModel("Tree_02.X");
+	pNewModel->LoadModel("object/xFile/Tree/", "Tree_02.X", GETDEVICE);
+	
+
+	
 
 	//디퍼드 리소스 설정하기
 
@@ -49,11 +59,12 @@ void HankcDefferedRenderTest::Release()
 void HankcDefferedRenderTest::Update()
 {
 	m_pCamera->Update();
-	m_pCharacter->Update();
+	//m_pCharacter->Update();
 }
 
 void HankcDefferedRenderTest::Render()
 {
 	m_pGrid->Render();
-	m_pCharacter->UpdateAndRender();
+	//m_pCharacter->UpdateAndRender();
+	pNewModel->Render(GETDEVICE);
 }

@@ -114,8 +114,13 @@ public:
 	D3DXMATRIXA16			matLightProjection;
 
 	D3DXMATRIX				matHeightWorld;
-	LDYMotionBlur*			motionBlur;
+	//LDYMotionBlur*			motionBlur;
 	vector<LPD3DXMESH>		m_vecMapMesh;
+
+	float lookx;
+	float lookz;
+
+
 
 public:
 
