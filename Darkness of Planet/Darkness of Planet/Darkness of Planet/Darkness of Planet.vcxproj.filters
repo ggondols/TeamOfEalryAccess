@@ -181,6 +181,9 @@
     <Filter Include="#3D Framework\Manager\EffectManager">
       <UniqueIdentifier>{d0a8f725-255c-40e0-b9a5-326bfead8cfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Manager\EffectManager\Particle">
+      <UniqueIdentifier>{97bd9fa6-5578-4535-8ef6-f2fbe25ea789}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -492,6 +495,12 @@
     <ClInclude Include="TeicEffectParent.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
+    <ClInclude Include="TeicParticle.h">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicParticleSystem.h">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -781,6 +790,12 @@
     </ClCompile>
     <ClCompile Include="TeicEffectParent.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicParticle.cpp">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicParticleSystem.cpp">
+      <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
