@@ -1,6 +1,6 @@
 #pragma once
-
-class TeicEffect
+#include "TeicEffectParent.h"
+class TeicEffect:public TeicEffectParent
 {
 private:
 	
@@ -17,8 +17,9 @@ private:
 	D3DXHANDLE hTech;
 public:
 	void Setup(char* Textfilename, float size,int Xnum, int Ynum);
-	void Update();
-	void Render();
+	virtual	void Update();
+	virtual void Render();
+	virtual void Start();
 	LPD3DXEFFECT LoadEffect(const char * szFileName);
 	TeicEffect();
 	~TeicEffect();
