@@ -19,6 +19,8 @@ private:
 	int					m_nTile;
 	vector<D3DXVECTOR3>	m_vecVertex;
 	vector<ST_PNT_VERTEX>	m_vecVertexCopy;
+	D3DXVECTOR3	  m_Dot[8];
+	D3DXPLANE     m_Plane[6];
 public:
 	cHeightMap(void);
 	virtual ~cHeightMap(void);
@@ -31,8 +33,13 @@ public:
 	// iMap override
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
 	virtual void Render(D3DXVECTOR3 Characterposition) override;
+	virtual void frustumcullingRender() override;
 	void MeshRender(int num);
 	LPD3DXMESH getMesh() override { return m_pMesh[0]; }
+	void DotWorldSpace();
+	void SetPlane();
+	void CheckRender();
+	bool CheckShow(D3DXVECTOR3 center, float radius);
 };
 
 
