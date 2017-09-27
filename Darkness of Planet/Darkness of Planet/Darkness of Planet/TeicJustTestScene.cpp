@@ -253,12 +253,12 @@ HRESULT TeicJustTestScene::Setup()
 	{
 		m_pBoss[i] = new TeicEnemy;
 	}
-	m_pBoss[0]->Setup("object/xFile/Valak/", "Valak.X");
+	m_pBoss[0]->Setup("", "IceEffect.X");
 	m_pBoss[1]->Setup("object/xFile/Arkus/", "Arkus.X");
 	m_pBoss[2]->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
 
 
-	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 30, -150));
+	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 40, -150));
 	m_pBoss[1]->SetPosition(D3DXVECTOR3(80, 100, -100));
 	m_pBoss[2]->SetPosition(D3DXVECTOR3(100, 100, -100));
 
@@ -273,9 +273,7 @@ HRESULT TeicJustTestScene::Setup()
 	m_ptest = new TeicEffect;
 	m_ptest->Setup("df", 10, 0, 0);
 
-	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	
 	return S_OK;
 }
 
@@ -697,10 +695,10 @@ void TeicJustTestScene::Render()
 	sprintf_s(str, "number:%d",m_pBoss[0]->GetAninum()-1);
 	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
-	/*for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		m_pBoss[i]->UpdateAndRender();
-	}*/
+	}
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);

@@ -2,13 +2,14 @@
 class cSphere
 {
 private:
-	LPD3DXMESH	m_pMesh;
+	
 	D3DXMATRIXA16 m_matworld;
 
 	D3DMATERIAL9 Whitematerial;
 	D3DMATERIAL9 Redmaterial;
 	bool Red;
 public:
+	LPD3DXMESH	m_pMesh;
 	D3DXVECTOR3				m_center;
 	int tilex, tiley;
 	cSphere();

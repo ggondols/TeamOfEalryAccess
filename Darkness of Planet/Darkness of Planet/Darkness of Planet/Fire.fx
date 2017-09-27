@@ -26,7 +26,7 @@
 
 float time_0_X;
 float timeSampleDist;
-float4x4 matWorldViewMatrix;
+float4x4 matWorldViewProjectionMatrix;
 struct VS_OUTPUT
 {
 	float4 Pos:   POSITION;
@@ -429,6 +429,16 @@ float4 Fire_Effects_Lava_Single_Pass_Pixel_Shader_main(float2 pos: TEXCOORD0) : 
 // Single Pass
 //--------------------------------------------------------------//
 
+struct VS_INPUT
+{
+	float4 Pos: POSITION;
+	float3 mNormal: NORMAL;
+	float2 texCoord:    TEXCOORD0;
+};
+
+
+
+
 struct Fire_Effects_Inferno_Single_Pass_Vertex_Shader_VS_OUTPUT
 {
 	float4 Pos: POSITION;
@@ -437,17 +447,17 @@ struct Fire_Effects_Inferno_Single_Pass_Vertex_Shader_VS_OUTPUT
 
 Fire_Effects_Inferno_Single_Pass_Vertex_Shader_VS_OUTPUT Fire_Effects_Inferno_Single_Pass_Vertex_Shader_main(float4 Pos: POSITION)
 {
-	Fire_Effects_Inferno_Single_Pass_Vertex_Shader_VS_OUTPUT Out;
-	Out.Pos = mul(Pos, matWorldViewMatrix);
-	// Clean up inaccuracies
+Fire_Effects_Inferno_Single_Pass_Vertex_Shader_VS_OUTPUT Out;
 
+   // Clean up inaccuracies
+  Out.Pos  = mul(Pos, matWorldViewProjectionMatrix);
 
-	
-	// Image-space
-	Pos.xy = saturate(Pos.xy);
-	Out.texCoord = Pos.xy;
+   Pos.xy = sign(Pos.xy);
 
-	return Out;
+   // Image-space
+   Out.texCoord = Pos.xy;
+
+   return Out;
 }
 
 
@@ -545,6 +555,15 @@ sampler Fire_Effects_Inferno_Single_Pass_Pixel_Shader_Noise = sampler_state
 	MINFILTER = LINEAR;
 	MIPFILTER = LINEAR;
 };
+
+struct PS_INPUT
+{
+	
+	float2 texCoord:    TEXCOORD0;
+
+};
+
+
 
 float4 Fire_Effects_Inferno_Single_Pass_Pixel_Shader_main(float2 texCoord: TEXCOORD0) : COLOR
 {

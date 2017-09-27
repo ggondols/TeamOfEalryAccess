@@ -21,21 +21,22 @@ TeicEffect::~TeicEffect()
 
 void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 {
+	
 	m_fSize = size;
 	m_iSpriteXnum = Xnum;
 	m_iSpriteYnum = Ynum;
 
-	vector<ST_PN_VERTEX>	m_vecVertex;
+	vector<ST_PNT_VERTEX>	m_vecVertex;
 	vector<D3DXVECTOR3>	vecVertex;
 	vector<DWORD>		vecIndex;
-	vecVertex.push_back(D3DXVECTOR3(-size, -size, 0));
-	vecVertex.push_back(D3DXVECTOR3(-size, size, 0));
-	vecVertex.push_back(D3DXVECTOR3(size, size, 0));
-	vecVertex.push_back(D3DXVECTOR3(size, -size, 0));
-	vecVertex.push_back(D3DXVECTOR3(-size, -size, 0));
-	vecVertex.push_back(D3DXVECTOR3(-size, size, 0));
-	vecVertex.push_back(D3DXVECTOR3(size, size, 0));
-	vecVertex.push_back(D3DXVECTOR3(size, -size, 0));
+	vecVertex.push_back(D3DXVECTOR3(-size, -size, -1));
+	vecVertex.push_back(D3DXVECTOR3(-size, size, -1));
+	vecVertex.push_back(D3DXVECTOR3(size, size, -1));
+	vecVertex.push_back(D3DXVECTOR3(size, -size, -1));
+	vecVertex.push_back(D3DXVECTOR3(-size, -size, -1));
+	vecVertex.push_back(D3DXVECTOR3(-size, size, -1));
+	vecVertex.push_back(D3DXVECTOR3(size, size, -1));
+	vecVertex.push_back(D3DXVECTOR3(size, -size, -1));
 
 	vector<D3DXVECTOR3> vecNormal;
 	vecNormal.push_back(D3DXVECTOR3(0, 0, -1));
@@ -45,6 +46,13 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 	vecNormal.push_back(D3DXVECTOR3(0, 1, 0));
 	vecNormal.push_back(D3DXVECTOR3(0, -1, 0));
 
+	vector<D3DXVECTOR2> vecTex;
+	vecTex.push_back(D3DXVECTOR2(0, 1));
+	vecTex.push_back(D3DXVECTOR2(0, 0));
+	vecTex.push_back(D3DXVECTOR2(1, 0));
+	vecTex.push_back(D3DXVECTOR2(0, 1));
+	vecTex.push_back(D3DXVECTOR2(1, 0));
+	vecTex.push_back(D3DXVECTOR2(1, 1));
 	//¾Õ
 	vecIndex.push_back(0);
 	vecIndex.push_back(1);
@@ -58,27 +66,30 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 	{
 		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
 		D3DXVECTOR3 n = vecNormal[i / 6];
-		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
+		D3DXVECTOR2	t = vecTex[i];
+		m_vecVertex.push_back(ST_PNT_VERTEX(p, n,t));
 	}
 
 	D3DXMATRIX ro;
-	D3DXMatrixRotationY(&ro, D3DX_PI / 3.0);
+	D3DXMatrixRotationY(&ro, D3DX_PI/2 /**4.0 / 3.0*/);
 	for (size_t i = 0; i < vecIndex.size(); ++i)
 	{
 		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
 		D3DXVec3TransformCoord(&p, &p, &ro);
 		D3DXVECTOR3 n = vecNormal[i / 6];
-		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
+		D3DXVECTOR2	t = vecTex[i];
+		m_vecVertex.push_back(ST_PNT_VERTEX(p, n, t));
 	}
 	
-	D3DXMatrixRotationY(&ro, D3DX_PI*2.0 / 3.0);
-	for (size_t i = 0; i < vecIndex.size(); ++i)
-	{
-		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
-		D3DXVec3TransformCoord(&p, &p, &ro);
-		D3DXVECTOR3 n = vecNormal[i / 6];
-		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
-	}
+	//D3DXMatrixRotationY(&ro, D3DX_PI*2.0 / 3.0);
+	//for (size_t i = 0; i < vecIndex.size(); ++i)
+	//{
+	//	D3DXVECTOR3 p = vecVertex[vecIndex[i]];
+	//	D3DXVec3TransformCoord(&p, &p, &ro);
+	//	D3DXVECTOR3 n = vecNormal[i / 6];
+	//	D3DXVECTOR2	t = vecTex[i];
+	//	m_vecVertex.push_back(ST_PNT_VERTEX(p, n, t));
+	//}
 
 
 
@@ -89,13 +100,13 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 	D3DXCreateMeshFVF(m_vecVertex.size() / 3,
 		m_vecVertex.size(),
 		D3DXMESH_MANAGED | D3DXMESH_32BIT,
-		ST_PN_VERTEX::FVF,
+		ST_PNT_VERTEX::FVF,
 		GETDEVICE,
 		&m_pMesh);
 
-	ST_PN_VERTEX* pV = 0;
+	ST_PNT_VERTEX* pV = 0;
 	m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
-	memcpy(pV, &m_vecVertex[0], m_vecVertex.size() * sizeof(ST_PN_VERTEX));
+	memcpy(pV, &m_vecVertex[0], m_vecVertex.size() * sizeof(ST_PNT_VERTEX));
 	m_pMesh->UnlockVertexBuffer();
 
 	DWORD* pI = 0;
@@ -139,13 +150,23 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 
 
 
-	m_pEffect = LoadEffect("Fire.fx");
+	m_pEffect = LoadEffect("Fire2.fx");
 	m_pFlame = TEXTUREMANAGER->GetTexture("sprites/Flame.tga");
 	m_pNoise = TEXTUREMANAGER->GetTexture("sprites/NoiseVolume.dds");
 	hTech = 0;
 	hTech = m_pEffect->GetTechniqueByName("Inferno");
 	
-	
+	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	GETDEVICE->SetRenderState(D3DRS_ALPHAREF, 0);
+	GETDEVICE->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+
+
 }
 
 void TeicEffect::Update()
@@ -155,7 +176,8 @@ void TeicEffect::Update()
 void TeicEffect::Render()
 {
 	
-	m_fTimeChange += 0.01;
+	
+	m_fTimeChange += 0.001;
 
 
 	D3DXMATRIXA16 matWorld,matView, matProjection;
@@ -179,17 +201,19 @@ void TeicEffect::Render()
 	m_pEffect->SetMatrix("matProjection", &matProjection);
 	m_pEffect->SetMatrix("matViewProjection", &(matView*matProjection));
 	m_pEffect->SetMatrix("matWorldViewProjection", &(matWorld*matView*matProjection));*/
+	m_pEffect->SetFloat("time_0_X", 2);
 	m_pEffect->SetFloat("Fire_Effects_Inferno_Single_Pass_Pixel_Shader_time_0_X", m_fTimeChange);
 	m_pEffect->SetFloat("timeSampleDist", m_fTimeChange);
 	m_pEffect->SetTexture("Flame_Tex", m_pFlame);
 	m_pEffect->SetTexture("Noise_Tex", m_pNoise);
-	m_pEffect->SetMatrix("matWorldViewMatrix", &(matWorld*matView*matProjection));
+	m_pEffect->SetMatrix("matWorldViewProjectionMatrix", &(matWorld*matView*matProjection));
 	m_pEffect->SetTechnique(hTech);
 	UINT numPasses = 0;
 	m_pEffect->Begin(&numPasses, NULL);
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pEffect->BeginPass(i);
+		
 		m_pMesh->DrawSubset(0);
 		m_pEffect->EndPass();
 	}
