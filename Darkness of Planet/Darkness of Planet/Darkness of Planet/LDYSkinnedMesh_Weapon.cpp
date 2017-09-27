@@ -175,9 +175,17 @@ void LDYSkinnedMesh_Weapon::MeshRender(ST_BONE* pBone)
 void LDYSkinnedMesh_Weapon::ShaderMeshRender()
 {
 
+	if (m_pAnimController)
+	{
+		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+		Blending();
+	}
+
 	if (m_pRootFrame)
 	{
 
+		Update(m_pRootFrame, NULL);
+		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);
 		MeshRender(m_pRootFrame);
 	}
 }

@@ -132,10 +132,19 @@ void LDYSkinnedMesh::MeshRender(ST_BONE* pBone)
 void LDYSkinnedMesh::ShaderMeshRender()
 {
 
-	if (m_pRootFrame)
+	if(m_pRootFrame)
 	{
+		D3DXMATRIXA16 mat;
+		D3DXMATRIX    scal;
 
+		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+		D3DXMatrixScaling(&scal, m_fScale, m_fScale, m_fScale);
+
+		mat = scal*m_RotationMat*mat;
+		Update(m_pRootFrame, &mat);
 		MeshRender(m_pRootFrame);
+		//다른부위 매트릭스 가져오기
+		getAnotherMatrix(m_pRootFrame, NULL);
 	}
 }
 
