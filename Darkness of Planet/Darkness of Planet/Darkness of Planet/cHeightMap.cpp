@@ -498,7 +498,7 @@ void cHeightMap::MeshRender(int number)
 }
 
 	
-}
+
 
 void cHeightMap::DotWorldSpace()
 {
@@ -586,6 +586,7 @@ bool cHeightMap::CheckShow(D3DXVECTOR3 center, float radius)
 
 	return true;
 }
+
 void cHeightMap::MeshRender(D3DXVECTOR3 Characterposition)
 {
 	int centerX = Characterposition.x / (m_nTile / 3.0f);

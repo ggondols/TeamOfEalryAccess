@@ -262,10 +262,10 @@ HRESULT LDYcJustTestScene::Setup()
 	}
 
 	m_pCreateShadow = LoadEffect("shader/shadow/CreateShadow.fx");
-	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx");
+	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx"); 
 
 
-	m_hCmatWorld = m_pCreateShadow->GetParameterByName(0, "matWorld");
+	/*m_hCmatWorld = m_pCreateShadow->GetParameterByName(0, "matWorld");
 	m_hCmatLightView = m_pCreateShadow->GetParameterByName(0, "matLightView");
 	m_hCmatLightProjection = m_pCreateShadow->GetParameterByName(0, "gLightProjectionMatrix");
 
@@ -276,7 +276,7 @@ HRESULT LDYcJustTestScene::Setup()
 	m_hAmatLightProjection = m_pApplyShadow->GetParameterByName(0, "matLightProjection");
 	m_hAm_vec4LightPosition = m_pApplyShadow->GetParameterByName(0, "m_vec4LightPosition");
 	m_hAmatViewProjection = m_pApplyShadow->GetParameterByName(0, "matViewProjection");
-	m_hAgObjectColor = m_pApplyShadow->GetParameterByName(0, "gObjectColor");
+	m_hAgObjectColor = m_pApplyShadow->GetParameterByName(0, "gObjectColor");*/
 
 
 
@@ -306,9 +306,9 @@ void LDYcJustTestScene::Update()
 	}
 
 	//if (motionBlur)motionBlur->Update();
-	if (m_pSkyBox) m_pSkyBox->Update();
+	/*if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
-	if (m_pSkyCloud)m_pSkyCloud->Update();
+	if (m_pSkyCloud)m_pSkyCloud->Update();*/
 	//if (m_pShadow)m_pShadow->Update();
 
 	m_pCamera->Update(m_pCharacter->GetPosition());
@@ -339,7 +339,7 @@ void LDYcJustTestScene::Update()
 		}
 	}
 
-	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -350,7 +350,7 @@ void LDYcJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}
+	}*/
 
 
 
@@ -659,145 +659,132 @@ void LDYcJustTestScene::Render()
 
 	//if (motionBlur)motionBlur->Render();
 
-	//D3DXVECTOR3 light= m_pCharacter->GetPositionYZero();
+	D3DXVECTOR3 light = D3DXVECTOR3(500, 500, -500);
 
-	//{	
-	//	m_vec4LightPosition = { light.x+300.0f,light.y+400.0f,light.z+300.0f,1.0f };
-	//	D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
-	//	D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
-	//	vLookatPt.x += lookx;
-	//	//vLookatPt.y += 5.0f;
-	//	vLookatPt.z -= lookz;
-	//	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-	//	D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
-	//}
+	D3DXVECTOR3 vEyePt(light.x, light.y, light.z);
+	D3DXVECTOR3 vLookatPt = D3DXVECTOR3(0, 0, 0);
+	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+	D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI/4.0f, 1, 1, 3000);
+	
 
-	//{
-	//	RECT rc;
-	//	GetClientRect(g_hWnd, &rc);
-	//	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI/4.0f, 1, 1, 3000);
-	//}
+	D3DXMATRIXA16 matWorld,matView, matProjection, matViewProjection;
+	D3DXMatrixIdentity(&matWorld);
+	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 
-	//D3DXMATRIXA16 matWorld,matAWorld,matView, matProjection, matViewProjection;
-	//GETDEVICE->GetTransform(D3DTS_WORLD, &matWorld);
-	//D3DXMatrixIdentity(&matAWorld);
-	//D3DXMatrixTranslation(&matAWorld, -40.0f, 0.0f, 40.0f);
-	////D3DXMatrixScaling(&matWorld, 0.04f, 0.04f, 0.04f);
-	//GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
-	//GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
+	matViewProjection = matView*matProjection;
 
-	//matViewProjection = matView*matProjection;
+	LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+	LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+	GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
+	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
 
-	//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-	//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-	//GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
-	//GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+	//////////////////////////////
+	// 1. 그림자 만들기
+	//////////////////////////////
 
-	////////////////////////////////
-	//// 1. 그림자 만들기
-	////////////////////////////////
-
-	//// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
-	//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-	//m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
+	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
+	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
 
 
-	//GETDEVICE->SetRenderTarget(0, pShadowSurface);
-	//GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
+	GETDEVICE->SetRenderTarget(0, pShadowSurface);
+	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
 
-	//SAFE_RELEASE(pShadowSurface);
+	SAFE_RELEASE(pShadowSurface);
 
-	//// 저번 프레임에 그\렸던 그림자 정보를 지움
-	//GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	// 저번 프레임에 그\렸던 그림자 정보를 지움
+	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
 
 
-	//// 그림자 만들기 쉐이더 전역변수들을 설정
-	//m_pCreateShadow->SetMatrix(m_hCmatWorld, &matWorld);
-	//m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
-	//m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
+	// 그림자 만들기 쉐이더 전역변수들을 설정
+	m_pCreateShadow->SetMatrix("matWorld ", &matWorld);
+	m_pCreateShadow->SetMatrix("matLightView", &matLightView);
+	m_pCreateShadow->SetMatrix("gLightProjectionMatrix ", &matLightProjection);
 
-	//// 그림자 만들기 쉐이더를 시작
-	//{
-	//	UINT numPasses = 0;
-	//	m_pCreateShadow->Begin(&numPasses, NULL);
-	//	{
-	//		for (UINT i = 0; i < numPasses; ++i)
-	//		{
-	//			m_pCreateShadow->BeginPass(i);
-	//			{
-	//				m_pCharacter->UpdateAndRender();
-	//			}
-	//			m_pCreateShadow->EndPass();
-	//		}
-	//	}
-	//	m_pCreateShadow->End();
-	//}
+	// 그림자 만들기 쉐이더를 시작
+	{
+		UINT numPasses = 0;
+		m_pCreateShadow->Begin(&numPasses, NULL);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				m_pCreateShadow->BeginPass(i);
+				{
+					m_pCharacter->UpdateAndRender();
+				}
+				m_pCreateShadow->EndPass();
+			}
+		}
+		m_pCreateShadow->End();
+	}
 
-	////////////////////////////////
-	//// 2. 그림자 입히기
-	////////////////////////////////
+	//////////////////////////////
+	// 2. 그림자 입히기
+	//////////////////////////////
 
-	//////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
-	//GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
-	//GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
+	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
+	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
-	//SAFE_RELEASE(pHWBackBuffer);
-	//SAFE_RELEASE(pHWDepthStencilBuffer);
+	SAFE_RELEASE(pHWBackBuffer);
+	SAFE_RELEASE(pHWDepthStencilBuffer);
 
-	//// 그림자 입히기 쉐이더 전역변수들을 설정
-	//m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);		//원환체
-	//m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
-	//m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
-	//m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
+	// 그림자 입히기 쉐이더 전역변수들을 설정
+	m_pApplyShadow->SetMatrix("matWorld ", &matWorld);		//원환체
+	m_pApplyShadow->SetMatrix("matViewProjection ", &matViewProjection);
+	m_pApplyShadow->SetMatrix("matLightView", &matLightView);
+	m_pApplyShadow->SetMatrix("matLightProjection ", &matLightProjection);
 
-	//m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
+	m_pApplyShadow->SetVector("vec4LightPosition", &D3DXVECTOR4( light,1.0));
 
-	//m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
+	m_pApplyShadow->SetTexture("ShadowMap_Tex", m_pShadowRenderTarget);
 
-	//LPDIRECT3DTEXTURE9 tex;
-	//tex = TEXTUREMANAGER->GetTexture("map/Terrain_Final_Map.png");
-	//m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+	LPDIRECT3DTEXTURE9 tex;
+	tex = TEXTUREMANAGER->GetTexture("map/Terrain_Final_Map.png");
+	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
 
-	//// 쉐이더를 시작한다.
-	//UINT numPasses = 0;
-	//m_pApplyShadow->Begin(&numPasses, NULL);
-	//{
-	//	for (UINT i = 0; i < numPasses; ++i)
-	//	{
-	//		m_pApplyShadow->BeginPass(i);
-	//		{
-	//			// 원환체를 그린다.
-	//			m_pCharacter->UpdateAndRender();
+	// 쉐이더를 시작한다.
+	UINT numPasses = 0;
+	m_pApplyShadow->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			m_pApplyShadow->BeginPass(i);
+			{
+				// 원환체를 그린다.
+				m_pCharacter->UpdateAndRender();
 
-	//			// 디스크를 그린다.
-	//			m_pApplyShadow->CommitChanges();
-	//			//m_pApplyShadow->SetMatrix(m_hAmatWorld, &matAWorld);
-	//			if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
-	//			
-	//		}
-	//		m_pApplyShadow->EndPass();
-	//	}
-	//}
-	//m_pApplyShadow->End();
-
+				// 디스크를 그린다.
+				m_pApplyShadow->CommitChanges();
+				//m_pApplyShadow->SetMatrix(m_hAmatWorld, &matAWorld);
+				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+				
+			}
+			m_pApplyShadow->EndPass();
+		}
+	}
+	m_pApplyShadow->End();
+	if (m_pGrid)m_pGrid->Render();
 
 	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if(m_pGrid)m_pGrid->Render();*/
-D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(10, 100, 100);
-	float start = 20.0f;
-	float end = 100.0f;
-	float m_fFogDensity = 0.05f;
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
-	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
-	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
-	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(10, 100, 100);
+//	float start = 20.0f;
+//	float end = 100.0f;
+//	float m_fFogDensity = 0.05f;
+//	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+//	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
+//	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+//	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+//	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+//	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+//	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+//	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+//	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
+//	if (m_pCharacter) m_pCharacter->UpdateAndRender();
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	
