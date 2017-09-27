@@ -501,6 +501,9 @@
     <ClInclude Include="TeicParticleSystem.h">
       <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="TeicIceExplosion.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -796,6 +799,9 @@
     </ClCompile>
     <ClCompile Include="TeicParticleSystem.cpp">
       <Filter>#3D Framework\Manager\EffectManager\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicIceExplosion.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
