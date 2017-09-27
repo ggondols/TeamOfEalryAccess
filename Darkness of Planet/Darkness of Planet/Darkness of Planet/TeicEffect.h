@@ -1,8 +1,12 @@
 #pragma once
+
 class TeicEffect
 {
 private:
+	
 	LPD3DXMESH				m_pMesh;
+	LPD3DXMESH				m_pMesh2;
+	LPD3DXMESH				m_pMesh3;
 	LPD3DXEFFECT			m_pEffect;
 	LPDIRECT3DTEXTURE9		m_pFlame;
 	LPDIRECT3DTEXTURE9		m_pNoise;
