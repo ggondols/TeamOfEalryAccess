@@ -721,8 +721,8 @@ void LDYcJustTestScene::Render()
 	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
 
 	// 그림자 만들기 쉐이더를 시작
-	m_pCharacter->MeshRender(m_pCreateShadow);
-	/*{
+	
+	{
 		UINT numPasses = 0;
 		m_pCreateShadow->Begin(&numPasses, NULL);
 		{
@@ -730,13 +730,13 @@ void LDYcJustTestScene::Render()
 			{
 				m_pCreateShadow->BeginPass(i);
 				{
-					
+					m_pCharacter->MeshRender(m_pCreateShadow);
 				}
 				m_pCreateShadow->EndPass();
 			}
 		}
 		m_pCreateShadow->End();
-	}*/
+	}
 
 	//////////////////////////////
 	// 2. 그림자 입히기
