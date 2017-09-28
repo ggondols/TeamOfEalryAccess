@@ -184,6 +184,9 @@
     <Filter Include="#3D Framework\Manager\EffectManager\Particle">
       <UniqueIdentifier>{97bd9fa6-5578-4535-8ef6-f2fbe25ea789}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Boss">
+      <UniqueIdentifier>{7c12dab3-c9ad-4751-9030-70903edbbca0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -510,6 +513,9 @@
     <ClInclude Include="cModelManager.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
+    <ClInclude Include="TeicBoss.h">
+      <Filter>#3D Framework\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -814,6 +820,9 @@
     </ClCompile>
     <ClCompile Include="cModelManager.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicBoss.cpp">
+      <Filter>#3D Framework\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

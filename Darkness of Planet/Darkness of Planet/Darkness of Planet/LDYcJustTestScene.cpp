@@ -486,7 +486,7 @@ bool LDYcJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 				{
 					B->m_bThreadCalOn = true;
 				}
-		)
+		
 				if (EnemyPlayerDistance(B) > 10 * NodeLength)
 				{
 					B->SetCollision(true);
@@ -784,7 +784,7 @@ void LDYcJustTestScene::Render()
 		}
 	}
 	m_pApplyShadow->End();
-
+	m_pCharacter->UpdateAndRender();
 	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if(m_pGrid)m_pGrid->Render();*/

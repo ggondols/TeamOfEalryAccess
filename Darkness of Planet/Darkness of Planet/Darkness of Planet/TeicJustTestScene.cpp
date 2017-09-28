@@ -272,7 +272,7 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_ptest = new TeicIceExplosion;
 	m_ptest->Setup(D3DXVECTOR3(150, 40, -150));
-	m_ptest->Start();
+	
 	
 	return S_OK;
 }
@@ -291,10 +291,11 @@ void TeicJustTestScene::Release()
 void TeicJustTestScene::Update()
 {
 	m_ptest->Update();
-
+	
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
-		m_pBoss[0]->SetNextAni();
+		//m_pBoss[0]->SetNextAni();
+		m_ptest->Start();
 	}
 	if (KEYMANAGER->isOnceKeyDown('0'))
 	{
@@ -687,7 +688,7 @@ void TeicJustTestScene::Render()
 	
 
 
-	m_ptest->Render();
+	
 	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if (m_pInventory) m_pInventory->Render();*/
@@ -735,7 +736,7 @@ void TeicJustTestScene::Render()
 			m_vecEnemy[1]->GetPosition().x, m_vecEnemy[1]->GetPosition().y, m_vecEnemy[1]->GetPosition().z);
 		m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0))*/
 	}
-
+	m_ptest->Render();
 	UIOBJECTMANAGER->Render();
 }
 

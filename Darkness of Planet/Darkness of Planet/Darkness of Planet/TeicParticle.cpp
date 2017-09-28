@@ -110,7 +110,7 @@ void TeicParticle::Update2()
 {
 	if (!m_Start)return;
 	m_fTime += TIMEMANAGER->getElapsedTime();
-	m_distance += m_deltadistance;
+
 	D3DXMATRIX m_rotMatX, m_rotMatY, m_rotMatZ, matworld;
 	
 	D3DXMatrixRotationX(&m_rotMatX, m_fCurveAngleX);
@@ -120,8 +120,12 @@ void TeicParticle::Update2()
 
 	
 	D3DXVec3Lerp(&m_pVertex->p, &m_pVertexSample.p, &m_vLastPosition, m_fTime / m_fLifeSpan);
-
+	D3DXMATRIX trans;
+	D3DXMatrixTranslation(&trans, -m_pVertexSample.p.x, -m_pVertexSample.p.y, -m_pVertexSample.p.z);
+	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &trans);
 	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &matworld);
+	D3DXMatrixTranslation(&trans, m_pVertexSample.p.x, m_pVertexSample.p.y, m_pVertexSample.p.z);
+	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &trans);
 
 	m_alpha -= m_delta;
 	D3DXVec3Lerp(&m_dwNowcolor, &m_dwStartColor, &m_dwFinishColor, m_fTime);

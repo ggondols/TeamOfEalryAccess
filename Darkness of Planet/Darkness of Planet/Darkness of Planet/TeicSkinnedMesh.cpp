@@ -58,6 +58,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	m_iNum = 0;
 	D3DXMatrixIdentity(&m_RotationMat);
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
+	m_fUpdateSpeed = 1.0f;
 	
 }
 TeicSkinnedMesh::TeicSkinnedMesh()
@@ -72,6 +73,7 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 	D3DXMatrixIdentity(&m_RotationMat);
 	m_iNum = 0;
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
+	m_fUpdateSpeed = 1.0f;
 	
 }
 
@@ -173,7 +175,7 @@ void TeicSkinnedMesh::UpdateAndRender()
 {
 	if (m_pAnimController)
 	{
-		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime(), NULL);
+		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime()*m_fUpdateSpeed, NULL);
 		Blending();
 	}
 
@@ -450,6 +452,140 @@ void TeicSkinnedMesh::Blending()
 			}
 		}
 		
+	}
+}
+
+void TeicSkinnedMesh::MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect)
+{
+	assert(pBone);
+
+	// 각 프레임의 메시 컨테이너에 있는 pSkinInfo를 이용하여 영향받는 모든 
+	// 프레임의 매트릭스를 ppBoneMatrixPtrs에 연결한다.
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+
+		// get bone combinations
+		LPD3DXBONECOMBINATION pBoneCombos =
+			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
+
+
+
+		D3DXMATRIXA16 matViewProj, matView, matProj;
+		GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
+		GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProj);
+		matViewProj = matView * matProj;
+
+		D3DXMATRIXA16 mView, mInvView;
+		GETDEVICE->GetTransform(D3DTS_VIEW, &mView);
+		D3DXMatrixInverse(&mInvView, 0, &mView);
+		D3DXVECTOR3 vEye = D3DXVECTOR3(0, 0, 0);
+		D3DXVec3TransformCoord(&vEye, &vEye, &mInvView);
+
+
+		// for each palette
+		for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
+		{
+			// set each transform into the palette
+			for (DWORD dwPalEntry = 0; dwPalEntry < pBoneMesh->dwNumPaletteEntries; ++dwPalEntry)
+			{
+				DWORD dwMatrixIndex = pBoneCombos[dwAttrib].BoneId[dwPalEntry];
+				if (dwMatrixIndex != UINT_MAX)
+				{
+					m_pmWorkingPalette[dwPalEntry] =
+						pBoneMesh->pBoneOffsetMatrices[dwMatrixIndex] *
+						(*pBoneMesh->ppBoneMatrixPtrs[dwMatrixIndex]);
+				}
+			}
+
+			// set the matrix palette into the effect
+			effect->SetMatrixArray("amPalette",
+				m_pmWorkingPalette,
+				pBoneMesh->dwNumPaletteEntries);
+
+
+			effect->SetMatrix("g_mViewProj", &matViewProj);
+			effect->SetVector("vLightDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+			effect->SetVector("vWorldLightPos", &D3DXVECTOR4(500.0f, 500.0f, 500.0f, 1.0f));
+			effect->SetVector("vWorldCameraPos", &D3DXVECTOR4(vEye, 1.0f));
+			effect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.53f, 0.53f, 0.53f, 0.53f));
+			effect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+
+			// we're pretty much ignoring the materials we got from the x-file; just set
+			// the texture here
+			effect->SetTexture("g_txScene", pBoneMesh->vecTexture[pBoneCombos[dwAttrib].AttribId]);
+
+			// set the current number of bones; this tells the effect which shader to use
+			effect->SetInt("CurNumBones", pBoneMesh->dwMaxNumFaceInfls - 1);
+
+			// set the technique we use to draw
+			effect->SetTechnique("Skinning20");
+
+
+
+			effect->CommitChanges();
+			pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+
+			//UINT uiPasses, uiPass;
+
+			//// run through each pass and draw
+			//effect->Begin(&uiPasses, 0);
+			//for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+			//{
+			//	effect->BeginPass(uiPass);
+			//	pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+			//	effect->EndPass();
+			//}
+			//effect->End();
+
+		}
+	}
+
+	//재귀적으로 모든 프레임에 대해서 실행.
+	if (pBone->pFrameSibling)
+	{
+		MeshRender((ST_BONE*)pBone->pFrameSibling, effect);
+	}
+
+	if (pBone->pFrameFirstChild)
+	{
+		MeshRender((ST_BONE*)pBone->pFrameFirstChild, effect);
+	}
+
+
+}
+
+void TeicSkinnedMesh::ShaderMeshRender(LPD3DXEFFECT effect)
+{
+
+	if (m_pAnimController)
+	{
+		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime()*m_fUpdateSpeed, NULL);
+		Blending();
+	}
+
+	if (m_pRootFrame)
+	{
+		D3DXMATRIXA16 mat;
+		D3DXMATRIX    scal;
+
+		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+		D3DXMatrixScaling(&scal, m_fScaleSize, m_fScaleSize, m_fScaleSize);
+
+		mat = scal* m_RotationMat*mat;
+		D3DXVec3TransformCoord(&m_pBoundingSquare.m_vCenterPos, &m_pCopy.m_vCenterPos, &mat);
+		m_pBoundingSquare.m_fSizeX = m_pCopy.m_fSizeX *m_fScaleSize - m_pBoundingSquare.m_fControlX;
+		m_pBoundingSquare.m_fSizeY = m_pCopy.m_fSizeY *m_fScaleSize - m_pBoundingSquare.m_fControlY;
+		m_pBoundingSquare.m_fSizeZ = m_pCopy.m_fSizeZ *m_fScaleSize - m_pBoundingSquare.m_fControlZ;
+
+		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vXdir, &m_pCopy.m_vXdir, &m_RotationMat);
+		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vYdir, &m_pCopy.m_vYdir, &m_RotationMat);
+		D3DXVec3TransformNormal(&m_pBoundingSquare.m_vZdir, &m_pCopy.m_vZdir, &m_RotationMat);
+		D3DXVec3Normalize(&m_pBoundingSquare.m_vXdir, &m_pBoundingSquare.m_vXdir);
+		D3DXVec3Normalize(&m_pBoundingSquare.m_vYdir, &m_pBoundingSquare.m_vYdir);
+		D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
+		Update(m_pRootFrame, &mat);
+		MeshRender(m_pRootFrame,effect);
 	}
 }
 

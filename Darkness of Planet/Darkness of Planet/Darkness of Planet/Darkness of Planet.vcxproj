@@ -232,6 +232,7 @@
     <ClInclude Include="commonFunction.h" />
     <ClInclude Include="TeicAstar.h" />
     <ClInclude Include="TeicAstarShort.h" />
+    <ClInclude Include="TeicBoss.h" />
     <ClInclude Include="TeicBresenham.h" />
     <ClInclude Include="TeicCharacter.h" />
     <ClInclude Include="TeicCollisionMove.h" />
@@ -340,6 +341,7 @@
     <ClCompile Include="commonFunction.cpp" />
     <ClCompile Include="TeicAstar.cpp" />
     <ClCompile Include="TeicAstarShort.cpp" />
+    <ClCompile Include="TeicBoss.cpp" />
     <ClCompile Include="TeicBresenham.cpp" />
     <ClCompile Include="TeicCharacter.cpp" />
     <ClCompile Include="TeicCollisionMove.cpp" />
