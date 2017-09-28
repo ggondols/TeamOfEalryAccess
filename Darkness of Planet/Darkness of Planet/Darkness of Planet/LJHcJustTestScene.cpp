@@ -7,6 +7,7 @@
 #include "cUITextView.h"
 #include "Inventory.h"
 #include "cSkyDome.h"
+#include "FieldItem.h"
 
 static CRITICAL_SECTION cs;
 
@@ -102,6 +103,7 @@ LJHcJustTestScene::LJHcJustTestScene()
 	//, m_pSkyBox(NULL)
 	, m_pInventory(NULL)
 	, m_pSkyDome(NULL)
+	, m_pItem(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -127,6 +129,7 @@ LJHcJustTestScene::~LJHcJustTestScene()
 
 	}
 
+	SAFE_RELEASE(m_pItem);
 }
 
 
@@ -161,6 +164,9 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pInventory = new Inventory;
 	m_pInventory->Setup();
 
+	m_pItem = new FieldItem;
+	m_pItem->Setup("ArmorArm");
+	
 	///////////µ¿À±
 
 
@@ -240,6 +246,7 @@ void LJHcJustTestScene::Update()
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
 
+	if (m_pItem) m_pItem->Update();
 	if (m_pSkyDome) m_pSkyDome->Update();
 	//m_bThread = false;
 
@@ -616,7 +623,7 @@ float LJHcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void LJHcJustTestScene::Render()
 {
 	if (m_pInventory) m_pInventory->Render();
-
+	
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
@@ -631,6 +638,8 @@ void LJHcJustTestScene::Render()
 			m_vecEnemy[i]->UpdateAndRender();
 		}
 	}
+
+	if (m_pItem) m_pItem->Render();
 
 	UIOBJECTMANAGER->Render();
 }
