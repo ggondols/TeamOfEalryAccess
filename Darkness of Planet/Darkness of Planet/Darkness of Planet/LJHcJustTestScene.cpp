@@ -103,7 +103,6 @@ LJHcJustTestScene::LJHcJustTestScene()
 	//, m_pSkyBox(NULL)
 	, m_pInventory(NULL)
 	, m_pSkyDome(NULL)
-	, m_pItem(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -129,7 +128,10 @@ LJHcJustTestScene::~LJHcJustTestScene()
 
 	}
 
-	SAFE_RELEASE(m_pItem);
+	for (size_t i = 0; i < m_vecItem.size(); i++)
+	{
+		SAFE_RELEASE(m_vecItem[i]);
+	}
 }
 
 
@@ -164,8 +166,20 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pInventory = new Inventory;
 	m_pInventory->Setup();
 
-	m_pItem = new FieldItem;
-	m_pItem->Setup("ArmorArm");
+	FieldItem* pItem1 = new FieldItem();
+	pItem1->Setup("ArmorArm");
+	pItem1->SetPosition(D3DXVECTOR3(60, 10, -10));
+	m_vecItem.push_back(pItem1);
+
+	FieldItem* pItem2 = new FieldItem();
+	pItem2->Setup("ArmorBody");
+	pItem2->SetPosition(D3DXVECTOR3(30, 20, -20));
+	m_vecItem.push_back(pItem2);
+	
+	FieldItem* pItem3 = new FieldItem();
+	pItem3->Setup("ArmorLeg");
+	pItem3->SetPosition(D3DXVECTOR3(50, 10, -50));
+	m_vecItem.push_back(pItem3);
 	
 	///////////동윤
 
@@ -191,6 +205,13 @@ HRESULT LJHcJustTestScene::Setup()
 	/////////////태영
 	m_pGrid->Setup();
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
+	
+	for (size_t i = 0; i < m_vecItem.size(); i++)
+	{
+		D3DXVECTOR3 temp = m_vecItem[i]->GetPosition();
+		m_pMap->GetHeight(temp.x, temp.y, temp.z);
+		m_vecItem[i]->SetPosition(temp);
+	}
 
 	//노드 추가 합니다.
 	m_pNode = new HankcGrid;
@@ -246,8 +267,12 @@ void LJHcJustTestScene::Update()
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
 
-	if (m_pItem) m_pItem->Update();
-	if (m_pSkyDome) m_pSkyDome->Update();
+	for each(auto i in m_vecItem)
+	{
+		i->Update();
+	}
+
+	if (m_pSkyDome && !UIOBJECTMANAGER->CheckShowState("inventory")) m_pSkyDome->Update();
 	//m_bThread = false;
 
 	//if (m_pSkyBox) m_pSkyBox->Update();
@@ -371,31 +396,7 @@ void LJHcJustTestScene::Update()
 
 	ChangeGridInfo();
 
-
-	/*cUIImageView* pAim = (cUIImageView*)UIOBJECTMANAGER->FindRoot("aimTest");
-	pAim->SetTexture("./UI/aimNormal.png");*/
-
-	//if (KEYMANAGER->isOnceKeyDown('I'))
-	//{
-	//	UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
-	//}
-
-	/*if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
-	{
-		pAim->SetTexture("./UI/aimHit.png");
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('P'))
-	{
-		cUIObject* child = UIOBJECTMANAGER->GetChildByTag("lifeTest2", 1);
-		child->SetSize(ST_SIZE(child->GetSize().fWidth - 20 > 0 ? child->GetSize().fWidth - 20 : 0,
-			child->GetSize().fHeight));
-	}*/
-
-	
-
 	UIOBJECTMANAGER->Update();
-
 }
 
 void LJHcJustTestScene::CallbackOn(int number)
@@ -639,7 +640,10 @@ void LJHcJustTestScene::Render()
 		}
 	}
 
-	if (m_pItem) m_pItem->Render();
+	for each(auto i in m_vecItem)
+	{
+		i->Render();
+	}
 
 	UIOBJECTMANAGER->Render();
 }

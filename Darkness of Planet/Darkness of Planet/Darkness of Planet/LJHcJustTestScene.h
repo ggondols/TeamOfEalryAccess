@@ -40,7 +40,7 @@ private:
 	int						m_iBodyUpgrade;
 
 	cSkyDome*				m_pSkyDome;
-	FieldItem*				m_pItem;
+	vector<FieldItem*>		m_vecItem;
 public:
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;
