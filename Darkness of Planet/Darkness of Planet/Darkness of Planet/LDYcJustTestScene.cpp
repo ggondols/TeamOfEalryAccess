@@ -497,6 +497,7 @@ bool LDYcJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 					B->m_bThreadCalOn = true;
 				}
 		
+		
 				if (EnemyPlayerDistance(B) > 10 * NodeLength)
 				{
 					B->SetCollision(true);
@@ -672,7 +673,6 @@ void LDYcJustTestScene::Render()
 	
 
 	//D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
-
 	//{
 	//	m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
 	//	D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
@@ -685,19 +685,25 @@ void LDYcJustTestScene::Render()
 	//D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
 	//
 
+	
 	//D3DXMATRIXA16 matWorld, matView, matProjection, matViewProjection;
 
+	
 	//D3DXMatrixIdentity(&matWorld);
 
+	
 	//GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	//GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 
+	
 	//matViewProjection = matView*matProjection;
 
+	
 	//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
 	//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
 	//GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
 	//GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+
 
 	////////////////////////////////
 	//// 1. 그림자 만들기
@@ -707,11 +713,11 @@ void LDYcJustTestScene::Render()
 	//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
 	//m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
 
-
-	//GETDEVICE->SetRenderTarget(0, pShadowSurface);
-	//GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
+	
+=
 
 	//SAFE_RELEASE(pShadowSurface);
+
 
 	//// 저번 프레임에 그\렸던 그림자 정보를 지움
 	//GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
@@ -721,8 +727,10 @@ void LDYcJustTestScene::Render()
 	//D3DXMATRIX trans;
 	//D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
 
+	
 	//// 그림자 만들기 쉐이더 전역변수들을 설정
 
+	
 	//m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
 	//m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
 
@@ -744,10 +752,12 @@ void LDYcJustTestScene::Render()
 	//	m_pCreateShadow->End();
 	//}
 
+
 	////////////////////////////////
 	//// 2. 그림자 입히기
 	////////////////////////////////
 
+	
 	//////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
 	//GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
 	//GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
@@ -755,8 +765,10 @@ void LDYcJustTestScene::Render()
 	//SAFE_RELEASE(pHWBackBuffer);
 	//SAFE_RELEASE(pHWDepthStencilBuffer);
 
+	
 	//// 그림자 입히기 쉐이더 전역변수들을 설정
 
+	
 	//m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);      //원환체
 	//m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
 	//m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
@@ -764,8 +776,10 @@ void LDYcJustTestScene::Render()
 
 	//m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
 
+	
 	//m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
 
+	
 	//LPDIRECT3DTEXTURE9 tex;
 	//tex = TEXTUREMANAGER->GetTexture("map/Terrain_Final_Map.png");
 	//m_pApplyShadow->SetTexture("heightMap_Tex", tex);
@@ -785,6 +799,7 @@ void LDYcJustTestScene::Render()
 	//			
 	//			//if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
 
+	
 	//		}
 	//		m_pApplyShadow->EndPass();
 	//	}
@@ -820,26 +835,35 @@ void LDYcJustTestScene::Render()
 	UINT fogPasses = 0;
 	m_pFog->Begin(&fogPasses, NULL);
 	{
+		
 		for (UINT i = 0; i < fogPasses; ++i)
 		{
+			
 			m_pFog->BeginPass(i);
 			{
+				
 			}
+			
 			m_pFog->EndPass();	
 		}
 	}
+	
 	m_pFog->End();*/
-
+	m_pCharacter->UpdateAndRender();
+	
 	/*D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(	147, 200, 249);
 	float start = 20.0f;
+	
 	float end = 500.0f;
 	float m_fFogDensity = 0.01f;
 	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
 	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	
 	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_NONE);
 	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
 	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	
 	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
 	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);*/
 	
@@ -851,12 +875,14 @@ void LDYcJustTestScene::Render()
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	if (m_pGrid)m_pGrid->Render();
 
+	
 	/*if (m_bThread)
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
 			m_vecEnemy[i]->UpdateAndRender();
 		}
+	
 	}*/
 
 	UIOBJECTMANAGER->Render();

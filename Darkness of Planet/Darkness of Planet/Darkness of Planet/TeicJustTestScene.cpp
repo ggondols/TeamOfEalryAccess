@@ -196,20 +196,21 @@ HRESULT TeicJustTestScene::Setup()
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
 
 	//노드 추가 합니다.
-	m_pNode = new HankcGrid;
-	int sizeX = 257;
-	int sizeZ = 257;
-	m_pNode->m_vRow.resize(sizeZ);
-	for (int i = 0; i < sizeZ; i++)
-	{
-		m_pNode->m_vRow[i].m_vCol.resize(sizeX);
-		for (int j = 0; j < sizeX; j++)
-		{
-			m_pNode->m_vRow[i].m_vCol[j].InitFrame(i, j); // 일반 노드만 생성합니다.
-			m_pNode->m_vRow[i].m_vCol[j].InitPosition(NodeLength); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
-			m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
-		}
-	}
+	m_pNode = NODEMANAGER->GetNode();
+	//m_pNode = new HankcGrid;
+	//int sizeX = 257;
+	//int sizeZ = 257;
+	//m_pNode->m_vRow.resize(sizeZ);
+	//for (int i = 0; i < sizeZ; i++)
+	//{
+	//	m_pNode->m_vRow[i].m_vCol.resize(sizeX);
+	//	for (int j = 0; j < sizeX; j++)
+	//	{
+	//		m_pNode->m_vRow[i].m_vCol[j].InitFrame(i, j); // 일반 노드만 생성합니다.
+	//		m_pNode->m_vRow[i].m_vCol[j].InitPosition(NodeLength); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
+	//		m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
+	//	}
+	//}
 
 
 	m_pAstar = new TeicAstar;
@@ -249,31 +250,25 @@ HRESULT TeicJustTestScene::Setup()
 	m_pSkyCloud->Setup();
 
 
-	for (int i = 0; i < 3; i++)
-	{
-		m_pBoss[i] = new TeicEnemy;
-	}
-	m_pBoss[0]->Setup("sprites/", "IceEffect.X");
-	m_pBoss[1]->Setup("object/xFile/Arkus/", "Arkus.X");
-	m_pBoss[2]->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
+
+	m_pBoss = new TeicBoss;
 
 
-	m_pBoss[0]->SetPosition(D3DXVECTOR3(150, 40, -150));
-	m_pBoss[1]->SetPosition(D3DXVECTOR3(80, 100, -100));
-	m_pBoss[2]->SetPosition(D3DXVECTOR3(100, 100, -100));
+	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
+	//m_pBoss->Setup("object/", "ice_Boom.X");
 
-	m_pBoss[0]->SetAnimation(0);
-	m_pBoss[1]->SetAnimation(0);
-	m_pBoss[2]->SetAnimation(0);
 
-	m_pBoss[0]->SetScaleSize(0.1);
-	m_pBoss[1]->SetScaleSize(0.1);
-	m_pBoss[2]->SetScaleSize(0.1);
+	m_pBoss->SetPosition(D3DXVECTOR3(150, 40, -150));
 
-	m_ptest = new TeicIceExplosion;
-	m_ptest->Setup(D3DXVECTOR3(150, 40, -150));
-	m_ptest->Start();
+
+	m_pBoss->SetAnimation(0);
+
+	m_pBoss->SetScaleSize(0.1);
+
+
 	
+
+
 	return S_OK;
 }
 
@@ -290,15 +285,16 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	m_ptest->Update();
-
+	
+	m_pBoss->Update();
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
-		m_pBoss[0]->SetNextAni();
+		m_pBoss->SetNextAni();
+		//m_ptest->Start();
 	}
 	if (KEYMANAGER->isOnceKeyDown('0'))
 	{
-		m_pBoss[0]->SetAnimation(0);
+		m_pBoss->SetAnimation(0);
 	}
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
@@ -684,22 +680,21 @@ float TeicJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void TeicJustTestScene::Render()
 {
-	
 
 
-	m_ptest->Render();
+
+
 	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if (m_pInventory) m_pInventory->Render();*/
 	char str[2056];
 	RECT rc = RectMake(200, 200, 1000, 1000);
-	sprintf_s(str, "number:%d",m_pBoss[0]->GetAninum()-1);
+	sprintf_s(str, "number:%d", m_pBoss->GetAninum() - 1);
 	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
-	/*for (int i = 0; i < 3; i++)
-	{
-		m_pBoss[i]->UpdateAndRender();
-	}*/
+
+	
+
 	//m_pTempEnemy->UpdateAndRender();
 	//m_pShoot->Render();
 	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -735,8 +730,9 @@ void TeicJustTestScene::Render()
 			m_vecEnemy[1]->GetPosition().x, m_vecEnemy[1]->GetPosition().y, m_vecEnemy[1]->GetPosition().z);
 		m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0))*/
 	}
-
+	m_pBoss->UpdateAndRender();
 	UIOBJECTMANAGER->Render();
+	
 }
 
 

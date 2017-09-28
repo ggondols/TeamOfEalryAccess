@@ -166,6 +166,7 @@
     <ClInclude Include="cModelManager.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectManager.h" />
+    <ClInclude Include="cObjectNode.h" />
     <ClInclude Include="cObjectPool.h" />
     <ClInclude Include="cShadowMapping.h" />
     <ClInclude Include="cSkinnedMesh.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="cSkyCloud.h" />
     <ClInclude Include="cSkyDome.h" />
     <ClInclude Include="cSphere.h" />
+    <ClInclude Include="cStaticMeshLoader.h" />
     <ClInclude Include="cTestMain.h" />
     <ClInclude Include="cUIButton.h" />
     <ClInclude Include="cUIImageView.h" />
@@ -232,6 +234,7 @@
     <ClInclude Include="commonFunction.h" />
     <ClInclude Include="TeicAstar.h" />
     <ClInclude Include="TeicAstarShort.h" />
+    <ClInclude Include="TeicBoss.h" />
     <ClInclude Include="TeicBresenham.h" />
     <ClInclude Include="TeicCharacter.h" />
     <ClInclude Include="TeicCollisionMove.h" />
@@ -239,6 +242,7 @@
     <ClInclude Include="TeicEffectParent.h" />
     <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicHeightMapManager.h" />
+    <ClInclude Include="TeicIceBreath.h" />
     <ClInclude Include="TeicIceExplosion.h" />
     <ClInclude Include="TeicJustTestScene.h" />
     <ClInclude Include="TeicMinHeap.h" />
@@ -273,6 +277,7 @@
     <ClCompile Include="cModelManager.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectManager.cpp" />
+    <ClCompile Include="cObjectNode.cpp" />
     <ClCompile Include="cObjectPool.cpp" />
     <ClCompile Include="cShadowMapping.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
@@ -281,6 +286,7 @@
     <ClCompile Include="cSkyCloud.cpp" />
     <ClCompile Include="cSkyDome.cpp" />
     <ClCompile Include="cSphere.cpp" />
+    <ClCompile Include="cStaticMeshLoader.cpp" />
     <ClCompile Include="cTestMain.cpp" />
     <ClCompile Include="cUIButton.cpp" />
     <ClCompile Include="cUIImageView.cpp" />
@@ -340,6 +346,7 @@
     <ClCompile Include="commonFunction.cpp" />
     <ClCompile Include="TeicAstar.cpp" />
     <ClCompile Include="TeicAstarShort.cpp" />
+    <ClCompile Include="TeicBoss.cpp" />
     <ClCompile Include="TeicBresenham.cpp" />
     <ClCompile Include="TeicCharacter.cpp" />
     <ClCompile Include="TeicCollisionMove.cpp" />
@@ -347,6 +354,7 @@
     <ClCompile Include="TeicEffectParent.cpp" />
     <ClCompile Include="TeicEnemy.cpp" />
     <ClCompile Include="TeicHeightMapManager.cpp" />
+    <ClCompile Include="TeicIceBreath.cpp" />
     <ClCompile Include="TeicIceExplosion.cpp" />
     <ClCompile Include="TeicJustTestScene.cpp" />
     <ClCompile Include="TeicMoveSequence.cpp" />

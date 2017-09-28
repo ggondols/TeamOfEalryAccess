@@ -53,11 +53,12 @@ protected:
 	bool m_bCollision;
 	
 public:
+	float	m_fAttacktiming;
 	float m_fScaleSize;
 	BoundingSquare			m_pBoundingSquare;
 	BoundingSquare			m_pCopy;
 	float m_fZealotdiffer;
-	
+	float m_fUpdateSpeed;
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
 	void UpdateAndRender();
@@ -66,7 +67,7 @@ public:
 	void SetRandomTrackPosition(); // 테스트용
 	void SetRotationAngle(float angle); 
 	void SetRotationMatrix(D3DXMATRIX rotation) { m_RotationMat = rotation; }
-	
+	void SetUpdateSpeed(float t) { m_fUpdateSpeed = t; }
 	D3DXVECTOR3* GetPositionPointer() { return  &m_vPosition; }
 	
 	void SetAnimation(int num);
@@ -86,7 +87,10 @@ protected:
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
 	void Blending();
+public:
+	void MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect);
 
+	void ShaderMeshRender(LPD3DXEFFECT effect);
 public:
 	TeicSkinnedMesh();
 	TeicSkinnedMesh(char* szFolder, char* szFilename);
