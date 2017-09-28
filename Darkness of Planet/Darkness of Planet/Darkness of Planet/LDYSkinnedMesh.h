@@ -77,6 +77,7 @@ public:
 	void SetHP(int n) { m_iHp = n; }
 	void SetShield(int n) { m_iShield = n; }
 	void SetAttack(int n) { m_iAttack = n; }
+	
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
 	void SetScale(float f) { m_fScale =f;}
@@ -97,6 +98,12 @@ public:
 	LDYSkinnedMesh();
 	LDYSkinnedMesh(char* szFolder, char* szFilename);
 	~LDYSkinnedMesh();
+
+	
+
+	void MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect);
+
+	void ShaderMeshRender(LPD3DXEFFECT effect);
 
 
 };

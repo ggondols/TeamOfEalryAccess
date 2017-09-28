@@ -56,6 +56,7 @@ public:
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
 	void UpdateAndRender();
+	void MeshRender(LPD3DXEFFECT effect);
 	void Render();
 	void matUpdate();
 	void SetAnimationIndex(int nIndex);
