@@ -125,10 +125,18 @@ void TeicBoss::Update()
 {
 	//9876
 	m_ptest->Update();
-	if (KEYMANAGER->isOnceKeyDown('9'))
+	m_pExplosion->Update();
+	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
+		m_pSkinnedMesh->m_fAttacktiming = 1.4;
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(6);
 		
-		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(7);
+		m_eSkilltype = Skill_Explosion;
+	}
+	/*if (KEYMANAGER->isOnceKeyDown('9'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(6);
 		m_eSkilltype = Skill_Explosion;
 	}
 	if (KEYMANAGER->isOnceKeyDown('8'))
@@ -136,7 +144,25 @@ void TeicBoss::Update()
 
 		m_ptest->Start();
 	}
-	
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(12);
+		m_eSkilltype = Skill_Explosion;
+	}
+	if (KEYMANAGER->isOnceKeyDown('O'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(13);
+		m_eSkilltype = Skill_Explosion;
+	}
+	if (KEYMANAGER->isOnceKeyDown('I'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(22);
+		m_eSkilltype = Skill_Explosion;
+	}*/
+
 }
 
 void TeicBoss::MeshRender(LPD3DXEFFECT effect)
@@ -196,7 +222,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicBoss::CallbackOn, this, 0));
-
+	m_pSkinnedMesh->SetAttackCallbackfunction(bind(&TeicBoss::CallbackOn, this, 1));
 
 	m_pSkinnedMesh->m_pBoundingSquare = SKINMANAGER->GetTeiBoundingSquare(Foldername, Filename);
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
@@ -210,7 +236,9 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	//m_fBoundingSize = CalBoundingSize();
 
 	m_ptest = new TeicIceBreath;
-	m_ptest->Setup(D3DXVECTOR3(150, 40, -150), D3DXVECTOR3(170,40,-170));
+	m_ptest->Setup(D3DXVECTOR3(150, 40, -150), D3DXVECTOR3(170, 40, -170));
+	m_pExplosion = new TeicIceExplosion;
+	m_pExplosion->Setup(D3DXVECTOR3(150, 40, -150));
 }
 
 void TeicBoss::SetUpdateSpeed(float t)
@@ -224,27 +252,51 @@ void TeicBoss::SetUpdateSpeed(float t)
 
 void TeicBoss::CallbackOn(int n)
 {
+	if (n == 1)
+	{
+		if (m_pSkinnedMesh->GetAninum() == 6)
+		{
+			SkillExplosion();
+
+		}
+	}
 	if (m_pSkinnedMesh)
 	{
 		if (m_pSkinnedMesh->GetAninum() == 9)
 		{
 			m_pSkinnedMesh->SetAnimation(8);
-			return;
+
 		}
-		if (m_pSkinnedMesh->GetAninum() == 8)
+		else if (m_pSkinnedMesh->GetAninum() == 8)
 		{
 			m_pSkinnedMesh->SetAnimation(7);
-			return;
+
 		}
-		if (m_pSkinnedMesh->GetAninum() == 7)
+		else if (m_pSkinnedMesh->GetAninum() == 7)
 		{
 			m_pSkinnedMesh->SetAnimation(6);
-			return;
+
 		}
-		if (m_pSkinnedMesh->GetAninum() == 6)
+		else if (m_pSkinnedMesh->GetAninum() == 6)
+		{
+			//SkillExplosion();
+			m_pSkinnedMesh->SetAnimation(0);
+		}
+		///////////
+		else if (m_pSkinnedMesh->GetAninum() == 12)
 		{
 			m_pSkinnedMesh->SetAnimation(0);
 		}
+		else if (m_pSkinnedMesh->GetAninum() == 13)
+		{
+			m_pSkinnedMesh->SetAnimation(0);
+		}
+		////////////
+		else if (m_pSkinnedMesh->GetAninum() == 22)
+		{
+			m_pSkinnedMesh->SetAnimation(0);
+		}
+
 	}
 	if (m_Callback)
 	{
@@ -265,7 +317,7 @@ void TeicBoss::SetAttackCallbackfunction(CallbackBindFunction function)
 
 void TeicBoss::UpdateAndRender()
 {
-	
+
 	if (m_pSkinnedMesh)
 	{
 		m_pSkinnedMesh->UpdateAndRender();
@@ -273,6 +325,7 @@ void TeicBoss::UpdateAndRender()
 	}
 	//MakeBoundingBox();
 	m_ptest->Render();
+	m_pExplosion->Render();
 }
 
 void TeicBoss::SetAnimationIndex(int nIndex)
@@ -407,5 +460,11 @@ float TeicBoss::CalBoundingSize()
 		return A;
 	}
 	return 0.0f;
+}
+
+void TeicBoss::SkillExplosion()
+{
+
+	m_pExplosion->Start();
 }
 

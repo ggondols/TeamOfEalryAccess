@@ -85,8 +85,8 @@ void TeicIceBreath::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_pParticle->Setup2(D3DXVECTOR3(position.x, position.y + 10, position.z), D3DXVECTOR3(1, 1, 1),
 		D3DXVECTOR3(characterpos.x, characterpos.y + 10, characterpos.z),D3DXVECTOR3(1, 1, 1)
 		, 50, 1.5f, 0.1, 0, 0, 0, 0, 0, 0,
-		5.0f, 2.0f, D3DXVECTOR3(0, 0, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
-		"sprites/alpha_tex.tga", 5, 1, false);
+		5.0f, 2.0f, D3DXVECTOR3(200, 200, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
+		"sprites/alpha_tex.tga", 10, 1, false);
 	m_pEffect = LoadEffectHpp("MultiAnimationEffect.hpp");
 	m_hAlphahandle = m_pEffect->GetParameterByName(0, "vAlpha");
 

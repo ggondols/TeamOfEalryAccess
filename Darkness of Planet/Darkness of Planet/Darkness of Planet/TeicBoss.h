@@ -2,7 +2,7 @@
 #include "TeicSkinnedMesh.h"
 #include "HankcNode.h"
 #include "TeicIceBreath.h"
-
+#include "TeicIceExplosion.h"
 //###############################################
 //#												#
 //#		이동,위치,스케일,콜백이 적용된          #
@@ -27,6 +27,7 @@ class TeicBoss
 
 private:
 	TeicIceBreath*				m_ptest;
+	TeicIceExplosion*			m_pExplosion;
 	TeicSkinnedMesh*	m_pSkinnedMesh;
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
@@ -75,7 +76,7 @@ public:
 	POINT GetNodeNum();
 	void SetSpeed(float s) { m_fSpeed = s; }
 	float CalBoundingSize();
-
+	void SkillExplosion();
 public:
 	TeicBoss();
 	~TeicBoss();

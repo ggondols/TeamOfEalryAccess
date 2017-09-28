@@ -156,11 +156,11 @@ void TeicParticle::Update3()
 	if (!m_Start)return;
 	m_fUpDown += 0.1f *m_iUpDownPlus*m_fSpeed;
 
-	if (m_fUpDown > 3)
+	if (m_fUpDown > 10)
 	{
 		m_iUpDownPlus = -1;
 	}
-	if (m_fUpDown < -3)
+	if (m_fUpDown < -10)
 	{
 		m_iUpDownPlus = 1;
 	}
@@ -170,7 +170,7 @@ void TeicParticle::Update3()
 	
 
 
-	D3DXVec3Lerp(&m_pVertex->p, &m_pVertexSample.p, &m_vLastPosition, m_distance / 1);
+	D3DXVec3Lerp(&m_pVertex->p, &m_pVertexSample.p, &m_vLastPosition, (m_distance) / 1);
 	D3DXMATRIX trans;
 	D3DXMatrixTranslation(&trans, 0, m_fUpDown, 0);
 	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &trans);
