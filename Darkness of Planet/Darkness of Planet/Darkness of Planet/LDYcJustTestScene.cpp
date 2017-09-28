@@ -102,7 +102,7 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
 	, m_bAstarThread(false)
 	, m_pCamera(NULL)
-	, m_iBodyUpgrade(1)
+	,m_iBodyUpgrade(1)
 	, m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
 	, m_pSkyBox(NULL)
@@ -110,8 +110,7 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_pCreateShadow(NULL)
 	, m_pApplyShadow(NULL)
 	, m_pHeightMapmesh(NULL)
-	, lookx(0.0f)
-	, lookz(0.0f)
+	,lookz(0.0f)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -467,6 +466,7 @@ void LDYcJustTestScene::CallbackOn(int number)
 
 bool LDYcJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
+	
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 		float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));
@@ -486,6 +486,7 @@ bool LDYcJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 				{
 					B->m_bThreadCalOn = true;
 				}
+		)
 				if (EnemyPlayerDistance(B) > 10 * NodeLength)
 				{
 					B->SetCollision(true);
@@ -659,7 +660,9 @@ void LDYcJustTestScene::Render()
 
 	//if (motionBlur)motionBlur->Render();
 
+
 	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
+
 
 	{
 		m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
@@ -747,6 +750,7 @@ void LDYcJustTestScene::Render()
 	SAFE_RELEASE(pHWDepthStencilBuffer);
 
 	// 그림자 입히기 쉐이더 전역변수들을 설정
+
 	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);      //원환체
 	m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
 	m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
@@ -780,7 +784,6 @@ void LDYcJustTestScene::Render()
 		}
 	}
 	m_pApplyShadow->End();
-	m_pCharacter->UpdateAndRender();
 
 	/*if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
@@ -865,8 +868,10 @@ bool LDYcJustTestScene::CheckSlot()
 				continue;
 			}
 			if (m_pCharacter->GetNodeNum().y + i < 0)continue;
+			
 			if (m_pCharacter->GetNodeNum().y + i >= m_pNode->m_vRow.size())continue;
 			if (m_pCharacter->GetNodeNum().x + j < 0)continue;
+			
 			if (m_pCharacter->GetNodeNum().x + j >= m_pNode->m_vRow.size())continue;
 			if (m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo != NULL)
 			{
@@ -911,9 +916,7 @@ void LDYcJustTestScene::AngleChange(TeicEnemy * A)
 	/*D3DXVec3Normalize(&A_B, &A_B);
 	D3DXMATRIX matR;
 	D3DXMatrixLookAtLH(&matR,
-	&D3DXVECTOR3(0, 0, 0),
-	&A_B,
-	&D3DXVECTOR3(0, 1, 0));
+
 	D3DXMatrixTranspose(&matR, &matR);
 	D3DXMATRIX   skinnedRot;
 	D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
@@ -930,6 +933,7 @@ void LDYcJustTestScene::AngleChange(TeicEnemy * A)
 
 void LDYcJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 {
+
 
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
@@ -1033,14 +1037,17 @@ LPD3DXEFFECT LDYcJustTestScene::LoadEffect(const char * szFileName)
 	LPD3DXEFFECT pEffect = NULL;
 
 	// 셰이더 로딩
+	
 	LPD3DXBUFFER      pError = NULL;         //에러 버퍼 ( 셰이더를 컴파일할때 잘못 된 문법이나 오류정보를 리턴해주는 버퍼 )
 	DWORD            dwShaderFlag = 0;      //셰이더 플레그 0 
 
 #ifdef _DEBUG
+	
 	dwShaderFlag = dwShaderFlag | D3DXSHADER_DEBUG;      //셰이더를 디버그모드로 컴파일하겠다 ( 디버그모드로 해야 잘못된 컴파일 오류가 날때 Error 버퍼에 오류정보가 들어간다 ) 
 #endif
 														 //fx 파일로 부터 셰이더 객체 생성
 	D3DXCreateEffectFromFile(
+	
 		GETDEVICE,            // 디바이스
 		szFileName,               // 불러올 셰이더 코드 파일이름
 		NULL,                  // 셰이더를 컴파일할때 추가로 사용할 #define 정의 ( 일단 NULL )
