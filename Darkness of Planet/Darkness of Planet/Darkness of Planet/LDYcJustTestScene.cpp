@@ -486,7 +486,7 @@ bool LDYcJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 				{
 					B->m_bThreadCalOn = true;
 				}
-		)
+		
 				if (EnemyPlayerDistance(B) > 10 * NodeLength)
 				{
 					B->SetCollision(true);
@@ -774,7 +774,7 @@ void LDYcJustTestScene::Render()
 			{
 				// 원환체를 그린다.
 				
-
+				m_pCharacter->UpdateAndRender();
 				// 디스크를 그린다.
 				
 				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
@@ -784,26 +784,28 @@ void LDYcJustTestScene::Render()
 		}
 	}
 	m_pApplyShadow->End();
-
-	/*if (m_pSkyDome)m_pSkyDome->Render();
-	if (m_pSkyCloud)m_pSkyCloud->Render();
-	if(m_pGrid)m_pGrid->Render();*/
-	/*D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(10, 100, 100);
+	//if (m_pCharacter)m_pCharacter->UpdateAndRender();
+	
+	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(100, 100, 100);
 	float start = 20.0f;
-	float end = 100.0f;
-	float m_fFogDensity = 0.05f;
+	float end = 800.0f;
+	float m_fFogDensity = 0.005f;
 	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
 	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
 	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
 	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));*/
-	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);
 	/*if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
+	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+	if (m_pGrid)m_pGrid->Render();
 
 	if (m_bThread)
 	{
