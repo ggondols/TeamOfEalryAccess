@@ -18,6 +18,7 @@
 #include "TeicObbCollision.h"
 #include "TeicShoot.h"
 #include "TeicIceExplosion.h"
+#include "TeicBoss.h"
 class iMap;
 
 class cUIObject;
@@ -29,7 +30,7 @@ class TeicJustTestScene:public cGameNode
 {
 
 private:
-	TeicIceExplosion*				m_ptest;
+	
 	cSkyDome*						m_pSkyDome;
 	cSkyCloud*						m_pSkyCloud;
 	TeicShoot*				m_pShoot;
@@ -68,7 +69,7 @@ public:
 public:
 	TeicEnemy*  m_pTempEnemy;
 	cSphere*	m_pTempSPhere;
-	TeicEnemy*	m_pBoss[3];
+	TeicBoss*	m_pBoss;
 	virtual HRESULT Setup();
 	virtual void Release();
 	virtual void Render();
