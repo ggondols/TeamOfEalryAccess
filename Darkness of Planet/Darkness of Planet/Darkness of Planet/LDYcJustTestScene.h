@@ -113,9 +113,18 @@ public:
 	D3DXMATRIXA16			matLightView;
 	D3DXMATRIXA16			matLightProjection;
 
-	D3DXMATRIX				matHeightWorld;
 	//LDYMotionBlur*			motionBlur;
-	vector<LPD3DXMESH>		m_vecMapMesh;
+	//fog¿ë ÇÚµé
+	LPD3DXEFFECT			m_pFog;
+	D3DXHANDLE				m_hFogmatWorld;
+	D3DXHANDLE				m_hFogmatWolrdView;
+	D3DXHANDLE				m_hFogmatWorldViewProj;
+	D3DXHANDLE				m_hFogfFog;
+	D3DXHANDLE				m_hFogCamera;
+	D3DXHANDLE				m_hFogColorFog;
+	D3DXHANDLE				m_hFogTexture;
+	D3DXHANDLE				m_hFogtechnique;
+
 
 	float lookx;
 	float lookz;
