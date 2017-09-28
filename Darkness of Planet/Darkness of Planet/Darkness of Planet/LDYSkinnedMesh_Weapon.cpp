@@ -128,18 +128,18 @@ void LDYSkinnedMesh_Weapon::MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect)
 			effect->SetTechnique("Skinning20");
 
 			effect->CommitChanges();
-			//pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
-			UINT uiPasses, uiPass;
+			pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+			//UINT uiPasses, uiPass;
 
-			// run through each pass and draw
-			effect->Begin(&uiPasses, 0);
-			for (uiPass = 0; uiPass < uiPasses; ++uiPass)
-			{
-				effect->BeginPass(uiPass);
-				pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
-				effect->EndPass();
-			}
-			effect->End();
+			//// run through each pass and draw
+			//effect->Begin(&uiPasses, 0);
+			//for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+			//{
+			//	effect->BeginPass(uiPass);
+			//	pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+			//	effect->EndPass();
+			//}
+			//effect->End();
 		}
 	}
 
