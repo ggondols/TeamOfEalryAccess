@@ -210,7 +210,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	//m_fBoundingSize = CalBoundingSize();
 
 	m_ptest = new TeicIceBreath;
-	m_ptest->Setup(D3DXVECTOR3(150, 40, -150));
+	m_ptest->Setup(D3DXVECTOR3(150, 40, -150), D3DXVECTOR3(170,40,-170));
 }
 
 void TeicBoss::SetUpdateSpeed(float t)

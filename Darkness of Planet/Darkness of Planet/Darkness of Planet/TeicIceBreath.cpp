@@ -23,7 +23,7 @@ TeicIceBreath::~TeicIceBreath()
 void TeicIceBreath::Update()
 {
 	if (!m_bStart)return;
-	m_pParticle->Update2();
+	m_pParticle->Update3();
 	if (TIMEMANAGER->getWorldTime() > m_fEndtiming + 2.0f)
 	{
 		Stop();
@@ -54,7 +54,7 @@ void TeicIceBreath::Render()
 
 
 	m_fAlpha -= m_fDelta;
-	UINT numPasses = 0;
+	/*UINT numPasses = 0;
 	m_pEffect->SetFloat("vAlpha", m_fAlpha);
 	m_pEffect->Begin(&numPasses, NULL);
 	{
@@ -68,12 +68,12 @@ void TeicIceBreath::Render()
 			m_pEffect->EndPass();
 		}
 	}
-	m_pEffect->End();
+	m_pEffect->End();*/
 	//m_pMesh->UpdateAndRender();
 	m_pParticle->Render();
 }
 
-void TeicIceBreath::Setup(D3DXVECTOR3 position)
+void TeicIceBreath::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
 	m_pMesh = new TeicEnemy;
 	m_pMesh->Setup("sprites/", "IceEffect.X");
@@ -82,10 +82,11 @@ void TeicIceBreath::Setup(D3DXVECTOR3 position)
 	m_pMesh->SetAnimation(0);
 	m_pMesh->SetUpdateSpeed(3);
 	m_pParticle = new TeicParticleSystem;
-	m_pParticle->Setup2(D3DXVECTOR3(position.x, position.y + 10, position.z), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(position.x, position.y + 10, position.z),
-		D3DXVECTOR3(20, 20, 20), 5, 0.3f, 0.1, 0, D3DX_PI, 0, D3DX_PI, 0, D3DX_PI,
-		1.0f, 0.1f, D3DXVECTOR3(200, 200, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
-		"sprites/alpha_tex.tga", 50, 1, false);
+	m_pParticle->Setup2(D3DXVECTOR3(position.x, position.y + 10, position.z), D3DXVECTOR3(1, 1, 1),
+		D3DXVECTOR3(characterpos.x, characterpos.y + 10, characterpos.z),D3DXVECTOR3(1, 1, 1)
+		, 50, 1.5f, 0.1, 0, 0, 0, 0, 0, 0,
+		5.0f, 2.0f, D3DXVECTOR3(0, 0, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
+		"sprites/alpha_tex.tga", 5, 1, false);
 	m_pEffect = LoadEffectHpp("MultiAnimationEffect.hpp");
 	m_hAlphahandle = m_pEffect->GetParameterByName(0, "vAlpha");
 
