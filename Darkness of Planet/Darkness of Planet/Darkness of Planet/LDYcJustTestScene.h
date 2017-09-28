@@ -12,7 +12,11 @@
 #include "TeicAstarShort.h"
 #include "TeicBresenham.h"
 
+struct MapMesh {
 
+	LPD3DXMESH	mesh;
+	int			drawsubset;
+};
 
 
 enum WeaponType {
@@ -110,7 +114,13 @@ public:
 	D3DXMATRIXA16			matLightProjection;
 
 	D3DXMATRIX				matHeightWorld;
-	LDYMotionBlur*			motionBlur;
+	//LDYMotionBlur*			motionBlur;
+	vector<LPD3DXMESH>		m_vecMapMesh;
+
+	float lookx;
+	float lookz;
+
+
 
 public:
 
@@ -135,7 +145,7 @@ public:
 	void WayUpdate();
 
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
-
+	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
 public:
 	LDYcJustTestScene();
 	~LDYcJustTestScene();

@@ -10,6 +10,8 @@
 //#					Edit by 태영				#
 //###############################################
 //#2017.09.27 프러스텀 컬링 추가했습니다.
+
+
 class cHeightMap : public iMap
 {
 private:
@@ -21,6 +23,8 @@ private:
 	vector<ST_PNT_VERTEX>	m_vecVertexCopy;
 	D3DXVECTOR3	  m_Dot[8];
 	D3DXPLANE     m_Plane[6];
+	vector<LPD3DXMESH> m_vecMesh;
+
 public:
 	cHeightMap(void);
 	virtual ~cHeightMap(void);
@@ -35,7 +39,8 @@ public:
 	virtual void Render(D3DXVECTOR3 Characterposition) override;
 	virtual void frustumcullingRender() override;
 	void MeshRender(int num);
-	LPD3DXMESH getMesh() override { return m_pMesh[0]; }
+	virtual void MeshRender(D3DXVECTOR3 Characterposition) override;
+	void OnlyMeshRender(int num);
 	void DotWorldSpace();
 	void SetPlane();
 	void CheckRender();

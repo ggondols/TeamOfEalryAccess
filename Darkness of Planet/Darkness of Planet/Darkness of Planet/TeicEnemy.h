@@ -34,12 +34,14 @@ public:
 	D3DXVECTOR3		 m_vPreviousPosition;
 	float			 m_fSpeed;
 public:
+	void MeshRender(LPD3DXEFFECT effect);
 	void SetNextAni();
 	void SetScaleSize(float a);
 	void SetSlot(bool on);
 	bool GetSlot();
 	BoundingSquare* GetBoundingSquare();
 	void Setup(char* Foldername, char* Filename);
+	void SetUpdateSpeed(float t);
 	void CallbackOn(int n);
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);

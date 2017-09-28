@@ -93,6 +93,78 @@ void TeicParticleSystem::Setup(D3DXVECTOR3 center, float Maxparticle, float life
 	GETDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
 
+void TeicParticleSystem::Setup2(D3DXVECTOR3 start, D3DXVECTOR3 startVar, D3DXVECTOR3 end, D3DXVECTOR3 endVar, 
+	float Maxparticle, float lifespan, float lifespanVariance, float angleX, float angleXvar, 
+	float angleY, float angleYvar, float angleZ, float angleZvar, float speed, float speedvar, 
+	D3DXVECTOR3 startcolor, D3DXVECTOR3 startcolorvar, D3DXVECTOR3 endcolor, D3DXVECTOR3 endcolorvar,
+	char * texture, float dotsize, float dotsizevar, bool loop)
+{
+	m_vecVertex.resize(Maxparticle);
+	m_vecParticle.resize(Maxparticle);
+
+	for (int i = 0; i < m_vecVertex.size(); ++i)
+	{
+		
+
+		m_vecVertex[i].p = D3DXVECTOR3(start.x+RND->getFromFloatTo(-startVar.x, startVar.x), 
+			start.y+ RND->getFromFloatTo(-startVar.y, startVar.y), 
+			start.z+ RND->getFromFloatTo(-startVar.z, startVar.z));
+
+
+	
+
+		
+
+		//	m_vecVertex[i].c = startcolor;
+		m_vecParticle[i] = new TeicParticle;
+		D3DXVECTOR3  startColV = D3DXVECTOR3(startcolor.x + RND->getFromIntTo(-startcolorvar.x, startcolorvar.x),
+			startcolor.y + RND->getFromIntTo(-startcolorvar.y, startcolorvar.y),
+			startcolor.z + RND->getFromIntTo(-startcolorvar.z, startcolorvar.z));
+
+		D3DXVECTOR3  endColV = D3DXVECTOR3(endcolor.x + RND->getFromIntTo(-endcolorvar.x, endcolorvar.x),
+			endcolor.y + RND->getFromIntTo(-endcolorvar.y, endcolorvar.y),
+			endcolor.z + RND->getFromIntTo(-endcolorvar.z, endcolorvar.z));
+		m_vecParticle[i]->Setup2(&m_vecVertex[i], lifespan + RND->getFromFloatTo(-lifespanVariance, lifespanVariance),
+			D3DXVECTOR3(end.x + RND->getFromFloatTo(-endVar.x, endVar.x),
+				end.y + RND->getFromFloatTo(-endVar.y, endVar.y),
+				end.z + RND->getFromFloatTo(-endVar.z, endVar.z)), angleX + RND->getFromFloatTo(-angleXvar, angleXvar),
+			angleY + RND->getFromFloatTo(-angleYvar, angleYvar), angleX + RND->getFromFloatTo(-angleZvar, angleZvar),
+			speed + RND->getFromFloatTo(-speedvar, speedvar), startColV, endColV, loop);
+		
+		m_vecParticle[i]->Start();
+	}
+	m_text = texture;
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+
+	// 포인트 사이즈 설정
+	GETDEVICE->SetRenderState(D3DRS_POINTSIZE, FtoDw(dotsize + RND->getFromFloatTo(-dotsizevar, dotsizevar)));
+
+	// 포인트 스케일링 Factor값 설정
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_A, FtoDw(1.0f));
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_B, FtoDw(1.0f));
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_C, FtoDw(1.0f));
+
+	// 포인트 최소 크기
+	GETDEVICE->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDw(0.0f));
+
+	// 포인트 최대 크기
+	GETDEVICE->SetRenderState(D3DRS_POINTSIZE_MAX, FtoDw(1000.0f));
+
+	// 포인트에 텍스쳐를 입힐 수 있게 해줌
+	GETDEVICE->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
+
+	// 텍스쳐 알파 옵션 설정
+	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+
+	GETDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+
+
+
+	
+}
+
 
 
 void TeicParticleSystem::Update()
@@ -100,6 +172,22 @@ void TeicParticleSystem::Update()
 	for (int i = 0; i < m_vecParticle.size(); i++)
 	{
 		m_vecParticle[i]->Update();
+	}
+}
+
+void TeicParticleSystem::Update2()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		m_vecParticle[i]->Update2();
+	}
+}
+
+void TeicParticleSystem::Update3()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		m_vecParticle[i]->Update3();
 	}
 }
 
@@ -111,7 +199,7 @@ void TeicParticleSystem::Render()
 
 
 	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
 	D3DXMATRIXA16 matWorld;

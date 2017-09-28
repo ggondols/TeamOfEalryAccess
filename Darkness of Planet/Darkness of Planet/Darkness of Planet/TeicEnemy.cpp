@@ -121,6 +121,15 @@ void TeicEnemy::MakeBoundingBox()
 
 }
 
+void TeicEnemy::MeshRender(LPD3DXEFFECT effect)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->ShaderMeshRender(effect);
+	}
+
+}
+
 void TeicEnemy::SetNextAni()
 {
 	if (m_pSkinnedMesh)
@@ -181,6 +190,15 @@ void TeicEnemy::Setup(char* Foldername, char* Filename)
 
 	
 	//m_fBoundingSize = CalBoundingSize();
+}
+
+void TeicEnemy::SetUpdateSpeed(float t)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->SetUpdateSpeed(t);
+
+	}
 }
 
 void TeicEnemy::CallbackOn(int n)

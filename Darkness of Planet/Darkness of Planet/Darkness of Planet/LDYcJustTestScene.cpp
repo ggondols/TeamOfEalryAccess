@@ -110,6 +110,7 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_pCreateShadow(NULL)
 	, m_pApplyShadow(NULL)
 	, m_pHeightMapmesh(NULL)
+	,lookz(0.0f)
 
 {
 	m_vecAttackSlot.resize(8, false);
@@ -134,7 +135,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 	SAFE_RELEASE(m_pApplyShadow);
 	SAFE_RELEASE(m_pHeightMapmesh);
 
-	SAFE_DELETE(motionBlur);
+	//SAFE_DELETE(motionBlur);
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -176,8 +177,8 @@ HRESULT LDYcJustTestScene::Setup()
 
 
 	///////////동윤
-	motionBlur = new LDYMotionBlur;
-	motionBlur->Setup();
+	/*motionBlur = new LDYMotionBlur;
+	motionBlur->Setup();*/
 
 	m_pShadow = new cShadowMapping;
 	m_pShadow->Setup();
@@ -194,7 +195,7 @@ HRESULT LDYcJustTestScene::Setup()
 
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
-	
+
 	m_pCharacter = new LDYCharacter;
 	char* BodyName = "HeroBodyLv";
 	char buff[1024];
@@ -259,11 +260,11 @@ HRESULT LDYcJustTestScene::Setup()
 	{
 	}
 
-	m_pCreateShadow = LoadEffect("shader/shadow/CreateShadow.fx");
+	m_pCreateShadow = LoadEffectHpp("MultiAnimationCreateShadow.hpp");
 	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx");
 
 
-	m_hCmatWorld = m_pCreateShadow->GetParameterByName(0, "matWorld");
+	
 	m_hCmatLightView = m_pCreateShadow->GetParameterByName(0, "matLightView");
 	m_hCmatLightProjection = m_pCreateShadow->GetParameterByName(0, "gLightProjectionMatrix");
 
@@ -292,8 +293,8 @@ void LDYcJustTestScene::Release()
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pCharacter);
-	
-	
+
+
 }
 
 void LDYcJustTestScene::Update()
@@ -303,7 +304,7 @@ void LDYcJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	if (motionBlur)motionBlur->Update();
+	//if (motionBlur)motionBlur->Update();
 	if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
@@ -337,7 +338,7 @@ void LDYcJustTestScene::Update()
 		}
 	}
 
-	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -348,7 +349,7 @@ void LDYcJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}
+	}*/
 
 
 
@@ -377,15 +378,15 @@ void LDYcJustTestScene::Update()
 			}
 		}
 
-	
+
 		TotalCollisionCheck();
-		
+
 		for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
 		{
 			if (m_vecEnemy[i]->m_bAttackOn)continue;
 			m_vecEnemyCollisionMove[i]->Update();
 
-		if (m_vecEnemyCollisionMove[i]->m_bStart)
+			if (m_vecEnemyCollisionMove[i]->m_bStart)
 			{
 
 				if (m_vecEnemy[i]->GetAninum() != 1)
@@ -412,11 +413,11 @@ void LDYcJustTestScene::Update()
 				&A_B,
 				&D3DXVECTOR3(0, 1, 0));
 			D3DXMatrixTranspose(&matR, &matR);
-			D3DXMATRIX	skinnedRot;
+			D3DXMATRIX   skinnedRot;
 			D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
 			matR = matR* skinnedRot;
 			//AngleChange(m_vecEnemy[i]);
-			
+
 		}
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
@@ -428,7 +429,7 @@ void LDYcJustTestScene::Update()
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
 
 	ChangeGridInfo();
-	
+
 
 	UIOBJECTMANAGER->Update();
 }
@@ -465,7 +466,8 @@ void LDYcJustTestScene::CallbackOn(int number)
 
 bool LDYcJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 {
-	if (EnemyEnemyDistance(A,B) < A->m_fBoundingSize + B->m_fBoundingSize)
+	
+	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 		float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_EnemyTarget));
 		float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_EnemyTarget));
@@ -484,7 +486,8 @@ bool LDYcJustTestScene::CollisionCheck(TeicEnemy * A, TeicEnemy * B)
 				{
 					B->m_bThreadCalOn = true;
 				}
-				if (EnemyPlayerDistance(B) > 10*NodeLength)
+		
+				if (EnemyPlayerDistance(B) > 10 * NodeLength)
 				{
 					B->SetCollision(true);
 				}
@@ -587,7 +590,7 @@ void LDYcJustTestScene::ChangeGridInfo()
 
 void LDYcJustTestScene::TargetOn()
 {
-	
+
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -603,11 +606,11 @@ void LDYcJustTestScene::TargetOn()
 		{
 			if (m_vecEnemy[i]->m_bAttackOn)continue;
 			if (m_vecEnemy[i]->m_bThreadCalOn)continue;
-				
+
 			m_vecEnemy[i]->m_bThreadCalOn = true;
 			m_fTime3 = INF;
-			
-			
+
+
 		}
 	}
 
@@ -655,134 +658,153 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void LDYcJustTestScene::Render()
 {
 
-	if (motionBlur)motionBlur->Render();
+	//if (motionBlur)motionBlur->Render();
 
 
-	//D3DXVECTOR3 light= m_pCamera->getEye();
-
-	//{	
-	//	m_vec4LightPosition = { light.x+2.0f,light.y,light.z+2.0f,1.0f };
-	//	D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
-	//	D3DXVECTOR3 vLookatPt = m_pCharacter->GetPosition();
-	//	vLookatPt.x += 5.0f;
-	//	vLookatPt.z -= 5.0f;
-	//	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-	//	D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
-	//}
-
-	//{
-	//	RECT rc;
-	//	GetClientRect(g_hWnd, &rc);
-	//	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI/4.0f, rc.right / (float)rc.bottom, 1, 3000);
-	//}
-	//
-	//D3DXMATRIX matWorld,matView, matProjection, matViewProjection;
-	//GETDEVICE->GetTransform(D3DTS_WORLD, &matWorld);
-	//GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
-	//GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
-
-	//matViewProjection = matView*matProjection;
-
-	//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-	//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-	//GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
-	//GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
-
-	////////////////////////////////
-	//// 1. 그림자 만들기
-	////////////////////////////////
-
-	//// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
-	//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-	//m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
+	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
 
 
-	//GETDEVICE->SetRenderTarget(0, pShadowSurface);
-	//GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
+	{
+		m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
+		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
+		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
+		vLookatPt.x += lookx;
+		//vLookatPt.y += 5.0f;
+		vLookatPt.z -= lookz;
+		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	}
+	
 
-	//SAFE_RELEASE(pShadowSurface);
+	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
+	
 
-	//// 저번 프레임에 그\렸던 그림자 정보를 지움
-	//GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	D3DXMATRIXA16 matWorld, matView, matProjection, matViewProjection;
+
+	D3DXMatrixIdentity(&matWorld);
+
+	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+	matViewProjection = matView*matProjection;
+
+	LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+	LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+	GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
+	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+
+	//////////////////////////////
+	// 1. 그림자 만들기
+	//////////////////////////////
+
+	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
+	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
 
 
-	//// 그림자 만들기 쉐이더 전역변수들을 설정
-	//m_pCreateShadow->SetMatrix(m_hCmatWorld, &matWorld);
-	//m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
-	//m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
+	GETDEVICE->SetRenderTarget(0, pShadowSurface);
+	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
 
-	//// 그림자 만들기 쉐이더를 시작
-	//{
-	//	UINT numPasses = 0;
-	//	m_pCreateShadow->Begin(&numPasses, NULL);
-	//	{
-	//		for (UINT i = 0; i < numPasses; ++i)
-	//		{
-	//			m_pCreateShadow->BeginPass(i);
-	//			{
-	//				m_pCharacter->UpdateAndRender();
-	//			}
-	//			m_pCreateShadow->EndPass();
-	//		}
-	//	}
-	//	m_pCreateShadow->End();
-	//}
+	SAFE_RELEASE(pShadowSurface);
 
-	////////////////////////////////
-	//// 2. 그림자 입히기
-	////////////////////////////////
+	// 저번 프레임에 그\렸던 그림자 정보를 지움
+	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	D3DXMATRIX scal;
+	D3DXMatrixScaling(&scal, 0.04, 0.04, 0.04);
+	D3DXMATRIX trans;
+	D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
 
-	//////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
-	//GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
-	//GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
+	// 그림자 만들기 쉐이더 전역변수들을 설정
 
-	//SAFE_RELEASE(pHWBackBuffer);
-	//SAFE_RELEASE(pHWDepthStencilBuffer);
+	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
+	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
 
-	//// 그림자 입히기 쉐이더 전역변수들을 설정
-	//m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);		//원환체
-	//m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
-	//m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
-	//m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
+	// 그림자 만들기 쉐이더를 시작
+	
+	{
+		UINT numPasses = 0;
+		m_pCreateShadow->Begin(&numPasses, NULL);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				m_pCreateShadow->BeginPass(i);
+				{
+					m_pCharacter->MeshRender(m_pCreateShadow);
+				}
+				m_pCreateShadow->EndPass();
+			}
+		}
+		m_pCreateShadow->End();
+	}
 
-	//m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
+	//////////////////////////////
+	// 2. 그림자 입히기
+	//////////////////////////////
 
-	//m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
+	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
+	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
-	//LPDIRECT3DTEXTURE9 tex;
-	//tex = TEXTUREMANAGER->GetTexture("map/terrain.jpg");
-	//m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+	SAFE_RELEASE(pHWBackBuffer);
+	SAFE_RELEASE(pHWDepthStencilBuffer);
 
-	//// 쉐이더를 시작한다.
-	//UINT numPasses = 0;
-	//m_pApplyShadow->Begin(&numPasses, NULL);
-	//{
-	//	for (UINT i = 0; i < numPasses; ++i)
-	//	{
-	//		m_pApplyShadow->BeginPass(i);
-	//		{
-	//			// 원환체를 그린다.
-				m_pCharacter->UpdateAndRender();
+	// 그림자 입히기 쉐이더 전역변수들을 설정
 
-	//			// 디스크를 그린다.
-	//			m_pApplyShadow->SetMatrix(m_hAmatWorld, &matHeightWorld);
-	//			m_pApplyShadow->CommitChanges();
-	//			if (m_pMap) m_pHeightMapmesh = m_pMap->getMesh();
-	//			m_pHeightMapmesh->DrawSubset(0);
-	//		}
-	//		m_pApplyShadow->EndPass();
-	//	}
-	//}
-	//m_pApplyShadow->End();
+	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);      //원환체
+	m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
+	m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
+	m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
 
-	//if (m_pSkyDome)m_pSkyDome->Render();
-	//if (m_pSkyCloud)m_pSkyCloud->Render();
-	if(m_pGrid)m_pGrid->Render();
+	m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
+
+	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
+
+	LPDIRECT3DTEXTURE9 tex;
+	tex = TEXTUREMANAGER->GetTexture("map/Terrain_Final_Map.png");
+	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+
+	// 쉐이더를 시작한다.
+	UINT numPasses = 0;
+	m_pApplyShadow->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			m_pApplyShadow->BeginPass(i);
+			{
+				// 원환체를 그린다.
+				
+
+				// 디스크를 그린다.
+				
+				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+
+			}
+			m_pApplyShadow->EndPass();
+		}
+	}
+	m_pApplyShadow->End();
+	m_pCharacter->UpdateAndRender();
+	/*if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+	if(m_pGrid)m_pGrid->Render();*/
+	/*D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(10, 100, 100);
+	float start = 20.0f;
+	float end = 100.0f;
+	float m_fFogDensity = 0.05f;
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
+	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));*/
+	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	/*if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
-	/*if (m_pMap) m_pMap->Render();
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
-	
+
 	if (m_bThread)
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)
@@ -790,7 +812,7 @@ void LDYcJustTestScene::Render()
 			m_vecEnemy[i]->UpdateAndRender();
 		}
 	}
-	
+
 	UIOBJECTMANAGER->Render();
 }
 
@@ -830,11 +852,11 @@ bool LDYcJustTestScene::CheckSlot()
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		m_vecEnemy[i]->SetSlot(false);
-		if(m_bAttackOn)
-		m_vecEnemy[i]->m_bThreadCalOn = true;
+		if (m_bAttackOn)
+			m_vecEnemy[i]->m_bThreadCalOn = true;
 	}
-	m_pAttackNode.x = m_pCharacter->GetNodeNum().x+1;
-	m_pAttackNode.y = m_pCharacter->GetNodeNum().y+1;
+	m_pAttackNode.x = m_pCharacter->GetNodeNum().x + 1;
+	m_pAttackNode.y = m_pCharacter->GetNodeNum().y + 1;
 	for (int i = -1; i < 2; i++)
 	{
 		for (int j = -1; j < 2; j++)
@@ -846,9 +868,11 @@ bool LDYcJustTestScene::CheckSlot()
 				continue;
 			}
 			if (m_pCharacter->GetNodeNum().y + i < 0)continue;
-			if (m_pCharacter->GetNodeNum().y + i >=m_pNode->m_vRow.size())continue;
+			
+			if (m_pCharacter->GetNodeNum().y + i >= m_pNode->m_vRow.size())continue;
 			if (m_pCharacter->GetNodeNum().x + j < 0)continue;
-			if (m_pCharacter->GetNodeNum().x + j >=m_pNode->m_vRow.size())continue;
+			
+			if (m_pCharacter->GetNodeNum().x + j >= m_pNode->m_vRow.size())continue;
 			if (m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo != NULL)
 			{
 				if (m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding.size() != 0)
@@ -865,8 +889,8 @@ bool LDYcJustTestScene::CheckSlot()
 			}
 		}
 	}
-	
-	
+
+
 	temp = false;
 	return temp;
 }
@@ -892,11 +916,9 @@ void LDYcJustTestScene::AngleChange(TeicEnemy * A)
 	/*D3DXVec3Normalize(&A_B, &A_B);
 	D3DXMATRIX matR;
 	D3DXMatrixLookAtLH(&matR,
-		&D3DXVECTOR3(0, 0, 0),
-		&A_B,
-		&D3DXVECTOR3(0, 1, 0));
+
 	D3DXMatrixTranspose(&matR, &matR);
-	D3DXMATRIX	skinnedRot;
+	D3DXMATRIX   skinnedRot;
 	D3DXMatrixRotationY(&skinnedRot, D3DX_PI / 2);
 	matR = matR* skinnedRot;*/
 
@@ -911,8 +933,9 @@ void LDYcJustTestScene::AngleChange(TeicEnemy * A)
 
 void LDYcJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 {
-	
-	if (EnemyEnemyDistance(A,B) < A->m_fBoundingSize + B->m_fBoundingSize)
+
+
+	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 		if (A->GetSlot() && B->GetSlot())
 		{
@@ -948,7 +971,7 @@ void LDYcJustTestScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 				B->SetPosition(B->GetPositionYzero() + A_B);
 			}
-		
+
 		}
 	}
 	if (A->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
@@ -1008,27 +1031,31 @@ void LDYcJustTestScene::WayUpdate()
 	}
 }
 
+
 LPD3DXEFFECT LDYcJustTestScene::LoadEffect(const char * szFileName)
 {
 	LPD3DXEFFECT pEffect = NULL;
 
 	// 셰이더 로딩
-	LPD3DXBUFFER		pError = NULL;			//에러 버퍼 ( 셰이더를 컴파일할때 잘못 된 문법이나 오류정보를 리턴해주는 버퍼 )
-	DWORD				dwShaderFlag = 0;		//셰이더 플레그 0 
+	
+	LPD3DXBUFFER      pError = NULL;         //에러 버퍼 ( 셰이더를 컴파일할때 잘못 된 문법이나 오류정보를 리턴해주는 버퍼 )
+	DWORD            dwShaderFlag = 0;      //셰이더 플레그 0 
 
 #ifdef _DEBUG
-	dwShaderFlag = dwShaderFlag | D3DXSHADER_DEBUG;		//셰이더를 디버그모드로 컴파일하겠다 ( 디버그모드로 해야 잘못된 컴파일 오류가 날때 Error 버퍼에 오류정보가 들어간다 ) 
+	
+	dwShaderFlag = dwShaderFlag | D3DXSHADER_DEBUG;      //셰이더를 디버그모드로 컴파일하겠다 ( 디버그모드로 해야 잘못된 컴파일 오류가 날때 Error 버퍼에 오류정보가 들어간다 ) 
 #endif
-														//fx 파일로 부터 셰이더 객체 생성
+														 //fx 파일로 부터 셰이더 객체 생성
 	D3DXCreateEffectFromFile(
-		GETDEVICE,				// 디바이스
-		szFileName,					// 불러올 셰이더 코드 파일이름
-		NULL,						// 셰이더를 컴파일할때 추가로 사용할 #define 정의 ( 일단 NULL )
-		NULL,						// 셰이더를 컴파일할때 #include 지시문을 처리할때 사용할 인터페이스 플레그 ( 일단 NULL )
-		dwShaderFlag,				// 셰이더 컴파일 플레그
-		NULL,						// 셰이더 매개변수를 공유할 메모리풀 ( 일단 NULL )
-		&pEffect,					// 로딩될 셰이더 Effect 포인터
-		&pError						// 셰이더를 로딩하고 컴파일할때 문제가 생기면 해당 버퍼에 에러메시지가 들어간다 ( 성공적으로 로딩되면 NULL 이 참조된다 )
+	
+		GETDEVICE,            // 디바이스
+		szFileName,               // 불러올 셰이더 코드 파일이름
+		NULL,                  // 셰이더를 컴파일할때 추가로 사용할 #define 정의 ( 일단 NULL )
+		NULL,                  // 셰이더를 컴파일할때 #include 지시문을 처리할때 사용할 인터페이스 플레그 ( 일단 NULL )
+		dwShaderFlag,            // 셰이더 컴파일 플레그
+		NULL,                  // 셰이더 매개변수를 공유할 메모리풀 ( 일단 NULL )
+		&pEffect,               // 로딩될 셰이더 Effect 포인터
+		&pError                  // 셰이더를 로딩하고 컴파일할때 문제가 생기면 해당 버퍼에 에러메시지가 들어간다 ( 성공적으로 로딩되면 NULL 이 참조된다 )
 	);
 
 	//셰이더 파일로딩에문재가 있다면..
@@ -1045,6 +1072,62 @@ LPD3DXEFFECT LDYcJustTestScene::LoadEffect(const char * szFileName)
 		//오류내용을 출력했으니 오류버퍼 해제
 		SAFE_RELEASE(pError);
 		SAFE_DELETE_ARRAY(str);
+
+		return NULL;
+	}
+
+	return pEffect;
+}
+
+LPD3DXEFFECT LDYcJustTestScene::LoadEffectHpp(const char * szFileName)
+{
+	LPD3DXEFFECT pEffect = NULL;
+
+	D3DXMACRO mac[2] =
+	{
+		{ "MATRIX_PALETTE_SIZE_DEFAULT", "35" },
+		{ NULL,                          NULL }
+	};
+
+	D3DCAPS9 caps;
+	D3DXMACRO *pmac = NULL;
+	GETDEVICE->GetDeviceCaps(&caps);
+	if (caps.VertexShaderVersion > D3DVS_VERSION(1, 1))
+		pmac = mac;
+
+	DWORD dwShaderFlags = 0;
+
+#if defined( DEBUG ) || defined( _DEBUG )
+	// Set the D3DXSHADER_DEBUG flag to embed debug information in the shaders.
+	// Setting this flag improves the shader debugging experience, but still allows 
+	// the shaders to be optimized and to run exactly the way they will run in 
+	// the release configuration of this program.
+	dwShaderFlags |= D3DXSHADER_DEBUG;
+#endif
+
+#ifdef DEBUG_VS
+	dwShaderFlags |= D3DXSHADER_FORCE_VS_SOFTWARE_NOOPT;
+#endif
+#ifdef DEBUG_PS
+	dwShaderFlags |= D3DXSHADER_FORCE_PS_SOFTWARE_NOOPT;
+#endif
+
+	ID3DXBuffer* pBuffer = NULL;
+	if (FAILED(D3DXCreateEffectFromFile(GETDEVICE,
+		szFileName,
+		pmac,
+		NULL,
+		dwShaderFlags,
+		NULL,
+		&pEffect,
+		&pBuffer)))
+	{
+		// if creation fails, and debug information has been returned, output debug info
+		if (pBuffer)
+		{
+			OutputDebugStringA((char*)pBuffer->GetBufferPointer());
+			SAFE_RELEASE(pBuffer);
+		}
 
 		return NULL;
 	}

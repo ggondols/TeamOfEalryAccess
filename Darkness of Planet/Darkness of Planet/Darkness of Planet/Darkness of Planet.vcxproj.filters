@@ -187,6 +187,9 @@
     <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링\클래스\StaticMeshScriptLoader">
       <UniqueIdentifier>{9bb7145f-9ac4-4ac8-9f95-39a9ac4ff70e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#3D Framework\Boss">
+      <UniqueIdentifier>{7c12dab3-c9ad-4751-9030-70903edbbca0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -519,6 +522,12 @@
     <ClInclude Include="cStaticMeshLoader.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\StaticMeshScriptLoader</Filter>
     </ClInclude>
+    <ClInclude Include="TeicBoss.h">
+      <Filter>#3D Framework\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicIceBreath.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -826,6 +835,12 @@
     </ClCompile>
     <ClCompile Include="cObjectNode.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicBoss.cpp">
+      <Filter>#3D Framework\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicIceBreath.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
     <ClCompile Include="cStaticMeshLoader.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\StaticMeshScriptLoader</Filter>

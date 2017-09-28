@@ -3,8 +3,6 @@
 #define NUM_OBJECTS 40
 #define MOVESTYLE_DEFAULT 0
 
-class LDYCharacter;
-
 
 struct OBJECT
 {

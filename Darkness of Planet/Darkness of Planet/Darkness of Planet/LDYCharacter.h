@@ -56,6 +56,7 @@ public:
 	void SetCallbackfunction(CallbackBindFunction function);
 	void SetAttackCallbackfunction(CallbackBindFunction function);
 	void UpdateAndRender();
+	void MeshRender(LPD3DXEFFECT effect);
 	void Render();
 	void matUpdate();
 	void SetAnimationIndex(int nIndex);
@@ -77,6 +78,7 @@ public:
 	BoundingSquare * GetBoundingSquare();
 	WeaponType getWeaponType() { return m_eWpType; }
 	StateType getStateType() { return m_eStType; }
+	//D3DXMATRIX getMatritxCrtCtrl() { return m_pCtrl->getCrtCtrlMatrix(); }
 
 	TeicPhysicsCrtCtrl* getCrtCtrl() {return m_pCtrl;}
 

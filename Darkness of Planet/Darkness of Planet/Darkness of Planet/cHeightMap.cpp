@@ -495,9 +495,9 @@ void cHeightMap::MeshRender(int number)
 		break;
 	}
 
-
-	
 }
+
+
 
 void cHeightMap::DotWorldSpace()
 {
@@ -584,4 +584,183 @@ bool cHeightMap::CheckShow(D3DXVECTOR3 center, float radius)
 	}
 
 	return true;
+}
+
+void cHeightMap::MeshRender(D3DXVECTOR3 Characterposition)
+{
+	int centerX = Characterposition.x / (m_nTile / 3.0f);
+	int centerY = (-Characterposition.z) / (m_nTile / 3.0f);
+
+	int num = centerX + (centerY * 6);
+
+	//beginpass
+	for (int i = -1; i < 2; i++)
+	{
+		for (int j = -1; j < 2; j++)
+		{
+			if (num + j + i*(6) < 0)continue;
+			if (num + j + i*(6) > 35)continue;
+			OnlyMeshRender(num + j + i*(6));
+		}
+	}
+	//endpass
+}
+
+void cHeightMap::OnlyMeshRender(int num)
+{
+	D3DXMATRIX matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+
+	switch (num)
+	{
+	case	0:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(0);
+		break;
+	case	1:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(1);
+		break;
+	case	2:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(2);
+		break;
+	case	3:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(0);
+		break;
+	case	4:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(1);
+		break;
+	case	5:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(2);
+		break;
+	case	6:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(3);
+		break;
+	case	7:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(4);
+		break;
+	case	8:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(5);
+		break;
+	case	9:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(3);
+		break;
+	case	10:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(4);
+		break;
+	case	11:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(5);
+		break;
+	case	12:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(6);
+		break;
+	case	13:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(7);
+		break;
+	case	14:
+		GETDEVICE->SetFVF(m_pMesh[0]->GetFVF());
+		m_pMesh[0]->DrawSubset(8);
+		break;
+	case	15:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(6);
+		break;
+	case	16:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(7);
+		break;
+	case	17:
+		GETDEVICE->SetFVF(m_pMesh[1]->GetFVF());
+		m_pMesh[1]->DrawSubset(8);
+		break;
+	case	18:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(0);
+		break;
+	case	19:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(1);
+		break;
+	case	20:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(2);
+		break;
+	case	21:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(0);
+		break;
+	case	22:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(1);
+		break;
+	case	23:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(2);
+		break;
+	case	24:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(3);
+		break;
+	case	25:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(4);
+		break;
+	case	26:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(5);
+		break;
+	case	27:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(3);
+		break;
+	case	28:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(4);
+		break;
+	case	29:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(5);
+		break;
+	case	30:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(6);
+		break;
+	case	31:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(7);
+		break;
+	case	32:
+		GETDEVICE->SetFVF(m_pMesh[2]->GetFVF());
+		m_pMesh[2]->DrawSubset(8);
+		break;
+	case	33:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(6);
+		break;
+	case	34:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(7);
+		break;
+	case	35:
+		GETDEVICE->SetFVF(m_pMesh[3]->GetFVF());
+		m_pMesh[3]->DrawSubset(8);
+		break;
+
+	default:
+		break;
+	}
+
 }
