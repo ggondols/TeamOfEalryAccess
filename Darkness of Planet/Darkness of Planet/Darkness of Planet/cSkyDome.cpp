@@ -41,7 +41,7 @@ void cSkyDome::Setup()
 	m_hfNight = m_pEffect->GetParameterByName(0, "night");
 	
 	UIOBJECTMANAGER->AddRoot("skydometime", UITYPE_TEXT, true);
-	UIOBJECTMANAGER->SetPosition("skydometime", 1000, 10);
+	UIOBJECTMANAGER->SetPosition("skydometime", 0.9f, 0.05f);
 	UIOBJECTMANAGER->SetSize("skydometime", 100, 30);
 	UIOBJECTMANAGER->SetDrawTextFormat("skydometime", DT_CENTER | DT_VCENTER | DT_WORDBREAK);
 	UIOBJECTMANAGER->SetTime("skydometime", &m_fNightvalue);

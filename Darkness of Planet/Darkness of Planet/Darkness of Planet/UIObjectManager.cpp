@@ -13,6 +13,15 @@ UIObjectManager::~UIObjectManager()
 {
 }
 
+void UIObjectManager::Clamp(float & x, float & y)
+{
+	if (x > 1.0f) x = 1.0f;
+	else if (x < 0.0f) x = 0.0f;
+
+	if (y > 1.0f) y = 1.0f;
+	else if (y < 0.0f) y = 0.0f;
+}
+
 void UIObjectManager::AddRoot(string key, cUIObject * root, bool isShow /*= false*/)
 {
 	cUIObject* findUI = FindRoot(key);
@@ -91,14 +100,23 @@ void UIObjectManager::AddChild(string key, UI_TYPE type)
 	}
 }
 
-void UIObjectManager::SetPosition(string key, float x, float y)
+void UIObjectManager::SetPosition(string key, float x, float y, float xDetails/* = 0.0f*/, float yDetails/* = 0.0f*/)
 {
-	FindRoot(key)->SetPosition(x, y);
+	D3DVIEWPORT9 viewport;
+	GETDEVICE->GetViewport(&viewport);
+	//FindRoot(key)->SetPosition(x, y);
+	Clamp(x, y);
+	FindRoot(key)->SetPosition((viewport.Width * x) + xDetails, (viewport.Height * y) + yDetails);
 }
 
-void UIObjectManager::SetPosition(string key, int tag, float x, float y)
+void UIObjectManager::SetPosition(string key, int tag, float x, float y, float xDetails/* = 0.0f*/, float yDetails/* = 0.0f*/)
 {
-	FindRoot(key)->GetChildByTag(tag)->SetPosition(x, y);
+	//D3DVIEWPORT9 viewport;
+	//GETDEVICE->GetViewport(&viewport);
+	//FindRoot(key)->GetChildByTag(tag)->SetPosition(x, y);
+	Clamp(x, y);
+	cUIObject* parent = FindRoot(key);
+	parent->GetChildByTag(tag)->SetPosition((parent->GetSize().fWidth * x) + xDetails, (parent->GetSize().fHeight * y) + yDetails);
 }
 
 void UIObjectManager::SetSize(string key, float x, float y)

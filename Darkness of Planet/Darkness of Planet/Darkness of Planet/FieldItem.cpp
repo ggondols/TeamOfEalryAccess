@@ -5,6 +5,7 @@
 FieldItem::FieldItem()
 	: m_pMesh(NULL)
 	, m_fAngleY(0.0f)
+	, m_eType(ITEMTYPE_NONE)
 {
 }
 
@@ -13,9 +14,11 @@ FieldItem::~FieldItem()
 	SAFE_RELEASE(m_pMesh);
 }
 
-void FieldItem::Setup(string name)
+void FieldItem::Setup(string name, ITEM_TYPE type)
 {
 	m_sName = name;
+	m_eType = type;
+
 	if (m_sName == "ArmorArm") m_pMesh = LoadModel("object/xFile/Item/", "ArmorArm.X");
 	else if (m_sName == "ArmorBody") m_pMesh = LoadModel("object/xFile/Item/", "ArmorBody.X");
 	else if (m_sName == "ArmorLeg") m_pMesh = LoadModel("object/xFile/Item/", "ArmorLeg.X");

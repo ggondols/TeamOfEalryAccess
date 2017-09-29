@@ -21,14 +21,15 @@ void Inventory::Setup()
 	UIOBJECTMANAGER->AddRoot("inventory", UITYPE_IMAGE, false);
 	UIOBJECTMANAGER->SetTexture("inventory", "./UI/inventory.png");
 	UIOBJECTMANAGER->SetAlpha("inventory", 200);
-	UIOBJECTMANAGER->SetPosition("inventory", 50.0f, 20.0f);
+	UIOBJECTMANAGER->SetPosition("inventory", 0.05f, 0.15f);
 
 	ST_SIZE inventorySize = UIOBJECTMANAGER->FindRoot("inventory")->GetSize();
 
 	UIOBJECTMANAGER->AddRoot("equipment", UITYPE_IMAGE, false);
 	UIOBJECTMANAGER->SetTexture("equipment", "./UI/equipment.png");
 	UIOBJECTMANAGER->SetAlpha("equipment", 200);
-	UIOBJECTMANAGER->SetPosition("equipment", 50.0f + inventorySize.fWidth, 20.0f);
+	//UIOBJECTMANAGER->SetPosition("equipment", 50.0f + inventorySize.fWidth, 20.0f);
+	UIOBJECTMANAGER->SetPosition("equipment", 0.1f, 0.15f, inventorySize.fWidth);
 
 	for (size_t row = 0; row < 5; row++)
 	{
@@ -36,14 +37,14 @@ void Inventory::Setup()
 		{
 			int index = (row * 5 + col) + 1;
 			UIOBJECTMANAGER->AddChild("inventory", UITYPE_IMAGE);
-			UIOBJECTMANAGER->SetPosition("inventory", index, col * 100.0f + 9.0f, row * 100.0f + 9.0f);
+			UIOBJECTMANAGER->SetPosition("inventory", index, col * 0.2f, row * 0.2f, 9.0f, 9.0f);
 		}
 	}
 
 	for (size_t i = 1; i < 4; i++)
 	{
 		UIOBJECTMANAGER->AddChild("equipment", UITYPE_IMAGE);
-		UIOBJECTMANAGER->SetPosition("equipment", i, 4 * 100.0f + 9.0f, (i - 1) * 100.0f + 9.0f);
+		UIOBJECTMANAGER->SetPosition("equipment", i, 4 * 0.2f, (i - 1) * 0.2f, 9.0f, 9.0f);
 	}
 
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_ARMOR, "FullArmor"));
