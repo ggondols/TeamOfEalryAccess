@@ -14,6 +14,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	, m_fAngle(0.0f)
 	, m_bCollision(false)
 	, m_fScaleSize(0.05f)
+	, m_fAttacktiming(0)
 
 {
 	TeicSkinnedMesh* pSkinnedMesh =	SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
@@ -74,6 +75,7 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 	m_iNum = 0;
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
 	m_fUpdateSpeed = 1.0f;
+	m_fAttacktiming = 0.0f;
 	
 }
 
@@ -451,6 +453,13 @@ void TeicSkinnedMesh::Blending()
 				m_callback();
 			}
 		}
+		if (TIMEMANAGER->getWorldTime() > m_Middletime)
+		{
+			if (m_attackCallback)
+			{
+				m_attackCallback();
+			}
+		}
 		
 	}
 }
@@ -619,8 +628,12 @@ void TeicSkinnedMesh::SetAnimation(int num)
 	m_pAnimController->SetTrackPosition(m_iCurrentAniNum, 0);
 
 
-
+	
 	m_Finishtime = m_Starttime + pAnimset->GetPeriod();
+	
+	m_Middletime = m_Starttime + pAnimset->GetPeriod() - m_fAttacktiming;
+	
+	
 	m_fWeightDivide = TIMEMANAGER->getElapsedTime() / 0.3;
 	m_bBlending = true;
 	SAFE_RELEASE(pAnimset);

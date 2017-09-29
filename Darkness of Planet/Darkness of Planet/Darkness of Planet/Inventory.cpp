@@ -2,10 +2,13 @@
 #include "Inventory.h"
 #include "LDYCharacter.h"
 #include "LDYCamera.h"
+#include "DataBase.h"
 
 Inventory::Inventory()
 	: m_pSelectItem(NULL)
 	, m_pCharacter(NULL)
+	, m_sFileAddress("UI/Icon_")
+	, m_sFileType(".png")
 {
 }
 
@@ -43,9 +46,12 @@ void Inventory::Setup()
 		UIOBJECTMANAGER->SetPosition("equipment", i, 4 * 100.0f + 9.0f, (i - 1) * 100.0f + 9.0f);
 	}
 
-	m_vecItems.push_back(ST_INVENTORY_ITEM(m_vecItems.size(), 1, ITEMTYPE_ARMOR, "FullArmor"));
-	m_vecItems.push_back(ST_INVENTORY_ITEM(m_vecItems.size(), 1, ITEMTYPE_WEAPON, "M4"));
-	m_vecItems.push_back(ST_INVENTORY_ITEM(m_vecItems.size(), 1, ITEMTYPE_HELMET, "Helmet"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_ARMOR, "FullArmor"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_WEAPON, "M4"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_HELMET, "Helmet"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart1"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart2"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart3"));
 
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_HELMET, "Mask"));
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_ARMOR, "Armor"));
@@ -63,16 +69,14 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		UIOBJECTMANAGER->SetShowState("equipment", showState);
 	}
 
-	string sFileAddress = "UI/Icon_";
-	string sFileType = ".png";
 	for (size_t i = 0; i < m_vecItems.size(); i++)
 	{
-		UIOBJECTMANAGER->SetTexture("inventory", i + 1, sFileAddress + m_vecItems[i].sName + sFileType);
+		UIOBJECTMANAGER->SetTexture("inventory", i + 1, m_sFileAddress + m_vecItems[i].sName + m_sFileType);
 	}
 
 	for (size_t i = 0; i < m_vecEquipments.size(); i++)
 	{
-		UIOBJECTMANAGER->SetTexture("equipment", i + 1, sFileAddress + m_vecEquipments[i].sName + sFileType);
+		UIOBJECTMANAGER->SetTexture("equipment", i + 1, m_sFileAddress + m_vecEquipments[i].sName + m_sFileType);
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
@@ -91,9 +95,18 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		cUIObject* pUpPositionEquipment = UIOBJECTMANAGER->GetSelectChild("equipment");
 		if (pUpPositionInventory)
 		{
-			ST_INVENTORY_ITEM temp = m_vecItems[m_pSelectItem->GetTag() - 1];
-			m_vecItems[m_pSelectItem->GetTag() - 1] = m_vecItems[pUpPositionInventory->GetTag() - 1];
-			m_vecItems[pUpPositionInventory->GetTag() - 1] = temp;
+			if (m_vecItems[m_pSelectItem->GetTag() - 1].stType == ITEMTYPE_PART &&
+				m_vecItems[pUpPositionInventory->GetTag() - 1].stType == ITEMTYPE_PART)
+			{
+				CheckCombineItem(m_vecItems[m_pSelectItem->GetTag() - 1].sName,
+					m_vecItems[pUpPositionInventory->GetTag() - 1].sName,
+					m_pSelectItem->GetTag() - 1,
+					pUpPositionInventory->GetTag() - 1);
+			}
+			else
+			{
+				ChangeInventoryItem(m_pSelectItem->GetTag() - 1, pUpPositionInventory->GetTag() - 1);
+			}
 		}
 		
 		if (pUpPositionEquipment)
@@ -107,12 +120,21 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 
 			for each(auto e in m_vecEquipments)
 			{
-				if (e.sName == "MP5") m_pCharacter->SetWeaponType(Wp_MP5);
-				else if (e.sName == "M4") m_pCharacter->SetWeaponType(Wp_M4);
-				else if (e.sName == "Mask") m_pCharacter->SetHeadLv(0);
-				else if (e.sName == "Helmet") m_pCharacter->SetHeadLv(1);
-				else if (e.sName == "Armor") m_pCharacter->SetBodyLv(0);
-				else if (e.sName == "FullArmor") m_pCharacter->SetBodyLv(2);
+				switch (e.stType)
+				{
+				case ITEMTYPE_WEAPON:
+					if (e.sName == "MP5") m_pCharacter->SetWeaponType(Wp_MP5);
+					else if (e.sName == "M4") m_pCharacter->SetWeaponType(Wp_M4);
+					break;
+				case ITEMTYPE_HELMET:
+					if (e.sName == "Mask") m_pCharacter->SetHeadLv(0);
+					else if (e.sName == "Helmet") m_pCharacter->SetHeadLv(1);
+					break;
+				case ITEMTYPE_ARMOR:
+					if (e.sName == "Armor") m_pCharacter->SetBodyLv(0);
+					else if (e.sName == "FullArmor") m_pCharacter->SetBodyLv(2);
+					break;
+				}
 			}
 		}
 
@@ -157,7 +179,7 @@ void Inventory::AddItem(string itemName, int count)
 
 	if (!bHaveItem)
 	{
-		m_vecItems.push_back(ST_INVENTORY_ITEM(m_vecItems.size(), count, itemName));
+		m_vecItems.push_back(ST_INVENTORY_ITEM(count, itemName));
 	}
 }
 
@@ -187,7 +209,130 @@ bool Inventory::CheckHaveItem(string itemName)
 	return false;
 }
 
-void Inventory::ChangeEquipment(string partName, string addPartName)
+void Inventory::ChangeInventoryItem(int selectItem, int targetItem)
 {
+	ST_INVENTORY_ITEM temp = m_vecItems[selectItem];
+	m_vecItems[selectItem] = m_vecItems[targetItem];
+	m_vecItems[targetItem] = temp;
 }
 
+void Inventory::CombineInventoryItem(int selectItem, int targetItem, string combineName)
+{
+	int min = selectItem;
+	int max = targetItem;
+	if (selectItem > targetItem)
+	{
+		min = targetItem;
+		max = selectItem;
+	}
+
+	m_vecItems[min].sName = combineName;
+	if (combineName == "FullArmor") m_vecItems[min].stType = ITEMTYPE_ARMOR;
+	m_vecItems[max].ClearInventory();
+	DeleteInventoryItem(max);
+}
+
+void Inventory::CheckCombineItem(string selectName, string targetName, int selectItem, int targetItem)
+{
+	if (selectName == "FullArmorPart1")
+	{
+		if (targetName == "FullArmorPart2")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmorPart1, 2");
+		}
+		else if (targetName == "FullArmorPart3")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmorPart1, 3");
+		}
+		else if (targetName == "FullArmorPart2, 3")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmor");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+	else if (selectName == "FullArmorPart2")
+	{
+		if (targetName == "FullArmorPart1")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmorPart1, 2");
+		}
+		else if (targetName == "FullArmorPart3")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmorPart2, 3");
+		}
+		else if (targetName == "FullArmorPart1, 3")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmor");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+	else if (selectName == "FullArmorPart3")
+	{
+		if (targetName == "FullArmorPart1")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmorPart1, 3");
+		}
+		else if (targetName == "FullArmorPart2")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmorPart2, 3");
+		}
+		else if (targetName == "FullArmorPart1, 2")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmor");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+	else if (selectName == "FullArmorPart1, 2")
+	{
+		if (targetName == "FullArmorPart3")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmor");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+	else if (selectName == "FullArmorPart1, 3")
+	{
+		if (targetName == "FullArmorPart2")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmor");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+	else if (selectName == "FullArmorPart2, 3")
+	{
+		if (targetName == "FullArmorPart1")
+		{
+			CombineInventoryItem(selectItem, targetItem, "FullArmor");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+}
+
+void Inventory::DeleteInventoryItem(int index)
+{
+	for (size_t i = index; i < m_vecItems.size() - 1; i++)
+	{
+		ChangeInventoryItem(i, i + 1);
+	}
+
+	UIOBJECTMANAGER->SetTexture("inventory", m_vecItems.size(), "null");
+	m_vecItems.pop_back();
+}

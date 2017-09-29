@@ -254,7 +254,7 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss = new TeicBoss;
 
 
-	m_pBoss->Setup("object/xFile/Valak/", "Valak_Ani.X");
+	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 	//m_pBoss->Setup("object/", "ice_Boom.X");
 
 
