@@ -7,6 +7,7 @@ cCrtCtrl::cCrtCtrl()
 	, m_vPos(0, 0, 0)
 	, m_fSpeed(0.1f)
 	, m_fAngle(0.0f)
+	, m_fRun(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -20,13 +21,14 @@ void cCrtCtrl::Update(iMap* pMap/* = NULL*/)
 {
 	D3DXVECTOR3 vPos = m_vPos;
 
+	
 	if (GetKeyState('W') & 0x8000)
 	{
-		vPos = m_vPos + m_vDir * m_fSpeed;
+		vPos = m_vPos + m_vDir * (m_fSpeed+m_fRun);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		vPos = m_vPos - m_vDir * m_fSpeed;
+		vPos = m_vPos - m_vDir * (m_fSpeed+m_fRun);
 	}
 
 	if (GetKeyState('A') & 0x8000)
@@ -65,4 +67,31 @@ void cCrtCtrl::Update(iMap* pMap/* = NULL*/)
 D3DXVECTOR3* cCrtCtrl::GetPosition()
 {
 	return &m_vPos;
+}
+
+void cCrtCtrl::UpdateByDir(D3DXVECTOR3 &pDir)
+{
+	D3DXVECTOR3 vPos = m_vPos;
+
+
+	if (GetKeyState('W') & 0x8000)
+	{
+		m_vPos = m_vPos + -pDir * (m_fSpeed + m_fRun);
+	}
+	if (GetKeyState('S') & 0x8000)
+	{
+		m_vPos = m_vPos - -pDir * (m_fSpeed + m_fRun);
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	{
+		m_vPos.y += 0.1;
+	}
+
+	m_vDir = pDir;
+
+	D3DXMATRIX matT, matR;
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+
+
+	m_matWorld = matT;
 }

@@ -153,6 +153,7 @@
     <ClInclude Include="cActionMove.h" />
     <ClInclude Include="cActionRepeat.h" />
     <ClInclude Include="cActionSeq.h" />
+    <ClInclude Include="cConsole.h" />
     <ClInclude Include="cCrtCtrl.h" />
     <ClInclude Include="cAction.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="cActionMove.cpp" />
     <ClCompile Include="cActionRepeat.cpp" />
     <ClCompile Include="cActionSeq.cpp" />
+    <ClCompile Include="cConsole.cpp" />
     <ClCompile Include="cCrtCtrl.cpp" />
     <ClCompile Include="cAction.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />

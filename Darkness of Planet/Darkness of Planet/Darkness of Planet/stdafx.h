@@ -28,6 +28,7 @@ extern bool g_isLButtonUp;
 extern bool g_isRButtonUp;
 extern bool g_bCursor;
 extern int g_MouseWheel;
+extern LPARAM g_lparam;
 
 
 
@@ -55,6 +56,8 @@ extern int g_MouseWheel;
 #define SAFE_DELETE_ARRAY(p) if(p) { delete[] (p) ; p =NULL;}
 #define INF 999999.f
 #define NodeLength	5
+#define GETLPARAM g_lparam
+
 //## 메니저 디파인 여기 ##//
 #define SCENEMANAGER cSceneManager::getSingleton()
 #define DEVICEMANAGER cDeviceManager::getSingleton()

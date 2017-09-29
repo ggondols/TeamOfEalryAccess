@@ -489,9 +489,6 @@
     <ClInclude Include="Loading.h">
       <Filter>#3D Framework\Loading</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingScene.h">
-      <Filter>#3D Framework\Loading</Filter>
-    </ClInclude>
     <ClInclude Include="TeicEffect.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
@@ -530,6 +527,12 @@
     </ClInclude>
     <ClInclude Include="FieldItem.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>테스트용 폴더</Filter>
+    </ClInclude>
+    <ClInclude Include="cConsole.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -770,9 +773,6 @@
     <ClCompile Include="TeicObbCollision.cpp">
       <Filter>#3D Framework\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="HankcDefferedRenderTest.cpp">
-      <Filter>테스트용 폴더\Hank 디퍼드 렌더링</Filter>
-    </ClCompile>
     <ClCompile Include="HankRenderer.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
@@ -807,9 +807,6 @@
       <Filter>이동윤 임시저장소</Filter>
     </ClCompile>
     <ClCompile Include="Loading.cpp">
-      <Filter>#3D Framework\Loading</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingScene.cpp">
       <Filter>#3D Framework\Loading</Filter>
     </ClCompile>
     <ClCompile Include="TeicEffect.cpp">
@@ -850,6 +847,15 @@
     </ClCompile>
     <ClCompile Include="FieldItem.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>테스트용 폴더</Filter>
+    </ClCompile>
+    <ClCompile Include="HankcDefferedRenderTest.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링</Filter>
+    </ClCompile>
+    <ClCompile Include="cConsole.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

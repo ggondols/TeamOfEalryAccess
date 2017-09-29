@@ -13,6 +13,8 @@ namespace Hank
 		D3DXVECTOR3 m_vEye;
 		float m_fDistance;
 
+		D3DXVECTOR3 m_vDir;
+
 		bool getMousePos;
 
 
@@ -24,6 +26,6 @@ namespace Hank
 		void Update();
 		D3DXVECTOR3 getEye(void) { return m_vEye; }
 		D3DXVECTOR3 getLook(void) { return *m_pvTarget; }
-
+		D3DXVECTOR3 getDir(void) { return m_vEye - *m_pvTarget; }
 	};
 }
