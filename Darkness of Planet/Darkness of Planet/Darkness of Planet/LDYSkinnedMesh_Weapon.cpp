@@ -40,6 +40,7 @@ LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon(char* szFolder, char* szFilename)
 		m_fZealotdiffer = 0.0f;
 		m_iNum = 0;
 		D3DXMatrixIdentity(&m_RotationMat);
+		D3DXMatrixIdentity(&m_matWeapon);
 	
 }
 LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon()

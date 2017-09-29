@@ -7,14 +7,19 @@ class LDYCamera;
 
 struct ST_INVENTORY_ITEM
 {
-	int nInventoryTag;
 	int	nItemCount;
 	string sName;
 	ITEM_TYPE stType;
 
 	ST_INVENTORY_ITEM() {}
-	ST_INVENTORY_ITEM(int tag, int count, string name):nInventoryTag(tag), nItemCount(count), sName(name), stType(ITEMTYPE_END){}
-	ST_INVENTORY_ITEM(int tag, int count, ITEM_TYPE type, string name) :nInventoryTag(tag), nItemCount(count), sName(name), stType(type) {}
+	ST_INVENTORY_ITEM(int count, string name) : nItemCount(count), sName(name), stType(ITEMTYPE_NONE){}
+	ST_INVENTORY_ITEM(int count, ITEM_TYPE type, string name) : nItemCount(count), sName(name), stType(type) {}
+	void ClearInventory()
+	{
+		nItemCount = 0;
+		sName = "Empty";
+		stType = ITEMTYPE_NONE;
+	}
 };
 
 struct ST_EQUIPMENT_ITEM
@@ -37,6 +42,14 @@ private:
 	POINT						m_ptPrevMouse;
 	POINT						m_ptSavePosition;
 
+	string						m_sFileAddress = "UI/Icon_";
+	string						m_sFileType = ".png";
+
+	void ChangeInventoryItem(int selectItem, int targetItem);
+	void CombineInventoryItem(int selectItem, int targetItem, string combineName);
+	void CheckCombineItem(string selectName, string targetName, int selectItem, int targetItem);
+	void DeleteInventoryItem(int index);
+
 public:
 	Inventory();
 	~Inventory();
@@ -48,8 +61,6 @@ public:
 	void AddItem(string itemName, int count = 1);
 	void SubItem(string itemName, int count = 1);
 	bool CheckHaveItem(string itemName);
-
-	void ChangeEquipment(string partName, string addPartName);
 
 	vector<ST_INVENTORY_ITEM>& GetItems() { return m_vecItems; }
 	vector<ST_EQUIPMENT_ITEM>& GetEquipment() { return m_vecEquipments; }

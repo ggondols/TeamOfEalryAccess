@@ -56,6 +56,7 @@ LDYSkinnedMesh::LDYSkinnedMesh(char* szFolder, char* szFilename)
 	m_fZealotdiffer = 0.0f;
 	m_iNum = 0;
 	D3DXMatrixIdentity(&m_RotationMat);
+	D3DXMatrixIdentity(&m_matWeapon);
 }
 LDYSkinnedMesh::LDYSkinnedMesh()
 	: m_pRootFrame(NULL)
