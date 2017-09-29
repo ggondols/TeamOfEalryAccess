@@ -26,6 +26,8 @@ private:
 	float			m_fCurveAngleX;
 	float			m_fCurveAngleY;
 	float			m_fCurveAngleZ;
+	float			m_fUpDown;
+	int				m_iUpDownPlus;
 public:
 
 	ST_PC_VERTEX*	m_pVertex;
@@ -38,6 +40,7 @@ public:
 		float speed, D3DXVECTOR3 startcolor, D3DXVECTOR3 finishcolor, bool loop);
 	void Update();
 	void Update2();
+	void Update3();
 	void Start();
 	void End();
 

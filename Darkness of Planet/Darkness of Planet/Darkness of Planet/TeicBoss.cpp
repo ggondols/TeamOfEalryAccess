@@ -19,12 +19,18 @@ TeicBoss::TeicBoss()
 	m_fSpeed = 5.0f;
 	m_ptest = NULL;
 	m_eSkilltype = Skill_None;
+	
+	m_bSkillCircleOn = false;
+	m_pSkillCubeTexture = NULL;
+	m_pSkillCubeEffect = NULL;
 }
 
 
 TeicBoss::~TeicBoss()
 {
 	SAFE_DELETE(m_ptest);
+	SAFE_RELEASE(m_pSkillCubeTexture);
+	SAFE_RELEASE(m_pSkillCubeEffect);
 }
 
 void TeicBoss::MakeBoundingBox()
@@ -125,10 +131,22 @@ void TeicBoss::Update()
 {
 	//9876
 	m_ptest->Update();
-	if (KEYMANAGER->isOnceKeyDown('9'))
+	m_pExplosion->Update();
+	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
+		m_pSkinnedMesh->m_fAttacktiming = 1.4;
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(6);
 		
-		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(7);
+		m_eSkilltype = Skill_Explosion;
+		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/circle2.png");
+		SetSkillCube(30, 30);
+		m_bSkillCircleOn = true;
+		
+	}
+	/*if (KEYMANAGER->isOnceKeyDown('9'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(6);
 		m_eSkilltype = Skill_Explosion;
 	}
 	if (KEYMANAGER->isOnceKeyDown('8'))
@@ -136,7 +154,25 @@ void TeicBoss::Update()
 
 		m_ptest->Start();
 	}
-	
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(12);
+		m_eSkilltype = Skill_Explosion;
+	}
+	if (KEYMANAGER->isOnceKeyDown('O'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(13);
+		m_eSkilltype = Skill_Explosion;
+	}
+	if (KEYMANAGER->isOnceKeyDown('I'))
+	{
+
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(22);
+		m_eSkilltype = Skill_Explosion;
+	}*/
+
 }
 
 void TeicBoss::MeshRender(LPD3DXEFFECT effect)
@@ -196,7 +232,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicBoss::CallbackOn, this, 0));
-
+	m_pSkinnedMesh->SetAttackCallbackfunction(bind(&TeicBoss::CallbackOn, this, 1));
 
 	m_pSkinnedMesh->m_pBoundingSquare = SKINMANAGER->GetTeiBoundingSquare(Foldername, Filename);
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
@@ -210,7 +246,10 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	//m_fBoundingSize = CalBoundingSize();
 
 	m_ptest = new TeicIceBreath;
-	m_ptest->Setup(D3DXVECTOR3(150, 40, -150));
+	m_ptest->Setup(D3DXVECTOR3(150, 40, -150), D3DXVECTOR3(170, 40, -170));
+	m_pExplosion = new TeicIceExplosion;
+	m_pExplosion->Setup(D3DXVECTOR3(150, 40, -150));
+	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");
 }
 
 void TeicBoss::SetUpdateSpeed(float t)
@@ -224,27 +263,52 @@ void TeicBoss::SetUpdateSpeed(float t)
 
 void TeicBoss::CallbackOn(int n)
 {
+	if (n == 1)
+	{
+		if (m_pSkinnedMesh->GetAninum() == 6)
+		{
+			SkillExplosion();
+
+		}
+	}
 	if (m_pSkinnedMesh)
 	{
 		if (m_pSkinnedMesh->GetAninum() == 9)
 		{
 			m_pSkinnedMesh->SetAnimation(8);
-			return;
+
 		}
-		if (m_pSkinnedMesh->GetAninum() == 8)
+		else if (m_pSkinnedMesh->GetAninum() == 8)
 		{
 			m_pSkinnedMesh->SetAnimation(7);
-			return;
+
 		}
-		if (m_pSkinnedMesh->GetAninum() == 7)
+		else if (m_pSkinnedMesh->GetAninum() == 7)
 		{
 			m_pSkinnedMesh->SetAnimation(6);
-			return;
+
 		}
-		if (m_pSkinnedMesh->GetAninum() == 6)
+		else if (m_pSkinnedMesh->GetAninum() == 6)
+		{
+			//SkillExplosion();
+			m_pSkinnedMesh->SetAnimation(0);
+			m_bSkillCircleOn = false;
+		}
+		///////////
+		else if (m_pSkinnedMesh->GetAninum() == 12)
 		{
 			m_pSkinnedMesh->SetAnimation(0);
 		}
+		else if (m_pSkinnedMesh->GetAninum() == 13)
+		{
+			m_pSkinnedMesh->SetAnimation(0);
+		}
+		////////////
+		else if (m_pSkinnedMesh->GetAninum() == 22)
+		{
+			m_pSkinnedMesh->SetAnimation(0);
+		}
+
 	}
 	if (m_Callback)
 	{
@@ -265,7 +329,7 @@ void TeicBoss::SetAttackCallbackfunction(CallbackBindFunction function)
 
 void TeicBoss::UpdateAndRender()
 {
-	
+
 	if (m_pSkinnedMesh)
 	{
 		m_pSkinnedMesh->UpdateAndRender();
@@ -273,6 +337,9 @@ void TeicBoss::UpdateAndRender()
 	}
 	//MakeBoundingBox();
 	m_ptest->Render();
+	m_pExplosion->Render();
+	ShowSkillCube(D3DXVECTOR3(150, 40, -150));
+	
 }
 
 void TeicBoss::SetAnimationIndex(int nIndex)
@@ -409,3 +476,116 @@ float TeicBoss::CalBoundingSize()
 	return 0.0f;
 }
 
+void TeicBoss::SkillExplosion()
+{
+
+	m_pExplosion->Start();
+}
+
+void TeicBoss::ShowSkillCube(D3DXVECTOR3 position)
+{
+	if (!m_bSkillCircleOn)return;
+	D3DXMATRIX matWorld, matView, matProjection;
+	D3DXMatrixTranslation(&matWorld, position.x, position.y+0.01, position.z);
+	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
+	matWorld = matWorld * matView * matProjection;
+	m_pSkillCubeEffect->SetMatrix("matWorldViewProjection", &matWorld);
+	m_pSkillCubeEffect->SetTexture("base_Tex", m_pSkillCubeTexture);
+	UINT numPasses = 0;
+	m_pSkillCubeEffect->Begin(&numPasses, NULL);
+	for (UINT i = 0; i < numPasses; ++i)
+	{
+		m_pSkillCubeEffect->BeginPass(i);
+		GETDEVICE->SetFVF(ST_PT_VERTEX::FVF);
+		GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, &m_vecSkillCube[0], sizeof(ST_PT_VERTEX));
+		m_pSkillCubeEffect->EndPass();
+	}
+	m_pSkillCubeEffect->End();
+}
+
+void TeicBoss::SetSkillCube(float x, float y)
+{
+	m_vecSkillCube.clear();
+	D3DXVECTOR3 vertex[4];
+	vertex[0] = D3DXVECTOR3(-x, 0, y);
+	vertex[1] = D3DXVECTOR3(x, 0, y);
+	vertex[2] = D3DXVECTOR3(-x, 0, -y);
+	vertex[3] = D3DXVECTOR3(x, 0, -y);
+
+
+	//0----1
+	//|    |
+	//2----3
+
+	DWORD Index[6];
+	Index[0] = 0;
+	Index[1] = 1;
+	Index[2] = 2;
+	Index[3] = 2;
+	Index[4] = 1;
+	Index[5] = 3;
+
+	D3DXVECTOR2 t[6];
+	t[0] = D3DXVECTOR2(0, 0);
+	t[1] = D3DXVECTOR2(1, 0);
+	t[2] = D3DXVECTOR2(0, 1);
+	t[3] = D3DXVECTOR2(0, 1);
+	t[4] = D3DXVECTOR2(1, 0);
+	t[5] = D3DXVECTOR2(1, 1);
+	for (int i = 0; i < 6; i++)
+	{
+		m_vecSkillCube.push_back(ST_PT_VERTEX(vertex[Index[i]], t[i]));
+	}
+	//m_vecSkillCircle
+
+
+}
+
+
+LPD3DXEFFECT TeicBoss::LoadEffect(const char * szFileName)
+{
+	LPD3DXEFFECT pEffect = NULL;
+
+	// 셰이더 로딩
+
+	LPD3DXBUFFER      pError = NULL;         //에러 버퍼 ( 셰이더를 컴파일할때 잘못 된 문법이나 오류정보를 리턴해주는 버퍼 )
+	DWORD            dwShaderFlag = 0;      //셰이더 플레그 0 
+
+#ifdef _DEBUG
+
+	dwShaderFlag = dwShaderFlag | D3DXSHADER_DEBUG;      //셰이더를 디버그모드로 컴파일하겠다 ( 디버그모드로 해야 잘못된 컴파일 오류가 날때 Error 버퍼에 오류정보가 들어간다 ) 
+#endif
+														 //fx 파일로 부터 셰이더 객체 생성
+	D3DXCreateEffectFromFile(
+
+		GETDEVICE,            // 디바이스
+		szFileName,               // 불러올 셰이더 코드 파일이름
+		NULL,                  // 셰이더를 컴파일할때 추가로 사용할 #define 정의 ( 일단 NULL )
+		NULL,                  // 셰이더를 컴파일할때 #include 지시문을 처리할때 사용할 인터페이스 플레그 ( 일단 NULL )
+		dwShaderFlag,            // 셰이더 컴파일 플레그
+		NULL,                  // 셰이더 매개변수를 공유할 메모리풀 ( 일단 NULL )
+		&pEffect,               // 로딩될 셰이더 Effect 포인터
+		&pError                  // 셰이더를 로딩하고 컴파일할때 문제가 생기면 해당 버퍼에 에러메시지가 들어간다 ( 성공적으로 로딩되면 NULL 이 참조된다 )
+	);
+
+	//셰이더 파일로딩에문재가 있다면..
+	if (pError != NULL || pEffect == NULL) {
+
+		//문제의 내용이 뭔지 문자열로 확인
+		int size = pError->GetBufferSize();
+		char* str = new char[size];
+
+		//str에 버퍼에있는 내용을 저장한다.
+		sprintf_s(str, size, (const char*)pError->GetBufferPointer());
+
+		OutputDebugString(str);
+		//오류내용을 출력했으니 오류버퍼 해제
+		SAFE_RELEASE(pError);
+		SAFE_DELETE_ARRAY(str);
+
+		return NULL;
+	}
+
+	return pEffect;
+}

@@ -184,6 +184,9 @@
     <Filter Include="#3D Framework\Manager\EffectManager\Particle">
       <UniqueIdentifier>{97bd9fa6-5578-4535-8ef6-f2fbe25ea789}</UniqueIdentifier>
     </Filter>
+    <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링\클래스\StaticMeshScriptLoader">
+      <UniqueIdentifier>{9bb7145f-9ac4-4ac8-9f95-39a9ac4ff70e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="#3D Framework\Boss">
       <UniqueIdentifier>{7c12dab3-c9ad-4751-9030-70903edbbca0}</UniqueIdentifier>
     </Filter>
@@ -513,6 +516,12 @@
     <ClInclude Include="cModelManager.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
+    <ClInclude Include="cObjectNode.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClInclude>
+    <ClInclude Include="cStaticMeshLoader.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\StaticMeshScriptLoader</Filter>
+    </ClInclude>
     <ClInclude Include="TeicBoss.h">
       <Filter>#3D Framework\Boss</Filter>
     </ClInclude>
@@ -827,11 +836,17 @@
     <ClCompile Include="cModelManager.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
+    <ClCompile Include="cObjectNode.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
     <ClCompile Include="TeicBoss.cpp">
       <Filter>#3D Framework\Boss</Filter>
     </ClCompile>
     <ClCompile Include="TeicIceBreath.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cStaticMeshLoader.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\StaticMeshScriptLoader</Filter>
     </ClCompile>
     <ClCompile Include="FieldItem.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>

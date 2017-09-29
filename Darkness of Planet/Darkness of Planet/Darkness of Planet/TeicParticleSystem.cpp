@@ -183,6 +183,14 @@ void TeicParticleSystem::Update2()
 	}
 }
 
+void TeicParticleSystem::Update3()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		m_vecParticle[i]->Update3();
+	}
+}
+
 void TeicParticleSystem::Render()
 {
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);

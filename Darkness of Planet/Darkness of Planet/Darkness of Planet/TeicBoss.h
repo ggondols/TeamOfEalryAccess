@@ -2,7 +2,7 @@
 #include "TeicSkinnedMesh.h"
 #include "HankcNode.h"
 #include "TeicIceBreath.h"
-
+#include "TeicIceExplosion.h"
 //###############################################
 //#												#
 //#		이동,위치,스케일,콜백이 적용된          #
@@ -27,11 +27,13 @@ class TeicBoss
 
 private:
 	TeicIceBreath*				m_ptest;
+	TeicIceExplosion*			m_pExplosion;
 	TeicSkinnedMesh*	m_pSkinnedMesh;
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
 
 public:
+	
 	Boss_Skill			m_eSkilltype;
 	void MakeBoundingBox();
 	POINT m_PresentGrid;
@@ -44,6 +46,10 @@ public:
 	float			 m_fAngle;
 	D3DXVECTOR3		 m_vPreviousPosition;
 	float			 m_fSpeed;
+	bool			 m_bSkillCircleOn;
+	vector<ST_PT_VERTEX>	m_vecSkillCube;
+	LPDIRECT3DTEXTURE9      m_pSkillCubeTexture;
+	LPD3DXEFFECT			m_pSkillCubeEffect;
 public:
 	void Update();
 	void MeshRender(LPD3DXEFFECT effect);
@@ -75,7 +81,10 @@ public:
 	POINT GetNodeNum();
 	void SetSpeed(float s) { m_fSpeed = s; }
 	float CalBoundingSize();
-
+	void SkillExplosion();
+	void ShowSkillCube(D3DXVECTOR3 position);
+	void SetSkillCube(float x, float y);
+	LPD3DXEFFECT LoadEffect(const char * szFileName);
 public:
 	TeicBoss();
 	~TeicBoss();

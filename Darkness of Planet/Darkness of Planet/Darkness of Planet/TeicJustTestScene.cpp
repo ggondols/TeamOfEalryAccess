@@ -196,20 +196,21 @@ HRESULT TeicJustTestScene::Setup()
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
 
 	//노드 추가 합니다.
-	m_pNode = new HankcGrid;
-	int sizeX = 257;
-	int sizeZ = 257;
-	m_pNode->m_vRow.resize(sizeZ);
-	for (int i = 0; i < sizeZ; i++)
-	{
-		m_pNode->m_vRow[i].m_vCol.resize(sizeX);
-		for (int j = 0; j < sizeX; j++)
-		{
-			m_pNode->m_vRow[i].m_vCol[j].InitFrame(i, j); // 일반 노드만 생성합니다.
-			m_pNode->m_vRow[i].m_vCol[j].InitPosition(NodeLength); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
-			m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
-		}
-	}
+	m_pNode = NODEMANAGER->GetNode();
+	//m_pNode = new HankcGrid;
+	//int sizeX = 257;
+	//int sizeZ = 257;
+	//m_pNode->m_vRow.resize(sizeZ);
+	//for (int i = 0; i < sizeZ; i++)
+	//{
+	//	m_pNode->m_vRow[i].m_vCol.resize(sizeX);
+	//	for (int j = 0; j < sizeX; j++)
+	//	{
+	//		m_pNode->m_vRow[i].m_vCol[j].InitFrame(i, j); // 일반 노드만 생성합니다.
+	//		m_pNode->m_vRow[i].m_vCol[j].InitPosition(NodeLength); // 생성된 노드를 기반으로 버텍스와 중점 좌상단점을 설정합니다.
+	//		m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
+	//	}
+	//}
 
 
 	m_pAstar = new TeicAstar;
@@ -253,7 +254,7 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss = new TeicBoss;
 
 
-	m_pBoss->Setup("object/xFile/Valak/", "ice_FallRock.X");
+	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 	//m_pBoss->Setup("object/", "ice_Boom.X");
 
 

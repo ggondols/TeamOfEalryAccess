@@ -5,6 +5,8 @@
 TeicParticle::TeicParticle()
 {
 	m_Start = false;
+	m_fUpDown = 0.0f;
+	m_iUpDownPlus = 1;
 }
 
 
@@ -149,12 +151,62 @@ void TeicParticle::Update2()
 
 }
 
+void TeicParticle::Update3()
+{
+	if (!m_Start)return;
+	m_fUpDown += 0.1f *m_iUpDownPlus*m_fSpeed;
+
+	if (m_fUpDown > 10)
+	{
+		m_iUpDownPlus = -1;
+	}
+	if (m_fUpDown < -10)
+	{
+		m_iUpDownPlus = 1;
+	}
+	m_distance += m_deltadistance;
+	m_fTime += TIMEMANAGER->getElapsedTime();
+
+	
+
+
+	D3DXVec3Lerp(&m_pVertex->p, &m_pVertexSample.p, &m_vLastPosition, (m_distance) / 1);
+	D3DXMATRIX trans;
+	D3DXMatrixTranslation(&trans, 0, m_fUpDown, 0);
+	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &trans);
+	
+
+
+	m_alpha -= m_delta;
+	D3DXVec3Lerp(&m_dwNowcolor, &m_dwStartColor, &m_dwFinishColor, m_fTime);
+	(*m_pVertex).c = D3DCOLOR_ARGB((int)m_alpha, (int)m_dwNowcolor.x, (int)m_dwNowcolor.y, (int)m_dwNowcolor.z);
+	if (m_alpha < 0)
+	{
+		if (!m_loop)
+		{
+			m_Start = false;
+			(*m_pVertex).c = D3DCOLOR_ARGB(0, (int)m_dwNowcolor.x, (int)m_dwNowcolor.y, (int)m_dwNowcolor.z);
+		}
+		else
+		{
+			m_fTime = 0;
+			m_distance = 0;
+			m_alpha = 255;
+		}
+
+	}
+
+
+}
+
 void TeicParticle::Start()
 {
 	m_Start = true;
 	m_fTime = 0;
 	m_distance = 0;
 	m_alpha = 255;
+	m_fUpDown = 0;
+	m_iUpDownPlus = 1;
 	//m_fTime = TIMEMANAGER->getWorldTime();
 }
 

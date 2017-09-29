@@ -53,6 +53,7 @@ protected:
 	bool m_bCollision;
 	
 public:
+	float	m_fAttacktiming;
 	float m_fScaleSize;
 	BoundingSquare			m_pBoundingSquare;
 	BoundingSquare			m_pCopy;
