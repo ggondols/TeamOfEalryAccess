@@ -18,7 +18,7 @@ TeicEnemy::TeicEnemy()
 	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.0f;
 	m_fSpeed = 5.0f;
-
+	
 }
 
 
@@ -364,3 +364,11 @@ float TeicEnemy::CalBoundingSize()
 	return 0.0f;
 }
 
+void TeicEnemy::SetAnimationPlay(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->SetAnimationPlay(on);
+
+	}
+}

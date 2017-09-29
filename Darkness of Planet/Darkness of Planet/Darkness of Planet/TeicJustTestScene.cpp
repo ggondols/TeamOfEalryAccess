@@ -256,7 +256,7 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 	//m_pBoss->Setup("object/", "ice_Boom.X");
-
+	//m_pBoss->Setup("sprites/", "ice_Boom.X");
 
 	m_pBoss->SetPosition(D3DXVECTOR3(150, 40, -150));
 

@@ -29,6 +29,7 @@ public:
 	float			 m_fAttackRange;
 	bool			 m_bAttackOn;
 	bool			 m_bThreadCalOn;  ////쓰레드로 에이스타 계산이 완료되면
+	bool			 m_bAnion;
 	//bool			 m_bSlotOn;
 	float			 m_fAngle;
 	D3DXVECTOR3		 m_vPreviousPosition;
@@ -63,6 +64,7 @@ public:
 	POINT GetNodeNum();
 	void SetSpeed(float s) { m_fSpeed = s; }
 	float CalBoundingSize();
+	void SetAnimationPlay(bool on);
 public:
 	TeicEnemy();
 	~TeicEnemy();
