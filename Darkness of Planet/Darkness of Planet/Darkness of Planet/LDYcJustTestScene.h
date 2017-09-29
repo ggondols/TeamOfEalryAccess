@@ -12,10 +12,16 @@
 #include "TeicAstarShort.h"
 #include "TeicBresenham.h"
 
-struct MapMesh {
+#define MOVESTYLE_DEFAULT 0
 
-	LPD3DXMESH	mesh;
-	int			drawsubset;
+
+struct MotionBlurInfo
+{
+	D3DXVECTOR3 g_vWorldPos;
+	D3DXMATRIXA16 g_mWorld;
+	D3DXMATRIXA16 g_mWorldLast;
+	LPD3DXMESH g_pMesh;
+	LPDIRECT3DTEXTURE9 g_pMeshTexture;
 };
 
 
@@ -97,6 +103,7 @@ public:
 	D3DXHANDLE				m_hCmatWorld;
 	D3DXHANDLE				m_hCmatLightView;
 	D3DXHANDLE				m_hCmatLightProjection;
+	D3DXHANDLE				m_hCTechnic;
 
 	//apply fx용 핸들
 	D3DXHANDLE				m_hApplyTexture;
@@ -113,7 +120,7 @@ public:
 	D3DXMATRIXA16			matLightView;
 	D3DXMATRIXA16			matLightProjection;
 
-	//LDYMotionBlur*			motionBlur;
+	LDYMotionBlur*			motionBlur;
 	//fog용 핸들
 	LPD3DXEFFECT			m_pFog;
 	D3DXHANDLE				m_hFogmatWorld;

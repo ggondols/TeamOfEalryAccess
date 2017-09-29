@@ -32,7 +32,6 @@ void cSkyDome::Setup()
 		&m_dMatarial,
 		&m_pMesh);
 
-
 	m_pEffect = LoadEffect("shader/Skybox/skydome.fx");
 	m_hMatWorld = m_pEffect->GetParameterByName(0, "matWorld");
 	m_hMatView = m_pEffect->GetParameterByName(0, "matView");

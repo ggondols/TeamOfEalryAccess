@@ -137,7 +137,7 @@ LDYcJustTestScene::~LDYcJustTestScene()
 
 	SAFE_RELEASE(m_pFog);
 
-	//SAFE_DELETE(motionBlur);
+	SAFE_DELETE(motionBlur);
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -179,8 +179,8 @@ HRESULT LDYcJustTestScene::Setup()
 
 
 	///////////동윤
-	/*motionBlur = new LDYMotionBlur;
-	motionBlur->Setup();*/
+	motionBlur = new LDYMotionBlur;
+	motionBlur->Setup();
 
 	m_pShadow = new cShadowMapping;
 	m_pShadow->Setup();
@@ -262,13 +262,13 @@ HRESULT LDYcJustTestScene::Setup()
 	{
 	}
 
-	m_pCreateShadow = LoadEffectHpp("MultiAnimationCreateShadow.hpp");
+	m_pCreateShadow = LoadEffectHpp("MultiAnimationCreateShadowBlur.hpp");
 	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx");
-
 
 
 	m_hCmatLightView = m_pCreateShadow->GetParameterByName(0, "matLightView");
 	m_hCmatLightProjection = m_pCreateShadow->GetParameterByName(0, "gLightProjectionMatrix");
+	m_hCTechnic = m_pCreateShadow->GetTechniqueByName("Skinning20");
 
 
 	m_hApplyTexture = m_pApplyShadow->GetParameterByName(0, "ShadowMap_Tex");
@@ -281,7 +281,7 @@ HRESULT LDYcJustTestScene::Setup()
 
 
 
-	m_pFog = LoadEffect("shader/shadow/Fog.fx");
+	/*m_pFog = LoadEffect("shader/shadow/Fog.fx");
 
 	m_hFogmatWorld = m_pFog->GetParameterByName(0, "matWorld");
 	m_hFogmatWolrdView = m_pFog->GetParameterByName(0, "matWorldView");
@@ -291,7 +291,7 @@ HRESULT LDYcJustTestScene::Setup()
 	m_hFogColorFog = m_pFog->GetParameterByName(0, "colorFog");
 	m_hFogTexture = m_pFog->GetParameterByName(0, "baseTexture");
 
-	m_hFogtechnique = m_pFog->GetTechniqueByName("FOG");
+	m_hFogtechnique = m_pFog->GetTechniqueByName("FOG");*/
 
 	return S_OK;
 }
@@ -314,7 +314,7 @@ void LDYcJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	//if (motionBlur)motionBlur->Update();
+	if (motionBlur)motionBlur->Update();
 	if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
@@ -670,6 +670,45 @@ void LDYcJustTestScene::Render()
 {
 	//if (motionBlur)motionBlur->Render();
 
+	/*D3DXMATRIXA16 FogMatWorld, fmatV, fmatP, FogMatWolrdView, FogMatWorldViewProj;
+	D3DXMatrixIdentity(&FogMatWorld);
+	GETDEVICE->GetTransform(D3DTS_VIEW, &fmatV);
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &fmatP);
+	FogMatWolrdView = FogMatWorld*fmatV;
+	FogMatWorldViewProj = FogMatWorld*fmatV*fmatP;
+	D3DXVECTOR4 fFog(100.0f, 20.0f, 200.0f, 1.0f);
+	D3DXVECTOR4 fCamera = D3DXVECTOR4(m_pCamera->getEye(), 1.0f);
+	D3DXVECTOR4 fFogColor(0.5f, 0.5f, 0.5f, 0.0f);
+
+	m_pFog->SetMatrix(m_hFogmatWorld, &FogMatWorld);
+	m_pFog->SetMatrix(m_hFogmatWolrdView, &FogMatWolrdView);
+	m_pFog->SetMatrix(m_hFogmatWorldViewProj, &FogMatWorldViewProj);
+	m_pFog->SetMatrix("matView", &fmatV);
+	m_pFog->SetVector(m_hFogfFog, &fFog);
+	m_pFog->SetVector(m_hFogCamera, &fCamera);
+	m_pFog->SetVector(m_hFogColorFog, &fFogColor);
+	LPDIRECT3DTEXTURE9 texfog;
+	texfog = TEXTUREMANAGER->GetTexture("map/Terrain_Final_Map.png");
+	m_pFog->SetTexture(m_hFogTexture, texfog);
+
+	m_pFog->SetTechnique(m_hFogtechnique);
+
+	UINT fogPasses = 0;
+	m_pFog->Begin(&fogPasses, NULL);
+	{
+		for (UINT i = 0; i < fogPasses; ++i)
+		{
+
+			m_pFog->BeginPass(i);
+			{
+
+			}
+
+			m_pFog->EndPass();
+		}
+	}
+	m_pFog->End();*/
+
 
 	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
 
@@ -677,9 +716,6 @@ void LDYcJustTestScene::Render()
 		m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
 		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
 		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
-		vLookatPt.x += lookx;
-		//vLookatPt.y += 5.0f;
-		vLookatPt.z -= lookz;
 		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
 	}
@@ -705,7 +741,6 @@ void LDYcJustTestScene::Render()
 	//////////////////////////////
 	// 1. 그림자 만들기
 	//////////////////////////////
-
 	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
 	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
 	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
@@ -715,7 +750,7 @@ void LDYcJustTestScene::Render()
 	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
 
 	SAFE_RELEASE(pShadowSurface);
-
+	
 	// 저번 프레임에 그\렸던 그림자 정보를 지움
 	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
@@ -728,7 +763,7 @@ void LDYcJustTestScene::Render()
 
 	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
 	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
-
+	//m_pCreateShadow->SetTechnique(m_hCTechnic);
 	// 그림자 만들기 쉐이더를 시작
 
 	{
@@ -769,8 +804,9 @@ void LDYcJustTestScene::Render()
 	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
 
 	LPDIRECT3DTEXTURE9 tex;
-	tex = TEXTUREMANAGER->GetTexture("map/Terrain_Final_Map.png");
+	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
 	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+
 
 	// 쉐이더를 시작한다.
 	UINT numPasses = 0;
@@ -780,11 +816,8 @@ void LDYcJustTestScene::Render()
 		{
 			m_pApplyShadow->BeginPass(i);
 			{
-				// 원환체를 그린다.
-
-
 				// 디스크를 그린다.
-
+				m_pApplyShadow->CommitChanges();
 				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
 
 			}
@@ -793,73 +826,28 @@ void LDYcJustTestScene::Render()
 	}
 	m_pApplyShadow->End();
 
-	//if (m_pCharacter)m_pCharacter->UpdateAndRender();
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);
 	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
+	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 
 
-	D3DXMATRIXA16 FogMatWorld,fmatV,fmatP, FogMatWolrdView, FogMatWorldViewProj;
-	D3DXMatrixIdentity(&FogMatWorld);
-	GETDEVICE->GetTransform(D3DTS_VIEW, &fmatV);
-	GETDEVICE->GetTransform(D3DTS_PROJECTION, &fmatP);
-	FogMatWolrdView = FogMatWorld*fmatV;
-	FogMatWorldViewProj = FogMatWorld*fmatV*fmatP;
-	D3DXVECTOR4 fFog(10.0f, 20.0f, 20.0f, 1.0f);
-	D3DXVECTOR4 fCamera = D3DXVECTOR4(m_pCamera->getEye(), 1.0f);
-	D3DXVECTOR4 fFogColor(0.5f, 0.5f, 0.5f, 0.0f);
 
-	m_pFog->SetMatrix(m_hFogmatWorld, &FogMatWorld);
-	m_pFog->SetMatrix(m_hFogmatWolrdView, &FogMatWolrdView);
-	m_pFog->SetMatrix(m_hFogmatWorldViewProj, &FogMatWorldViewProj);
-	m_pFog->SetMatrix("matView", &fmatV);
-	m_pFog->SetVector(m_hFogfFog, &fFog);
-	m_pFog->SetVector(m_hFogCamera, &fCamera);
-	m_pFog->SetVector(m_hFogColorFog, &fFogColor);
-	LPDIRECT3DTEXTURE9 texfog;
-	texfog = TEXTUREMANAGER->GetTexture("map/Terrain_Final_Map.png");
-	m_pFog->SetTexture(m_hFogTexture, texfog);
-
-	m_pFog->SetTechnique(m_hFogtechnique);
-
-	UINT fogPasses = 0;
-	m_pFog->Begin(&fogPasses, NULL);
-	{
-
-		for (UINT i = 0; i < fogPasses; ++i)
-		{
-
-			m_pFog->BeginPass(i);
-			{
-
-			}
-
-			m_pFog->EndPass();
-		}
-	}
-
-	m_pFog->End();
-
-
-	//m_pCharacter->UpdateAndRender();
-
-	/*D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(	147, 200, 249);
-	float start = 20.0f;
-
-	float end = 500.0f;
+	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(151, 255, 215);
+	float start = 0.0f;
+	float end = 300.0f;
 	float m_fFogDensity = 0.01f;
 	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
+	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-
-	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_NONE);
 	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
 	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-
 	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
-	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);*/
 
-	/*GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, false);
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);*/
+
 	/*if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
 
@@ -872,7 +860,6 @@ void LDYcJustTestScene::Render()
 		{
 			m_vecEnemy[i]->UpdateAndRender();
 		}
-
 	}*/
 
 	UIOBJECTMANAGER->Render();
