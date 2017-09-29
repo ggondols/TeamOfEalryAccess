@@ -162,25 +162,25 @@ void Inventory::Render()
 	if (m_pCharacter && UIOBJECTMANAGER->CheckShowState("inventory")) m_pCharacter->UpdateAndRender();
 }
 
-void Inventory::AddItem(string itemName, int count)
+void Inventory::AddItem(string itemName, ITEM_TYPE type, int count)
 {
-	if (m_vecItems.size() >= 25) return;
+	if (m_vecItems.size() > 25) return;
 
 	bool bHaveItem = false;
 
-	for (size_t i = 0; i < m_vecItems.size(); i++)
-	{
-		if (m_vecItems[i].sName == itemName)
-		{
-			bHaveItem = true;
-			m_vecItems[i].nItemCount += count;
-			break;
-		}
-	}
+	//for (size_t i = 0; i < m_vecItems.size(); i++)
+	//{
+	//	if (m_vecItems[i].sName == itemName)
+	//	{
+	//		bHaveItem = true;
+	//		m_vecItems[i].nItemCount += count;
+	//		break;
+	//	}
+	//}
 
 	if (!bHaveItem)
 	{
-		m_vecItems.push_back(ST_INVENTORY_ITEM(count, itemName));
+		m_vecItems.push_back(ST_INVENTORY_ITEM(count, type, itemName));
 	}
 }
 

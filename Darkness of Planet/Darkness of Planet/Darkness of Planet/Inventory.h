@@ -58,7 +58,7 @@ public:
 	void Update(LDYCamera* chamera, LDYCharacter* character);
 	void Render();
 
-	void AddItem(string itemName, int count = 1);
+	void AddItem(string itemName, ITEM_TYPE type, int count = 1);
 	void SubItem(string itemName, int count = 1);
 	bool CheckHaveItem(string itemName);
 

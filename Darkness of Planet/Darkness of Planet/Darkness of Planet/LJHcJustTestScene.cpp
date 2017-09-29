@@ -396,6 +396,7 @@ void LJHcJustTestScene::Update()
 
 	ChangeGridInfo();
 
+
 	UIOBJECTMANAGER->Update();
 }
 
