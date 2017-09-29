@@ -240,6 +240,7 @@
     <ClInclude Include="TeicCharacter.h" />
     <ClInclude Include="TeicCollisionMove.h" />
     <ClInclude Include="TeicEffect.h" />
+    <ClInclude Include="TeicEffectManager.h" />
     <ClInclude Include="TeicEffectParent.h" />
     <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicHeightMapManager.h" />
@@ -353,6 +354,7 @@
     <ClCompile Include="TeicCharacter.cpp" />
     <ClCompile Include="TeicCollisionMove.cpp" />
     <ClCompile Include="TeicEffect.cpp" />
+    <ClCompile Include="TeicEffectManager.cpp" />
     <ClCompile Include="TeicEffectParent.cpp" />
     <ClCompile Include="TeicEnemy.cpp" />
     <ClCompile Include="TeicHeightMapManager.cpp" />

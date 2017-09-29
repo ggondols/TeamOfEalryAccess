@@ -531,6 +531,9 @@
     <ClInclude Include="FieldItem.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
+    <ClInclude Include="TeicEffectManager.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -850,6 +853,9 @@
     </ClCompile>
     <ClCompile Include="FieldItem.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicEffectManager.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
