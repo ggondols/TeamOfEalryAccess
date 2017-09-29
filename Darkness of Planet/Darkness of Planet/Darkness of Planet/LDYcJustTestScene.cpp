@@ -320,7 +320,7 @@ void LDYcJustTestScene::Update()
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 	//if (m_pShadow)m_pShadow->Update();
 
-	m_pCamera->Update(m_pCharacter->GetPosition());
+	m_pCamera->Update(&m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)

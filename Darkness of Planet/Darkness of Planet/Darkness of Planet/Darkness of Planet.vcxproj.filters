@@ -528,6 +528,12 @@
     <ClInclude Include="TeicIceBreath.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
+    <ClInclude Include="FieldItem.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicEffectManager.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -844,6 +850,12 @@
     </ClCompile>
     <ClCompile Include="cStaticMeshLoader.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\StaticMeshScriptLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldItem.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicEffectManager.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

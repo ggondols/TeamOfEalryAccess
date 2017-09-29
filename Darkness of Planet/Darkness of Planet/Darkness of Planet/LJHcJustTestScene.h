@@ -16,12 +16,10 @@
 #include "LDYCamera.h"
 
 class iMap;
-
 class cUIObject;
-
 class Inventory;
-
 class SkyDome;
+class FieldItem;
 
 class LJHcJustTestScene:public cGameNode
 {
@@ -42,6 +40,7 @@ private:
 	int						m_iBodyUpgrade;
 
 	cSkyDome*				m_pSkyDome;
+	vector<FieldItem*>		m_vecItem;
 public:
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;

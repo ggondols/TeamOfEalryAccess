@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "HankcDefferedRenderTest.h"
 #include "iMap.h"
+#include "TeicPhysicsCrtCtrl.h"
 #include "cHeightMap.h"
 
 
@@ -21,23 +22,35 @@ void HankcDefferedRenderTest::CallbackOn(int num)
 HRESULT HankcDefferedRenderTest::Setup()
 {
 
-	m_pCamera = new Hank::cCamera;
+	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
+	m_pPhysicsCrtCtrl = new TeicPhysicsCrtCtrl;
+
+	m_ViewCamera = D3DXVECTOR3(0, 0, 0);
 
 
 	HEIGHTMAPMANAGER->AddHeightMap("terrain", "map/", "final5.raw", "final5.png", (DWORD)1);
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
 	m_pNode = NODEMANAGER->GetNode();
 	//여기부터
-	//	m_pMap->GetHeight(x,y,z) 헤이트맵 수정
 
-	m_pCamera->Setup();
+
+	m_pCamera->Setup(m_pPhysicsCrtCtrl->GetPosition());
 	m_pGrid->Setup();
 
 
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
 
+	for (auto i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
+	{
+		cObjectNode* pObj = *i;
+		float y = pObj->GetPosition().y;
+		m_pMap->GetHeight(pObj->GetPosition().x, y, pObj->GetPosition().z);
+		pObj->SetPosition(D3DXVECTOR3(pObj->GetPosition().x, y, pObj->GetPosition().z));
 
+	}
+
+	//m_pMap->GetHeight(x, y, z) //헤이트맵 위치 기반 Y값 업데이트
 	//디퍼드 리소스 설정하기
 
 
@@ -54,7 +67,9 @@ void HankcDefferedRenderTest::Release()
 
 void HankcDefferedRenderTest::Update()
 {
-	m_pCamera->Update();
+	m_pPhysicsCrtCtrl->Update(m_pCamera->getAngleY());
+	m_pCamera->Update(&m_ViewCamera);
+
 	//m_pCharacter->Update();
 }
 

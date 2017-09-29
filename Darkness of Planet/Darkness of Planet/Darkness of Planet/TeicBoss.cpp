@@ -143,6 +143,14 @@ void TeicBoss::Update()
 		m_bSkillCircleOn = true;
 		
 	}
+	if (KEYMANAGER->isOnceKeyDown('8'))
+	{
+
+		m_ptest->Start();
+	}
+
+
+
 	/*if (KEYMANAGER->isOnceKeyDown('9'))
 	{
 
@@ -246,7 +254,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	//m_fBoundingSize = CalBoundingSize();
 
 	m_ptest = new TeicIceBreath;
-	m_ptest->Setup(D3DXVECTOR3(150, 40, -150), D3DXVECTOR3(170, 40, -170));
+	m_ptest->Setup(D3DXVECTOR3(150, 40, -150), D3DXVECTOR3(130, 40, -130));
 	m_pExplosion = new TeicIceExplosion;
 	m_pExplosion->Setup(D3DXVECTOR3(150, 40, -150));
 	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");

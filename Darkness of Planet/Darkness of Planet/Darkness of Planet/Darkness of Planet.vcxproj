@@ -182,6 +182,7 @@
     <ClInclude Include="cUIObject.h" />
     <ClInclude Include="cUITextView.h" />
     <ClInclude Include="DataBase.h" />
+    <ClInclude Include="FieldItem.h" />
     <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFont.h" />
@@ -239,6 +240,7 @@
     <ClInclude Include="TeicCharacter.h" />
     <ClInclude Include="TeicCollisionMove.h" />
     <ClInclude Include="TeicEffect.h" />
+    <ClInclude Include="TeicEffectManager.h" />
     <ClInclude Include="TeicEffectParent.h" />
     <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicHeightMapManager.h" />
@@ -293,6 +295,7 @@
     <ClCompile Include="cUIObject.cpp" />
     <ClCompile Include="cUITextView.cpp" />
     <ClCompile Include="DataBase.cpp" />
+    <ClCompile Include="FieldItem.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFont.cpp" />
@@ -351,6 +354,7 @@
     <ClCompile Include="TeicCharacter.cpp" />
     <ClCompile Include="TeicCollisionMove.cpp" />
     <ClCompile Include="TeicEffect.cpp" />
+    <ClCompile Include="TeicEffectManager.cpp" />
     <ClCompile Include="TeicEffectParent.cpp" />
     <ClCompile Include="TeicEnemy.cpp" />
     <ClCompile Include="TeicHeightMapManager.cpp" />

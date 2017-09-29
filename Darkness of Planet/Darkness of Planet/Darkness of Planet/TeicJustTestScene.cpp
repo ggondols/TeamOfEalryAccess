@@ -256,7 +256,7 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 	//m_pBoss->Setup("object/", "ice_Boom.X");
-
+	//m_pBoss->Setup("sprites/", "ice_Boom.X");
 
 	m_pBoss->SetPosition(D3DXVECTOR3(150, 40, -150));
 
@@ -305,7 +305,7 @@ void TeicJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	m_pCamera->Update(m_pCharacter->GetPosition());
+	m_pCamera->Update(&m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)

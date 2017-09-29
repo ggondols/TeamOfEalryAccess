@@ -2,10 +2,12 @@
 #include "TeicEffectParent.h"
 #include "TeicParticleSystem.h"
 #include "TeicEnemy.h"
+class iMap;
 class TeicIceBreath: public	TeicEffectParent
 {
 private:
-	TeicEnemy*			m_pMesh;
+	iMap*				m_pHeightmap;
+	TeicEnemy*			m_pMesh[10];
 	TeicParticleSystem*	m_pParticle;
 	bool				m_bStart;
 	float				m_fEndtiming;
@@ -20,6 +22,7 @@ public:
 	virtual void Render();
 	virtual void Setup(D3DXVECTOR3	position, D3DXVECTOR3 characterpos);
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
+	void Callbackon(int n);
 public:
 	TeicIceBreath();
 	~TeicIceBreath();

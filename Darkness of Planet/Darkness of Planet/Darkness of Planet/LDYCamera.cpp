@@ -43,7 +43,7 @@ void LDYCamera::Setup(D3DXVECTOR3 * pvTarget /*=NULL*/)
 
 }
 
-void LDYCamera::Update(D3DXVECTOR3 pvTarget)
+void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 {
 	/*if (UIOBJECTMANAGER->CheckShowState("inventory"))
 	{
@@ -54,12 +54,12 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 
 	if (pvTarget)
 	{
-		m_vTartget.x = pvTarget.x;
-		m_vTartget.y = pvTarget.y + 8.0f;
-		m_vTartget.z = pvTarget.z;
+		m_vTartget.x = pvTarget->x;
+		m_vTartget.y = pvTarget->y + 8.0f;
+		m_vTartget.z = pvTarget->z;
 	}
 	else
-		m_vTartget = D3DXVECTOR3(0, 0, 0);
+		m_vTartget = D3DXVECTOR3(m_vTartget.x, m_vTartget.y, m_vTartget.z);
 
 
 	float deltaX = g_ptMouse.y - m_ptPrevMouse.y;
@@ -108,9 +108,13 @@ void LDYCamera::Update(D3DXVECTOR3 pvTarget)
 		m_fangleX = 0;
 		m_fangleY = D3DX_PI;
 		m_vEye = D3DXVECTOR3(0, 0, -8);
-		m_vTartget.x = pvTarget.x + 2.0f;
-		m_vTartget.y = pvTarget.y + 3.0f;
-		m_vTartget.z = pvTarget.z;
+
+		if (pvTarget) 
+		{
+			m_vTartget.x = pvTarget->x + 2.0f;
+			m_vTartget.y = pvTarget->y + 3.0f;
+			m_vTartget.z = pvTarget->z;
+		}
 	}
 
 	D3DXMATRIXA16 matRX;
