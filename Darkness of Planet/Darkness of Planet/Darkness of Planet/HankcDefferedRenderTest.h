@@ -7,13 +7,15 @@
 #include "cObjectNode.h"
 #include "cStaticMeshLoader.h"
 #include "HankcNode.h"
+#include "LDYCamera.h"
 class iMap;
+class cCrtCtrl;
 class HankcDefferedRenderTest : public cGameNode
 {
 private:
 	HankcGrid*				m_pNode;
 	iMap*					m_pMap;
-	Hank::cCamera*			m_pCamera;
+	LDYCamera*				m_pCamera;
 	Hank::cGrid*			m_pGrid;
 
 	TeicCharacter*			m_pCharacter;
@@ -24,6 +26,10 @@ private:
 	std::list<cObjectNode*>	m_ObjNodes;
 
 	cStaticMeshLoader		m_meshList;
+
+	TeicPhysicsCrtCtrl*		m_pPhysicsCrtCtrl;
+
+	D3DXVECTOR3				m_ViewCamera;
 		
 public:
 
@@ -31,8 +37,6 @@ public:
 	~HankcDefferedRenderTest();
 
 	void CallbackOn(int num);
-
-	
 
 	virtual HRESULT Setup();
 	virtual void Release();
