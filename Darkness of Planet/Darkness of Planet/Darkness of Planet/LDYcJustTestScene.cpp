@@ -668,25 +668,33 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void LDYcJustTestScene::Render()
 {
-
 	//if (motionBlur)motionBlur->Render();
 
 
 	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
+
 	{
 		m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
 		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
 		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
+		vLookatPt.x += lookx;
+		//vLookatPt.y += 5.0f;
+		vLookatPt.z -= lookz;
 		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
 	}
 
+
 	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
 
+
 	D3DXMATRIXA16 matWorld, matView, matProjection, matViewProjection;
+
 	D3DXMatrixIdentity(&matWorld);
+
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
+
 	matViewProjection = matView*matProjection;
 
 	LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
@@ -694,18 +702,27 @@ void LDYcJustTestScene::Render()
 	GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
 	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
 
-
 	//////////////////////////////
 	// 1. 그림자 만들기
 	//////////////////////////////
+
 	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
 	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
 	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
+
+
+	GETDEVICE->SetRenderTarget(0, pShadowSurface);
+	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
 
 	SAFE_RELEASE(pShadowSurface);
 
 	// 저번 프레임에 그\렸던 그림자 정보를 지움
 	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	D3DXMATRIX scal;
+	D3DXMatrixScaling(&scal, 0.04, 0.04, 0.04);
+	D3DXMATRIX trans;
+	D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
 
 	// 그림자 만들기 쉐이더 전역변수들을 설정
 
@@ -713,6 +730,7 @@ void LDYcJustTestScene::Render()
 	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
 
 	// 그림자 만들기 쉐이더를 시작
+
 	{
 		UINT numPasses = 0;
 		m_pCreateShadow->Begin(&numPasses, NULL);
@@ -729,17 +747,16 @@ void LDYcJustTestScene::Render()
 		m_pCreateShadow->End();
 	}
 
-
 	//////////////////////////////
 	// 2. 그림자 입히기
 	//////////////////////////////
+
 	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
 	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
 	SAFE_RELEASE(pHWBackBuffer);
 	SAFE_RELEASE(pHWDepthStencilBuffer);
-
 
 	// 그림자 입히기 쉐이더 전역변수들을 설정
 	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);      //원환체
@@ -765,7 +782,7 @@ void LDYcJustTestScene::Render()
 			{
 				// 원환체를 그린다.
 
-				m_pCharacter->UpdateAndRender();
+
 				// 디스크를 그린다.
 
 				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
@@ -775,11 +792,13 @@ void LDYcJustTestScene::Render()
 		}
 	}
 	m_pApplyShadow->End();
-	////if (m_pCharacter)m_pCharacter->UpdateAndRender();
-	//if (m_pSkyDome)m_pSkyDome->Render();
-	//if (m_pSkyCloud)m_pSkyCloud->Render();
 
-	/*D3DXMATRIXA16 FogMatWorld,fmatV,fmatP, FogMatWolrdView, FogMatWorldViewProj;
+	//if (m_pCharacter)m_pCharacter->UpdateAndRender();
+	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+
+
+	D3DXMATRIXA16 FogMatWorld,fmatV,fmatP, FogMatWolrdView, FogMatWorldViewProj;
 	D3DXMatrixIdentity(&FogMatWorld);
 	GETDEVICE->GetTransform(D3DTS_VIEW, &fmatV);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &fmatP);
@@ -818,8 +837,10 @@ void LDYcJustTestScene::Render()
 		}
 	}
 
-	m_pFog->End();*/
-	m_pCharacter->UpdateAndRender();
+	m_pFog->End();
+
+
+	//m_pCharacter->UpdateAndRender();
 
 	/*D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(	147, 200, 249);
 	float start = 20.0f;
@@ -844,7 +865,6 @@ void LDYcJustTestScene::Render()
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	if (m_pGrid)m_pGrid->Render();
-
 
 	/*if (m_bThread)
 	{
