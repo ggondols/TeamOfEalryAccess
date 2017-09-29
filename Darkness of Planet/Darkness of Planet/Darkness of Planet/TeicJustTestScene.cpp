@@ -285,8 +285,8 @@ void TeicJustTestScene::Release()
 
 void TeicJustTestScene::Update()
 {
-	
-	m_pBoss->Update();
+	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	m_pBoss->Update(m_pCharacter->GetPosition());
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
 		m_pBoss->SetNextAni();

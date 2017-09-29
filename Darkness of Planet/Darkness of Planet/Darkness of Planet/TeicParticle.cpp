@@ -67,6 +67,15 @@ void TeicParticle::Setup2(ST_PC_VERTEX * vertex, float liftspan, D3DXVECTOR3 end
 
 }
 
+void TeicParticle::SetPosition(ST_PC_VERTEX * vertex, D3DXVECTOR3 endposition)
+{
+	m_pVertex = vertex;
+	m_pVertexSample = *vertex;
+
+	m_vLastPosition = endposition;
+
+}
+
 
 
 void TeicParticle::Update()
@@ -162,10 +171,12 @@ void TeicParticle::Update3()
 
 	
 
-
-	D3DXVec3Lerp(&m_pVertex->p, &m_pVertexSample.p, &m_vLastPosition, (m_distance) / 1);
+	D3DXVECTOR3 dir = m_vLastPosition - m_pVertexSample.p;
+	D3DXVec3Normalize(&dir, &dir);
+	D3DXVECTOR3 lastP = m_pVertexSample.p + dir * 120;
+	D3DXVec3Lerp(&m_pVertex->p, &m_pVertexSample.p, &lastP, (m_distance*0.15) / 1);
 	D3DXMATRIX trans;
-	D3DXMatrixTranslation(&trans, 0, cos(m_fUpDown)*5, 0);
+	D3DXMatrixTranslation(&trans, 0, cos(m_fUpDown)*3, 0);
 	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &trans);
 	
 

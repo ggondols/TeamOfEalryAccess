@@ -19,15 +19,15 @@
 
 enum Boss_Skill
 {
-	Skill_Explosion,
-	Skill_None
+	Boss_Skill_Explosion,
+	Boss_Skill_Breath,
+	Boss_Skill_None
 };
 class TeicBoss
 {
 
 private:
-	TeicIceBreath*				m_ptest;
-	TeicIceExplosion*			m_pExplosion;
+	
 	TeicSkinnedMesh*	m_pSkinnedMesh;
 	CallbackBindFunction m_Callback;
 	CallbackBindFunction m_AttackCallback;
@@ -50,8 +50,9 @@ public:
 	vector<ST_PT_VERTEX>	m_vecSkillCube;
 	LPDIRECT3DTEXTURE9      m_pSkillCubeTexture;
 	LPD3DXEFFECT			m_pSkillCubeEffect;
+	D3DXVECTOR3				m_vCharacterPos;
 public:
-	void Update();
+	void Update(D3DXVECTOR3	CharacterPos);
 	void MeshRender(LPD3DXEFFECT effect);
 	void SetNextAni();
 	void SetScaleSize(float a);
@@ -81,8 +82,8 @@ public:
 	POINT GetNodeNum();
 	void SetSpeed(float s) { m_fSpeed = s; }
 	float CalBoundingSize();
-	void SkillExplosion();
-	void ShowSkillCube(D3DXVECTOR3 position);
+	void CalRotation(D3DXVECTOR3 position);
+	void ShowSkillCube();
 	void SetSkillCube(float x, float y);
 	LPD3DXEFFECT LoadEffect(const char * szFileName);
 public:
