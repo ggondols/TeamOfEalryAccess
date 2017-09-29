@@ -44,6 +44,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		SOUNDMANAGER->Setup();
 		EFFECTMANAGER->Setup();
 		MODELMANAGER->Setup();
+		SKILLEFFECTMANAGER->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -127,6 +128,8 @@ void cGameNode::Release()
 		MODELMANAGER->FreeAllResources();
 		MODELMANAGER->releaseSingleton();
 
+		SKILLEFFECTMANAGER->Destroy();
+		SKILLEFFECTMANAGER->releaseSingleton();
 	}
 }
 

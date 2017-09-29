@@ -167,17 +167,17 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pInventory->Setup();
 
 	FieldItem* pItem1 = new FieldItem();
-	pItem1->Setup("ArmorArm");
+	pItem1->Setup("ArmorArm", ITEMTYPE_PART);
 	pItem1->SetPosition(D3DXVECTOR3(60, 10, -10));
 	m_vecItem.push_back(pItem1);
 
 	FieldItem* pItem2 = new FieldItem();
-	pItem2->Setup("ArmorBody");
+	pItem2->Setup("ArmorBody", ITEMTYPE_PART);
 	pItem2->SetPosition(D3DXVECTOR3(30, 20, -20));
 	m_vecItem.push_back(pItem2);
 	
 	FieldItem* pItem3 = new FieldItem();
-	pItem3->Setup("ArmorLeg");
+	pItem3->Setup("ArmorLeg", ITEMTYPE_PART);
 	pItem3->SetPosition(D3DXVECTOR3(50, 10, -50));
 	m_vecItem.push_back(pItem3);
 	
@@ -395,6 +395,7 @@ void LJHcJustTestScene::Update()
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
 
 	ChangeGridInfo();
+
 
 	UIOBJECTMANAGER->Update();
 }

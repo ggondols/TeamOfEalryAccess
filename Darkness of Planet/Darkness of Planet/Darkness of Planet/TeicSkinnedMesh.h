@@ -48,7 +48,7 @@ protected:
 	int m_iAttack;
 	int	m_Tracknum;
 	int	m_iNum;
-	
+	bool						m_bAnion;
 	D3DXMATRIX					m_RotationMat;
 	bool m_bCollision;
 	
@@ -78,6 +78,7 @@ public:
 	void SetAttack(int n) { m_iAttack = n; }
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
+	void SetAnimationPlay(bool on) { m_bAnion = on; }
 protected:
 	
 	void Load(char* szFolder, char* szFilename);

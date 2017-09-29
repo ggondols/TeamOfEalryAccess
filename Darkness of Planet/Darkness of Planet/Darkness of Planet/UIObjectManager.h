@@ -28,6 +28,8 @@ private:
 
 	LPD3DXSPRITE			m_pSprite;
 
+	void Clamp(float& x, float& y);
+
 public:
 	UIObjectManager();
 	~UIObjectManager();
@@ -37,8 +39,8 @@ public:
 	void AddRoot(string key, UI_TYPE type, bool isShow = false);
 	void AddChild(string key, UI_TYPE type);
 
-	void SetPosition(string key, float x, float y);
-	void SetPosition(string key, int tag, float x, float y);
+	void SetPosition(string key, float x, float y, float xDetails = 0.0f, float yDetails = 0.0f);
+	void SetPosition(string key, int tag, float x, float y, float xDetails = 0.0f, float yDetails = 0.0f);
 	void SetSize(string key, float x, float y);
 	void SetSize(string key, int tag, float x, float y);
 

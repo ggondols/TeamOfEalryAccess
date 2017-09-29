@@ -27,7 +27,7 @@ private:
 	float			m_fCurveAngleY;
 	float			m_fCurveAngleZ;
 	float			m_fUpDown;
-	int				m_iUpDownPlus;
+	
 public:
 
 	ST_PC_VERTEX*	m_pVertex;

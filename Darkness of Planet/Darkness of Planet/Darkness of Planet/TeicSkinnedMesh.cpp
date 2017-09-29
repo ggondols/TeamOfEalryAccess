@@ -60,6 +60,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	D3DXMatrixIdentity(&m_RotationMat);
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
 	m_fUpdateSpeed = 1.0f;
+	m_bAnion = true;
 	
 }
 TeicSkinnedMesh::TeicSkinnedMesh()
@@ -76,7 +77,7 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
 	m_fUpdateSpeed = 1.0f;
 	m_fAttacktiming = 0.0f;
-	
+	m_bAnion = true;
 }
 
 
@@ -569,8 +570,11 @@ void TeicSkinnedMesh::ShaderMeshRender(LPD3DXEFFECT effect)
 
 	if (m_pAnimController)
 	{
-		m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime()*m_fUpdateSpeed, NULL);
-		Blending();
+		if (m_bAnion)
+		{
+			m_pAnimController->AdvanceTime(TIMEMANAGER->getElapsedTime()*m_fUpdateSpeed, NULL);
+			Blending();
+		}
 	}
 
 	if (m_pRootFrame)
