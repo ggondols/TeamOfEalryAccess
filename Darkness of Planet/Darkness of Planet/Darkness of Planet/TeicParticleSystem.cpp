@@ -220,7 +220,13 @@ void TeicParticleSystem::Update3()
 		m_vecParticle[i]->Update3();
 	}
 }
-
+void TeicParticleSystem::Update4()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		m_vecParticle[i]->Update4();
+	}
+}
 void TeicParticleSystem::Render()
 {
 	
