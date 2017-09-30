@@ -101,7 +101,8 @@ void TeicParticleSystem::Setup2(D3DXVECTOR3 start, D3DXVECTOR3 startVar, D3DXVEC
 {
 	m_vecVertex.resize(Maxparticle);
 	m_vecParticle.resize(Maxparticle);
-
+	m_vStartVar = startVar;
+	m_vEndVar = endVar;
 	for (int i = 0; i < m_vecVertex.size(); ++i)
 	{
 		
@@ -136,6 +137,8 @@ void TeicParticleSystem::Setup2(D3DXVECTOR3 start, D3DXVECTOR3 startVar, D3DXVEC
 	m_text = texture;
 	GETDEVICE->SetRenderState(D3DRS_POINTSCALEENABLE, true);
 
+	m_fDotSize = dotsize;
+	m_fDotSizevar = dotsizevar;
 	// 포인트 사이즈 설정
 	GETDEVICE->SetRenderState(D3DRS_POINTSIZE, FtoDw(dotsize + RND->getFromFloatTo(-dotsizevar, dotsizevar)));
 
@@ -161,11 +164,38 @@ void TeicParticleSystem::Setup2(D3DXVECTOR3 start, D3DXVECTOR3 startVar, D3DXVEC
 	GETDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
 
+	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+
+	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	
 }
 
 
+
+void TeicParticleSystem::SetPosition(D3DXVECTOR3 start, D3DXVECTOR3 end)
+{
+	
+
+	for (int i = 0; i < m_vecVertex.size(); ++i)
+	{
+
+		m_vecVertex[i].p = D3DXVECTOR3(start.x + RND->getFromFloatTo(-m_vStartVar.x, m_vStartVar.x),
+			start.y + RND->getFromFloatTo(-m_vStartVar.y, m_vStartVar.y),
+			start.z + RND->getFromFloatTo(-m_vStartVar.z, m_vStartVar.z));
+
+		m_vecParticle[i]->SetPosition(&m_vecVertex[i], D3DXVECTOR3(end.x + RND->getFromFloatTo(-m_vEndVar.x, m_vEndVar.x),
+			end.y + RND->getFromFloatTo(-m_vEndVar.y, m_vEndVar.y),
+			end.z + RND->getFromFloatTo(-m_vEndVar.z, m_vEndVar.z)));
+
+	}
+	SetDotsize();
+	
+}
 
 void TeicParticleSystem::Update()
 {
@@ -193,14 +223,7 @@ void TeicParticleSystem::Update3()
 
 void TeicParticleSystem::Render()
 {
-	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
-
-	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-
-
-	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	
 
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -243,4 +266,15 @@ void TeicParticleSystem::End()
 	{
 		m_vecParticle[i]->End();
 	}
+}
+
+void TeicParticleSystem::SetDotsize()
+{
+	// 포인트 사이즈 설정
+	GETDEVICE->SetRenderState(D3DRS_POINTSIZE, FtoDw(m_fDotSize + RND->getFromFloatTo(-m_fDotSizevar, m_fDotSizevar)));
+
+	// 포인트 스케일링 Factor값 설정
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_A, FtoDw(1.0f));
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_B, FtoDw(1.0f));
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_C, FtoDw(1.0f));
 }

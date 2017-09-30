@@ -16,12 +16,23 @@ FieldItem::~FieldItem()
 
 void FieldItem::Setup(string name, ITEM_TYPE type)
 {
-	m_sName = name;
 	m_eType = type;
 
-	if (m_sName == "ArmorArm") m_pMesh = LoadModel("object/xFile/Item/", "ArmorArm.X");
-	else if (m_sName == "ArmorBody") m_pMesh = LoadModel("object/xFile/Item/", "ArmorBody.X");
-	else if (m_sName == "ArmorLeg") m_pMesh = LoadModel("object/xFile/Item/", "ArmorLeg.X");
+	if (name == "ArmorArm")
+	{
+		m_sName = "FullArmorPart1";
+		m_pMesh = LoadModel("object/xFile/Item/", "ArmorArm.X");
+	}
+	else if (name == "ArmorBody")
+	{
+		m_sName = "FullArmorPart2";
+		m_pMesh = LoadModel("object/xFile/Item/", "ArmorBody.X");
+	}
+	else if (name == "ArmorLeg")
+	{
+		m_sName = "FullArmorPart3";
+		m_pMesh = LoadModel("object/xFile/Item/", "ArmorLeg.X");
+	}
 }
 
 void FieldItem::Update()
@@ -34,9 +45,9 @@ void FieldItem::Render()
 	D3DXMATRIX matS, matRY, matT;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMatrixRotationY(&matRY, m_fAngleY);
-	if (m_sName == "ArmorArm") D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
-	else if (m_sName == "ArmorBody") D3DXMatrixScaling(&matS, 0.06f, 0.06f, 0.06f);
-	else if (m_sName == "ArmorLeg") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
+	if (m_sName == "FullArmorPart1") D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
+	else if (m_sName == "FullArmorPart2") D3DXMatrixScaling(&matS, 0.06f, 0.06f, 0.06f);
+	else if (m_sName == "FullArmorPart3") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
 
 	m_matWorld = matS * matRY * matT;
 	GETDEVICE->SetTransform(D3DTS_WORLD, &m_matWorld);

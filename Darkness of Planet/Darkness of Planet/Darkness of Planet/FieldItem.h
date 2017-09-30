@@ -21,5 +21,8 @@ public:
 	virtual void Setup(string name, ITEM_TYPE type);
 	virtual void Update();
 	virtual void Render();
+
+	string GetName() { return m_sName; }
+	ITEM_TYPE GetItemType() { return m_eType; }
 };
 

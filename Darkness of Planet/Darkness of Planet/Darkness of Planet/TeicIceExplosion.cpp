@@ -75,7 +75,7 @@ void TeicIceExplosion::Render()
 	m_pParticle->Render();
 }
 
-void TeicIceExplosion::Setup(D3DXVECTOR3 position)
+void TeicIceExplosion::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
 	m_pMesh = new TeicEnemy;
 	m_pMesh->Setup("sprites/", "IceEffect.X");
@@ -156,5 +156,19 @@ LPD3DXEFFECT TeicIceExplosion::LoadEffectHpp(const char * szFileName)
 	}
 
 	return pEffect;
+}
+
+void TeicIceExplosion::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
+{
+	
+	m_pMesh->SetPosition(position);
+	m_pMesh->SetAnimation(0);
+	m_pParticle->SetPosition(D3DXVECTOR3(position.x, position.y + 10, position.z), D3DXVECTOR3(position.x, position.y + 10, position.z));
+	
+}
+
+bool TeicIceExplosion::IsRunning()
+{
+	return m_bStart;
 }
 

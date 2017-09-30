@@ -128,9 +128,9 @@ LJHcJustTestScene::~LJHcJustTestScene()
 
 	}
 
-	for (size_t i = 0; i < m_vecItem.size(); i++)
+	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end(); it++)
 	{
-		SAFE_RELEASE(m_vecItem[i]);
+		SAFE_RELEASE((*it));
 	}
 }
 
@@ -169,17 +169,17 @@ HRESULT LJHcJustTestScene::Setup()
 	FieldItem* pItem1 = new FieldItem();
 	pItem1->Setup("ArmorArm", ITEMTYPE_PART);
 	pItem1->SetPosition(D3DXVECTOR3(60, 10, -10));
-	m_vecItem.push_back(pItem1);
+	m_listItem.push_back(pItem1);
 
 	FieldItem* pItem2 = new FieldItem();
 	pItem2->Setup("ArmorBody", ITEMTYPE_PART);
 	pItem2->SetPosition(D3DXVECTOR3(30, 20, -20));
-	m_vecItem.push_back(pItem2);
+	m_listItem.push_back(pItem2);
 	
 	FieldItem* pItem3 = new FieldItem();
 	pItem3->Setup("ArmorLeg", ITEMTYPE_PART);
 	pItem3->SetPosition(D3DXVECTOR3(50, 10, -50));
-	m_vecItem.push_back(pItem3);
+	m_listItem.push_back(pItem3);
 	
 	///////////동윤
 
@@ -206,11 +206,11 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pGrid->Setup();
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
 	
-	for (size_t i = 0; i < m_vecItem.size(); i++)
+	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end(); it++)
 	{
-		D3DXVECTOR3 temp = m_vecItem[i]->GetPosition();
+		D3DXVECTOR3 temp = (*it)->GetPosition();
 		m_pMap->GetHeight(temp.x, temp.y, temp.z);
-		m_vecItem[i]->SetPosition(temp);
+		(*it)->SetPosition(temp);
 	}
 
 	//노드 추가 합니다.
@@ -228,7 +228,6 @@ HRESULT LJHcJustTestScene::Setup()
 			m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
 		}
 	}
-
 
 	m_pAstar = new TeicAstar;
 	m_pAstar->Setup(m_pNode);
@@ -267,9 +266,20 @@ void LJHcJustTestScene::Update()
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
 
-	for each(auto i in m_vecItem)
+	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end();)
 	{
-		i->Update();
+		(*it)->Update();
+		if (D3DXVec3Length(&(m_pCharacter->GetPosition() - (*it)->GetPosition())) < 2.0f)
+		{
+			FieldItem* collidedItem = (*it);
+			m_pInventory->AddItem(collidedItem->GetName(), collidedItem->GetItemType());
+			it = m_listItem.erase(it);
+			SAFE_RELEASE(collidedItem);
+		}
+		else
+		{
+			it++;
+		}
 	}
 
 	if (m_pSkyDome && !UIOBJECTMANAGER->CheckShowState("inventory")) m_pSkyDome->Update();
@@ -641,7 +651,7 @@ void LJHcJustTestScene::Render()
 		}
 	}
 
-	for each(auto i in m_vecItem)
+	for each(auto i in m_listItem)
 	{
 		i->Render();
 	}
