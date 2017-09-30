@@ -540,6 +540,12 @@
     <ClInclude Include="TeicIceblizzard.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
+    <ClInclude Include="TeicCharacterBlood.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cSprayMesh.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -868,6 +874,12 @@
     </ClCompile>
     <ClCompile Include="TeicIceblizzard.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicCharacterBlood.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cSprayMesh.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

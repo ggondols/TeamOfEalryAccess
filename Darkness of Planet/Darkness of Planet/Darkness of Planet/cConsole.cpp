@@ -115,8 +115,12 @@ void cConsole::Render()
 	
 	for (int i = 0; i < m_log.size(); i++)
 	{
-		UIOBJECTMANAGER->SetPosition("ConsoleBar", 2,0, -0.3 - -i*0.3);
-		UIOBJECTMANAGER->SetText("ConsoleBar", 2, m_log[i]);
+		float x, y;
+		UIOBJECTMANAGER->GetPosition("ConsoleBar", x, y);
+		RECT rc;
+		y = y - i*30;
+		SetRect(&rc, x, y, x + 1000, y + 1000);
+		m_pFont->DrawTextA(NULL, m_log[m_log.size() -1 - i].c_str(), m_log[m_log.size()-1- i].size(), &rc, DT_CENTER, D3DCOLOR_XRGB(255, 255, 255));
 	}
 }
 
