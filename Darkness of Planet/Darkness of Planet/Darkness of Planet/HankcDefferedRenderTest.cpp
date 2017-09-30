@@ -31,8 +31,10 @@ HRESULT HankcDefferedRenderTest::Setup()
 
 	m_pConsole = new cConsole;
 	m_pConsole->Setup();
+
+	m_mna = 0;
 	
-	//m_pConsole->addValues("MNA", "int", &m_mna); //사용 예시
+	m_pConsole->addValues("MNA", "int", &m_mna); //사용 예시
 
 	HEIGHTMAPMANAGER->AddHeightMap("terrain", "map/", "final5.raw", "final5.png", (DWORD)1);
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
@@ -87,10 +89,10 @@ void HankcDefferedRenderTest::Update()
 	m_pConsole->Update();
 
 	
-	/*if (m_mna != 0)
+	if (m_mna != 0)
 	{
 		int a = 0;
-	}*/
+	}
 
 	//m_pCharacter->Update();
 

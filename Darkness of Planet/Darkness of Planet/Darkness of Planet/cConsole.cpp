@@ -15,7 +15,7 @@ void cConsole::Setup()
 
 	UIOBJECTMANAGER->AddRoot("ConsoleBar", UITYPE_IMAGE, true);
 	UIOBJECTMANAGER->SetTexture("ConsoleBar", "./UI/Icon_Empty.png");
-	UIOBJECTMANAGER->SetPosition("ConsoleBar", 0.5f, 0.85f);
+	UIOBJECTMANAGER->SetPosition("ConsoleBar", 0.0f, 0.85f);
 
 	UIOBJECTMANAGER->AddChild("ConsoleBar", UITYPE_TEXT);
 	UIOBJECTMANAGER->SetPosition("ConsoleBar", 1, 0, 0.5);	// ÀÎÇ² µ¥ÀÌÅÍ
@@ -24,7 +24,9 @@ void cConsole::Setup()
 	UIOBJECTMANAGER->AddChild("ConsoleBar", UITYPE_TEXT);
 	UIOBJECTMANAGER->SetPosition("ConsoleBar", 3, 0, -0.3); // ¾Æ¿ôÇ² µ¥ÀÌÅÍ
 	
-	m_pFont = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
+	m_pFont = FONTMANAGER->GetFont(cFontManager::E_CONSOLE);
+
+	m_bRender = true;
 }
 
 void cConsole::Release()
@@ -67,12 +69,18 @@ void cConsole::Update()
 					DataInput(iss, m_type[i], m_pDatas[i]);
 				}
 			}
-			
-		
 			m_input.clear();
 		}
 
 		GETLPARAM = 0;
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_TAB))  //²°´Ù Ä×´Ù ÇÒ ¼ö ÀÖ´Ù.
+	{
+		if (m_bRender)
+			m_bRender = false;
+		else if (!m_bRender)
+			m_bRender = true;
 	}
 }
 
@@ -102,11 +110,13 @@ void cConsole::DataInput(istringstream& iss, string& type, void* data)
 	{
 		iss >> *(char*)data;
 	}
-
-
 }
+
 void cConsole::Render()
 {
+	if (!m_bRender)
+		return;
+
 	UIOBJECTMANAGER->Render("ConsoleBar");
 	string str = m_input;
 	//RECT rc = RectMake(200, 500, 1000, 1000);
@@ -118,9 +128,9 @@ void cConsole::Render()
 		float x, y;
 		UIOBJECTMANAGER->GetPosition("ConsoleBar", x, y);
 		RECT rc;
-		y = y - i*30;
+		y = y - i*15;
 		SetRect(&rc, x, y, x + 1000, y + 1000);
-		m_pFont->DrawTextA(NULL, m_log[m_log.size() -1 - i].c_str(), m_log[m_log.size()-1- i].size(), &rc, DT_CENTER, D3DCOLOR_XRGB(255, 255, 255));
+		m_pFont->DrawTextA(NULL, m_log[m_log.size() -1 - i].c_str(), m_log[m_log.size()-1- i].size(), &rc, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 	}
 }
 

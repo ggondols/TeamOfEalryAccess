@@ -52,6 +52,18 @@ LPD3DXFONT cFontManager::GetFont(eFontType e)
 			//AddFontResource("umberto.ttf");
 			strcpy_s(fd.FaceName, "궁서체");	//글꼴 스타일
 		}
+		else if (e == E_CONSOLE)
+		{
+			fd.Height = 15;
+			fd.Width = 7;
+			fd.Weight = FW_BOLD;
+			fd.Italic = false;
+			fd.CharSet = DEFAULT_CHARSET;
+			fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+			fd.PitchAndFamily = FF_DONTCARE;
+			//AddFontResource("umberto.ttf");
+			strcpy_s(fd.FaceName, "나눔고딕");	//글꼴 스타일
+		}
 		D3DXCreateFontIndirect(GETDEVICE, &fd, &m_mapFont[e]);
 	}
 

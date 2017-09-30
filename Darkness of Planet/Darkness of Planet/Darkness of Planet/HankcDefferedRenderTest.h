@@ -36,7 +36,9 @@ private:
 
 	cConsole*				m_pConsole;
 
-	cSprayMesh				m_pMeshSpray;
+	cSprayMesh*				m_pMeshSpray;
+
+	int						m_mna;
 		
 public:
 
