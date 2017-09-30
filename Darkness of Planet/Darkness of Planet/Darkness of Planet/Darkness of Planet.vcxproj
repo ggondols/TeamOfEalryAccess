@@ -239,6 +239,7 @@
     <ClInclude Include="TeicBoss.h" />
     <ClInclude Include="TeicBresenham.h" />
     <ClInclude Include="TeicCharacter.h" />
+    <ClInclude Include="TeicCharacterBlood.h" />
     <ClInclude Include="TeicCollisionMove.h" />
     <ClInclude Include="TeicEffect.h" />
     <ClInclude Include="TeicEffectManager.h" />
@@ -355,6 +356,7 @@
     <ClCompile Include="TeicBoss.cpp" />
     <ClCompile Include="TeicBresenham.cpp" />
     <ClCompile Include="TeicCharacter.cpp" />
+    <ClCompile Include="TeicCharacterBlood.cpp" />
     <ClCompile Include="TeicCollisionMove.cpp" />
     <ClCompile Include="TeicEffect.cpp" />
     <ClCompile Include="TeicEffectManager.cpp" />
