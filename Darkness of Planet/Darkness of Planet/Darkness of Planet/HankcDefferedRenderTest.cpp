@@ -93,6 +93,8 @@ void HankcDefferedRenderTest::Update()
 	}
 
 	//m_pCharacter->Update();
+
+	UIOBJECTMANAGER->Update();
 }
 
 void HankcDefferedRenderTest::Render()

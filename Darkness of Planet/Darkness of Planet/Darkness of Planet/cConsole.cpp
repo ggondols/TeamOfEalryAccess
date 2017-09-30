@@ -10,13 +10,19 @@ void cConsole::Setup()
 	D3DVIEWPORT9 viewport;
 	GETDEVICE->GetViewport(&viewport);
 	m_box = new cUIImageView;
-	m_box->SetTexture("./UI/Icon_Empty.png");
-	m_box->SetPosition(100,50);
+	//m_box->SetTexture("./UI/Icon_Empty.png");
+	//m_box->SetPosition(1,1);
 
-	UIOBJECTMANAGER->AddRoot("ConsoleBar", m_box, true);
-	UIOBJECTMANAGER->SetPosition("ConsoleBar", 100, 50);
+	UIOBJECTMANAGER->AddRoot("ConsoleBar", UITYPE_IMAGE, true);
+	UIOBJECTMANAGER->SetTexture("ConsoleBar", "./UI/Icon_Empty.png");
+	UIOBJECTMANAGER->SetPosition("ConsoleBar", 0.5f, 0.85f);
+
 	UIOBJECTMANAGER->AddChild("ConsoleBar", UITYPE_TEXT);
-	UIOBJECTMANAGER->SetPosition("ConsoleBar", 1, 0.5, 0.5);
+	UIOBJECTMANAGER->SetPosition("ConsoleBar", 1, 0, 0.5);	// 인풋 데이터
+	UIOBJECTMANAGER->AddChild("ConsoleBar", UITYPE_TEXT);
+	UIOBJECTMANAGER->SetPosition("ConsoleBar", 2, 0, -0.6); // 텍스트 로그
+	UIOBJECTMANAGER->AddChild("ConsoleBar", UITYPE_TEXT);
+	UIOBJECTMANAGER->SetPosition("ConsoleBar", 3, 0, -0.3); // 아웃풋 데이터
 	
 	m_pFont = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
 }
@@ -32,7 +38,7 @@ void cConsole::Update()
 	{
 		char str = (GETLPARAM);
 
-		if (str > '0' && str < 'Z')
+		if (str >= '0' && str <= 'Z')
 		{
 			m_input += str;
 		}
@@ -46,6 +52,7 @@ void cConsole::Update()
 		}
 		else if ((int)str == 13) // 엔터
 		{
+			m_log.push_back(m_input);
 			istringstream iss(m_input);
 
 			string token;
@@ -60,6 +67,7 @@ void cConsole::Update()
 					DataInput(iss, m_type[i], m_pDatas[i]);
 				}
 			}
+			
 		
 			m_input.clear();
 		}
@@ -86,7 +94,9 @@ void cConsole::DataInput(istringstream& iss, string& type, void* data)
 	}
 	else if (type == "string")
 	{
-		iss >> *(string*)data;
+		string* temp = (string*)data;
+		temp->clear();
+		iss >> *temp;
 	}
 	else if (type == "char")
 	{
@@ -102,6 +112,12 @@ void cConsole::Render()
 	//RECT rc = RectMake(200, 500, 1000, 1000);
 	//m_pFont->DrawTextA(NULL, str.c_str(), str.size(), &rc, DT_CENTER, D3DCOLOR_XRGB(255, 255, 255));
 	UIOBJECTMANAGER->SetText("ConsoleBar", 1, str);
+	
+	for (int i = 0; i < m_log.size(); i++)
+	{
+		UIOBJECTMANAGER->SetPosition("ConsoleBar", 2,0, -0.3 - -i*0.3);
+		UIOBJECTMANAGER->SetText("ConsoleBar", 2, m_log[i]);
+	}
 }
 
 void cConsole::addValues(string valueName, string type, void* data)
