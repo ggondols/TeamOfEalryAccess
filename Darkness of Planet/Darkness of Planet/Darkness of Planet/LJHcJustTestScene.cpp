@@ -190,8 +190,6 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
 
-
-
 	m_pCharacter = new LDYCharacter;
 	char* BodyName = "HeroBodyLv";
 	char buff[1024];

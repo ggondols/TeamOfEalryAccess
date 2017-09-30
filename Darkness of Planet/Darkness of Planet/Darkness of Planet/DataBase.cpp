@@ -171,6 +171,22 @@ void DataBase::LoadAIData()
 	fclose(fp);
 }
 
+void DataBase::SaveVectorString(string fileName)
+{
+	FILE* fp = NULL;
+	string filePath = "Data/";
+	filePath += fileName + ".txt";
+	fopen_s(&fp, filePath.c_str(), "w");
+
+	for (size_t i = 0; i < m_vecString.size(); i++)
+	{
+		string sBuffer = m_vecString[i] + "\n";
+		printf("%s", fputs(sBuffer.c_str(), fp));
+	}
+
+	fclose(fp);
+}
+
 float DataBase::GetItemValue(string itemName)
 {
 	mapItemDataIter it = m_mapItemData.find(itemName);
