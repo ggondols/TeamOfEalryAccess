@@ -21,7 +21,9 @@ enum Boss_Skill
 {
 	Boss_Skill_Explosion,
 	Boss_Skill_Breath,
+	Boss_Skill_Blizzard,
 	Boss_Skill_None
+
 };
 class TeicBoss
 {

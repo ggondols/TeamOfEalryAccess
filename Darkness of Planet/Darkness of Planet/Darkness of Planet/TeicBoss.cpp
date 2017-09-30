@@ -136,6 +136,10 @@ void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 	}
 	
 	SKILLEFFECTMANAGER->Update();
+	if (KEYMANAGER->isOnceKeyDown('L'))
+	{
+		SKILLEFFECTMANAGER->play("Blizzard", m_pSkinnedMesh->GetPosition(), m_pSkinnedMesh->GetPosition());
+	}
 	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
 		m_pSkinnedMesh->m_fAttacktiming = 1.4;
@@ -271,6 +275,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 
 	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");
 }
 
