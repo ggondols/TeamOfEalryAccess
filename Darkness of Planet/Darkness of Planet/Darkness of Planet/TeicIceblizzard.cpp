@@ -5,7 +5,7 @@
 TeicIceblizzard::TeicIceblizzard()
 {
 	m_pParticle = NULL;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 20; i++)
 	{
 		m_pMesh[i] = NULL;
 	}
@@ -26,7 +26,24 @@ TeicIceblizzard::~TeicIceblizzard()
 void TeicIceblizzard::Update()
 {
 	if (!m_bStart)return;
-	m_pParticle->Update3();
+	m_pParticle->Update4();
+	for (int i = 0; i < 20; i++)
+	{
+		if (!m_bOn[i])continue;
+		if (m_pMesh[i]->GetPosition().y > m_fMeshHeight[i])
+		{
+			m_pMesh[i]->GetPositionPointer()->y -= 1* m_fSpeed[i];
+		}
+		else
+		{
+			if (m_pMesh[i]->GetAninum() != 0)
+			{
+				m_pMesh[i]->SetAnimation(0);
+			}
+		}
+		
+
+	}
 	if (TIMEMANAGER->getWorldTime() > m_fEndtiming + 2.0f)
 	{
 		Stop();
@@ -36,11 +53,11 @@ void TeicIceblizzard::Update()
 void TeicIceblizzard::Start()
 {
 	if (m_bStart)return;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 20; i++)
 	{
 
-		m_pMesh[i]->SetAnimation(0);
-		m_pMesh[i]->SetUpdateSpeed(0.5);
+		m_pMesh[i]->SetAnimation(1);
+		m_pMesh[i]->SetUpdateSpeed(1);
 	}
 
 	m_bStart = true;
@@ -65,10 +82,13 @@ void TeicIceblizzard::Render()
 			m_pEffect->BeginPass(i);
 			{
 				m_pEffect->CommitChanges();
-				for (int j = 0; j < 10; j++)
+				for (int j = 0; j < 20; j++)
 				{
-					if (m_fAlpha < 0.05*(10 - j) + 0.5)
+					if (m_fAlpha < 0.04*(20 - j) + 0.2)
+					{
+						m_bOn[j] = true;
 						m_pMesh[j]->MeshRender(m_pEffect);
+					}
 				}
 
 			}
@@ -84,9 +104,9 @@ void TeicIceblizzard::Stop()
 {
 
 	m_bStart = false;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		m_pMesh[i]->SetAnimation(0);
+		m_pMesh[i]->SetAnimation(1);
 	}
 	m_pParticle->End();
 }
@@ -94,70 +114,37 @@ void TeicIceblizzard::Stop()
 void TeicIceblizzard::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
 	m_pHeightmap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 20; i++)
 	{
 		m_pMesh[i] = new TeicEnemy;
 		m_pMesh[i]->Setup("sprites/", "ice_FallRock.X");
-		m_pMesh[i]->SetScaleSize(RND->getFromFloatTo(0.1, 0.5));
-		m_pMesh[i]->SetAnimation(0);
+		m_pMesh[i]->SetScaleSize(RND->getFromFloatTo(0.05, 0.1));
+		m_pMesh[i]->SetAnimation(1);
 		m_pMesh[i]->SetRotationAngle(RND->getFloat(D3DX_PI * 2));
 		m_pMesh[i]->SetCallbackfunction(bind(&TeicIceblizzard::Callbackon, this, i));
 
 	}
-	D3DXVECTOR3 MeshPos[10];
-	float distance = 120;
-	for (int i = 0; i < 5; i++)
+	float dist = 100;
+	
+	for (int i = 0; i < 20; i++)
 	{
-		for (int j = 0; j < 2; j++)
-		{
-			if (j == 0)
-			{
-				MeshPos[i * 2 + j].z = distance*(i + 1 + RND->getFromFloatTo(-0.5, +0.5)) / 5.0;
-				MeshPos[i * 2 + j].y = 0;
-				MeshPos[i * 2 + j].x = 10;
-			}
-			else if (j == 1)
-			{
-				MeshPos[i * 2 + j].z = distance*(i + 1 + RND->getFromFloatTo(-0.5, +0.5)) / 5.0;
-				MeshPos[i * 2 + j].y = 0;
-				MeshPos[i * 2 + j].x = -10;
-
-			}
-		}
+		float angle = RND->getFloat(D3DX_PI * 2);
+		float x = position.x +cosf(angle) * RND->getFromFloatTo(0, dist);
+		float z = position.z -sinf(angle) * RND->getFromFloatTo(0, dist);
+		m_pMesh[i]->SetPosition(D3DXVECTOR3(x,position.y +60,z));
+		m_pHeightmap->GetHeight(x, m_fMeshHeight[i], z);
+		m_bOn[i] = false;
+		m_fSpeed[i] = RND->getFromFloatTo(2, 3);
 	}
-	D3DXVECTOR3 vDirection = characterpos - position;
-
-	D3DXVec3Normalize(&vDirection, &vDirection);
-
-	D3DXMATRIX matR;
-	D3DXMatrixLookAtLH(&matR,
-		&D3DXVECTOR3(0, 0, 0),
-		&vDirection,
-		&D3DXVECTOR3(0, 1, 0));
-	D3DXMatrixTranspose(&matR, &matR);
-
-	D3DXMATRIX matT;
-	D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
-	for (int i = 0; i < 10; i++)
-	{
-		D3DXVec3TransformCoord(&MeshPos[i], &MeshPos[i], &(matR*matT));
-		m_pHeightmap->GetHeight(MeshPos[i].x, MeshPos[i].y, MeshPos[i].z);
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		m_pMesh[i]->SetPosition(MeshPos[i]);
-	}
-
 
 
 
 	m_pParticle = new TeicParticleSystem;
-	m_pParticle->Setup2(D3DXVECTOR3(position.x, position.y + 10, position.z), D3DXVECTOR3(1, 1, 1),
-		D3DXVECTOR3(characterpos.x, characterpos.y + 10, characterpos.z), D3DXVECTOR3(1, 1, 1)
-		, 50, 1.5f, 0.1, 0, 0, 0, 0, 0, 0,
-		5.0f, 3.0f, D3DXVECTOR3(200, 200, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
-		"sprites/smoke.tga", 40, 1, false);
+	m_pParticle->Setup2(D3DXVECTOR3(position.x, position.y + 60, position.z), D3DXVECTOR3(70, 1, 70),
+		D3DXVECTOR3(characterpos.x, characterpos.y , characterpos.z), D3DXVECTOR3(100, 1, 100)
+		, 80, 1.7f, 0.3, 0, 0, 0, 0, 0, 0,
+		50, 30.0f, D3DXVECTOR3(200, 200, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
+		"sprites/snow.tga", 40, 1, false);
 	m_pEffect = LoadEffectHpp("MultiAnimationEffect.hpp");
 	
 
@@ -175,58 +162,28 @@ void TeicIceblizzard::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 
 void TeicIceblizzard::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		m_pMesh[i]->SetScaleSize(RND->getFromFloatTo(0.1, 0.5));
-		m_pMesh[i]->SetAnimation(0);
+		m_pMesh[i]->SetScaleSize(RND->getFromFloatTo(0.05, 0.1));
+		m_pMesh[i]->SetAnimation(1);
 		m_pMesh[i]->SetRotationAngle(RND->getFloat(D3DX_PI * 2));
 	}
-	D3DXVECTOR3 MeshPos[10];
-	float distance = 120;
-	for (int i = 0; i < 5; i++)
+	float dist = 100;
+
+	for (int i = 0; i < 20; i++)
 	{
-		for (int j = 0; j < 2; j++)
-		{
-			if (j == 0)
-			{
-				MeshPos[i * 2 + j].z = distance*(i + 1 + RND->getFromFloatTo(-0.5, +0.5)) / 5.0;
-				MeshPos[i * 2 + j].y = 0;
-				MeshPos[i * 2 + j].x = 10;
-			}
-			else if (j == 1)
-			{
-				MeshPos[i * 2 + j].z = distance*(i + 1 + RND->getFromFloatTo(-0.5, +0.5)) / 5.0;
-				MeshPos[i * 2 + j].y = 0;
-				MeshPos[i * 2 + j].x = -10;
-
-			}
-		}
-	}
-	D3DXVECTOR3 vDirection = characterpos - position;
-
-	D3DXVec3Normalize(&vDirection, &vDirection);
-
-	D3DXMATRIX matR;
-	D3DXMatrixLookAtLH(&matR,
-		&D3DXVECTOR3(0, 0, 0),
-		&vDirection,
-		&D3DXVECTOR3(0, 1, 0));
-	D3DXMatrixTranspose(&matR, &matR);
-
-	D3DXMATRIX matT;
-	D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
-	for (int i = 0; i < 10; i++)
-	{
-		D3DXVec3TransformCoord(&MeshPos[i], &MeshPos[i], &(matR*matT));
-		m_pHeightmap->GetHeight(MeshPos[i].x, MeshPos[i].y, MeshPos[i].z);
+		float angle = RND->getFloat(D3DX_PI * 2);
+		float x = position.x + cosf(angle) * RND->getFromFloatTo(0, dist);
+		float z = position.z - sinf(angle) * RND->getFromFloatTo(0, dist);
+		m_pMesh[i]->SetPosition(D3DXVECTOR3(x, position.y + 60, z));
+		m_pHeightmap->GetHeight(x, m_fMeshHeight[i], z);
+		m_bOn[i] = false;
+		m_fSpeed[i] = RND->getFromFloatTo(2, 3);
 	}
 
-	for (int i = 0; i < 10; i++)
-	{
-		m_pMesh[i]->SetPosition(MeshPos[i]);
-	}
 
-	m_pParticle->SetPosition(D3DXVECTOR3(position.x, position.y + 10, position.z), D3DXVECTOR3(characterpos.x, characterpos.y + 10, characterpos.z));
+
+	m_pParticle->SetPosition(D3DXVECTOR3(position.x, position.y + 60, position.z), D3DXVECTOR3(characterpos.x, characterpos.y , characterpos.z));
 
 }
 
@@ -299,6 +256,6 @@ LPD3DXEFFECT TeicIceblizzard::LoadEffectHpp(const char * szFileName)
 
 void TeicIceblizzard::Callbackon(int n)
 {
-	m_pMesh[n]->SetAnimation(1);
+	//m_pMesh[n]->SetAnimation(1);
 
 }

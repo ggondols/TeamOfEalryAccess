@@ -7,14 +7,16 @@ class TeicIceblizzard:public TeicEffectParent
 {
 private:
 	iMap*				m_pHeightmap;
-	TeicEnemy*			m_pMesh[10];
+	TeicEnemy*			m_pMesh[20];
 	TeicParticleSystem*	m_pParticle;
 	bool				m_bStart;
 	float				m_fEndtiming;
 	LPD3DXEFFECT			m_pEffect;
 	float				m_fAlpha;
 	float				m_fDelta;
-
+	float				m_fMeshHeight[20];
+	bool				m_bOn[20];
+	float				m_fSpeed[20];
 public:
 	virtual void Update();
 	virtual void Start() ;

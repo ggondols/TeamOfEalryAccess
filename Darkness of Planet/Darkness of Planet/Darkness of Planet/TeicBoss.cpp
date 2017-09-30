@@ -138,7 +138,15 @@ void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 	SKILLEFFECTMANAGER->Update();
 	if (KEYMANAGER->isOnceKeyDown('L'))
 	{
-		SKILLEFFECTMANAGER->play("Blizzard", m_pSkinnedMesh->GetPosition(), m_pSkinnedMesh->GetPosition());
+		
+		m_pSkinnedMesh->m_fAttacktiming = 2.4;
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(12);
+
+		m_eSkilltype = Boss_Skill_Blizzard;
+		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/circle2.png");
+		SetSkillCube(100, 100);
+		m_bSkillCircleOn = true;
+		m_vCharacterPos = CharacterPos;
 	}
 	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
@@ -297,6 +305,10 @@ void TeicBoss::CallbackOn(int n)
 			SKILLEFFECTMANAGER->play("Explosion", m_vCharacterPos, m_vCharacterPos);
 
 		}
+		if (m_pSkinnedMesh->GetAninum() == 12)
+		{
+			SKILLEFFECTMANAGER->play("Blizzard", m_pSkinnedMesh->GetPosition(), m_pSkinnedMesh->GetPosition());
+		}
 		if (m_pSkinnedMesh->GetAninum() == 22)
 		{
 			SKILLEFFECTMANAGER->play("Breath", m_pSkinnedMesh->GetPosition(), m_vCharacterPos);
@@ -311,6 +323,12 @@ void TeicBoss::CallbackOn(int n)
 			m_pSkinnedMesh->SetAnimation(0);
 			m_bSkillCircleOn = false;
 		}
+		 if (m_pSkinnedMesh->GetAninum() == 12)
+		 {
+			 //SkillExplosion();
+			 m_pSkinnedMesh->SetAnimation(0);
+			 m_bSkillCircleOn = false;
+		 }
 		///////////
 		else if (m_pSkinnedMesh->GetAninum() == 22)
 		{
@@ -531,6 +549,11 @@ void TeicBoss::ShowSkillCube()
 	case Boss_Skill_Explosion:
 	{
 		D3DXMatrixTranslation(&matWorld, m_vCharacterPos.x, m_vCharacterPos.y + 0.1, m_vCharacterPos.z);
+		break;
+	}
+	case Boss_Skill_Blizzard:
+	{
+		D3DXMatrixTranslation(&matWorld, m_pSkinnedMesh->GetPosition().x, m_pSkinnedMesh->GetPosition().y + 0.1, m_pSkinnedMesh->GetPosition().z);
 		break;
 	}
 	case Boss_Skill_Breath:

@@ -42,6 +42,7 @@ public:
 	void Update();
 	void Update2();
 	void Update3();
+	void Update4();
 	void Start();
 	void End();
 
