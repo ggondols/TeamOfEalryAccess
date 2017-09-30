@@ -25,6 +25,7 @@ struct MotionBlurInfo
 };
 
 
+
 enum WeaponType {
 
 	Wp_Melee,

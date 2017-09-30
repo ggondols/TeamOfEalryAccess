@@ -710,146 +710,171 @@ void LDYcJustTestScene::Render()
 	m_pFog->End();*/
 
 
-	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
+	//D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
 
-	{
-		m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
-		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
-		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
-		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	//{
+	//	m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
+	//	D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
+	//	D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
+	//	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+	//	D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	//}
+
+
+	//D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
+
+
+	//D3DXMATRIXA16 matWorld, matView, matProjection, matViewProjection;
+
+	//D3DXMatrixIdentity(&matWorld);
+
+	//GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
+	//GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+	//matViewProjection = matView*matProjection;
+
+	//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+	//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+	//GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
+	//GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+
+	////////////////////////////////
+	//// 1. 그림자 만들기
+	////////////////////////////////
+	//// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
+	//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+	//m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
+
+
+	//GETDEVICE->SetRenderTarget(0, pShadowSurface);
+	//GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
+
+	//SAFE_RELEASE(pShadowSurface);
+	//
+	//// 저번 프레임에 그\렸던 그림자 정보를 지움
+	//GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	//m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	//D3DXMATRIX scal;
+	//D3DXMatrixScaling(&scal, 0.04, 0.04, 0.04);
+	//D3DXMATRIX trans;
+	//D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
+
+	//// 그림자 만들기 쉐이더 전역변수들을 설정
+
+	//m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
+	//m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
+	////m_pCreateShadow->SetTechnique(m_hCTechnic);
+	//// 그림자 만들기 쉐이더를 시작
+
+	//{
+	//	UINT numPasses = 0;
+	//	m_pCreateShadow->Begin(&numPasses, NULL);
+	//	{
+	//		for (UINT i = 0; i < numPasses; ++i)
+	//		{
+	//			m_pCreateShadow->BeginPass(i);
+	//			{
+	//				m_pCharacter->MeshRender(m_pCreateShadow);
+	//			}
+	//			m_pCreateShadow->EndPass();
+	//		}
+	//	}
+	//	m_pCreateShadow->End();
+	//}
+
+	////////////////////////////////
+	//// 2. 그림자 입히기
+	////////////////////////////////
+
+	//////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	//GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
+	//GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
+
+	//SAFE_RELEASE(pHWBackBuffer);
+	//SAFE_RELEASE(pHWDepthStencilBuffer);
+
+	//// 그림자 입히기 쉐이더 전역변수들을 설정
+	//m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);      //원환체
+	//m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
+	//m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
+	//m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
+
+	//m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
+
+	//m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
+
+	//LPDIRECT3DTEXTURE9 tex;
+	//tex = TEXTUREMANAGER->GetTexture("map/final5.png");
+	//m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+
+
+	//// 쉐이더를 시작한다.
+	//UINT numPasses = 0;
+	//m_pApplyShadow->Begin(&numPasses, NULL);
+	//{
+	//	for (UINT i = 0; i < numPasses; ++i)
+	//	{
+	//		m_pApplyShadow->BeginPass(i);
+	//		{
+	//			// 디스크를 그린다.
+	//			m_pApplyShadow->CommitChanges();
+	//			if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+
+	//		}
+	//		m_pApplyShadow->EndPass();
+	//	}
+	//}
+	//m_pApplyShadow->End();
+
+	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, false);
+	//GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);
+	//if (m_pSkyDome)m_pSkyDome->Render();
+	//if (m_pSkyCloud)m_pSkyCloud->Render();
+	//if (m_pCharacter)m_pCharacter->UpdateAndRender();
+
+
+
+	//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(151, 255, 215);
+	//float start = 0.0f;
+	//float end = 300.0f;
+	//float m_fFogDensity = 0.01f;
+	//GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	//GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	//GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	//GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	//GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	//GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	//GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+D3DXVECTOR3 aaa;
+aaa=m_pCharacter->getWeaponMaxPos();
+int a = 0;
+	D3DXVECTOR3 pos[4];
+	pos[0] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pos[1] = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
+	pos[2] = D3DXVECTOR3(200.0f, 200.0f, 0.0f);
+	pos[3] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	vector<ST_PC_VERTEX> vecPos;
+	D3DCOLOR c = D3DCOLOR_XRGB(255, 255, 255);
+
+	for (int i = 0; i < 5; ++i) {
+		D3DXVECTOR3 result;
+
+		float mull = (i + 1) / 5.f;
+		D3DXVec3CatmullRom(&result, &pos[0], &pos[1], &pos[2], &pos[3], mull);
+
+		vecPos.push_back(ST_PC_VERTEX(result, c));
 	}
+	GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
+	GETDEVICE->DrawPrimitiveUP(
+	D3DPT_LINESTRIP,
+	3,
+	&vecPos[0],
+	sizeof(ST_PC_VERTEX));
 
-
-	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
-
-
-	D3DXMATRIXA16 matWorld, matView, matProjection, matViewProjection;
-
-	D3DXMatrixIdentity(&matWorld);
-
-	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
-	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
-
-	matViewProjection = matView*matProjection;
-
-	LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-	LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-	GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
-	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
-
-	//////////////////////////////
-	// 1. 그림자 만들기
-	//////////////////////////////
-	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
-	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
-
-
-	GETDEVICE->SetRenderTarget(0, pShadowSurface);
-	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
-
-	SAFE_RELEASE(pShadowSurface);
-	
-	// 저번 프레임에 그\렸던 그림자 정보를 지움
-	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
-	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
-	D3DXMATRIX scal;
-	D3DXMatrixScaling(&scal, 0.04, 0.04, 0.04);
-	D3DXMATRIX trans;
-	D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
-
-	// 그림자 만들기 쉐이더 전역변수들을 설정
-
-	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
-	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
-	//m_pCreateShadow->SetTechnique(m_hCTechnic);
-	// 그림자 만들기 쉐이더를 시작
-
-	{
-		UINT numPasses = 0;
-		m_pCreateShadow->Begin(&numPasses, NULL);
-		{
-			for (UINT i = 0; i < numPasses; ++i)
-			{
-				m_pCreateShadow->BeginPass(i);
-				{
-					m_pCharacter->MeshRender(m_pCreateShadow);
-				}
-				m_pCreateShadow->EndPass();
-			}
-		}
-		m_pCreateShadow->End();
-	}
-
-	//////////////////////////////
-	// 2. 그림자 입히기
-	//////////////////////////////
-
-	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
-	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
-	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
-
-	SAFE_RELEASE(pHWBackBuffer);
-	SAFE_RELEASE(pHWDepthStencilBuffer);
-
-	// 그림자 입히기 쉐이더 전역변수들을 설정
-	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);      //원환체
-	m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
-	m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
-	m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
-
-	m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
-
-	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
-
-	LPDIRECT3DTEXTURE9 tex;
-	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
-	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
-
-
-	// 쉐이더를 시작한다.
-	UINT numPasses = 0;
-	m_pApplyShadow->Begin(&numPasses, NULL);
-	{
-		for (UINT i = 0; i < numPasses; ++i)
-		{
-			m_pApplyShadow->BeginPass(i);
-			{
-				// 디스크를 그린다.
-				m_pApplyShadow->CommitChanges();
-				if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
-
-			}
-			m_pApplyShadow->EndPass();
-		}
-	}
-	m_pApplyShadow->End();
-
-	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, false);
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);
-	if (m_pSkyDome)m_pSkyDome->Render();
-	if (m_pSkyCloud)m_pSkyCloud->Render();
-	if (m_pCharacter)m_pCharacter->UpdateAndRender();
-
-
-
-	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(151, 255, 215);
-	float start = 0.0f;
-	float end = 300.0f;
-	float m_fFogDensity = 0.01f;
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
-
-
-	/*if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
+	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();
 
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	if (m_pGrid)m_pGrid->Render();
