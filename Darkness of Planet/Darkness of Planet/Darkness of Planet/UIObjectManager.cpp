@@ -129,14 +129,16 @@ void UIObjectManager::SetSize(string key, int tag, float x, float y)
 	FindRoot(key)->GetChildByTag(tag)->SetSize(ST_SIZE(x, y));
 }
 
-POINT UIObjectManager::GetPosition(string key)
+void UIObjectManager::GetPosition(string key, OUT float & x, OUT float & y)
 {
-	return FindRoot(key)->GetPointPosition();
+	x = FindRoot(key)->GetPointPosition().x;
+	y = FindRoot(key)->GetPointPosition().y;
 }
 
-POINT UIObjectManager::GetPosition(string key, int tag)
+void UIObjectManager::GetPosition(string key, int tag, OUT float & x, OUT float & y)
 {
-	return FindRoot(key)->GetChildByTag(tag)->GetPointPosition();
+	x = FindRoot(key)->GetChildByTag(tag)->GetPointPosition().x;
+	y = FindRoot(key)->GetChildByTag(tag)->GetPointPosition().y;
 }
 
 void UIObjectManager::SetAlpha(string key, DWORD alpha)
