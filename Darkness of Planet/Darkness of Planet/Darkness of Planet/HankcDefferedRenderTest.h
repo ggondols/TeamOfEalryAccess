@@ -9,6 +9,7 @@
 #include "HankcNode.h"
 #include "LDYCamera.h"
 #include "cConsole.h"
+#include "cSprayMesh.h"
 class iMap;
 class cCrtCtrl;
 class HankcDefferedRenderTest : public cGameNode
@@ -35,7 +36,7 @@ private:
 
 	cConsole*				m_pConsole;
 
-	int						m_mna;
+	cSprayMesh				m_pMeshSpray;
 		
 public:
 
