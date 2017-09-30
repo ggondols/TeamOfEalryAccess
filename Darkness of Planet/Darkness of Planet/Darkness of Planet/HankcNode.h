@@ -40,10 +40,7 @@ struct BoundingSquare
 	Boundingtype st_Type;									// Type of object, You must fill up this from the upper list
 	TeicSkinnedMeshParent*  m_pSkinnedObject;               //////////object Á¤º¸
 	bool		m_bIsPicked;
-	 
 	
-
-
 };
 
 enum INTERFACETYPE

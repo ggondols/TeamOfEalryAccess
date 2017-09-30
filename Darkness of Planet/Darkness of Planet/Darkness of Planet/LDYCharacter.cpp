@@ -2,7 +2,6 @@
 #include "LDYCharacter.h"
 #include "TeicPhysicsCrtCtrl.h"
 
-
 LDYCharacter::LDYCharacter()
 	: m_pWeapon_AA12(NULL)
 	, m_pWeapon_AR6(NULL)
@@ -2642,11 +2641,6 @@ D3DXVECTOR3 LDYCharacter::GetPositionYZero()
 
 BoundingSquare * LDYCharacter::GetBoundingSquare()
 {
-	/*if (m_pSkinnedMesh)
-	{
-		return &m_pSkinnedMesh->m_pBoundingSquare;
-	}
-	return NULL;*/
 	switch (m_eStType)
 	{
 	case ST_Attack:
@@ -2766,4 +2760,193 @@ BoundingSquare * LDYCharacter::GetBoundingSquare()
 	}
 
 	return NULL;
+}
+
+
+
+D3DXVECTOR3 LDYCharacter::getWeaponMaxPos()
+{
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return D3DXVECTOR3(0, 0, 0);
+		}
+		break;
+		case Wp_AA12:
+		{
+
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matWeapon._41, 
+				m_pWeapon_AA12->m_matWeapon._42, 
+				m_pWeapon_AA12->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AR6->m_matWeapon._41,
+				m_pWeapon_AR6->m_matWeapon._42,
+				m_pWeapon_AR6->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_M4->m_matWeapon._41,
+				m_pWeapon_M4->m_matWeapon._42,
+				m_pWeapon_M4->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_MP5->m_matWeapon._41,
+				m_pWeapon_MP5->m_matWeapon._42,
+				m_pWeapon_MP5->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_FireGun->m_matWeapon._41,
+				m_pWeapon_FireGun->m_matWeapon._42,
+				m_pWeapon_FireGun->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return D3DXVECTOR3(0, 0, 0);
+		}
+		break;
+		case Wp_AA12:
+		{
+
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matWeapon._41,
+				m_pWeapon_AA12->m_matWeapon._42,
+				m_pWeapon_AA12->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AR6->m_matWeapon._41,
+				m_pWeapon_AR6->m_matWeapon._42,
+				m_pWeapon_AR6->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_M4->m_matWeapon._41,
+				m_pWeapon_M4->m_matWeapon._42,
+				m_pWeapon_M4->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_MP5->m_matWeapon._41,
+				m_pWeapon_MP5->m_matWeapon._42,
+				m_pWeapon_MP5->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_FireGun->m_matWeapon._41,
+				m_pWeapon_FireGun->m_matWeapon._42,
+				m_pWeapon_FireGun->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return D3DXVECTOR3(0, 0, 0);
+		}
+		break;
+		case Wp_AA12:
+		{
+
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matWeapon._41,
+				m_pWeapon_AA12->m_matWeapon._42,
+				m_pWeapon_AA12->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AR6->m_matWeapon._41,
+				m_pWeapon_AR6->m_matWeapon._42,
+				m_pWeapon_AR6->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_M4->m_matWeapon._41,
+				m_pWeapon_M4->m_matWeapon._42,
+				m_pWeapon_M4->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_MP5->m_matWeapon._41,
+				m_pWeapon_MP5->m_matWeapon._42,
+				m_pWeapon_MP5->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_FireGun->m_matWeapon._41,
+				m_pWeapon_FireGun->m_matWeapon._42,
+				m_pWeapon_FireGun->m_matWeapon._43);
+
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	}
+	return D3DXVECTOR3();
+}
+
+D3DXVECTOR3 LDYCharacter::getWeaponMinPos()
+{
+	return D3DXVECTOR3();
 }

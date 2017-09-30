@@ -18,6 +18,7 @@ class TeicPhysicsCrtCtrl;
 //#					made by LDY				#
 //###############################################
 
+
 class LDYCharacter
 {
 private:
@@ -45,6 +46,9 @@ private:
 	WeaponType					m_eWpType;
 	StateType					m_eStType;
 	bool						m_bRun;
+
+	D3DXVECTOR3					m_afterPosMAX;
+	D3DXVECTOR3					m_afterPosMIN;
 
 public:
 	TeicPhysicsCrtCtrl*			m_pCtrl;
@@ -86,6 +90,10 @@ public:
 	void SetWeaponType(WeaponType type) { m_eWpType = type; }
 	void SetHeadLv(int HeadLv) { m_iHeadLv = HeadLv; }
 	void SetBodyLv(int BodyLv) { m_iBodyLv = BodyLv; }
+
+	//검광효과에 필요한 값들
+	D3DXVECTOR3 getWeaponMaxPos();
+	D3DXVECTOR3 getWeaponMinPos();
 
 public:
 

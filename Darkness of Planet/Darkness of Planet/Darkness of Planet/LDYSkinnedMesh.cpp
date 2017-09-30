@@ -98,10 +98,6 @@ void LDYSkinnedMesh::MeshRender(ST_BONE* pBone, LPD3DXEFFECT effect)
 			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
 
 
-
-
-
-
 		// for each palette
 		for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
 		{
@@ -183,7 +179,7 @@ void LDYSkinnedMesh::ShaderMeshRender(LPD3DXEFFECT effect)
 		//다른부위 매트릭스 가져오기
 		getAnotherMatrix(m_pRootFrame, NULL);
 	}
-
+	
 
 }
 

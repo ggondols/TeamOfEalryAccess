@@ -48,9 +48,12 @@ protected:
 
 	D3DXMATRIX					m_RotationMat;
 	bool						m_bCollision;
+	
+
 public:
 
 	D3DXMATRIX					m_matWeapon;
+
 
 public:
 

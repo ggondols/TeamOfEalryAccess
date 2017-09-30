@@ -148,7 +148,7 @@ void LDYMotionBlur::Setup()
 	for (iObject = 0; iObject < NUM_OBJECTS; iObject++)
 	{
 		g_pScene1Object[iObject]->g_pMesh = g_pMesh1;
-		g_pScene1Object[iObject]->g_pMeshTexture = g_pMeshTexture1;
+		//g_pScene1Object[iObject]->g_pMeshTexture = g_pMeshTexture1;
 	}
 
 	SetupFullscreenQuad();
@@ -174,7 +174,7 @@ void LDYMotionBlur::Setup()
 	g_pEffect->SetFloat("VelocityCapSq", fVelocityCapSqNonHomogeneous);
 	g_pEffect->SetFloat("ConvertToNonHomogeneous", 1.0f / rc.right);
 
-	g_hTechWorldWithVelocity = g_pEffect->GetTechniqueByName("WorldWithVelocityMRT");
+	g_hTechWorldWithVelocity = g_pEffect->GetTechniqueByName("WorldWithVelocityTwoPasses");
 
 	g_hPostProcessMotionBlur = g_pEffect->GetTechniqueByName("PostProcessMotionBlur");
 	g_hWorld = g_pEffect->GetParameterByName(NULL, "mWorld");
@@ -215,7 +215,7 @@ void LDYMotionBlur::Render()
 	int iObject;
 	float fTime = TIMEMANAGER->getWorldTime();
 
-	for (iObject = 0; iObject < 5; iObject++)
+	for (iObject = 0; iObject < 1; iObject++)
 	{
 		D3DXVECTOR3 vPos;
 

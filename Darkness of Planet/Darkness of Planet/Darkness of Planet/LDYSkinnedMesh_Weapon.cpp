@@ -41,7 +41,6 @@ LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon(char* szFolder, char* szFilename)
 		m_iNum = 0;
 		D3DXMatrixIdentity(&m_RotationMat);
 		D3DXMatrixIdentity(&m_matWeapon);
-	
 }
 LDYSkinnedMesh_Weapon::LDYSkinnedMesh_Weapon()
 	: m_pRootFrame(NULL)
@@ -90,10 +89,6 @@ void LDYSkinnedMesh_Weapon::MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect)
 		// get bone combinations
 		LPD3DXBONECOMBINATION pBoneCombos =
 			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
-
-
-
-
 
 
 		// for each palette
@@ -204,7 +199,7 @@ void LDYSkinnedMesh_Weapon::Load(char* szDirectory, char* szFilename)
 		NULL,
 		(LPD3DXFRAME*)&m_pRootFrame,
 		&m_pAnimController);
-
+	
 	if (m_pmWorkingPalette)
 		delete[] m_pmWorkingPalette;
 
@@ -234,13 +229,18 @@ void LDYSkinnedMesh_Weapon::UpdateAndRender()
 
 	if (m_pRootFrame)
 	{
-		
 		Update(m_pRootFrame, NULL);
 		//무기 매트릭스 셋팅
 		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);
 		Render(m_pRootFrame);
-
 	}
+
+
+	//D3DXVECTOR3 transWeapon = D3DXVECTOR3(m_matWeapon._41, m_matWeapon._42, m_matWeapon._43);
+	//D3DXVec3CatmullRom(&m_afterPosMAX, &transWeapon, &transWeapon, &transWeapon, &transWeapon, t);
+	//
+	//GETDEVICE->SetRenderTarget()
+
 }
 
 void LDYSkinnedMesh_Weapon::Render(ST_BONE* pBone /*= NULL*/)
