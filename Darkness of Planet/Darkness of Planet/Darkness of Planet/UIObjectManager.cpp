@@ -100,20 +100,20 @@ void UIObjectManager::AddChild(string key, UI_TYPE type)
 	}
 }
 
+//인자->루트의 키네임 : x, y의화면중에서의 비율(0.0f~1.0f) : x, y값에 수치값으로 추가하고싶으면 추가(기본0.0f로 설정되어있음)
 void UIObjectManager::SetPosition(string key, float x, float y, float xDetails/* = 0.0f*/, float yDetails/* = 0.0f*/)
 {
 	D3DVIEWPORT9 viewport;
 	GETDEVICE->GetViewport(&viewport);
-	//FindRoot(key)->SetPosition(x, y);
+	//x, y 가 1.0f보다 크면 1.0f, 0.0f보다 작으면 0.0f로 변환
 	Clamp(x, y);
 	FindRoot(key)->SetPosition((viewport.Width * x) + xDetails, (viewport.Height * y) + yDetails);
 }
 
+//인자->루트의 키네임 : 차일드의 테그번호(첫번째 차일드는 1) : 루트의 width, height의 퍼센트(0.0f~1.0f) : 수치값으로 추가(기본0.0f)
 void UIObjectManager::SetPosition(string key, int tag, float x, float y, float xDetails/* = 0.0f*/, float yDetails/* = 0.0f*/)
 {
-	//D3DVIEWPORT9 viewport;
-	//GETDEVICE->GetViewport(&viewport);
-	//FindRoot(key)->GetChildByTag(tag)->SetPosition(x, y);
+	//x, y 가 1.0f보다 크면 1.0f, 0.0f보다 작으면 0.0f로 변환
 	Clamp(x, y);
 	cUIObject* parent = FindRoot(key);
 	parent->GetChildByTag(tag)->SetPosition((parent->GetSize().fWidth * x) + xDetails, (parent->GetSize().fHeight * y) + yDetails);
@@ -127,6 +127,16 @@ void UIObjectManager::SetSize(string key, float x, float y)
 void UIObjectManager::SetSize(string key, int tag, float x, float y)
 {
 	FindRoot(key)->GetChildByTag(tag)->SetSize(ST_SIZE(x, y));
+}
+
+POINT UIObjectManager::GetPosition(string key)
+{
+	return FindRoot(key)->GetPointPosition();
+}
+
+POINT UIObjectManager::GetPosition(string key, int tag)
+{
+	return FindRoot(key)->GetChildByTag(tag)->GetPointPosition();
 }
 
 void UIObjectManager::SetAlpha(string key, DWORD alpha)

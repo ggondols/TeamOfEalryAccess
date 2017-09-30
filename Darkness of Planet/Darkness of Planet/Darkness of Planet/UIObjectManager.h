@@ -44,6 +44,9 @@ public:
 	void SetSize(string key, float x, float y);
 	void SetSize(string key, int tag, float x, float y);
 
+	POINT GetPosition(string key);
+	POINT GetPosition(string key, int tag);
+
 	// UIImageView에서만 사용..
 	void SetAlpha(string key, DWORD alpha);
 	void SetAlpha(string key, int tag, DWORD alpha);
