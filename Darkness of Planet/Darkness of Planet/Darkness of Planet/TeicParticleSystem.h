@@ -6,6 +6,10 @@ private:
 	vector<ST_PC_VERTEX>	m_vecVertex;
 	vector<TeicParticle*>		m_vecParticle;
 	string					m_text;
+	D3DXVECTOR3				m_vStartVar;
+	D3DXVECTOR3				m_vEndVar;
+	float					m_fDotSize;
+	float					m_fDotSizevar;
 public:
 
 	void Setup(D3DXVECTOR3 center, float Maxparticle, float lifespan, float lifespanVariance,
@@ -22,8 +26,8 @@ public:
 		D3DXVECTOR3 endcolor, D3DXVECTOR3 endcolorvar,
 		char* texture, float dotsize, float dotsizevar,bool loop);
 
-
 	
+	void SetPosition(D3DXVECTOR3 start, D3DXVECTOR3 end);
 	void Update();
 	void Update2();
 	void Update3();
@@ -31,7 +35,7 @@ public:
 	void Release();
 	void Start();
 	void End();
-
+	void SetDotsize();
 public:
 	TeicParticleSystem();
 	~TeicParticleSystem();

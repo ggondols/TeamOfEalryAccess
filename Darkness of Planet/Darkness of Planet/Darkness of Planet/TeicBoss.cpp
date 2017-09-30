@@ -17,8 +17,8 @@ TeicBoss::TeicBoss()
 	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.0f;
 	m_fSpeed = 5.0f;
-	m_ptest = NULL;
-	m_eSkilltype = Skill_None;
+	
+	m_eSkilltype = Boss_Skill_None;
 	
 	m_bSkillCircleOn = false;
 	m_pSkillCubeTexture = NULL;
@@ -28,7 +28,7 @@ TeicBoss::TeicBoss()
 
 TeicBoss::~TeicBoss()
 {
-	SAFE_DELETE(m_ptest);
+	
 	SAFE_RELEASE(m_pSkillCubeTexture);
 	SAFE_RELEASE(m_pSkillCubeEffect);
 }
@@ -127,26 +127,46 @@ void TeicBoss::MakeBoundingBox()
 
 }
 
-void TeicBoss::Update()
+void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 {
 	//9876
-	m_ptest->Update();
-	m_pExplosion->Update();
+	if (m_pSkinnedMesh->GetAninum() == 0)
+	{
+		CalRotation(CharacterPos);
+	}
+	
+	SKILLEFFECTMANAGER->Update();
+	if (KEYMANAGER->isOnceKeyDown('L'))
+	{
+		SKILLEFFECTMANAGER->play("Blizzard", m_pSkinnedMesh->GetPosition(), m_pSkinnedMesh->GetPosition());
+	}
 	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
 		m_pSkinnedMesh->m_fAttacktiming = 1.4;
 		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(6);
 		
-		m_eSkilltype = Skill_Explosion;
+		m_eSkilltype = Boss_Skill_Explosion;
 		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/circle2.png");
 		SetSkillCube(30, 30);
 		m_bSkillCircleOn = true;
+		m_vCharacterPos = CharacterPos;
 		
+	}
+	if (KEYMANAGER->isOnceKeyDown('O'))
+	{
+		m_pSkinnedMesh->m_fAttacktiming = 2.4;
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(22);
+
+		m_eSkilltype = Boss_Skill_Breath;
+		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/Rectangle.png");
+		SetSkillCube(20, 60);
+		m_bSkillCircleOn = true;
+		m_vCharacterPos = CharacterPos;
 	}
 	if (KEYMANAGER->isOnceKeyDown('8'))
 	{
 
-		m_ptest->Start();
+		SKILLEFFECTMANAGER->play("Breath", D3DXVECTOR3(m_pSkinnedMesh->GetPosition()), D3DXVECTOR3(100, 40, -100));
 	}
 
 
@@ -253,10 +273,9 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 
 	//m_fBoundingSize = CalBoundingSize();
 
-	m_ptest = new TeicIceBreath;
-	m_ptest->Setup(D3DXVECTOR3(150, 40, -150), D3DXVECTOR3(130, 40, -130));
-	m_pExplosion = new TeicIceExplosion;
-	m_pExplosion->Setup(D3DXVECTOR3(150, 40, -150));
+	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");
 }
 
@@ -275,47 +294,30 @@ void TeicBoss::CallbackOn(int n)
 	{
 		if (m_pSkinnedMesh->GetAninum() == 6)
 		{
-			SkillExplosion();
+			SKILLEFFECTMANAGER->play("Explosion", m_vCharacterPos, m_vCharacterPos);
 
+		}
+		if (m_pSkinnedMesh->GetAninum() == 22)
+		{
+			SKILLEFFECTMANAGER->play("Breath", m_pSkinnedMesh->GetPosition(), m_vCharacterPos);
 		}
 	}
 	if (m_pSkinnedMesh)
 	{
-		if (m_pSkinnedMesh->GetAninum() == 9)
-		{
-			m_pSkinnedMesh->SetAnimation(8);
-
-		}
-		else if (m_pSkinnedMesh->GetAninum() == 8)
-		{
-			m_pSkinnedMesh->SetAnimation(7);
-
-		}
-		else if (m_pSkinnedMesh->GetAninum() == 7)
-		{
-			m_pSkinnedMesh->SetAnimation(6);
-
-		}
-		else if (m_pSkinnedMesh->GetAninum() == 6)
+		
+		 if (m_pSkinnedMesh->GetAninum() == 6)
 		{
 			//SkillExplosion();
 			m_pSkinnedMesh->SetAnimation(0);
 			m_bSkillCircleOn = false;
 		}
 		///////////
-		else if (m_pSkinnedMesh->GetAninum() == 12)
-		{
-			m_pSkinnedMesh->SetAnimation(0);
-		}
-		else if (m_pSkinnedMesh->GetAninum() == 13)
-		{
-			m_pSkinnedMesh->SetAnimation(0);
-		}
-		////////////
 		else if (m_pSkinnedMesh->GetAninum() == 22)
 		{
 			m_pSkinnedMesh->SetAnimation(0);
+			m_bSkillCircleOn = false;
 		}
+		
 
 	}
 	if (m_Callback)
@@ -344,9 +346,8 @@ void TeicBoss::UpdateAndRender()
 
 	}
 	//MakeBoundingBox();
-	m_ptest->Render();
-	m_pExplosion->Render();
-	ShowSkillCube(D3DXVECTOR3(150, 40, -150));
+	SKILLEFFECTMANAGER->Render();
+	ShowSkillCube();
 	
 }
 
@@ -484,17 +485,87 @@ float TeicBoss::CalBoundingSize()
 	return 0.0f;
 }
 
-void TeicBoss::SkillExplosion()
+void TeicBoss::CalRotation(D3DXVECTOR3 position)
 {
+	D3DXVECTOR3 positionNoY = position;
+	positionNoY.y = 0;
+	//m_fAngle
+	D3DXVECTOR3 vDirection = positionNoY -D3DXVECTOR3( m_pSkinnedMesh->GetPosition().x,0, m_pSkinnedMesh->GetPosition().z);
 
-	m_pExplosion->Start();
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	D3DXVECTOR3 base = D3DXVECTOR3(1, 0, 0);
+	D3DXVECTOR3 Cross;
+	D3DXVec3Cross(&Cross, &base, &vDirection);
+	float targetangle = acosf(D3DXVec3Dot(&base, &vDirection));
+	if (Cross.y < 0) targetangle = D3DX_PI * 2 - targetangle;
+
+	if (targetangle > m_fAngle)
+	{
+		m_fAngle += 0.05;
+		if (m_fAngle > targetangle) m_fAngle = targetangle;
+	}
+	else
+	{
+		m_fAngle -= 0.05;
+		if (m_fAngle < targetangle) m_fAngle = targetangle;
+	}
+
+
+
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->SetRotationAngle(m_fAngle);
+	}
 }
 
-void TeicBoss::ShowSkillCube(D3DXVECTOR3 position)
+
+
+
+void TeicBoss::ShowSkillCube()
 {
 	if (!m_bSkillCircleOn)return;
 	D3DXMATRIX matWorld, matView, matProjection;
-	D3DXMatrixTranslation(&matWorld, position.x, position.y+0.01, position.z);
+	switch (m_eSkilltype)
+	{
+	case Boss_Skill_Explosion:
+	{
+		D3DXMatrixTranslation(&matWorld, m_vCharacterPos.x, m_vCharacterPos.y + 0.1, m_vCharacterPos.z);
+		break;
+	}
+	case Boss_Skill_Breath:
+	{
+		D3DXMATRIX trans;
+		D3DXMatrixTranslation(&trans, 0, 0, 60);
+
+		/*D3DXVECTOR3 vDirection = characterpos - position;*/
+		D3DXVECTOR3 vDirection =D3DXVECTOR3( m_vCharacterPos.x,0, m_vCharacterPos.z) 
+			- D3DXVECTOR3(m_pSkinnedMesh->GetPosition().x,0, m_pSkinnedMesh->GetPosition().z);
+		D3DXVec3Normalize(&vDirection, &vDirection);
+
+		D3DXMATRIX matR;
+		D3DXMatrixLookAtLH(&matR,
+			&D3DXVECTOR3(0, 0, 0),
+			&vDirection,
+			&D3DXVECTOR3(0, 1, 0));
+		D3DXMatrixTranspose(&matR, &matR);
+
+		D3DXMATRIX FinalTrans;
+		D3DXMatrixTranslation(&FinalTrans, m_pSkinnedMesh->GetPosition().x, m_pSkinnedMesh->GetPosition().y + 0.1, m_pSkinnedMesh->GetPosition().z);
+
+		matWorld = trans * matR * FinalTrans;
+		break;
+	}
+	case Boss_Skill_None:
+	{
+		break;
+	}
+	default:
+	{
+		break;
+	}
+	}
+	
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 	matWorld = matWorld * matView * matProjection;

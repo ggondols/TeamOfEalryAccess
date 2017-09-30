@@ -98,14 +98,14 @@ void TeicIceBreath::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	{
 		m_pMesh[i] = new TeicEnemy;
 		m_pMesh[i]->Setup("sprites/", "ice_Boom.X");
-		m_pMesh[i]->SetScaleSize(RND->getFromFloatTo(0.05,0.1));
+		m_pMesh[i]->SetScaleSize(RND->getFromFloatTo(0.1,0.5));
 		m_pMesh[i]->SetAnimation(0);
 		m_pMesh[i]->SetRotationAngle(RND->getFloat(D3DX_PI * 2));
 		m_pMesh[i]->SetCallbackfunction(bind(&TeicIceBreath::Callbackon, this, i));
 
 	}
 	D3DXVECTOR3 MeshPos[10];
-	float distance = D3DXVec3Length(&(position - characterpos))+120;
+	float distance = 120;
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 2; j ++)
@@ -156,8 +156,8 @@ void TeicIceBreath::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_pParticle->Setup2(D3DXVECTOR3(position.x, position.y + 10, position.z), D3DXVECTOR3(1, 1, 1),
 		D3DXVECTOR3(characterpos.x, characterpos.y + 10, characterpos.z),D3DXVECTOR3(1, 1, 1)
 		, 50, 1.5f, 0.1, 0, 0, 0, 0, 0, 0,
-		5.0f, 2.0f, D3DXVECTOR3(200, 200, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
-		"sprites/smoke.tga", 5, 1, false);
+		5.0f, 3.0f, D3DXVECTOR3(200, 200, 200), D3DXVECTOR3(10, 10, 10), D3DXVECTOR3(250, 250, 250), D3DXVECTOR3(10, 10, 10),
+		"sprites/smoke.tga", 40, 1, false);
 	m_pEffect = LoadEffectHpp("MultiAnimationEffect.hpp");
 	m_hAlphahandle = m_pEffect->GetParameterByName(0, "vAlpha");
 
@@ -232,4 +232,68 @@ void TeicIceBreath::Callbackon(int n)
 {
 	m_pMesh[n]->SetAnimation(1);
 
+}
+
+void TeicIceBreath::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
+{
+	
+	for (int i = 0; i < 10; i++)
+	{
+		m_pMesh[i]->SetScaleSize(RND->getFromFloatTo(0.1, 0.5));
+		m_pMesh[i]->SetAnimation(0);
+		m_pMesh[i]->SetRotationAngle(RND->getFloat(D3DX_PI * 2));
+	}
+	D3DXVECTOR3 MeshPos[10];
+	float distance = 120;
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			if (j == 0)
+			{
+				MeshPos[i * 2 + j].z = distance*(i + 1 + RND->getFromFloatTo(-0.5, +0.5)) / 5.0;
+				MeshPos[i * 2 + j].y = 0;
+				MeshPos[i * 2 + j].x = 10;
+			}
+			else if (j == 1)
+			{
+				MeshPos[i * 2 + j].z = distance*(i + 1 + RND->getFromFloatTo(-0.5, +0.5)) / 5.0;
+				MeshPos[i * 2 + j].y = 0;
+				MeshPos[i * 2 + j].x = -10;
+
+			}
+		}
+	}
+	D3DXVECTOR3 vDirection = characterpos - position;
+
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	D3DXMATRIX matR;
+	D3DXMatrixLookAtLH(&matR,
+		&D3DXVECTOR3(0, 0, 0),
+		&vDirection,
+		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixTranspose(&matR, &matR);
+
+	D3DXMATRIX matT;
+	D3DXMatrixTranslation(&matT, position.x, position.y, position.z);
+	for (int i = 0; i < 10; i++)
+	{
+		D3DXVec3TransformCoord(&MeshPos[i], &MeshPos[i], &(matR*matT));
+		m_pHeightmap->GetHeight(MeshPos[i].x, MeshPos[i].y, MeshPos[i].z);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		m_pMesh[i]->SetPosition(MeshPos[i]);
+	}
+
+	m_pParticle->SetPosition(D3DXVECTOR3( position.x, position.y+10, position.z), D3DXVECTOR3( characterpos.x, characterpos.y+10, characterpos.z));
+
+
+}
+
+bool TeicIceBreath::IsRunning()
+{
+	return m_bStart;
 }

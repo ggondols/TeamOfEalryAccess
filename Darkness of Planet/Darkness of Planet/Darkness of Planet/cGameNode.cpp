@@ -143,7 +143,6 @@ void cGameNode::Render()
 
 LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	
 	switch (iMessage)
 	{
 	case WM_LBUTTONDOWN:
@@ -215,6 +214,7 @@ LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPar
 	//}
 	//break;
 	case WM_KEYDOWN:
+		GETLPARAM = wParam;
 		switch (wParam)
 		{
 		case VK_ESCAPE: //esc키로 종료한다

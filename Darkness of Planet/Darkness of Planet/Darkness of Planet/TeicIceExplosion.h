@@ -18,9 +18,10 @@ public:
 	virtual void Start();
 	virtual void Stop();
 	virtual void Render();
-	virtual void Setup(D3DXVECTOR3	position);
+	virtual void Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos);
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
-
+	virtual void SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos);
+	virtual bool IsRunning();
 	//LPD3DXEFFECT LoadEffect(const char * szFileName);
 public:
 	TeicIceExplosion();

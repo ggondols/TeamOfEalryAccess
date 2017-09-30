@@ -20,9 +20,12 @@ public:
 	virtual void Start();
 	virtual void Stop();
 	virtual void Render();
+
 	virtual void Setup(D3DXVECTOR3	position, D3DXVECTOR3 characterpos);
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
 	void Callbackon(int n);
+	virtual void SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos);
+	virtual bool IsRunning();
 public:
 	TeicIceBreath();
 	~TeicIceBreath();

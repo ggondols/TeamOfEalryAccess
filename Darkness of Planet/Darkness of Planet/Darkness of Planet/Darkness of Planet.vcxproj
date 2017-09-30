@@ -153,6 +153,7 @@
     <ClInclude Include="cActionMove.h" />
     <ClInclude Include="cActionRepeat.h" />
     <ClInclude Include="cActionSeq.h" />
+    <ClInclude Include="cConsole.h" />
     <ClInclude Include="cCrtCtrl.h" />
     <ClInclude Include="cAction.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
@@ -244,6 +245,7 @@
     <ClInclude Include="TeicEffectParent.h" />
     <ClInclude Include="TeicEnemy.h" />
     <ClInclude Include="TeicHeightMapManager.h" />
+    <ClInclude Include="TeicIceblizzard.h" />
     <ClInclude Include="TeicIceBreath.h" />
     <ClInclude Include="TeicIceExplosion.h" />
     <ClInclude Include="TeicJustTestScene.h" />
@@ -266,6 +268,7 @@
     <ClCompile Include="cActionMove.cpp" />
     <ClCompile Include="cActionRepeat.cpp" />
     <ClCompile Include="cActionSeq.cpp" />
+    <ClCompile Include="cConsole.cpp" />
     <ClCompile Include="cCrtCtrl.cpp" />
     <ClCompile Include="cAction.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
@@ -358,6 +361,7 @@
     <ClCompile Include="TeicEffectParent.cpp" />
     <ClCompile Include="TeicEnemy.cpp" />
     <ClCompile Include="TeicHeightMapManager.cpp" />
+    <ClCompile Include="TeicIceblizzard.cpp" />
     <ClCompile Include="TeicIceBreath.cpp" />
     <ClCompile Include="TeicIceExplosion.cpp" />
     <ClCompile Include="TeicJustTestScene.cpp" />
