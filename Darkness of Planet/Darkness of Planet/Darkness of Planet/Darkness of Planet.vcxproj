@@ -176,6 +176,7 @@
     <ClInclude Include="cSkyCloud.h" />
     <ClInclude Include="cSkyDome.h" />
     <ClInclude Include="cSphere.h" />
+    <ClInclude Include="cSprayMesh.h" />
     <ClInclude Include="cStaticMeshLoader.h" />
     <ClInclude Include="cTestMain.h" />
     <ClInclude Include="cUIButton.h" />
@@ -291,6 +292,7 @@
     <ClCompile Include="cSkyCloud.cpp" />
     <ClCompile Include="cSkyDome.cpp" />
     <ClCompile Include="cSphere.cpp" />
+    <ClCompile Include="cSprayMesh.cpp" />
     <ClCompile Include="cStaticMeshLoader.cpp" />
     <ClCompile Include="cTestMain.cpp" />
     <ClCompile Include="cUIButton.cpp" />
