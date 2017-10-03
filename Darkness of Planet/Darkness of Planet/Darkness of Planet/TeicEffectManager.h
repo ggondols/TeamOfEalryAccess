@@ -6,7 +6,8 @@ enum EffectType
 {
 	Skill_breath,
 	Skill_Explosion,
-	Skill_Blizzard
+	Skill_Blizzard,
+	Character_Blood
 };
 class TeicEffectManager:public cSingletonBase<TeicEffectManager>
 {
