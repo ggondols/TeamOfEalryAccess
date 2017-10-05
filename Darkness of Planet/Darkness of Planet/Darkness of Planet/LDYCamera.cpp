@@ -9,6 +9,7 @@ LDYCamera::LDYCamera()
 	, m_fDistance(8.0f)
 	, m_vEye(0, 0, -m_fDistance)
 	, getMousePos(false)
+	, m_fBoundingX(0)
 {
 }
 
@@ -142,4 +143,8 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 	GETDEVICE->SetTransform(D3DTS_VIEW, &matView);
 
 	m_ptPrevMouse = g_ptMouse;
+}
+
+void LDYCamera::rebound()
+{
 }

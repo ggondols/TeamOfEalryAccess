@@ -45,7 +45,7 @@ private:
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
-	
+	float					m_fTime4; /// 총잡는 자세에서 돌아오는 시간
 	int						m_iBodyUpgrade;
 
 	// 인벤토리 추가

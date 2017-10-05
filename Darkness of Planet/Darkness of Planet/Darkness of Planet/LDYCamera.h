@@ -4,6 +4,7 @@ class LDYCamera:public cSingletonBase<LDYCamera>
 {
 private:
 	float m_fangleX;
+	float m_fBoundingX;
 	float m_fangleY;
 	POINT m_ptPrevMouse;
 	bool m_isLButtonDown;
@@ -25,6 +26,7 @@ public:
 	D3DXVECTOR3 getLook(void) { return *m_pvTarget; }
 	D3DXVECTOR3 getShootTarget() { return m_vTartget; }
 	float getAngleY(void) { return m_fangleY; }
+	void rebound();
 	
 };
 

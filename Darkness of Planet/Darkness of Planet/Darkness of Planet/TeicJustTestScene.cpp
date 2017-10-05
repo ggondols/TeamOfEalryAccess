@@ -351,9 +351,26 @@ void TeicJustTestScene::Update()
 	if (m_bThread)
 	{
 		//CleanHit();
+		if (TIMEMANAGER->getWorldTime() > m_fTime4 + 0.5)
+		{
+			m_pCharacter->m_pCtrl->setAttacking(false);
+		}
 		if (KEYMANAGER->isOnceKeyDown('Q'))
 		{
-			m_pShoot->Shoot();
+			if (!m_pCharacter->GetAttacking())
+			{
+				m_pCharacter->m_pCtrl->setAttacking(true);
+				m_pCharacter->m_pCtrl->m_fSpeed = 0;
+				m_fTime4 = TIMEMANAGER->getWorldTime();
+				m_pShoot->Shoot();
+				CAMERA->getAngleX();
+			}
+			else
+			{
+				m_pShoot->Shoot();
+				m_fTime4 = TIMEMANAGER->getWorldTime();
+			}
+			
 		}
 
 
