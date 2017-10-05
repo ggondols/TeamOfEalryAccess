@@ -35,7 +35,7 @@ private:
 	cSkyCloud*						m_pSkyCloud;
 	TeicShoot*				m_pShoot;
 	TeicObbCollision*		m_pCollision;
-	LDYCamera*				m_pCamera;
+//	LDYCamera*				m_pCamera;
 	
 	TeicBresenham*			m_pBresenham;
 	Hank::cGrid*			m_pGrid;

@@ -73,7 +73,7 @@ HRESULT LoadingScene::Setup()
 	m_pLoading->LoadTestResource("test", 10, 10);
 
 	
-		
+	
 	return S_OK;
 }
 

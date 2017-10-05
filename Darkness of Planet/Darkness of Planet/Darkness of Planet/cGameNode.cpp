@@ -45,6 +45,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		EFFECTMANAGER->Setup();
 		MODELMANAGER->Setup();
 		SKILLEFFECTMANAGER->Setup();
+		CAMERA->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -130,6 +131,8 @@ void cGameNode::Release()
 
 		SKILLEFFECTMANAGER->Destroy();
 		SKILLEFFECTMANAGER->releaseSingleton();
+		CAMERA->~LDYCamera();
+		CAMERA->releaseSingleton();
 	}
 }
 

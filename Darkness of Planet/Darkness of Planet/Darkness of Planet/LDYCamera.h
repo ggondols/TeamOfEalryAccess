@@ -1,5 +1,6 @@
 #pragma once
-class LDYCamera
+#include "cSingletonBase.h"
+class LDYCamera:public cSingletonBase<LDYCamera>
 {
 private:
 	float m_fangleX;

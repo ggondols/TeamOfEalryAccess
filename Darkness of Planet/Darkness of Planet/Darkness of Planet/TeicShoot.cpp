@@ -63,8 +63,9 @@ void TeicShoot::Shoot()
 			{
 				if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
 				{
-					if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit == true) continue;
-					m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
+					SKILLEFFECTMANAGER->play("MBlood", m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_vCenterPos, D3DXVECTOR3(0, 0, 0));
+					/*if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit == true) continue;
+					m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;*/
 					return;
 				}
 			}

@@ -104,7 +104,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pAstarShort(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
 	, m_bAstarThread(false)
-	, m_pCamera(NULL)
+	/*, m_pCamera(NULL)*/
 	, m_iBodyUpgrade(1)
 
 	, m_pFont(NULL)
@@ -124,7 +124,7 @@ TeicJustTestScene::~TeicJustTestScene()
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
 	SAFE_DELETE(m_pShoot);
-	SAFE_DELETE(m_pCamera);
+	//SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
@@ -174,7 +174,7 @@ HRESULT TeicJustTestScene::Setup()
 
 
 
-	m_pCamera = new LDYCamera;
+	/*m_pCamera = new LDYCamera;*/
 	m_pGrid = new Hank::cGrid;
 
 
@@ -185,7 +185,7 @@ HRESULT TeicJustTestScene::Setup()
 	sprintf_s(buff, "%s%d", BodyName, m_iBodyUpgrade);
 	m_pCharacter->Setup("object/xFile/", "HeroBodyLv");
 	m_pCharacter->SetPosition(D3DXVECTOR3(20, 0, -20));
-	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
+	CAMERA->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, this, 0));
 
 
@@ -236,7 +236,7 @@ HRESULT TeicJustTestScene::Setup()
 	m_pCollision = new TeicObbCollision;
 
 	m_pShoot = new TeicShoot;
-	m_pShoot->Setup(m_pNode, m_pCamera, m_pCharacter);
+	m_pShoot->Setup(m_pNode, CAMERA, m_pCharacter);
 
 	m_pTempEnemy = new TeicEnemy;
 	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
@@ -277,7 +277,7 @@ void TeicJustTestScene::Release()
 	m_pGrid->Release();
 
 	SAFE_DELETE(m_pMap);
-	SAFE_DELETE(m_pCamera);
+	/*SAFE_DELETE(m_pCamera);*/
 	SAFE_DELETE(m_pCharacter);
 
 
@@ -296,7 +296,7 @@ void TeicJustTestScene::Update()
 	{
 		m_pBoss->SetAnimation(0);
 	}
-	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
+	if (m_pInventory) m_pInventory->Update(CAMERA, m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 
@@ -305,8 +305,8 @@ void TeicJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	m_pCamera->Update(&m_pCharacter->GetPosition());
-	m_pCharacter->Update(m_pCamera->getAngleY());
+	CAMERA->Update(&m_pCharacter->GetPosition());
+	m_pCharacter->Update(CAMERA->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)
 	{
@@ -333,7 +333,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -344,7 +344,7 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}*/
+	}
 
 
 
