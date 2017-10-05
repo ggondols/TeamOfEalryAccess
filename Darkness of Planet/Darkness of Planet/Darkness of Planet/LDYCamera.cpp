@@ -52,7 +52,18 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 		m_fangleY = D3DX_PI;
 		return;
 	}*/
-
+	if (m_fBoundingX > 0.0001)
+	{
+		m_fBoundingX -= 0.1;
+		if (m_fBoundingX < 0)
+			m_fBoundingX = 0;
+	}
+	if (m_fBoundingX < 0.0001)
+	{
+		m_fBoundingX += 0.1;
+		if (m_fBoundingX > 0)
+			m_fBoundingX = 0;
+	}
 	if (pvTarget)
 	{
 		m_vTartget.x = pvTarget->x;
@@ -63,7 +74,7 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 		m_vTartget = D3DXVECTOR3(m_vTartget.x, m_vTartget.y, m_vTartget.z);
 
 
-	float deltaX = g_ptMouse.y - m_ptPrevMouse.y;
+	float deltaX = g_ptMouse.y - m_ptPrevMouse.y  ;
 	float deltaY = g_ptMouse.x - m_ptPrevMouse.x;
 
 
@@ -120,7 +131,7 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 
 	D3DXMATRIXA16 matRX;
 	D3DXMATRIXA16 matRY;
-	D3DXMatrixRotationX(&matRX, m_fangleX);
+	D3DXMatrixRotationX(&matRX, m_fangleX + m_fBoundingX/100.0);
 	D3DXMatrixRotationY(&matRY, m_fangleY);
 
 	D3DXMATRIXA16 matR = matRX * matRY;
@@ -147,4 +158,5 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 
 void LDYCamera::rebound()
 {
+	m_fBoundingX += RND->getFromFloatTo(-5.0, 5.0);
 }

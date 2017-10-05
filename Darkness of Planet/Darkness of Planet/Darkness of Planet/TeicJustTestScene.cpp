@@ -363,12 +363,13 @@ void TeicJustTestScene::Update()
 				m_pCharacter->m_pCtrl->m_fSpeed = 0;
 				m_fTime4 = TIMEMANAGER->getWorldTime();
 				m_pShoot->Shoot();
-				CAMERA->getAngleX();
+				CAMERA->rebound();
 			}
 			else
 			{
 				m_pShoot->Shoot();
 				m_fTime4 = TIMEMANAGER->getWorldTime();
+				CAMERA->rebound();
 			}
 			
 		}
