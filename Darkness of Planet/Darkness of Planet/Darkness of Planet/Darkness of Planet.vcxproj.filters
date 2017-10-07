@@ -552,6 +552,9 @@
     <ClInclude Include="TeicMonsterChill.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
+    <ClInclude Include="cRayCaster.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -889,6 +892,9 @@
     </ClCompile>
     <ClCompile Include="TeicMonsterBlood.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cRayCaster.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TeicMonsterChill.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>

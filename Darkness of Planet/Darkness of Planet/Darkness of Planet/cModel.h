@@ -45,6 +45,8 @@ public:
 	
 	HRESULT LoadModel(const string& path, const string & name, LPDIRECT3DDEVICE9 pDevice, bool bSkybox = false);
 	HRESULT cModel::Render(LPDIRECT3DDEVICE9 pDevice);
+
+	LPD3DXMESH GetMesh(void) { return m_pMesh; }
 };
 
 

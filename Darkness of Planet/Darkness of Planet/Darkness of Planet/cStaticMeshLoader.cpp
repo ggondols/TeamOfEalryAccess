@@ -39,8 +39,7 @@ void cStaticMeshLoader::ScriptLoader(const string& fullPath, std::list<cObjectNo
 		if (token == "[MeshLoad]")
 		{
 			CreateMesh(file);
-			int a = 0;
-			a = 1;
+		
 			continue;
 		}
 		else if (token == "[Placement]")
