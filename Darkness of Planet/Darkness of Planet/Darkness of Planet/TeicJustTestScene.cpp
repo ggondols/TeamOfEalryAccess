@@ -27,7 +27,9 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
 			pSkinnedMesh->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, temp, (i + 1) * 10 + j));
-
+			pSkinnedMesh->SetAttack(5);
+			pSkinnedMesh->SetHP(100);
+		
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 			//temp->m_vecEnemy[i * 10 + j]->GetBoundingSquare()->m_pSkinnedObject = temp->m_vecEnemy[i * 10 + j]->GetSkinnedMesh();
 		}
@@ -254,7 +256,8 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss = new TeicBoss;
 
 
-	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
+//	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
+	m_pBoss->Setup("object/xFile/Unit/BattleCruiser/", "Battlecruiser.X");
 	//m_pBoss->Setup("object/", "ice_Boom.X");
 	//m_pBoss->Setup("sprites/", "ice_Boom.X");
 
@@ -263,8 +266,8 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pBoss->SetAnimation(0);
 
-	m_pBoss->SetScaleSize(0.1);
-
+	//m_pBoss->SetScaleSize(0.1);
+	m_pBoss->SetScaleSize(10);
 
 	
 
@@ -310,6 +313,8 @@ void TeicJustTestScene::Update()
 	bool check = ChangeCheckPoint();
 	if (m_bThread)
 	{
+
+
 		if (check)
 		{
 			m_fTime2 = 0;
@@ -362,18 +367,18 @@ void TeicJustTestScene::Update()
 				m_pCharacter->m_pCtrl->setAttacking(true);
 				m_pCharacter->m_pCtrl->m_fSpeed = 0;
 				m_fTime4 = TIMEMANAGER->getWorldTime();
-				m_pShoot->Shoot();
+				m_pShoot->Shoot(m_pCharacter->getWeaponType());
 				CAMERA->rebound();
 			}
 			else
 			{
-				m_pShoot->Shoot();
+				m_pShoot->Shoot(m_pCharacter->getWeaponType());
 				m_fTime4 = TIMEMANAGER->getWorldTime();
 				CAMERA->rebound();
 			}
 			
 		}
-
+		CheckDie();
 
 
 		WayUpdate();
@@ -473,7 +478,7 @@ void TeicJustTestScene::Update()
 
 void TeicJustTestScene::CallbackOn(int number)
 {
-	//////0 캐릭터   10~29 적   
+	//////0 캐릭터   10~적  
 
 	///(i + 1)*10 + j   10~29
 	if (number == 0)
@@ -731,8 +736,13 @@ void TeicJustTestScene::Render()
 	m_pGrid->Render();
 	//if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pMap)m_pMap->frustumcullingRender();
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	//GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 
+	//GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	//GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+
+	//GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
 	if (m_bThread)
 	{
@@ -940,6 +950,56 @@ bool TeicJustTestScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)
 		return true;
 	}
 	return false;
+}
+
+void TeicJustTestScene::CheckDie()
+{
+	int a = 0;
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		if (m_vecEnemy[i]->GetHP() <= 0)
+		{
+			if (m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_vecEnemy[i]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+					{
+						m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
+							m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
+
+					}
+				}
+			}
+
+
+
+			if (m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_vecEnemy[i]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+					{
+						m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.erase(
+							m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.begin() + j);
+
+					}
+				}
+			}
+
+			m_vecEnemy.erase(m_vecEnemy.begin() + i);
+			m_vecEnemyWay.erase(m_vecEnemyWay.begin() + i);
+			m_vecEnemyCollisionMove.erase(m_vecEnemyCollisionMove.begin() + i);
+			a++;
+		}
+	}
+	if (a != 0)
+	{
+		for (int i = 0; i < m_vecEnemy.size(); i++)
+		{
+			m_vecEnemy[i]->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, this, 10 + i));
+		}
+	}
 }
 
 

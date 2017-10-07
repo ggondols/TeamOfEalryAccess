@@ -38,7 +38,7 @@ HRESULT cGameNode::Setup(bool managerInit)
 		UIOBJECTMANAGER->Setup();
 		HEIGHTMAPMANAGER->Setup();
 		WAYMANAGER->Setup();
-		NODEMANAGER->Setup(257);
+		NODEMANAGER->Setup(210);
 		DATABASE->Setup();
 		MESHLOADER->Setup();
 		SOUNDMANAGER->Setup();

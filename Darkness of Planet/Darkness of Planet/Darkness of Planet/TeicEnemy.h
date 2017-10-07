@@ -65,6 +65,10 @@ public:
 	void SetSpeed(float s) { m_fSpeed = s; }
 	float CalBoundingSize();
 	void SetAnimationPlay(bool on);
+	void SetHP(int n);
+	void SetAttack(int n);
+	int GetHP();
+	int GetAttack();
 public:
 	TeicEnemy();
 	~TeicEnemy();

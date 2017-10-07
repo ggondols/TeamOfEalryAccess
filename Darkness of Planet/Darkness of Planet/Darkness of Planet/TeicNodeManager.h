@@ -14,10 +14,12 @@
 class TeicNodeManager:public cSingletonBase<TeicNodeManager>
 {
 	HankcGrid*				m_pNode;
+	HankcNode*				m_pPickingNode;
 public:
 	void Setup(int size);
 	void Destroy();
 	HankcGrid*	GetNode();
+	HankcNode*  GetPickingNode();
 	TeicNodeManager();
 	~TeicNodeManager();
 };

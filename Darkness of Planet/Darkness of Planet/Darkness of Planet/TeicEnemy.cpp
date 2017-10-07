@@ -10,7 +10,7 @@ TeicEnemy::TeicEnemy()
 	temp.x = temp.y = 0;
 	m_PresentGrid = temp;
 	m_PreviousGrid = temp;
-	m_fBoundingSize = 2.0f;
+	m_fBoundingSize = 5.0f;
 	m_fAttackRange = 8;
 	m_bAttackOn = false;
 	m_bThreadCalOn = false;
@@ -369,6 +369,44 @@ void TeicEnemy::SetAnimationPlay(bool on)
 	if (m_pSkinnedMesh)
 	{
 		m_pSkinnedMesh->SetAnimationPlay(on);
+
+	}
+}
+
+void TeicEnemy::SetHP(int n)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->SetHP(n);
+
+	}
+}
+
+
+
+void TeicEnemy::SetAttack(int n)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->SetAttack(n);
+
+	}
+}
+
+int TeicEnemy::GetHP()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->GetHP();
+
+	}
+}
+
+int TeicEnemy::GetAttack()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->GetAttack();
 
 	}
 }

@@ -1,16 +1,20 @@
-name MP5
+name AA12
 type weapon
-value 3
-
-name M4
-type weapon
-value 5
+value 13
 
 name AR6
 type weapon
 value 7
 
-name Supergun
+name M4
+type weapon
+value 5
+
+name MP5
+type weapon
+value 3
+
+name FireGun
 type weapon
 value 10
 

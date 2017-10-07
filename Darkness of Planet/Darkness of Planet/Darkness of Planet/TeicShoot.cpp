@@ -23,7 +23,7 @@ void TeicShoot::Setup(HankcGrid *node, LDYCamera *camera, LDYCharacter* characte
 	m_pBresenham = new TeicBresenham;
 }
 
-void TeicShoot::Shoot()
+void TeicShoot::Shoot(WeaponType type)
 {
 	m_vecPoint.clear();
 	m_vecTargetNode.clear();
@@ -63,7 +63,26 @@ void TeicShoot::Shoot()
 			{
 				if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
 				{
-					SKILLEFFECTMANAGER->play("MBlood", m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_vCenterPos, D3DXVECTOR3(0, 0, 0));
+					switch (type)
+					{
+					case Wp_Melee:
+						break;
+					case Wp_AA12:
+						SKILLEFFECTMANAGER->play("MBlood", m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_vCenterPos, D3DXVECTOR3(0, 0, 0));
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AA12");
+						break;
+					case Wp_AR6:
+						break;
+					case Wp_M4:
+						break;
+					case Wp_MP5:
+						break;
+					case WP_FireGun:
+						break;
+					default:
+						break;
+					}
+					
 					/*if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit == true) continue;
 					m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;*/
 					return;
