@@ -137,8 +137,14 @@ public:
 	float lookx;
 	float lookz;
 
+	deque<D3DXVECTOR3>		m_vecAfterImageMuzzle;
+	deque<D3DXVECTOR3>		m_vecAfterImageWeapon;
+	float					m_fStartTime;
+	float					m_fEndTime;
+	float					m_fCurrentTime;
 
-
+	LPD3DXMESH				m_pMesh;
+	DWORD					m_dNum;
 public:
 
 	virtual HRESULT Setup();
@@ -160,6 +166,7 @@ public:
 	bool ChangeCheckPoint();
 	void AngleChange(TeicEnemy* A);
 	void WayUpdate();
+	void AfterImage();
 
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);

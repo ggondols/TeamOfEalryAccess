@@ -45,6 +45,7 @@ extern LPARAM g_lparam;
 #include <list>
 #include <string>
 #include <functional>  //////바인드 함수를 이용하기 위한 헤더
+#include <deque>
 
 
 //필요한 Define은 여기서 선언 합니다.

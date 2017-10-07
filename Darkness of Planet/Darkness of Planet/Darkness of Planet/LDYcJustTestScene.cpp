@@ -11,6 +11,7 @@
 #include "cSkyCloud.h"
 #include "cShadowMapping.h"
 #include "LDYMotionBlur.h"
+#include "LDYSkinnedMesh.h"
 
 
 static CRITICAL_SECTION cs;
@@ -112,6 +113,9 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_pHeightMapmesh(NULL)
 	, lookz(0.0f)
 	, m_pFog(NULL)
+	, m_fStartTime(0.0f)
+	, m_fEndTime(0.0f)
+	, m_fCurrentTime(0.0f)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -206,6 +210,19 @@ HRESULT LDYcJustTestScene::Setup()
 	m_pCharacter->SetPosition(D3DXVECTOR3(20, 20, 20));
 	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&LDYcJustTestScene::CallbackOn, this, 0));
+
+	LPD3DXBUFFER pAdjacency;
+	LPD3DXBUFFER pMaterials;
+	string filename = "object/xFile/SpaceShip/spaceship_2.X";
+	D3DXLoadMeshFromX(filename.c_str(),
+		D3DXMESH_MANAGED,
+		GETDEVICE,
+		&pAdjacency,
+		&pMaterials,
+		NULL,
+		&m_dNum,
+		&m_pMesh);
+
 
 
 	/////////////태영
@@ -442,6 +459,7 @@ void LDYcJustTestScene::Update()
 
 
 	UIOBJECTMANAGER->Update();
+
 }
 
 void LDYcJustTestScene::CallbackOn(int number)
@@ -831,8 +849,16 @@ void LDYcJustTestScene::Render()
 	//if (m_pSkyDome)m_pSkyDome->Render();
 	//if (m_pSkyCloud)m_pSkyCloud->Render();
 	//if (m_pCharacter)m_pCharacter->UpdateAndRender();
-
-
+	AfterImage();
+	D3DXMATRIX spaceshipworld,trans;
+	D3DXMatrixScaling(&spaceshipworld, 0.01f, 0.01f, 0.01f);
+	D3DXMatrixTranslation(&trans, 150.0f, 100.0f, -150.0f);
+	spaceshipworld *= trans;
+	LPDIRECT3DTEXTURE9 tex;
+	tex=TEXTUREMANAGER->GetTexture("object/xFile/SpaceShip/SF_Corvette-F3_diffuse.jpg");
+	GETDEVICE->SetTransform(D3DTS_WORLD, &spaceshipworld);
+	GETDEVICE->SetTexture(0, tex);
+	m_pMesh->DrawSubset(0);
 
 	//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(151, 255, 215);
 	//float start = 0.0f;
@@ -846,32 +872,6 @@ void LDYcJustTestScene::Render()
 	//GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
 	//GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
 	//GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
-D3DXVECTOR3 aaa;
-aaa=m_pCharacter->getWeaponMaxPos();
-int a = 0;
-	D3DXVECTOR3 pos[4];
-	pos[0] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	pos[1] = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
-	pos[2] = D3DXVECTOR3(200.0f, 200.0f, 0.0f);
-	pos[3] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-	vector<ST_PC_VERTEX> vecPos;
-	D3DCOLOR c = D3DCOLOR_XRGB(255, 255, 255);
-
-	for (int i = 0; i < 5; ++i) {
-		D3DXVECTOR3 result;
-
-		float mull = (i + 1) / 5.f;
-		D3DXVec3CatmullRom(&result, &pos[0], &pos[1], &pos[2], &pos[3], mull);
-
-		vecPos.push_back(ST_PC_VERTEX(result, c));
-	}
-	GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
-	GETDEVICE->DrawPrimitiveUP(
-	D3DPT_LINESTRIP,
-	3,
-	&vecPos[0],
-	sizeof(ST_PC_VERTEX));
 
 	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
@@ -1103,6 +1103,51 @@ void LDYcJustTestScene::WayUpdate()
 			m_vecEnemyWay[i].clear();
 		}
 	}
+}
+
+void LDYcJustTestScene::AfterImage()
+{
+
+	//데큐 총용량 30개로제한 
+	if (m_vecAfterImageMuzzle.size() > 20) {
+
+		m_vecAfterImageMuzzle.pop_front();
+	}
+
+	if (m_vecAfterImageWeapon.size() > 20) {
+
+		m_vecAfterImageWeapon.pop_front();
+	}
+
+	//검광 색깔흰색지정
+	D3DCOLOR c = D3DCOLOR_XRGB(0, 0, 0);
+
+	//무기위치벡터에넣음
+	m_vecAfterImageMuzzle.push_back(m_pCharacter->getMuzzlePos());
+	m_vecAfterImageWeapon.push_back(m_pCharacter->getWeaponPos());
+
+
+	vector<ST_PC_VERTEX> vecMuzzlePos;
+	if (m_vecAfterImageMuzzle.size() >= 20) {
+		for (int i = 0; i < 19; ++i) {
+
+			D3DXVECTOR3 result;
+
+			float mull = (i + 1) / 20.f;
+			D3DXVec3CatmullRom(&result, &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i+1], &m_vecAfterImageMuzzle[i+1], mull);
+
+			vecMuzzlePos.push_back(ST_PC_VERTEX(result, c));
+		}
+	GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
+	GETDEVICE->DrawPrimitiveUP(
+		D3DPT_LINESTRIP,
+		vecMuzzlePos.size()-1,
+		&vecMuzzlePos[0],
+		sizeof(ST_PC_VERTEX));
+	}
+
+
+	
 }
 
 
