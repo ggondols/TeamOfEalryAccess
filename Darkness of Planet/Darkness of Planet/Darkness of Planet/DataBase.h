@@ -17,6 +17,7 @@ struct ST_ITEM_DATA
 {
 	ITEM_TYPE sType;
 	float fValue;
+	float st_FireRate;
 };
 
 class DataBase : public cSingletonBase<DataBase>
@@ -44,6 +45,7 @@ public:
 	void Setup();
 	void Destroy();
 	float GetItemValue(string itemName);
+	float GetItemFireRate(string itemName);
 	D3DXVECTOR3 GetTimeToPosition(string aiName, float time);
 };
 
