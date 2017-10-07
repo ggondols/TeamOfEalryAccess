@@ -14,6 +14,7 @@ TeicPhysicsCrtCtrl::TeicPhysicsCrtCtrl()
 	, m_bRunning(false)
 	, m_bgetMousePos(false)
 	, m_fangleX(0.0f)
+	, m_eDir(Up)
 
 {
 	D3DXMatrixIdentity(&m_matWorld);
@@ -27,8 +28,21 @@ TeicPhysicsCrtCtrl::~TeicPhysicsCrtCtrl()
 
 void TeicPhysicsCrtCtrl::Update(float angle)
 {
-
-	m_fAngle = angle - D3DX_PI / 2;
+	switch (m_eDir)
+	{
+	case Up:
+		m_fAngle = angle - D3DX_PI / 2;
+		break;
+	case Left:
+		m_fAngle = angle - D3DX_PI;
+		break;
+	case Right:
+		m_fAngle = angle;
+		break;
+	default:
+		break;
+	}
+	
 
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
@@ -47,16 +61,19 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
 			m_fAngle = angle - D3DX_PI / 2;
+			m_eDir = Up;
 			m_bMoving = true;
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
-			m_fAcceleration -= 0.001f*m_fSpeedSetting;
-
+			m_fAcceleration -= 0.001f*0.5;
+			m_fAngle = angle - D3DX_PI / 2;
+			m_bMoving = true;
 		}
 		if (KEYMANAGER->isStayKeyDown('A'))
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
+			m_eDir = Left;
 			m_fAngle = angle - D3DX_PI;
 			m_bMoving = true;
 		}
@@ -64,6 +81,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 		if (KEYMANAGER->isStayKeyDown('D'))
 		{
 			m_fAcceleration += 0.001f*m_fSpeedSetting;
+			m_eDir = Right;
 			m_fAngle = angle;
 			m_bMoving = true;
 		}
@@ -87,6 +105,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 			m_fSpeed = 0;
 			m_bMoving = false;
 			m_fAcceleration = 0;
+			m_eDir = Up;
 		}
 		
 	}

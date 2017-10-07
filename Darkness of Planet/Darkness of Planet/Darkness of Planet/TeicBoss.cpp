@@ -134,6 +134,14 @@ void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 	{
 		SKILLEFFECTMANAGER->play("Blood", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
 	}
+	if (KEYMANAGER->isOnceKeyDown('M'))
+	{
+		SKILLEFFECTMANAGER->play("MBlood", m_pSkinnedMesh->GetPosition(), D3DXVECTOR3(0, 0, 0));
+	}
+
+
+
+
 	if (m_pSkinnedMesh->GetAninum() == 0)
 	{
 		CalRotation(CharacterPos);
@@ -289,6 +297,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Blood", Character_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 10);
+	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");
 }
 

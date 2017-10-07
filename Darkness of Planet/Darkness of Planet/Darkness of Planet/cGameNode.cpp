@@ -38,13 +38,14 @@ HRESULT cGameNode::Setup(bool managerInit)
 		UIOBJECTMANAGER->Setup();
 		HEIGHTMAPMANAGER->Setup();
 		WAYMANAGER->Setup();
-		NODEMANAGER->Setup(257);
+		NODEMANAGER->Setup(210);
 		DATABASE->Setup();
 		MESHLOADER->Setup();
 		SOUNDMANAGER->Setup();
 		EFFECTMANAGER->Setup();
 		MODELMANAGER->Setup();
 		SKILLEFFECTMANAGER->Setup();
+		CAMERA->Setup();
 	}
 
 	D3DXMATRIXA16 matWorld;
@@ -130,6 +131,8 @@ void cGameNode::Release()
 
 		SKILLEFFECTMANAGER->Destroy();
 		SKILLEFFECTMANAGER->releaseSingleton();
+		CAMERA->~LDYCamera();
+		CAMERA->releaseSingleton();
 	}
 }
 

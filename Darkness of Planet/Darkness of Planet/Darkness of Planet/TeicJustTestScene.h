@@ -35,7 +35,7 @@ private:
 	cSkyCloud*						m_pSkyCloud;
 	TeicShoot*				m_pShoot;
 	TeicObbCollision*		m_pCollision;
-	LDYCamera*				m_pCamera;
+//	LDYCamera*				m_pCamera;
 	
 	TeicBresenham*			m_pBresenham;
 	Hank::cGrid*			m_pGrid;
@@ -45,7 +45,8 @@ private:
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
-	
+	float					m_fTime4; /// 총잡는 자세에서 돌아오는 시간
+	float					m_fTime5; /// 총 연사 속도 시간
 	int						m_iBodyUpgrade;
 
 	// 인벤토리 추가
@@ -91,6 +92,9 @@ public:
 	void WayUpdate();
 	void CleanHit();
 	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);  //A와 B가 같은가?
+	void CheckDie();
+	float GetFireRate();
+	float GetCallbackTime();
 public:
 	TeicJustTestScene();
 	~TeicJustTestScene();

@@ -27,7 +27,9 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
 			pSkinnedMesh->SetPosition(D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j)));
 			pSkinnedMesh->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, temp, (i + 1) * 10 + j));
-
+			pSkinnedMesh->SetAttack(5);
+			pSkinnedMesh->SetHP(100);
+		
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 			//temp->m_vecEnemy[i * 10 + j]->GetBoundingSquare()->m_pSkinnedObject = temp->m_vecEnemy[i * 10 + j]->GetSkinnedMesh();
 		}
@@ -104,7 +106,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pAstarShort(NULL)
 	, m_EnemyTarget(D3DXVECTOR3(0, 0, 0))
 	, m_bAstarThread(false)
-	, m_pCamera(NULL)
+	/*, m_pCamera(NULL)*/
 	, m_iBodyUpgrade(1)
 
 	, m_pFont(NULL)
@@ -113,7 +115,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
 	, m_pInventory(NULL)
-
+	,m_fTime5(0.0f)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -124,7 +126,7 @@ TeicJustTestScene::~TeicJustTestScene()
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
 	SAFE_DELETE(m_pShoot);
-	SAFE_DELETE(m_pCamera);
+	//SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
@@ -174,7 +176,7 @@ HRESULT TeicJustTestScene::Setup()
 
 
 
-	m_pCamera = new LDYCamera;
+	/*m_pCamera = new LDYCamera;*/
 	m_pGrid = new Hank::cGrid;
 
 
@@ -185,7 +187,7 @@ HRESULT TeicJustTestScene::Setup()
 	sprintf_s(buff, "%s%d", BodyName, m_iBodyUpgrade);
 	m_pCharacter->Setup("object/xFile/", "HeroBodyLv");
 	m_pCharacter->SetPosition(D3DXVECTOR3(20, 0, -20));
-	m_pCamera->Setup(m_pCharacter->GetPositionPointer());
+	CAMERA->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, this, 0));
 
 
@@ -236,7 +238,7 @@ HRESULT TeicJustTestScene::Setup()
 	m_pCollision = new TeicObbCollision;
 
 	m_pShoot = new TeicShoot;
-	m_pShoot->Setup(m_pNode, m_pCamera, m_pCharacter);
+	m_pShoot->Setup(m_pNode, CAMERA, m_pCharacter);
 
 	m_pTempEnemy = new TeicEnemy;
 	m_pTempEnemy->Setup("object/xFile/wolf/", "wolf.X");
@@ -254,7 +256,8 @@ HRESULT TeicJustTestScene::Setup()
 	m_pBoss = new TeicBoss;
 
 
-	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
+//	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
+	m_pBoss->Setup("object/xFile/Unit/BattleCruiser/", "Battlecruiser.X");
 	//m_pBoss->Setup("object/", "ice_Boom.X");
 	//m_pBoss->Setup("sprites/", "ice_Boom.X");
 
@@ -263,8 +266,8 @@ HRESULT TeicJustTestScene::Setup()
 
 	m_pBoss->SetAnimation(0);
 
-	m_pBoss->SetScaleSize(0.1);
-
+	//m_pBoss->SetScaleSize(0.1);
+	m_pBoss->SetScaleSize(10);
 
 	
 
@@ -277,7 +280,7 @@ void TeicJustTestScene::Release()
 	m_pGrid->Release();
 
 	SAFE_DELETE(m_pMap);
-	SAFE_DELETE(m_pCamera);
+	/*SAFE_DELETE(m_pCamera);*/
 	SAFE_DELETE(m_pCharacter);
 
 
@@ -296,7 +299,7 @@ void TeicJustTestScene::Update()
 	{
 		m_pBoss->SetAnimation(0);
 	}
-	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
+	if (m_pInventory) m_pInventory->Update(CAMERA, m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 
@@ -305,11 +308,13 @@ void TeicJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	m_pCamera->Update(&m_pCharacter->GetPosition());
-	m_pCharacter->Update(m_pCamera->getAngleY());
+	CAMERA->Update(&m_pCharacter->GetPosition());
+	m_pCharacter->Update(CAMERA->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)
 	{
+
+
 		if (check)
 		{
 			m_fTime2 = 0;
@@ -333,7 +338,7 @@ void TeicJustTestScene::Update()
 		}
 	}
 
-	/*if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 5.0f)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -344,18 +349,42 @@ void TeicJustTestScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
-	}*/
+	}
 
 
 
 	if (m_bThread)
 	{
 		//CleanHit();
-		if (KEYMANAGER->isOnceKeyDown('Q'))
+		float callbacktiming = GetCallbackTime();
+		if (TIMEMANAGER->getWorldTime() > m_fTime4 + callbacktiming)
 		{
-			m_pShoot->Shoot();
+			m_pCharacter->m_pCtrl->setAttacking(false);
 		}
-
+		if (KEYMANAGER->isStayKeyDown('Q'))
+		{
+			float fire = GetFireRate();
+			if (TIMEMANAGER->getWorldTime() > m_fTime5 + fire)
+			{
+				m_fTime5 = TIMEMANAGER->getWorldTime();
+				if (!m_pCharacter->GetAttacking())
+				{
+					m_pCharacter->m_pCtrl->setAttacking(true);
+					m_pCharacter->m_pCtrl->m_fSpeed = 0;
+					m_fTime4 = TIMEMANAGER->getWorldTime();
+					m_pShoot->Shoot(m_pCharacter->getWeaponType());
+					CAMERA->rebound();
+				}
+				else
+				{
+					m_pShoot->Shoot(m_pCharacter->getWeaponType());
+					m_fTime4 = TIMEMANAGER->getWorldTime();
+					CAMERA->rebound();
+				}
+			}
+			
+		}
+		CheckDie();
 
 
 		WayUpdate();
@@ -455,7 +484,7 @@ void TeicJustTestScene::Update()
 
 void TeicJustTestScene::CallbackOn(int number)
 {
-	//////0 캐릭터   10~29 적   
+	//////0 캐릭터   10~적  
 
 	///(i + 1)*10 + j   10~29
 	if (number == 0)
@@ -713,8 +742,13 @@ void TeicJustTestScene::Render()
 	m_pGrid->Render();
 	//if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pMap)m_pMap->frustumcullingRender();
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	//GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 
+	//GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+	//GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+
+	//GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
 	if (m_bThread)
 	{
@@ -922,6 +956,110 @@ bool TeicJustTestScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)
 		return true;
 	}
 	return false;
+}
+
+void TeicJustTestScene::CheckDie()
+{
+	int a = 0;
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		if (m_vecEnemy[i]->GetHP() <= 0)
+		{
+			if (m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_vecEnemy[i]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+					{
+						m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
+							m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
+
+					}
+				}
+			}
+
+
+			if (m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_vecEnemy[i]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+					{
+						m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.erase(
+							m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.begin() + j);
+
+					}
+				}
+			}
+
+			m_vecEnemy.erase(m_vecEnemy.begin() + i);
+			m_vecEnemyWay.erase(m_vecEnemyWay.begin() + i);
+			m_vecEnemyCollisionMove.erase(m_vecEnemyCollisionMove.begin() + i);
+			a++;
+		}
+	}
+	if (a != 0)
+	{
+		for (int i = 0; i < m_vecEnemy.size(); i++)
+		{
+			m_vecEnemy[i]->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, this, 10 + i));
+		}
+	}
+}
+
+float TeicJustTestScene::GetFireRate()
+{
+	switch (m_pCharacter->getWeaponType())
+	{
+	case Wp_Melee:
+		break;
+	case Wp_AA12:
+		return DATABASE->GetItemFireRate("AA12");
+		break;
+	case Wp_AR6:
+		return DATABASE->GetItemFireRate("AR6");
+		break;
+	case Wp_M4:
+		return DATABASE->GetItemFireRate("M4");
+		break;
+	case Wp_MP5:
+		return DATABASE->GetItemFireRate("MP5");
+		break;
+	case WP_FireGun:
+		return DATABASE->GetItemFireRate("FireGun");
+		break;
+	default:
+		break;
+	}
+
+	
+	
+}
+
+float TeicJustTestScene::GetCallbackTime()
+{
+	switch (m_pCharacter->getWeaponType())
+	{
+	case Wp_Melee:
+		break;
+	case Wp_AA12:
+		return DATABASE->GetCallbacktime("AA12");
+		break;
+	case Wp_AR6:
+		return DATABASE->GetCallbacktime("AR6");
+		break;
+	case Wp_M4:
+		return DATABASE->GetCallbacktime("M4");
+		break;
+	case Wp_MP5:
+		return DATABASE->GetCallbacktime("MP5");
+		break;
+	case WP_FireGun:
+		return DATABASE->GetCallbacktime("FireGun");
+		break;
+	default:
+		break;
+	}
 }
 
 

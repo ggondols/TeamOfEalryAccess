@@ -43,9 +43,7 @@ protected:
 	bool m_Damaging;
 	CallbackBindFunction			m_callback;
 	CallbackBindFunction        m_attackCallback;
-	int m_iHp;
-	int m_iShield;
-	int m_iAttack;
+	
 	int	m_Tracknum;
 	int	m_iNum;
 	bool						m_bAnion;
@@ -73,9 +71,8 @@ public:
 	void SetAnimation(int num);
 	void ChangeAnimation(int num);
 
-	void SetHP(int n) { m_iHp = n; }
-	void SetShield(int n) { m_iShield = n; }
-	void SetAttack(int n) { m_iAttack = n; }
+
+	
 	void SetNextAni();
 	int GetAninum() { return m_iNum; }
 	void SetAnimationPlay(bool on) { m_bAnion = on; }
@@ -90,7 +87,10 @@ protected:
 	void Blending();
 public:
 	void MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect);
-
+	void SetHP(int n) { m_iHp = n; }
+	void SetAttack(int n) { m_iAttack = n; }
+	int	 GetHP() { return m_iHp; }
+	int	 GetAttack() { return m_iAttack; }
 	void ShaderMeshRender(LPD3DXEFFECT effect);
 public:
 	TeicSkinnedMesh();

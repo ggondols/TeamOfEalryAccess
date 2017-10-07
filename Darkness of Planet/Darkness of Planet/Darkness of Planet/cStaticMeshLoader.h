@@ -2,6 +2,7 @@
 class cObjectNode;
 class cStaticMeshLoader
 {
+private:
 	vector<string>	m_meshFileName;
 	vector<string>	m_meshPath;
 	vector<int>		m_meshId;

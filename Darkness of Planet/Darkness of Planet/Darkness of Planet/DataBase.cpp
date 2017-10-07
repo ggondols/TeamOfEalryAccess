@@ -87,6 +87,26 @@ void DataBase::LoadItemData(void)
 				it->second->fValue = atof(szPath);
 			}
 		}
+		else if (!strcmp(szPath, "fireRate"))
+		{
+			sscanf_s(szBuf, "%*s %s", szPath, 1024);
+			mapItemDataIter it = m_mapItemData.find(keyName);
+			if (it != m_mapItemData.end())
+			{
+				it->second->st_FireRate = atof(szPath);
+			}
+		}
+		else if (!strcmp(szPath, "Callbacktime"))
+		{
+			sscanf_s(szBuf, "%*s %s", szPath, 1024);
+			mapItemDataIter it = m_mapItemData.find(keyName);
+			if (it != m_mapItemData.end())
+			{
+				it->second->st_CallbackTime = atof(szPath);
+			}
+		}
+
+		
 	}
 	
 	fclose(fp);
@@ -157,6 +177,24 @@ float DataBase::GetItemValue(string itemName)
 	if (it != m_mapItemData.end())
 	{
 		return it->second->fValue;
+	}
+}
+
+float DataBase::GetItemFireRate(string itemName)
+{
+	mapItemDataIter it = m_mapItemData.find(itemName);
+	if (it != m_mapItemData.end())
+	{
+		return it->second->st_FireRate;
+	}
+}
+
+float DataBase::GetCallbacktime(string itemName)
+{
+	mapItemDataIter it = m_mapItemData.find(itemName);
+	if (it != m_mapItemData.end())
+	{
+		return it->second->st_CallbackTime;
 	}
 }
 

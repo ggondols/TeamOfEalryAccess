@@ -10,18 +10,25 @@
 //#												#
 //#					Made by ÅÂ¿µ				#
 //###############################################
+
+enum dir
+{
+	Up,
+	Left,
+	Right,
+};
 class TeicPhysicsCrtCtrl
 {
 private:
-
+	dir						m_eDir;
 	D3DXVECTOR3				m_vPos;
 	D3DXVECTOR3				m_vFuturePos;
 	D3DXVECTOR3				m_vPastPos;
-	float					m_fSpeed;
+	
 	float					m_fAcceleration;
 	float					m_fAngle;
 	bool					m_bMoving;
-	bool					m_bAttacking;
+
 	bool					m_bRunning;
 	D3DXMATRIX				m_matRotation;
 	POINT					m_ptPrevMouse;
@@ -32,7 +39,8 @@ private:
 
 	
 public:
-
+	bool					m_bAttacking;
+	float					m_fSpeed;
 protected:
 	SYNTHESIZE_PASS_BY_REF(float, m_fSpeedSetting, Speed);
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matWorld, WorldTM);

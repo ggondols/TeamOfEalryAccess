@@ -76,7 +76,7 @@ extern LPARAM g_lparam;
 #define EFFECTMANAGER cEffectManager::getSingleton()
 #define MODELMANAGER cModelManager::getSingleton() // static obejct manager with debug renderer
 #define SKILLEFFECTMANAGER TeicEffectManager::getSingleton()
-
+#define CAMERA LDYCamera::getSingleton()
 //#define MGRSCENE	SCENEMANAGER
 //#define MGREFFECT	EFFECTMANAGER
 //#define MGRKEY		KEYMANAGER
@@ -149,6 +149,7 @@ public: virtual void Set##funName(varType var){\
 #include "cEffectManager.h"
 #include "cModelManager.h"
 #include "TeicEffectManager.h"
+#include "LDYCamera.h"
 // 매니저 헤더(싱글톤 버전2 : 매크로)
 #include "cSkinnedMeshManager.h"
 

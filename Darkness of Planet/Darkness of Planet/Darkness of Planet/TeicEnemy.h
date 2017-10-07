@@ -34,6 +34,7 @@ public:
 	float			 m_fAngle;
 	D3DXVECTOR3		 m_vPreviousPosition;
 	float			 m_fSpeed;
+	
 public:
 	void MeshRender(LPD3DXEFFECT effect);
 	void SetNextAni();
@@ -65,6 +66,10 @@ public:
 	void SetSpeed(float s) { m_fSpeed = s; }
 	float CalBoundingSize();
 	void SetAnimationPlay(bool on);
+	void SetHP(int n);
+	void SetAttack(int n);
+	int GetHP();
+	int GetAttack();
 public:
 	TeicEnemy();
 	~TeicEnemy();
