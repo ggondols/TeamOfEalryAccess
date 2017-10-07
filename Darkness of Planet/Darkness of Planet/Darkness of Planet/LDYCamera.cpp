@@ -52,15 +52,15 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 		m_fangleY = D3DX_PI;
 		return;
 	}*/
-	if (m_fBoundingX > 0.0001)
-	{
-		m_fBoundingX -= 0.1;
-		if (m_fBoundingX < 0)
-			m_fBoundingX = 0;
-	}
+	//if (m_fBoundingX > 0.0001)
+	//{
+	//	m_fBoundingX -= 0.3;
+	//	if (m_fBoundingX < 0)
+	//		m_fBoundingX = 0;
+	//}
 	if (m_fBoundingX < 0.0001)
 	{
-		m_fBoundingX += 0.1;
+		m_fBoundingX += 0.2;
 		if (m_fBoundingX > 0)
 			m_fBoundingX = 0;
 	}
@@ -158,5 +158,5 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 
 void LDYCamera::rebound()
 {
-	m_fBoundingX += RND->getFromFloatTo(-5.0, 5.0);
+	m_fBoundingX -= RND->getFromFloatTo(1.0, 2.0);
 }

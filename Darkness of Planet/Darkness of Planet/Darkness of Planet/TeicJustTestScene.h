@@ -91,6 +91,7 @@ public:
 	void WayUpdate();
 	void CleanHit();
 	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);  //A와 B가 같은가?
+	void CheckDie();
 public:
 	TeicJustTestScene();
 	~TeicJustTestScene();

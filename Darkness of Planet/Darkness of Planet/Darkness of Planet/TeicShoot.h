@@ -37,7 +37,7 @@ private:
 	vector<HankcNode*>		m_vecTargetNode;
 public:
 	void Setup(HankcGrid* node, LDYCamera* camera, LDYCharacter* character);
-	void Shoot();
+	void Shoot(WeaponType type);
 	void Render();
 	void CalRotation();
 public:

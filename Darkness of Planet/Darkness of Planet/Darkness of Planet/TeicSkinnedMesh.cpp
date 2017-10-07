@@ -53,7 +53,6 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	m_pAnimController->SetTrackAnimationSet(0, pAnimset);
 	m_callback = NULL;
 	m_iHp = 0;
-	m_iShield = 0;
 	m_iAttack = 0;
 	m_fZealotdiffer = 0.0f;
 	m_iNum = 0;

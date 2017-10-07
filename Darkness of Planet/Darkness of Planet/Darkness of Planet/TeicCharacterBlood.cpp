@@ -92,7 +92,7 @@ void TeicCharacterBlood::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	for (int i = 0; i < 5; i++)
 	{
 		char str[128];
-		sprintf_s(str, "sprites/blood%d.jpg", i+1);
+		sprintf_s(str, "sprites/blood%d.jpg", i+4);
 		D3DXCreateTextureFromFile(GETDEVICE, str, &m_pTexture[i]);
 	}
 	int a = RND->getInt(5);

@@ -18,6 +18,10 @@ void TeicNodeManager::Setup(int size)
 			m_pNode->m_vRow[i].m_vCol[j].m_pAstarNode = new HankcAstarNode;
 		}
 	}
+	m_pPickingNode = new HankcNode;
+	m_pPickingNode->InitFrame(0, 0);
+	m_pPickingNode->InitPosition(1024);
+
 }
 
 void TeicNodeManager::Destroy()
@@ -28,6 +32,11 @@ void TeicNodeManager::Destroy()
 HankcGrid * TeicNodeManager::GetNode()
 {
 	return m_pNode;
+}
+
+HankcNode * TeicNodeManager::GetPickingNode()
+{
+	return m_pPickingNode;
 }
 
 TeicNodeManager::TeicNodeManager()
