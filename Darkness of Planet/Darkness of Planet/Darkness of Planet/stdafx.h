@@ -45,6 +45,7 @@ extern LPARAM g_lparam;
 #include <list>
 #include <string>
 #include <functional>  //////바인드 함수를 이용하기 위한 헤더
+#include <deque>
 
 
 //필요한 Define은 여기서 선언 합니다.
@@ -402,6 +403,17 @@ struct SCREEN_VERTEX
 	static const DWORD FVF;
 };
 const DWORD     SCREEN_VERTEX::FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1;
+
+struct ST_RHWT_VERTEX
+{
+	D3DXVECTOR4 p;
+	D3DXVECTOR2	t;
+
+	ST_RHWT_VERTEX() : p(0, 0, 0, 0), t(0, 0) {}
+	ST_RHWT_VERTEX(D3DXVECTOR4 _p, D3DXVECTOR2 _t) : p(_p), t(_t) {}
+
+	enum { FVF = D3DFVF_XYZRHW | D3DFVF_TEX1 };
+};
 /////////////////////////////// 
 //////김태영 전용 구조체///////
 //enum Nodetype { WALL, PASS };

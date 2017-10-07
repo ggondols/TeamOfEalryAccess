@@ -53,6 +53,7 @@ protected:
 public:
 
 	D3DXMATRIX					m_matWeapon;
+	D3DXMATRIX					m_matMuzzle;
 
 
 public:
@@ -94,6 +95,7 @@ protected:
 	void Destroy();
 	void Blending();
 	void SetupWorldMatrix(LPD3DXFRAME pFrame, D3DMATRIX* pParent);
+	void getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX* pParent);
 
 public:
 	LDYSkinnedMesh_Weapon();

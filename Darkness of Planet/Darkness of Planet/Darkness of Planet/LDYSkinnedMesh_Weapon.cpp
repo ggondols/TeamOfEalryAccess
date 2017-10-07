@@ -233,6 +233,8 @@ void LDYSkinnedMesh_Weapon::UpdateAndRender()
 		//무기 매트릭스 셋팅
 		SetupWorldMatrix(m_pRootFrame, &m_matWeapon);
 		Render(m_pRootFrame);
+
+		getAnotherMatrix(m_pRootFrame, NULL);
 	}
 
 
@@ -513,6 +515,26 @@ void LDYSkinnedMesh_Weapon::SetupWorldMatrix(LPD3DXFRAME pFrame, D3DMATRIX * pPa
 	if (pBone->pFrameFirstChild)
 	{
 		SetupWorldMatrix(pBone->pFrameFirstChild, &pBone->CombinedTransformationMatrix);
+	}
+}
+
+void LDYSkinnedMesh_Weapon::getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX * pParent)
+{
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+	D3DXMATRIXA16 matW;
+	D3DXMatrixIdentity(&matW);
+	if (pBone->Name != nullptr &&string(pBone->Name) == string("Muzzle"))
+	{
+		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
+		m_matMuzzle = pBone->CombinedTransformationMatrix;
+	}
+	if (pFrame->pFrameSibling)
+	{
+		getAnotherMatrix(pFrame->pFrameSibling, &pBone->CombinedTransformationMatrix);
+	}
+	if (pFrame->pFrameFirstChild)
+	{
+		getAnotherMatrix(pFrame->pFrameFirstChild, &pBone->CombinedTransformationMatrix);
 	}
 }
 

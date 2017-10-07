@@ -92,8 +92,8 @@ public:
 	void SetBodyLv(int BodyLv) { m_iBodyLv = BodyLv; }
 
 	//검광효과에 필요한 값들
-	D3DXVECTOR3 getWeaponMaxPos();
-	D3DXVECTOR3 getWeaponMinPos();
+	D3DXVECTOR3 getMuzzlePos();
+	D3DXVECTOR3 getWeaponPos();
 
 public:
 
