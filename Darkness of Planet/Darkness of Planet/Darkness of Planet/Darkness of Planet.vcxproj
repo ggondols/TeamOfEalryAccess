@@ -253,6 +253,7 @@
     <ClInclude Include="TeicJustTestScene.h" />
     <ClInclude Include="TeicMinHeap.h" />
     <ClInclude Include="TeicMonsterBlood.h" />
+    <ClInclude Include="TeicMonsterChill.h" />
     <ClInclude Include="TeicMoveSequence.h" />
     <ClInclude Include="TeicNodeManager.h" />
     <ClInclude Include="TeicObbCollision.h" />
@@ -371,6 +372,7 @@
     <ClCompile Include="TeicIceExplosion.cpp" />
     <ClCompile Include="TeicJustTestScene.cpp" />
     <ClCompile Include="TeicMonsterBlood.cpp" />
+    <ClCompile Include="TeicMonsterChill.cpp" />
     <ClCompile Include="TeicMoveSequence.cpp" />
     <ClCompile Include="TeicNodeManager.cpp" />
     <ClCompile Include="TeicObbCollision.cpp" />

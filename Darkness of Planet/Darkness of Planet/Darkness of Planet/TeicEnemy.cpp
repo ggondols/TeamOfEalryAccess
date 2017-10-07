@@ -29,7 +29,7 @@ TeicEnemy::~TeicEnemy()
 
 void TeicEnemy::MakeBoundingBox()
 {
-	vector<ST_PN_VERTEX>	m_vecVertex;
+	m_pSkinnedMesh->m_vecVertex.clear();
 	vector<D3DXVECTOR3>	vecVertex;
 	vector<DWORD>		vecIndex;
 	float fCubeSizeX = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeX ;
@@ -103,7 +103,7 @@ void TeicEnemy::MakeBoundingBox()
 	{
 		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
 		D3DXVECTOR3 n = vecNormal[i / 6];
-		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
+		m_pSkinnedMesh->m_vecVertex.push_back(ST_PN_VERTEX(p, n));
 	}
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -114,10 +114,15 @@ void TeicEnemy::MakeBoundingBox()
 	matWorld = trans*ro;
 	D3DXMatrixTranslation(&trans, center.x, center.y, center.z);
 	matWorld = matWorld* trans;
-	//D3DXMatrixRotationY(&matWorld, m_pSkinnedMesh->GetAngle());
-	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
-	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
-	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_vecVertex[0], sizeof(ST_PN_VERTEX));
+	for (int i = 0; i < m_pSkinnedMesh->m_vecVertex.size(); i++)
+	{
+		D3DXVec3TransformCoord(&m_pSkinnedMesh->m_vecVertex[i].p, &m_pSkinnedMesh->m_vecVertex[i].p, &matWorld);
+	}
+	//D3DXMatrixIdentity(&matWorld);
+	////D3DXMatrixRotationY(&matWorld, m_pSkinnedMesh->GetAngle());
+	//GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+	//GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
+	//GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_pSkinnedMesh->m_vecVertex[0], sizeof(ST_PN_VERTEX));
 
 }
 
@@ -227,7 +232,7 @@ void TeicEnemy::UpdateAndRender()
 		m_pSkinnedMesh->UpdateAndRender();
 
 	}
-	//MakeBoundingBox();
+	MakeBoundingBox();
 }
 
 void TeicEnemy::SetAnimationIndex(int nIndex)

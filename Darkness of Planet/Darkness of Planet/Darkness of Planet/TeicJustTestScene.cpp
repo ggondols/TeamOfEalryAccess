@@ -115,7 +115,7 @@ TeicJustTestScene::TeicJustTestScene()
 	, m_pSkyDome(NULL)
 	, m_pSkyCloud(NULL)
 	, m_pInventory(NULL)
-
+	,m_fTime5(0.0f)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -356,25 +356,31 @@ void TeicJustTestScene::Update()
 	if (m_bThread)
 	{
 		//CleanHit();
-		if (TIMEMANAGER->getWorldTime() > m_fTime4 + 0.5)
+		float callbacktiming = GetCallbackTime();
+		if (TIMEMANAGER->getWorldTime() > m_fTime4 + callbacktiming)
 		{
 			m_pCharacter->m_pCtrl->setAttacking(false);
 		}
-		if (KEYMANAGER->isOnceKeyDown('Q'))
+		if (KEYMANAGER->isStayKeyDown('Q'))
 		{
-			if (!m_pCharacter->GetAttacking())
+			float fire = GetFireRate();
+			if (TIMEMANAGER->getWorldTime() > m_fTime5 + fire)
 			{
-				m_pCharacter->m_pCtrl->setAttacking(true);
-				m_pCharacter->m_pCtrl->m_fSpeed = 0;
-				m_fTime4 = TIMEMANAGER->getWorldTime();
-				m_pShoot->Shoot(m_pCharacter->getWeaponType());
-				CAMERA->rebound();
-			}
-			else
-			{
-				m_pShoot->Shoot(m_pCharacter->getWeaponType());
-				m_fTime4 = TIMEMANAGER->getWorldTime();
-				CAMERA->rebound();
+				m_fTime5 = TIMEMANAGER->getWorldTime();
+				if (!m_pCharacter->GetAttacking())
+				{
+					m_pCharacter->m_pCtrl->setAttacking(true);
+					m_pCharacter->m_pCtrl->m_fSpeed = 0;
+					m_fTime4 = TIMEMANAGER->getWorldTime();
+					m_pShoot->Shoot(m_pCharacter->getWeaponType());
+					CAMERA->rebound();
+				}
+				else
+				{
+					m_pShoot->Shoot(m_pCharacter->getWeaponType());
+					m_fTime4 = TIMEMANAGER->getWorldTime();
+					CAMERA->rebound();
+				}
 			}
 			
 		}
@@ -973,7 +979,6 @@ void TeicJustTestScene::CheckDie()
 			}
 
 
-
 			if (m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo != NULL)
 			{
 				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.size(); j++)
@@ -999,6 +1004,61 @@ void TeicJustTestScene::CheckDie()
 		{
 			m_vecEnemy[i]->SetCallbackfunction(bind(&TeicJustTestScene::CallbackOn, this, 10 + i));
 		}
+	}
+}
+
+float TeicJustTestScene::GetFireRate()
+{
+	switch (m_pCharacter->getWeaponType())
+	{
+	case Wp_Melee:
+		break;
+	case Wp_AA12:
+		return DATABASE->GetItemFireRate("AA12");
+		break;
+	case Wp_AR6:
+		return DATABASE->GetItemFireRate("AR6");
+		break;
+	case Wp_M4:
+		return DATABASE->GetItemFireRate("M4");
+		break;
+	case Wp_MP5:
+		return DATABASE->GetItemFireRate("MP5");
+		break;
+	case WP_FireGun:
+		return DATABASE->GetItemFireRate("FireGun");
+		break;
+	default:
+		break;
+	}
+
+	
+	
+}
+
+float TeicJustTestScene::GetCallbackTime()
+{
+	switch (m_pCharacter->getWeaponType())
+	{
+	case Wp_Melee:
+		break;
+	case Wp_AA12:
+		return DATABASE->GetCallbacktime("AA12");
+		break;
+	case Wp_AR6:
+		return DATABASE->GetCallbacktime("AR6");
+		break;
+	case Wp_M4:
+		return DATABASE->GetCallbacktime("M4");
+		break;
+	case Wp_MP5:
+		return DATABASE->GetCallbacktime("MP5");
+		break;
+	case WP_FireGun:
+		return DATABASE->GetCallbacktime("FireGun");
+		break;
+	default:
+		break;
 	}
 }
 

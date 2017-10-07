@@ -46,6 +46,7 @@ private:
 	float					m_fTime2;  ///  쓰레드 완료
 	float					m_fTime3;
 	float					m_fTime4; /// 총잡는 자세에서 돌아오는 시간
+	float					m_fTime5; /// 총 연사 속도 시간
 	int						m_iBodyUpgrade;
 
 	// 인벤토리 추가
@@ -92,6 +93,8 @@ public:
 	void CleanHit();
 	bool SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B);  //A와 B가 같은가?
 	void CheckDie();
+	float GetFireRate();
+	float GetCallbackTime();
 public:
 	TeicJustTestScene();
 	~TeicJustTestScene();
