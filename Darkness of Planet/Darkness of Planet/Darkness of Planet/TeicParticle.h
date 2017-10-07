@@ -16,7 +16,7 @@ private:
 	bool			m_Start;
 	bool			m_loop;
 	float			m_fTime;
-	float			m_alpha;
+
 	float			m_delta;
 	float			m_distance;
 	float			m_deltadistance;
@@ -29,7 +29,7 @@ private:
 	float			m_fUpDown;
 	
 public:
-
+	float			m_alpha;
 	ST_PC_VERTEX*	m_pVertex;
 	ST_PC_VERTEX	m_pVertexSample;
 public:
@@ -43,7 +43,9 @@ public:
 	void Update2();
 	void Update3();
 	void Update4();
+	void Update5();
 	void Start();
+	void Start2();
 	void End();
 
 public:

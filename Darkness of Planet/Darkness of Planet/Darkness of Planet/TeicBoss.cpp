@@ -298,6 +298,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Blood", Character_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 10);
 	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
+	SKILLEFFECTMANAGER->AddEffect("MChill", Monster_Chill, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");
 }
 

@@ -70,6 +70,10 @@ public:
 	void SetAttack(int n);
 	int GetHP();
 	int GetAttack();
+	bool GetSlow();
+	void SetSlow(bool on);
+	void SetSlowTime(float t);
+	float GetSlowTime();
 public:
 	TeicEnemy();
 	~TeicEnemy();

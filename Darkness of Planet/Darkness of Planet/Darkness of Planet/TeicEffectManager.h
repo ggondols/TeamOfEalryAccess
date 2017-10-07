@@ -8,7 +8,8 @@ enum EffectType
 	Skill_Explosion,
 	Skill_Blizzard,
 	Character_Blood,
-	Monseter_Blood
+	Monseter_Blood,
+	Monster_Chill
 };
 class TeicEffectManager:public cSingletonBase<TeicEffectManager>
 {

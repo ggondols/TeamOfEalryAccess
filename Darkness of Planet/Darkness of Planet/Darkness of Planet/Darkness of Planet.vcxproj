@@ -247,6 +247,7 @@
     <ClInclude Include="TeicEffectManager.h" />
     <ClInclude Include="TeicEffectParent.h" />
     <ClInclude Include="TeicEnemy.h" />
+    <ClInclude Include="TeicFire.h" />
     <ClInclude Include="TeicHeightMapManager.h" />
     <ClInclude Include="TeicIceblizzard.h" />
     <ClInclude Include="TeicIceBreath.h" />
@@ -368,6 +369,7 @@
     <ClCompile Include="TeicEffectManager.cpp" />
     <ClCompile Include="TeicEffectParent.cpp" />
     <ClCompile Include="TeicEnemy.cpp" />
+    <ClCompile Include="TeicFire.cpp" />
     <ClCompile Include="TeicHeightMapManager.cpp" />
     <ClCompile Include="TeicIceblizzard.cpp" />
     <ClCompile Include="TeicIceBreath.cpp" />

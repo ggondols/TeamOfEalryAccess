@@ -74,6 +74,11 @@ void TeicShoot::Shoot(WeaponType type)
 						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AA12");
 						break;
 					case Wp_AR6:
+						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+						SKILLEFFECTMANAGER->play("MChill", position, D3DXVECTOR3(0, 0, 0));
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AR6");
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bSlow = true;
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fSlowTime = TIMEMANAGER->getWorldTime();
 						break;
 					case Wp_M4:
 						break;

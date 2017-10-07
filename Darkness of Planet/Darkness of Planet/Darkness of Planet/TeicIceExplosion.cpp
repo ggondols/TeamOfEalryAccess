@@ -91,14 +91,7 @@ void TeicIceExplosion::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_pEffect= LoadEffectHpp("MultiAnimationEffect.hpp");
 	m_hAlphahandle = m_pEffect->GetParameterByName(0, "vAlpha");
 
-	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
-	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	GETDEVICE->SetRenderState(D3DRS_ALPHAREF, 0);
-	GETDEVICE->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 }
 

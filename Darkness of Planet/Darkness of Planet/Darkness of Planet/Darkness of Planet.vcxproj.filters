@@ -102,9 +102,6 @@
     <Filter Include="#3D Framework\Action\Tei">
       <UniqueIdentifier>{13c09e9f-6656-4563-acf7-fb36bab03f9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\Manager\FontManager">
-      <UniqueIdentifier>{f2eed02a-4814-4af3-8c18-6976e7d59862}</UniqueIdentifier>
-    </Filter>
     <Filter Include="#3D Framework\Character">
       <UniqueIdentifier>{19214674-42a4-4500-a898-cfe5379506c4}</UniqueIdentifier>
     </Filter>
@@ -189,6 +186,9 @@
     </Filter>
     <Filter Include="#3D Framework\Boss">
       <UniqueIdentifier>{7c12dab3-c9ad-4751-9030-70903edbbca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\EffectManager\FontManager">
+      <UniqueIdentifier>{f2eed02a-4814-4af3-8c18-6976e7d59862}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -355,7 +355,7 @@
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
     <ClInclude Include="cFontManager.h">
-      <Filter>#3D Framework\Manager\FontManager</Filter>
+      <Filter>#3D Framework\Manager\EffectManager\FontManager</Filter>
     </ClInclude>
     <ClInclude Include="TeicCharacter.h">
       <Filter>#3D Framework\Character</Filter>
@@ -555,6 +555,9 @@
     <ClInclude Include="cRayCaster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="TeicFire.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -705,7 +708,7 @@
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="cFontManager.cpp">
-      <Filter>#3D Framework\Manager\FontManager</Filter>
+      <Filter>#3D Framework\Manager\EffectManager\FontManager</Filter>
     </ClCompile>
     <ClCompile Include="TeicCharacter.cpp">
       <Filter>#3D Framework\Character</Filter>
@@ -897,6 +900,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TeicMonsterChill.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicFire.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
   </ItemGroup>

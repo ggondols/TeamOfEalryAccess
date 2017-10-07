@@ -45,6 +45,7 @@ public:
 	
 	void SetClear(); 
 	void MoveOnceCallback();
+	void SetSpeedAll(float x);
 public:
 	TeicMoveSequence();
 	~TeicMoveSequence();

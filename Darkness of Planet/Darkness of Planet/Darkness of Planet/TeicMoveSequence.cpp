@@ -98,3 +98,11 @@ void TeicMoveSequence::MoveOnceCallback()
 	OnFinish();
 
 }
+
+void TeicMoveSequence::SetSpeedAll(float x)
+{
+	for (int i = 0; i < m_vecAction.size(); i++)
+	{
+		m_vecAction[i]->SetSpeed(x);
+	}
+}

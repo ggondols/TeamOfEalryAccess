@@ -415,3 +415,39 @@ int TeicEnemy::GetAttack()
 
 	}
 }
+
+bool TeicEnemy::GetSlow()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->m_bSlow;
+
+	}
+}
+
+void TeicEnemy::SetSlow(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		 m_pSkinnedMesh->m_bSlow=on;
+
+	}
+}
+
+void TeicEnemy::SetSlowTime(float t)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->m_fSlowTime = t;
+
+	}
+}
+
+float TeicEnemy::GetSlowTime()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->m_fSlowTime;
+
+	}
+}

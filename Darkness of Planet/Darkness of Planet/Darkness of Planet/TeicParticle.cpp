@@ -65,6 +65,8 @@ void TeicParticle::Setup2(ST_PC_VERTEX * vertex, float liftspan, D3DXVECTOR3 end
 	m_deltadistance = 0.016667 * m_fSpeed;
 	m_fTime = 0;
 
+
+
 }
 
 void TeicParticle::SetPosition(ST_PC_VERTEX * vertex, D3DXVECTOR3 endposition)
@@ -251,6 +253,62 @@ void TeicParticle::Update4()
 
 
 }
+void TeicParticle::Update5()
+{
+
+	if (!m_Start)return;
+	m_fTime += TIMEMANAGER->getElapsedTime();
+	m_distance += m_deltadistance;
+	D3DXMATRIX m_rotMatX, m_rotMatZ, matworld;
+
+	D3DXMatrixRotationX(&m_rotMatX, m_fCurveAngleX);
+	D3DXMatrixRotationZ(&m_rotMatZ, m_fCurveAngleZ);
+	matworld = m_rotMatX*m_rotMatZ;
+
+	D3DXMATRIX trans;
+	D3DXVECTOR3 temp;
+	D3DXMatrixTranslation(&trans, 0, m_distance, 0);
+	D3DXVec3TransformCoord(&temp, &m_pVertexSample.p, &trans);
+
+
+
+
+	D3DXMatrixTranslation(&trans, -temp.x, -temp.y, -temp.z);
+	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &trans);
+	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &matworld);
+	D3DXMatrixTranslation(&trans, temp.x, temp.y, temp.z);
+	D3DXVec3TransformCoord(&m_pVertex->p, &m_pVertex->p, &trans);
+
+	m_alpha -= m_delta;
+	D3DXVec3Lerp(&m_dwNowcolor, &m_dwStartColor, &m_dwFinishColor, m_fTime/m_fLifeSpan);
+	if (m_dwNowcolor.x > 255) m_dwNowcolor.x = 255;
+	if (m_dwNowcolor.y > 255) m_dwNowcolor.y = 255;
+	if (m_dwNowcolor.z > 255) m_dwNowcolor.z = 255;
+	if (m_dwNowcolor.x < 200)m_dwNowcolor.x = 0;
+	if (m_dwNowcolor.y < 200)m_dwNowcolor.y = 0;
+	(*m_pVertex).c = D3DCOLOR_ARGB((int)m_alpha, (int)m_dwNowcolor.x, (int)m_dwNowcolor.y, (int)m_dwNowcolor.z);
+	if (m_alpha < 0)
+	{
+		if (!m_loop)
+		{
+			m_Start = false;
+			(*m_pVertex).c = D3DCOLOR_ARGB(0, (int)m_dwNowcolor.x, (int)m_dwNowcolor.y, (int)m_dwNowcolor.z);
+		}
+		else
+		{
+			m_fTime = 0;
+			m_distance = 0;
+			m_alpha = 255;
+		}
+
+	}
+
+
+
+
+
+
+}
 void TeicParticle::Start()
 {
 	m_Start = true;
@@ -261,7 +319,16 @@ void TeicParticle::Start()
 	
 	//m_fTime = TIMEMANAGER->getWorldTime();
 }
+void TeicParticle::Start2()
+{
+	m_Start = true;
+	m_fTime = 0;
+	m_distance = 0;
+	m_alpha = RND->getFromIntTo(200,255);
+	m_fUpDown = 0;
 
+	//m_fTime = TIMEMANAGER->getWorldTime();
+}
 void TeicParticle::End()
 {
 	m_Start = false;

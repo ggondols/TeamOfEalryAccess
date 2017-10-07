@@ -24,14 +24,7 @@ HRESULT HankcDefferedRenderTest::Setup()
 {
 
 	//scene render state 
-	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
-	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	GETDEVICE->SetRenderState(D3DRS_ALPHAREF, 0);
-	GETDEVICE->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
@@ -117,6 +110,9 @@ void HankcDefferedRenderTest::Update()
 
 void HankcDefferedRenderTest::Render()
 {
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGrid->Render();
 	D3DXMATRIX I;
 	D3DXMatrixIdentity(&I);
@@ -182,5 +178,7 @@ void HankcDefferedRenderTest::Render()
 	}
 
 	m_pMeshSpray->Render();
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

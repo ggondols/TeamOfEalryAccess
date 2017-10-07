@@ -388,6 +388,7 @@ void TeicJustTestScene::Update()
 
 
 		WayUpdate();
+		SlowUpdate();
 		CheckSlot();
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
@@ -742,13 +743,11 @@ void TeicJustTestScene::Render()
 	m_pGrid->Render();
 	//if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pMap)m_pMap->frustumcullingRender();
-	//GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 
-	//GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();
-	//GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
-	//GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
 	if (m_bThread)
 	{
@@ -764,6 +763,9 @@ void TeicJustTestScene::Render()
 			m_vecEnemy[1]->GetPosition().x, m_vecEnemy[1]->GetPosition().y, m_vecEnemy[1]->GetPosition().z);
 		m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0))*/
 	}
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	m_pBoss->UpdateAndRender();
 	UIOBJECTMANAGER->Render();
 	
@@ -918,14 +920,14 @@ void TeicJustTestScene::WayUpdate()
 				if (j + 1 >= m_vecEnemyWay[i].size())continue;
 				tempmove = new TeicCollisionMove;
 				tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
-				tempmove->SetSpeed(5);
+				tempmove->SetSpeed(m_vecEnemy[i]->m_fSpeed);
 				tempmove->SetFrom(m_vecEnemyWay[i][j]);
 				tempmove->SetTo(m_vecEnemyWay[i][j + 1]);
 				m_vecEnemyCollisionMove[i]->AddAction(tempmove);
 			}
 			tempmove = new TeicCollisionMove;
 			tempmove->SetSkinnedTarget(m_vecEnemy[i]->GetSkinnedMesh());
-			tempmove->SetSpeed(5);
+			tempmove->SetSpeed(m_vecEnemy[i]->m_fSpeed);
 			tempmove->SetFrom(m_vecEnemyWay[i][m_vecEnemyWay[i].size() - 1]);
 			tempmove->SetTo(m_pCharacter->GetPositionYZero());
 			m_vecEnemyCollisionMove[i]->AddAction(tempmove);
@@ -936,6 +938,23 @@ void TeicJustTestScene::WayUpdate()
 		}
 	}
 	m_EnemyTarget = m_pCharacter->GetPositionYZero();
+}
+
+void TeicJustTestScene::SlowUpdate()
+{
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		if (m_vecEnemy[i]->GetSlow())
+		{
+			m_vecEnemyCollisionMove[i]->SetSpeedAll(2.0f);
+			if (TIMEMANAGER->getWorldTime() > m_vecEnemy[i]->GetSlowTime() + 1)
+			{
+				m_vecEnemy[i]->SetSlow(false);
+				m_vecEnemyCollisionMove[i]->SetSpeedAll(m_vecEnemy[i]->m_fSpeed);
+			}
+		}
+	}
+	
 }
 
 void TeicJustTestScene::CleanHit()

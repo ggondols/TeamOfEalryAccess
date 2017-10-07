@@ -156,14 +156,7 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 	hTech = 0;
 	hTech = m_pEffect->GetTechniqueByName("Inferno");
 	
-	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-
-	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	GETDEVICE->SetRenderState(D3DRS_ALPHAREF, 0);
-	GETDEVICE->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	
 
 
 

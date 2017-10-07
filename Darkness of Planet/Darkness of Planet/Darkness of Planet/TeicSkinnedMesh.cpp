@@ -257,7 +257,7 @@ void TeicSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 			m_pEffect->SetVector("vWorldCameraPos", &D3DXVECTOR4(vEye, 1.0f));
 			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.53f, 0.53f, 0.53f, 0.53f));
 			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
-
+			m_pEffect->SetInt("iSlow", (int)m_bSlow);
 			// we're pretty much ignoring the materials we got from the x-file; just set
 			// the texture here
 			m_pEffect->SetTexture("g_txScene", pBoneMesh->vecTexture[pBoneCombos[dwAttrib].AttribId]);

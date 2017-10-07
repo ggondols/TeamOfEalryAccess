@@ -6,7 +6,7 @@ Callbacktime 1.0
 
 name AR6
 type weapon
-value 7
+value 3
 fireRate 0.2
 Callbacktime 1.0
 
