@@ -36,6 +36,17 @@ void cConsole::Release()
 
 void cConsole::Update()
 {
+	if (KEYMANAGER->isOnceKeyDown(VK_TAB))  //껐다 켰다 할 수 있다.
+	{
+		if (m_bRender)
+			m_bRender = false;
+		else if (!m_bRender)
+			m_bRender = true;
+	}
+
+	if (!m_bRender)
+		return;
+
 	if (GETLPARAM != 0)
 	{
 		char str = (GETLPARAM);
@@ -50,6 +61,7 @@ void cConsole::Update()
 		}
 		else if ((int)str == 8) // 백스페이스
 		{
+			if (!m_input.empty())
 			m_input.pop_back();
 		}
 		else if ((int)str == 13) // 엔터
@@ -75,13 +87,7 @@ void cConsole::Update()
 		GETLPARAM = 0;
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_TAB))  //껐다 켰다 할 수 있다.
-	{
-		if (m_bRender)
-			m_bRender = false;
-		else if (!m_bRender)
-			m_bRender = true;
-	}
+	
 }
 
 void cConsole::DataInput(istringstream& iss, string& type, void* data)

@@ -2,7 +2,7 @@
 
 //목표
 //마우스위치에 메쉬가 생성되고 키 입력을 통한 사이즈 조절 방향조절후
-//클릭을 통해 그 위치에 변형된 정보를 보함한 오브젝트를 생성
+//클릭을 통해 그 위치에 변형된 정보를 함한 오브젝트를 생성
 //생성된 데이터를 기준으로 별도의 간소화된 구조체에 넣어두고
 //랜더로 출력 이후 세이브를 통해 데이터를 저장
 
@@ -20,6 +20,9 @@ struct sSIMPLEOBJ
 class cSprayMesh
 {
 private:
+	vector<string>	m_meshFileName;
+	vector<string>	m_meshPath;
+	vector<int>		m_meshId;
 
 public:
 	D3DXVECTOR3		m_position;
@@ -31,17 +34,25 @@ public:
 	vector<LPD3DXMESH>		m_pMeshList;
 
 	list<sSIMPLEOBJ>	m_ObjSimpleList;
+
+	vector<D3DXVECTOR3>& m_vecNode;
 	
 	
 	void EntryMesh(LPD3DXMESH pMesh);
 
 	void Update();
 
+	void SetTargetNode(vector<D3DXVECTOR3>& vec);
+
 	void Render();
+
+	void Release();
 
 
 
 	cSprayMesh();
 	~cSprayMesh();
+	void MeshLoadFromScript(const std::string & fullPath);
+	void CreateMesh(ifstream & file);
 };
 

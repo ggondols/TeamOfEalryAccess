@@ -22,10 +22,22 @@ void HankcDefferedRenderTest::CallbackOn(int num)
 
 HRESULT HankcDefferedRenderTest::Setup()
 {
+
+	//scene render state 
+	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	GETDEVICE->SetRenderState(D3DRS_ALPHAREF, 0);
+	GETDEVICE->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 	m_pPhysicsCrtCtrl = new TeicPhysicsCrtCtrl;
 	m_DummyCtrl = new cCrtCtrl;
+	m_pMeshSpray = new cSprayMesh;
 
 	m_ViewCamera = D3DXVECTOR3(0, 0, 0);
 
@@ -45,8 +57,11 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pCamera->Setup(m_DummyCtrl->GetPosition());
 	m_pGrid->Setup();
 
-
+	// 스크립트에 정의된 모든 메쉬 파일과 위치 정보를 저장
+	// obj는 위치 정보를 가진 리스트
+	// obj 가 가진 model 클래스 안에 메쉬 파일 포인터를 저장
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
+	m_pMeshSpray->MeshLoadFromScript("Data/Script/ObjectList.txt");
 
 	for (auto i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
@@ -68,6 +83,7 @@ void HankcDefferedRenderTest::Release()
 	m_pGrid->Release();
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pMap);
+	SAFE_RELEASE(m_pMeshSpray);
 }
 
 void HankcDefferedRenderTest::Update()
@@ -105,6 +121,7 @@ void HankcDefferedRenderTest::Render()
 	D3DXMATRIX I;
 	D3DXMatrixIdentity(&I);
 	GETDEVICE->SetTransform(D3DTS_WORLD, &I);
+
 	if (m_pMap)m_pMap->frustumcullingRender();
 
 	m_pConsole->Render();
@@ -163,5 +180,7 @@ void HankcDefferedRenderTest::Render()
 
 		pNode->m_pModel->Render(GETDEVICE);
 	}
+
+	m_pMeshSpray->Render();
 
 }
