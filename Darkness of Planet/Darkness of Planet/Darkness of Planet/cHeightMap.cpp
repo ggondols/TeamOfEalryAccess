@@ -568,7 +568,7 @@ void cHeightMap::CheckRender()
 	{
 		if (CheckShow(CenterDot[i], radius) == true)
 		{
-			MeshRender(i);
+			OnlyMeshRender(i);
 		}
 	}
 }

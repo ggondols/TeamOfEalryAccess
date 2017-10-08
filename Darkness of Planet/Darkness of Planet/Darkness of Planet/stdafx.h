@@ -414,6 +414,25 @@ struct ST_RHWT_VERTEX
 
 	enum { FVF = D3DFVF_XYZRHW | D3DFVF_TEX1 };
 };
+
+enum WeaponType {
+
+	Wp_Melee,
+	Wp_AA12,
+	Wp_AR6,
+	Wp_M4,
+	Wp_MP5,
+	WP_FireGun
+
+};
+
+enum StateType {
+
+	ST_Idle,
+	ST_Attack,
+	ST_Move
+};
+
 /////////////////////////////// 
 //////김태영 전용 구조체///////
 //enum Nodetype { WALL, PASS };
