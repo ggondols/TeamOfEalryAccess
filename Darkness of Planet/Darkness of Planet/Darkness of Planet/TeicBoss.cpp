@@ -293,7 +293,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 
 	//m_fBoundingSize = CalBoundingSize();
 
-	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+	/*SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Blood", Character_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 10);
@@ -302,7 +302,7 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
 	SKILLEFFECTMANAGER->AddEffect("sample", sample, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
 	SKILLEFFECTMANAGER->play("sample", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);*/
 	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");
 }
 

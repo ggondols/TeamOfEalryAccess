@@ -258,12 +258,12 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	m_pBoss->SetAnimation(0);
 
-	//m_pBoss->SetScaleSize(0.1);
-	m_pBoss->SetScaleSize(10);
+	m_pBoss->SetScaleSize(0.1);
 
 
 
-	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+
+	/*SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Blood", Character_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 10);
@@ -272,7 +272,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
 	SKILLEFFECTMANAGER->AddEffect("sample", sample, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
 	SKILLEFFECTMANAGER->play("sample", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);*/
 
 
 	return S_OK;
@@ -799,7 +799,7 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	m_pBoss->UpdateAndRender();
+	//m_pBoss->UpdateAndRender();
 	UIOBJECTMANAGER->Render();
 
 }
