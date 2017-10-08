@@ -259,7 +259,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pBoss->SetAnimation(0);
 
 	m_pBoss->SetScaleSize(0.1);
-
+	
 
 
 
@@ -798,7 +798,7 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	//m_pBoss->UpdateAndRender();
+	m_pBoss->UpdateAndRender();
 	UIOBJECTMANAGER->Render();
 
 }
