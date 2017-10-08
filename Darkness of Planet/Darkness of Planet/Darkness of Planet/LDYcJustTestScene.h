@@ -52,7 +52,7 @@ class cSkyDome;
 class cSkyCloud;
 class cShadowMapping;
 class LDYMotionBlur;
-
+class TeicParticle;
 
 class LDYcJustTestScene :public cGameNode
 {
@@ -151,6 +151,7 @@ public:
 
 	vector<ST_RHWT_VERTEX>	m_vecVertex;
 
+	vector<TeicParticle*>	m_vecParticle;
 
 public:
 
