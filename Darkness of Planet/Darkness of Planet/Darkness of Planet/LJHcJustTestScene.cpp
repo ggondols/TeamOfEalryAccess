@@ -179,18 +179,28 @@ HRESULT LJHcJustTestScene::Setup()
 
 	FieldItem* pItem1 = new FieldItem();
 	pItem1->Setup("ArmorArm", ITEMTYPE_PART);
-	pItem1->SetPosition(D3DXVECTOR3(60, 10, -10));
+	pItem1->SetPosition(D3DXVECTOR3(60, 0, -10));
 	m_listItem.push_back(pItem1);
 
 	FieldItem* pItem2 = new FieldItem();
 	pItem2->Setup("ArmorBody", ITEMTYPE_PART);
-	pItem2->SetPosition(D3DXVECTOR3(30, 20, -20));
+	pItem2->SetPosition(D3DXVECTOR3(30, 0, -20));
 	m_listItem.push_back(pItem2);
 	
 	FieldItem* pItem3 = new FieldItem();
 	pItem3->Setup("ArmorLeg", ITEMTYPE_PART);
-	pItem3->SetPosition(D3DXVECTOR3(50, 10, -50));
+	pItem3->SetPosition(D3DXVECTOR3(50, 0, -50));
 	m_listItem.push_back(pItem3);
+
+	FieldItem* pItem4 = new FieldItem();
+	pItem4->Setup("HelmetPart1", ITEMTYPE_PART);
+	pItem4->SetPosition(D3DXVECTOR3(40, 0, -40));
+	m_listItem.push_back(pItem4);
+
+	FieldItem* pItem5 = new FieldItem();
+	pItem5->Setup("HelmetPart2", ITEMTYPE_PART);
+	pItem5->SetPosition(D3DXVECTOR3(30, 0, -30));
+	m_listItem.push_back(pItem5);
 	
 	///////////µ¿À±
 
@@ -645,6 +655,9 @@ float LJHcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void LJHcJustTestScene::Render()
 {
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
 	if (m_pInventory) m_pInventory->Render();
 	
 	//if (m_pConsole) m_pConsole->Render();
@@ -670,6 +683,9 @@ void LJHcJustTestScene::Render()
 	}
 
 	UIOBJECTMANAGER->Render();
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 }
 
 
