@@ -8,6 +8,7 @@
 #include "Inventory.h"
 #include "cSkyDome.h"
 #include "FieldItem.h"
+#include "cConsole.h"
 
 static CRITICAL_SECTION cs;
 
@@ -103,6 +104,7 @@ LJHcJustTestScene::LJHcJustTestScene()
 	//, m_pSkyBox(NULL)
 	, m_pInventory(NULL)
 	, m_pSkyDome(NULL)
+	, m_pConsole(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -113,6 +115,12 @@ LJHcJustTestScene::~LJHcJustTestScene()
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
 	SAFE_DELETE(m_pInventory);
+
+	if (m_pConsole)
+	{
+		m_pConsole->Release();
+		SAFE_DELETE(m_pConsole);
+	}
 
 	SAFE_DELETE(m_pSkyDome);
 
@@ -159,6 +167,9 @@ HRESULT LJHcJustTestScene::Setup()
 	//cUIImageView* pInventoryImage = new cUIImageView;
 	//pInventoryImage->SetTexture("./UI/inventory.png");
 	//UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
+
+	//m_pConsole = new cConsole;
+	//m_pConsole->Setup();
 
 	m_pSkyDome = new cSkyDome;
 	m_pSkyDome->Setup();
@@ -263,6 +274,8 @@ void LJHcJustTestScene::Update()
 {
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
+
+	//if (m_pConsole) m_pConsole->Update();
 
 	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end();)
 	{
@@ -634,6 +647,8 @@ void LJHcJustTestScene::Render()
 {
 	if (m_pInventory) m_pInventory->Render();
 	
+	//if (m_pConsole) m_pConsole->Render();
+
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
