@@ -102,7 +102,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			pSkinnedMesh->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, temp, (i + 1) * 10 + j));
 			pSkinnedMesh->SetAttack(5);
 			pSkinnedMesh->SetHP(100);
-
+			pSkinnedMesh->m_eGroup = Rush;
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 			//temp->m_vecEnemy[i * 10 + j]->GetBoundingSquare()->m_pSkinnedObject = temp->m_vecEnemy[i * 10 + j]->GetSkinnedMesh();
 		}
