@@ -72,7 +72,10 @@ HRESULT LoadingScene::Setup()
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
 
-	
+	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursor.png", &m_cursortex);
+	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursorHit.png", &m_cursortex2);
+	m_cursortex->GetSurfaceLevel(0, &surfcursor);
+	GETDEVICE->SetCursorProperties(0, 0, surfcursor);
 	
 	return S_OK;
 }

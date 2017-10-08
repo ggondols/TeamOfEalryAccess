@@ -264,8 +264,8 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	m_pBoss->SetAnimation(0);
 
-	//m_pBoss->SetScaleSize(0.1);
-	m_pBoss->SetScaleSize(10);
+	m_pBoss->SetScaleSize(0.1);
+	
 
 
 
@@ -276,8 +276,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	SKILLEFFECTMANAGER->AddEffect("MChill", Monster_Chill, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
-	SKILLEFFECTMANAGER->AddEffect("sample", sample, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
-	SKILLEFFECTMANAGER->play("sample", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
+
 	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 
 

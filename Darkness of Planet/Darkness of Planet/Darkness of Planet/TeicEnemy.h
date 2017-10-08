@@ -39,7 +39,7 @@ public:
 	float			 m_fAngle;
 	D3DXVECTOR3		 m_vPreviousPosition;
 	float			 m_fSpeed;
-	group			m_iGroup;
+	group			m_eGroup;
 public:
 	void MeshRender(LPD3DXEFFECT effect);
 	void SetNextAni();
