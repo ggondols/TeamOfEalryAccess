@@ -22,10 +22,8 @@ void HankcDefferedRenderTest::CallbackOn(int num)
 
 HRESULT HankcDefferedRenderTest::Setup()
 {
-
 	//scene render state 
-
-
+	
 	m_pCamera = new Hank::cCamera;
 	m_pGrid = new Hank::cGrid;
 	m_pPhysicsCrtCtrl = new TeicPhysicsCrtCtrl;
@@ -57,13 +55,13 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pMeshSpray->MeshLoadFromScript("Data/Script/ObjectList.txt");
 	m_pMeshSpray->SetTargetNode(NODEMANAGER->GetPickingNode()->GetPosition());
 
-	for (auto i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
+	/*for (auto i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
 		cObjectNode* pObj = *i;
 		float y = pObj->GetPosition().y;
 		m_pMap->GetHeight(pObj->GetPosition().x, y, pObj->GetPosition().z);
 		pObj->SetPosition(D3DXVECTOR3(pObj->GetPosition().x, y, pObj->GetPosition().z));
-	}
+	}*/
 
 	m_DummyCtrl->setSpeed(10);
 	//m_pMap->GetHeight(x, y, z) //헤이트맵 위치 기반 Y값 업데이트

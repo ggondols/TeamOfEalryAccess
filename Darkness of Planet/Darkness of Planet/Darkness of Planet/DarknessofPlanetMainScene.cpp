@@ -13,6 +13,7 @@
 #include "Inventory.h"
 
 
+
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -42,6 +43,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_pBloomDepthStencil(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
+	m_ObjNodes.clear();
 }
 
 
@@ -76,6 +78,10 @@ DarknessofPlanetMainScene::~DarknessofPlanetMainScene()
 	SAFE_RELEASE(m_pBloomDepthStencil);
 
 
+
+	SAFE_DELETE(m_pConsole);
+	m_ObjNodes.clear();
+	
 }
 
 static CRITICAL_SECTION cs;
@@ -96,7 +102,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			pSkinnedMesh->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, temp, (i + 1) * 10 + j));
 			pSkinnedMesh->SetAttack(5);
 			pSkinnedMesh->SetHP(100);
-			pSkinnedMesh->m_eGroup = Rush;
+
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 			//temp->m_vecEnemy[i * 10 + j]->GetBoundingSquare()->m_pSkinnedObject = temp->m_vecEnemy[i * 10 + j]->GetSkinnedMesh();
 		}
@@ -168,13 +174,17 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 
 
 
-
-
-
-
-
 HRESULT DarknessofPlanetMainScene::Setup()
 {
+	////////// 대원
+	//## 초기화 리스트
+	//## StaticMeshLoader, Object List controler
+	//## 메쉬를 불러와서, 컨트롤러에 저장하고 뿌린다.
+	
+	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
+	m_pConsole = new cConsole;
+	m_pConsole->Setup();
+
 	//////////정현
 	D3DVIEWPORT9 viewport;
 	GETDEVICE->GetViewport(&viewport);
@@ -200,10 +210,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 
 	///////////동윤
-
-
-
-
 	/*m_pCamera = new LDYCamera;*/
 	m_pGrid = new Hank::cGrid;
 
@@ -398,6 +404,7 @@ void DarknessofPlanetMainScene::Release()
 	SAFE_DELETE(m_pMap);
 	/*SAFE_DELETE(m_pCamera);*/
 	SAFE_DELETE(m_pCharacter);
+
 
 
 }
@@ -625,6 +632,9 @@ void DarknessofPlanetMainScene::Update()
 
 
 	UIOBJECTMANAGER->Update();
+
+	m_pConsole->Update();
+
 
 
 }
@@ -1109,15 +1119,29 @@ void DarknessofPlanetMainScene::Render()
 			if (!m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
 				m_vecEnemy[i]->UpdateAndRender();
 		}
+		
 	
 	}
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
+
 	m_pBoss->UpdateAndRender();
 
 	UIOBJECTMANAGER->Render();
+
+	m_pConsole->Render();
+
+	for (std::list<cObjectNode*>::iterator i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
+	{
+		cObjectNode* pNode = *i;
+		D3DXMATRIX matWorld;
+		pNode->GetWorldMatrix(&matWorld);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+
+		pNode->m_pModel->Render(GETDEVICE);
+	}
 
 }
 
