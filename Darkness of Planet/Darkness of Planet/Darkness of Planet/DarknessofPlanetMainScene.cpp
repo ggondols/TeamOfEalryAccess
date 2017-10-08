@@ -258,8 +258,8 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	m_pBoss->SetAnimation(0);
 
-	//m_pBoss->SetScaleSize(0.1);
-	m_pBoss->SetScaleSize(10);
+	m_pBoss->SetScaleSize(0.1);
+	
 
 
 
