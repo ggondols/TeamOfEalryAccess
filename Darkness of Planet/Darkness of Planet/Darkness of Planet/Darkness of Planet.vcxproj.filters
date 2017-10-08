@@ -564,6 +564,9 @@
     <ClInclude Include="LDYAfterMarks.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
+    <ClInclude Include="DarknessofPlanetMainScene.h">
+      <Filter>MainGame\GameMain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -916,6 +919,9 @@
     </ClCompile>
     <ClCompile Include="LDYAfterMarks.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DarknessofPlanetMainScene.cpp">
+      <Filter>MainGame\GameMain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

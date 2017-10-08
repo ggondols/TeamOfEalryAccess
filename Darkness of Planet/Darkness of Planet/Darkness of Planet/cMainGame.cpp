@@ -8,6 +8,7 @@
 #include "cTestMain.h"
 #include "LoadingScene.h"
 #include "HankcDefferedRenderTest.h"
+#include "DarknessofPlanetMainScene.h"
 cMainGame::cMainGame()
 {
 }
@@ -29,7 +30,8 @@ HRESULT cMainGame::Setup()
 	SCENEMANAGER->addScene("LJHcJustTestScene", new LJHcJustTestScene);
 	SCENEMANAGER->addScene("HankcDefferedRenderTest", new HankcDefferedRenderTest);
 	SCENEMANAGER->addScene("cTestMain", new cTestMain);
-
+	SCENEMANAGER->addScene("DarknessofPlanetMainScene", new DarknessofPlanetMainScene);
+	
 	SCENEMANAGER->addScene("LoadingScene", new LoadingScene);
 	
 	//////////////////커밋 전에 항상 저스트 테스트 씬으로 바꾸세요~~
@@ -55,7 +57,7 @@ void cMainGame::Update()
 {
 	cGameNode::Update();
 	
-	if (KEYMANAGER->isOnceKeyDown('1'))
+	/*if (KEYMANAGER->isOnceKeyDown('1'))
 	{
 		SCENEMANAGER->changeScene("HankcDefferedRenderTest");
 	}
@@ -70,7 +72,7 @@ void cMainGame::Update()
 	if (KEYMANAGER->isOnceKeyDown('4'))
 	{
 		SCENEMANAGER->changeScene("TeicJustTestScene");
-	}
+	}*/
 	SCENEMANAGER->Update();
 	//AUTORELEASEPOOL->Drain();
 }
