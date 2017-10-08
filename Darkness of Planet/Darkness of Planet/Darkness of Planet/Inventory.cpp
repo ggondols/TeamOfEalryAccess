@@ -128,8 +128,11 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 				switch (e.stType)
 				{
 				case ITEMTYPE_WEAPON:
-					if (e.sName == "MP5") m_pCharacter->SetWeaponType(Wp_MP5);
+					if (e.sName == "AA12") m_pCharacter->SetWeaponType(Wp_AA12);
+					else if (e.sName == "AR6") m_pCharacter->SetWeaponType(Wp_AR6);
 					else if (e.sName == "M4") m_pCharacter->SetWeaponType(Wp_M4);
+					else if (e.sName == "MP5") m_pCharacter->SetWeaponType(Wp_MP5);
+					else if (e.sName == "FireGun") m_pCharacter->SetWeaponType(WP_FireGun);
 					break;
 				case ITEMTYPE_HELMET:
 					if (e.sName == "Mask") m_pCharacter->SetHeadLv(0);
