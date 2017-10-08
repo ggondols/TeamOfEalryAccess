@@ -50,9 +50,6 @@ void Inventory::Setup()
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_ARMOR, "FullArmor"));
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_WEAPON, "M4"));
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_HELMET, "Helmet"));
-	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart1"));
-	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart2"));
-	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart3"));
 
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_HELMET, "Mask"));
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_ARMOR, "Armor"));
@@ -229,6 +226,7 @@ void Inventory::CombineInventoryItem(int selectItem, int targetItem, string comb
 
 	m_vecItems[min].sName = combineName;
 	if (combineName == "FullArmor") m_vecItems[min].stType = ITEMTYPE_ARMOR;
+	else if (combineName == "Helmet") m_vecItems[min].stType = ITEMTYPE_HELMET;
 	m_vecItems[max].ClearInventory();
 	DeleteInventoryItem(max);
 }
@@ -319,6 +317,28 @@ void Inventory::CheckCombineItem(string selectName, string targetName, int selec
 		if (targetName == "FullArmorPart1")
 		{
 			CombineInventoryItem(selectItem, targetItem, "FullArmor");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+	else if (selectName == "HelmetPart1")
+	{
+		if (targetName == "HelmetPart2")
+		{
+			CombineInventoryItem(selectItem, targetItem, "Helmet");
+		}
+		else
+		{
+			ChangeInventoryItem(selectItem, targetItem);
+		}
+	}
+	else if (selectName == "HelmetPart2")
+	{
+		if (targetName == "HelmetPart1")
+		{
+			CombineInventoryItem(selectItem, targetItem, "Helmet");
 		}
 		else
 		{

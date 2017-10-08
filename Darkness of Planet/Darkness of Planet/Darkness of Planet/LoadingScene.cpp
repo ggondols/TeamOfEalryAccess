@@ -89,7 +89,7 @@ void LoadingScene::Update()
 
 	if (!m_pLoading->LoadNext())
 	{
-		SCENEMANAGER->changeScene("cTestMain");
+		SCENEMANAGER->changeScene("DarknessofPlanetMainScene");
 	}
 }
 

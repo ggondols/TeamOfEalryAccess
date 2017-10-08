@@ -184,6 +184,7 @@
     <ClInclude Include="cUIImageView.h" />
     <ClInclude Include="cUIObject.h" />
     <ClInclude Include="cUITextView.h" />
+    <ClInclude Include="DarknessofPlanetMainScene.h" />
     <ClInclude Include="DataBase.h" />
     <ClInclude Include="FieldItem.h" />
     <ClInclude Include="HankcCamera.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="HankRenderer.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="LDYAfterMarks.h" />
     <ClInclude Include="LDYCamera.h" />
     <ClInclude Include="LDYCharacter.h" />
     <ClInclude Include="LDYcJustTestScene.h" />
@@ -247,13 +249,16 @@
     <ClInclude Include="TeicEffectManager.h" />
     <ClInclude Include="TeicEffectParent.h" />
     <ClInclude Include="TeicEnemy.h" />
+    <ClInclude Include="TeicFire.h" />
     <ClInclude Include="TeicHeightMapManager.h" />
     <ClInclude Include="TeicIceblizzard.h" />
     <ClInclude Include="TeicIceBreath.h" />
     <ClInclude Include="TeicIceExplosion.h" />
     <ClInclude Include="TeicJustTestScene.h" />
+    <ClInclude Include="TeicLaser.h" />
     <ClInclude Include="TeicMinHeap.h" />
     <ClInclude Include="TeicMonsterBlood.h" />
+    <ClInclude Include="TeicMonsterChill.h" />
     <ClInclude Include="TeicMoveSequence.h" />
     <ClInclude Include="TeicNodeManager.h" />
     <ClInclude Include="TeicObbCollision.h" />
@@ -303,6 +308,7 @@
     <ClCompile Include="cUIImageView.cpp" />
     <ClCompile Include="cUIObject.cpp" />
     <ClCompile Include="cUITextView.cpp" />
+    <ClCompile Include="DarknessofPlanetMainScene.cpp" />
     <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="FieldItem.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
@@ -336,6 +342,7 @@
     <ClCompile Include="HankRenderer.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="LDYAfterMarks.cpp" />
     <ClCompile Include="LDYCamera.cpp" />
     <ClCompile Include="LDYCharacter.cpp" />
     <ClCompile Include="LDYcJustTestScene.cpp" />
@@ -367,12 +374,15 @@
     <ClCompile Include="TeicEffectManager.cpp" />
     <ClCompile Include="TeicEffectParent.cpp" />
     <ClCompile Include="TeicEnemy.cpp" />
+    <ClCompile Include="TeicFire.cpp" />
     <ClCompile Include="TeicHeightMapManager.cpp" />
     <ClCompile Include="TeicIceblizzard.cpp" />
     <ClCompile Include="TeicIceBreath.cpp" />
     <ClCompile Include="TeicIceExplosion.cpp" />
     <ClCompile Include="TeicJustTestScene.cpp" />
+    <ClCompile Include="TeicLaser.cpp" />
     <ClCompile Include="TeicMonsterBlood.cpp" />
+    <ClCompile Include="TeicMonsterChill.cpp" />
     <ClCompile Include="TeicMoveSequence.cpp" />
     <ClCompile Include="TeicNodeManager.cpp" />
     <ClCompile Include="TeicObbCollision.cpp" />

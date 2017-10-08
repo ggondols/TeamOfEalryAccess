@@ -37,13 +37,13 @@ void TeicShoot::Shoot(WeaponType type)
 	CalRotation();
 	m_vecPoint = m_pBresenham->FindNodeAccuracy(m_vShootPosition.x, m_vShootPosition.z,
 		m_vFinish.x, m_vFinish.z);
-	/*m_vecDeletePoint= m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
-		m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);*/
+	m_vecDeletePoint= m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
+		m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
 	for (int i = 0; i < m_vecPoint.size(); i++)
 	{
 		if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
 			m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
-		/*int a = 0;
+		int a = 0;
 		for (int j = 0; j < m_vecDeletePoint.size(); j++)
 		{
 			if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
@@ -52,8 +52,13 @@ void TeicShoot::Shoot(WeaponType type)
 				a = 1;
 			}
 		}
-		if(a==0)*/
+		if(a==0)
 		m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x] );
+	}
+	D3DXVECTOR3 position;
+	if (type == Wp_AA12)
+	{
+		SKILLEFFECTMANAGER->play("Laser", m_vShootPosition+ m_vShootDir*20, m_vFinish);
 	}
 	for (int i = 0; i < m_vecTargetNode.size(); i++)
 	{
@@ -68,12 +73,22 @@ void TeicShoot::Shoot(WeaponType type)
 					case Wp_Melee:
 						break;
 					case Wp_AA12:
-						SKILLEFFECTMANAGER->play("MBlood", m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_vCenterPos, D3DXVECTOR3(0, 0, 0));
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AA12");
+						
+
+
+						
 						break;
 					case Wp_AR6:
+						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+						SKILLEFFECTMANAGER->play("MChill", position, D3DXVECTOR3(0, 0, 0));
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AR6");
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bSlow = true;
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fSlowTime = TIMEMANAGER->getWorldTime();
 						break;
 					case Wp_M4:
+						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+						SKILLEFFECTMANAGER->play("MBlood", position, D3DXVECTOR3(0, 0, 0));
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("M4");
 						break;
 					case Wp_MP5:
 						break;
@@ -110,6 +125,35 @@ void TeicShoot::CalRotation()
 	D3DXVec3Normalize(&m_stBulletSquare.m_vZdir, &m_stBulletSquare.m_vZdir);
 
 
+
+}
+
+D3DXVECTOR3 TeicShoot::GetPosition(vector<ST_PN_VERTEX>  info, D3DXVECTOR3 rayorigin, D3DXVECTOR3 raydir)
+{
+	//// 바닥에 레이저 쏴서 마우스가 바닥 어디 찍었는지 확인하는 함수
+	float distance = 9999999;
+	D3DXVECTOR3 temp = D3DXVECTOR3(0, 0, 0);
+	float savedistance = 9999999;
+	for (int i = 0; i < info.size(); i += 3)
+	{
+
+		D3DXIntersectTri(&info[i].p,
+			&info[i + 1].p,
+			&info[i + 2].p, &rayorigin, &raydir, NULL, NULL, &distance);
+
+		if (distance < 1000)
+		{
+			if (distance < savedistance)
+			{
+				savedistance = distance;
+			}
+			
+		}
+
+	}
+	raydir = savedistance * raydir;
+	temp = rayorigin + raydir;
+	return temp;
 
 }
 

@@ -102,9 +102,6 @@
     <Filter Include="#3D Framework\Action\Tei">
       <UniqueIdentifier>{13c09e9f-6656-4563-acf7-fb36bab03f9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="#3D Framework\Manager\FontManager">
-      <UniqueIdentifier>{f2eed02a-4814-4af3-8c18-6976e7d59862}</UniqueIdentifier>
-    </Filter>
     <Filter Include="#3D Framework\Character">
       <UniqueIdentifier>{19214674-42a4-4500-a898-cfe5379506c4}</UniqueIdentifier>
     </Filter>
@@ -189,6 +186,9 @@
     </Filter>
     <Filter Include="#3D Framework\Boss">
       <UniqueIdentifier>{7c12dab3-c9ad-4751-9030-70903edbbca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Manager\EffectManager\FontManager">
+      <UniqueIdentifier>{f2eed02a-4814-4af3-8c18-6976e7d59862}</UniqueIdentifier>
     </Filter>
     <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링\클래스\ObjectTool">
       <UniqueIdentifier>{41da0626-7dcc-4e13-9d13-a1ae6fe395fe}</UniqueIdentifier>
@@ -361,7 +361,7 @@
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
     <ClInclude Include="cFontManager.h">
-      <Filter>#3D Framework\Manager\FontManager</Filter>
+      <Filter>#3D Framework\Manager\EffectManager\FontManager</Filter>
     </ClInclude>
     <ClInclude Include="TeicCharacter.h">
       <Filter>#3D Framework\Character</Filter>
@@ -546,6 +546,9 @@
     <ClInclude Include="TeicMonsterBlood.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
+    <ClInclude Include="TeicMonsterChill.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
     <ClInclude Include="cRayCaster.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
@@ -557,6 +560,18 @@
     </ClInclude>
     <ClInclude Include="cConsole.h">
       <Filter>#3D Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicFire.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TeicLaser.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="LDYAfterMarks.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DarknessofPlanetMainScene.h">
+      <Filter>MainGame\GameMain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -708,7 +723,7 @@
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="cFontManager.cpp">
-      <Filter>#3D Framework\Manager\FontManager</Filter>
+      <Filter>#3D Framework\Manager\EffectManager\FontManager</Filter>
     </ClCompile>
     <ClCompile Include="TeicCharacter.cpp">
       <Filter>#3D Framework\Character</Filter>
@@ -898,6 +913,21 @@
     </ClCompile>
     <ClCompile Include="cConsole.cpp">
       <Filter>#3D Framework\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicMonsterChill.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicFire.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TeicLaser.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYAfterMarks.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DarknessofPlanetMainScene.cpp">
+      <Filter>MainGame\GameMain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

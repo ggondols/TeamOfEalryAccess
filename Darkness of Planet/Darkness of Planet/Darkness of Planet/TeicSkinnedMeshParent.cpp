@@ -6,6 +6,8 @@ TeicSkinnedMeshParent::TeicSkinnedMeshParent()
 {
 	m_bSlotOn = false;
 	m_bHit = false;
+	m_bSlow = false;
+	m_fSlowTime = 0.0f;
 }
 
 

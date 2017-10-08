@@ -18,6 +18,7 @@ struct ST_ITEM_DATA
 	ITEM_TYPE sType;
 	float fValue;
 	float st_FireRate;
+	float st_CallbackTime;
 };
 
 class DataBase : public cSingletonBase<DataBase>
@@ -33,6 +34,7 @@ private:
 private:
 	mapItemData	m_mapItemData;
 	mapAIData	m_mapAIData;
+	vector<string> m_vecString;
 
 	D3DXVECTOR3 GetPosition(float time, mapTimePositionData& mapTimeData);
 
@@ -42,10 +44,17 @@ public:
 
 	void LoadItemData();
 	void LoadAIData();
+
 	void Setup();
 	void Destroy();
+
+	void AddVectorString(string sBuffer) { m_vecString.push_back(sBuffer); }
+
+	void SaveVectorString(string fileName);
+
 	float GetItemValue(string itemName);
 	float GetItemFireRate(string itemName);
+	float GetCallbacktime(string itemName);
 	D3DXVECTOR3 GetTimeToPosition(string aiName, float time);
 };
 

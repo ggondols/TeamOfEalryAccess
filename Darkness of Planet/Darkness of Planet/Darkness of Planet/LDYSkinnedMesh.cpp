@@ -515,6 +515,15 @@ void LDYSkinnedMesh::Blending()
 	if (!m_bBlending)return;
 	int Num = 1 + m_iCurrentAniNum;
 	if (Num > 1) Num = 0;
+
+	if (TIMEMANAGER->getWorldTime() > m_Finishtime)
+	{
+		m_bBlending = false;
+		if (m_callback)
+		{
+			m_callback();
+		}
+	}
 	if (TIMEMANAGER->getWorldTime() <= m_Starttime + 0.3)
 	{
 		m_fWeight += m_fWeightDivide;
@@ -527,14 +536,7 @@ void LDYSkinnedMesh::Blending()
 
 		m_pAnimController->SetTrackWeight(m_iCurrentAniNum, 1);
 		m_pAnimController->SetTrackWeight(Num, 0);
-		if (TIMEMANAGER->getWorldTime() > m_Finishtime)
-		{
-			m_bBlending = false;
-			if (m_callback)
-			{
-				m_callback();
-			}
-		}
+		
 
 	}
 }

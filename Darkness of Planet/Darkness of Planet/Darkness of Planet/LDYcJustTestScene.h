@@ -52,7 +52,7 @@ class cSkyDome;
 class cSkyCloud;
 class cShadowMapping;
 class LDYMotionBlur;
-
+class TeicParticle;
 
 class LDYcJustTestScene :public cGameNode
 {
@@ -137,7 +137,21 @@ public:
 	float lookx;
 	float lookz;
 
+	deque<D3DXVECTOR3>		m_vecAfterImageMuzzle;
+	deque<D3DXVECTOR3>		m_vecAfterImageWeapon;
+	float					m_fStartTime;
+	float					m_fEndTime;
+	float					m_fCurrentTime;
 
+	LPD3DXMESH				m_pMesh;
+	DWORD					m_dNum;
+	LPD3DXEFFECT			m_pBloomEffect;
+	LPDIRECT3DTEXTURE9		m_pBloomRenderTarget;
+	LPDIRECT3DSURFACE9		m_pBloomDepthStencil;
+
+	vector<ST_RHWT_VERTEX>	m_vecVertex;
+
+	vector<TeicParticle*>	m_vecParticle;
 
 public:
 
@@ -160,6 +174,8 @@ public:
 	bool ChangeCheckPoint();
 	void AngleChange(TeicEnemy* A);
 	void WayUpdate();
+	void AfterImage();
+	float ComputeGaussianValue(float x, float mean, float std_deviation);
 
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);

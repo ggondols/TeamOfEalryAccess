@@ -35,11 +35,14 @@ private:
 	vector<POINT>			m_vecPoint;
 	vector<POINT>			m_vecDeletePoint;
 	vector<HankcNode*>		m_vecTargetNode;
+
+
 public:
 	void Setup(HankcGrid* node, LDYCamera* camera, LDYCharacter* character);
 	void Shoot(WeaponType type);
 	void Render();
 	void CalRotation();
+	D3DXVECTOR3 GetPosition(vector<ST_PN_VERTEX> info, D3DXVECTOR3 rayorigin, D3DXVECTOR3 raydir);
 public:
 	TeicShoot();
 	~TeicShoot();

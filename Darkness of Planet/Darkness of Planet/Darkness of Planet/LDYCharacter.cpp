@@ -13,6 +13,7 @@ LDYCharacter::LDYCharacter()
 	, m_eStType(ST_Idle)
 	, m_bRun(false)
 	, m_pWeapon_FireGun(NULL)
+	, m_bTCallback(false)
 
 {
 	m_Callback = NULL;
@@ -227,9 +228,66 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 
 void LDYCharacter::CallbackOn(int n)
 {
-	if (m_Callback)
+	m_bTCallback = true;
+
+	switch (m_eStType)
 	{
-		m_Callback();
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			if (m_pHeroBody_Melee[m_iBodyLv]->GetAninum() == 9)
+			{
+				m_pHeroBody_Melee[m_iBodyLv]->SetAnimation(9);
+			}
+		}
+		break;
+		case Wp_AA12:
+		{
+			if (m_pHeroBody_MP5[m_iBodyLv]->GetAninum() == 10)
+			{
+				m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(9);
+			}
+		}
+		break;
+		case Wp_AR6:
+		{
+			if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() == 10)
+			{
+				m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(9);
+			}
+		}
+		break;
+		case Wp_M4:
+		{
+			if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() == 10)
+			{
+				m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(9);
+			}
+		}
+		break;
+		case Wp_MP5:
+		{
+			if (m_pHeroBody_MP5[m_iBodyLv]->GetAninum() == 10)
+			{
+				m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(9);
+			}
+		}
+		break;
+		case WP_FireGun:
+		{
+			if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() == 10)
+			{
+				m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(9);
+			}
+		}
+		break;
+
+		}
+	}
+	break;
 	}
 
 }
@@ -349,7 +407,8 @@ void LDYCharacter::UpdateAndRender()
 			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->UpdateAndRender();
@@ -433,7 +492,8 @@ void LDYCharacter::UpdateAndRender()
 			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->UpdateAndRender();
@@ -516,7 +576,8 @@ void LDYCharacter::UpdateAndRender()
 			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->UpdateAndRender();
@@ -634,7 +695,8 @@ void LDYCharacter::MeshRender(LPD3DXEFFECT effect)
 			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->ShaderMeshRender(effect);
@@ -718,7 +780,8 @@ void LDYCharacter::MeshRender(LPD3DXEFFECT effect)
 			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->ShaderMeshRender(effect);
@@ -801,7 +864,8 @@ void LDYCharacter::MeshRender(LPD3DXEFFECT effect)
 			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->ShaderMeshRender(effect);
@@ -1998,20 +2062,30 @@ void LDYCharacter::Update(float angle)
 	}
 	else if (m_pCtrl->getAttacking()) {
 		m_eStType = ST_Attack;
+		
 	}
 	else
 	{
 		m_eStType = ST_Idle;
 	}
+
+	if (!m_pCtrl->getAttacking())
+	{
+		m_bTCallback = false;
+	}
+
 	if (m_pCtrl != NULL)
 	{
 		SetPosition(*m_pCtrl->GetPosition());
 		SetRotationAngle(m_pCtrl->getAngle());
 
+
 		switch (m_eStType)
 		{
 		case ST_Attack:
 		{
+			if (m_bTCallback) break;
+
 			switch (m_eWpType)
 			{
 			//공격 상태이고 무기가없을때
@@ -2026,44 +2100,44 @@ void LDYCharacter::Update(float angle)
 			//공격상태 무기AA12
 			case Wp_AA12:
 			{
-				if (m_pHeroBody_MP5[m_iBodyLv]->GetAninum() != 9)
+				if (m_pHeroBody_MP5[m_iBodyLv]->GetAninum() != 10)
 				{
-					m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(9);
+					m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(10);
 				}
 			}
 			break;
 			//공격상태 무기AR6
 			case Wp_AR6:
 			{
-				if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() != 9)
+				if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() != 10)
 				{
-					m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(9);
+					m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(10);
 				}
 			}
 			break;
 			//공격상태 무기 M4
 			case Wp_M4:
 			{
-				if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() != 9)
+				if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() != 10)
 				{
-					m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(9);
+					m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(10);
 				}
 			}
 			break;
 			//공격상태 무기MP5
 			case Wp_MP5:
 			{
-				if (m_pHeroBody_MP5[m_iBodyLv]->GetAninum() != 9)
+				if (m_pHeroBody_MP5[m_iBodyLv]->GetAninum() != 10)
 				{
-					m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(9);
+					m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(10);
 				}
 			}
 			break;
 			case WP_FireGun:
 			{
-				if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() != 9)
+				if (m_pHeroBody_SMG[m_iBodyLv]->GetAninum() != 10)
 				{
-					m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(9);
+					m_pHeroBody_SMG[m_iBodyLv]->SetAnimation(10);
 				}
 			}
 			break;
@@ -2210,6 +2284,7 @@ void LDYCharacter::Update(float angle)
 				if (m_pHeroBody_IdleBreak[m_iBodyLv]->GetAninum() != 6)
 				{
 					m_pHeroBody_IdleBreak[m_iBodyLv]->SetAnimation(6);
+					m_pHeroBody_MP5[m_iBodyLv]->SetAnimation(0);
 				}
 			}
 			break;
@@ -2515,6 +2590,8 @@ D3DXVECTOR3 LDYCharacter::GetPositionYZero()
 		case Wp_M4:
 		{
 			D3DXVECTOR3 temp = m_pHeroBody_SMG[m_iBodyLv]->GetPosition();
+			temp.y = 0;
+			return temp;
 		}
 		break;
 		case Wp_MP5:
@@ -2764,7 +2841,7 @@ BoundingSquare * LDYCharacter::GetBoundingSquare()
 
 
 
-D3DXVECTOR3 LDYCharacter::getWeaponMaxPos()
+D3DXVECTOR3 LDYCharacter::getMuzzlePos()
 {
 	switch (m_eStType)
 	{
@@ -2780,8 +2857,190 @@ D3DXVECTOR3 LDYCharacter::getWeaponMaxPos()
 		case Wp_AA12:
 		{
 
-			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matWeapon._41, 
-				m_pWeapon_AA12->m_matWeapon._42, 
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matMuzzle._41, 
+				m_pWeapon_AA12->m_matMuzzle._42, 
+				m_pWeapon_AA12->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AR6->m_matMuzzle._41,
+				m_pWeapon_AR6->m_matMuzzle._42,
+				m_pWeapon_AR6->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_M4->m_matMuzzle._41,
+				m_pWeapon_M4->m_matMuzzle._42,
+				m_pWeapon_M4->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_MP5->m_matMuzzle._41,
+				m_pWeapon_MP5->m_matMuzzle._42,
+				m_pWeapon_MP5->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_FireGun->m_matMuzzle._41,
+				m_pWeapon_FireGun->m_matMuzzle._42,
+				m_pWeapon_FireGun->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Move:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return D3DXVECTOR3(0, 0, 0);
+		}
+		break;
+		case Wp_AA12:
+		{
+
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matMuzzle._41,
+				m_pWeapon_AA12->m_matMuzzle._42,
+				m_pWeapon_AA12->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AR6->m_matMuzzle._41,
+				m_pWeapon_AR6->m_matMuzzle._42,
+				m_pWeapon_AR6->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_M4->m_matMuzzle._41,
+				m_pWeapon_M4->m_matMuzzle._42,
+				m_pWeapon_M4->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_MP5->m_matMuzzle._41,
+				m_pWeapon_MP5->m_matMuzzle._42,
+				m_pWeapon_MP5->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_FireGun->m_matMuzzle._41,
+				m_pWeapon_FireGun->m_matMuzzle._42,
+				m_pWeapon_FireGun->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	case ST_Idle:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return D3DXVECTOR3(0, 0, 0);
+		}
+		break;
+		case Wp_AA12:
+		{
+
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matMuzzle._41,
+				m_pWeapon_AA12->m_matMuzzle._42,
+				m_pWeapon_AA12->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_AR6:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AR6->m_matMuzzle._41,
+				m_pWeapon_AR6->m_matMuzzle._42,
+				m_pWeapon_AR6->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_M4:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_M4->m_matMuzzle._41,
+				m_pWeapon_M4->m_matMuzzle._42,
+				m_pWeapon_M4->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case Wp_MP5:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_MP5->m_matMuzzle._41,
+				m_pWeapon_MP5->m_matMuzzle._42,
+				m_pWeapon_MP5->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		case WP_FireGun:
+		{
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_FireGun->m_matMuzzle._41,
+				m_pWeapon_FireGun->m_matMuzzle._42,
+				m_pWeapon_FireGun->m_matMuzzle._43);
+
+			return temp;
+		}
+		break;
+		}
+	}
+	break;
+	}
+	return D3DXVECTOR3();
+}
+
+D3DXVECTOR3 LDYCharacter::getWeaponPos()
+{
+	switch (m_eStType)
+	{
+	case ST_Attack:
+	{
+		switch (m_eWpType)
+		{
+		case Wp_Melee:
+		{
+			return D3DXVECTOR3(0, 0, 0);
+		}
+		break;
+		case Wp_AA12:
+		{
+
+			D3DXVECTOR3 temp = D3DXVECTOR3(m_pWeapon_AA12->m_matWeapon._41,
+				m_pWeapon_AA12->m_matWeapon._42,
 				m_pWeapon_AA12->m_matWeapon._43);
 
 			return temp;
@@ -2946,7 +3205,3 @@ D3DXVECTOR3 LDYCharacter::getWeaponMaxPos()
 	return D3DXVECTOR3();
 }
 
-D3DXVECTOR3 LDYCharacter::getWeaponMinPos()
-{
-	return D3DXVECTOR3();
-}

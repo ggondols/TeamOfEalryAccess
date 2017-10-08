@@ -28,13 +28,17 @@ public:
 
 	
 	void SetPosition(D3DXVECTOR3 start, D3DXVECTOR3 end);
+
 	void Update();
 	void Update2();
 	void Update3();
 	void Update4();
+	void Update5();
+	void Update6();
 	void Render();
 	void Release();
 	void Start();
+	void Start2();
 	void End();
 	void SetDotsize();
 public:

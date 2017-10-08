@@ -96,6 +96,17 @@ void DataBase::LoadItemData(void)
 				it->second->st_FireRate = atof(szPath);
 			}
 		}
+		else if (!strcmp(szPath, "Callbacktime"))
+		{
+			sscanf_s(szBuf, "%*s %s", szPath, 1024);
+			mapItemDataIter it = m_mapItemData.find(keyName);
+			if (it != m_mapItemData.end())
+			{
+				it->second->st_CallbackTime = atof(szPath);
+			}
+		}
+
+		
 	}
 	
 	fclose(fp);
@@ -160,6 +171,22 @@ void DataBase::LoadAIData()
 	fclose(fp);
 }
 
+void DataBase::SaveVectorString(string fileName)
+{
+	FILE* fp = NULL;
+	string filePath = "Data/";
+	filePath += fileName + ".txt";
+	fopen_s(&fp, filePath.c_str(), "w");
+
+	for (size_t i = 0; i < m_vecString.size(); i++)
+	{
+		string sBuffer = m_vecString[i] + "\n";
+		printf("%s", fputs(sBuffer.c_str(), fp));
+	}
+
+	fclose(fp);
+}
+
 float DataBase::GetItemValue(string itemName)
 {
 	mapItemDataIter it = m_mapItemData.find(itemName);
@@ -175,6 +202,15 @@ float DataBase::GetItemFireRate(string itemName)
 	if (it != m_mapItemData.end())
 	{
 		return it->second->st_FireRate;
+	}
+}
+
+float DataBase::GetCallbacktime(string itemName)
+{
+	mapItemDataIter it = m_mapItemData.find(itemName);
+	if (it != m_mapItemData.end())
+	{
+		return it->second->st_CallbackTime;
 	}
 }
 

@@ -8,6 +8,7 @@
 #include "Inventory.h"
 #include "cSkyDome.h"
 #include "FieldItem.h"
+#include "cConsole.h"
 
 static CRITICAL_SECTION cs;
 
@@ -103,6 +104,7 @@ LJHcJustTestScene::LJHcJustTestScene()
 	//, m_pSkyBox(NULL)
 	, m_pInventory(NULL)
 	, m_pSkyDome(NULL)
+	, m_pConsole(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
 }
@@ -113,6 +115,12 @@ LJHcJustTestScene::~LJHcJustTestScene()
 	SAFE_DELETE(m_pAstar);
 	SAFE_DELETE(m_pAstarShort);
 	SAFE_DELETE(m_pInventory);
+
+	if (m_pConsole)
+	{
+		m_pConsole->Release();
+		SAFE_DELETE(m_pConsole);
+	}
 
 	SAFE_DELETE(m_pSkyDome);
 
@@ -160,6 +168,9 @@ HRESULT LJHcJustTestScene::Setup()
 	//pInventoryImage->SetTexture("./UI/inventory.png");
 	//UIOBJECTMANAGER->AddRoot("inventory", pInventoryImage, false);
 
+	//m_pConsole = new cConsole;
+	//m_pConsole->Setup();
+
 	m_pSkyDome = new cSkyDome;
 	m_pSkyDome->Setup();
 
@@ -168,18 +179,28 @@ HRESULT LJHcJustTestScene::Setup()
 
 	FieldItem* pItem1 = new FieldItem();
 	pItem1->Setup("ArmorArm", ITEMTYPE_PART);
-	pItem1->SetPosition(D3DXVECTOR3(60, 10, -10));
+	pItem1->SetPosition(D3DXVECTOR3(60, 0, -10));
 	m_listItem.push_back(pItem1);
 
 	FieldItem* pItem2 = new FieldItem();
 	pItem2->Setup("ArmorBody", ITEMTYPE_PART);
-	pItem2->SetPosition(D3DXVECTOR3(30, 20, -20));
+	pItem2->SetPosition(D3DXVECTOR3(30, 0, -20));
 	m_listItem.push_back(pItem2);
 	
 	FieldItem* pItem3 = new FieldItem();
 	pItem3->Setup("ArmorLeg", ITEMTYPE_PART);
-	pItem3->SetPosition(D3DXVECTOR3(50, 10, -50));
+	pItem3->SetPosition(D3DXVECTOR3(50, 0, -50));
 	m_listItem.push_back(pItem3);
+
+	FieldItem* pItem4 = new FieldItem();
+	pItem4->Setup("HelmetPart1", ITEMTYPE_PART);
+	pItem4->SetPosition(D3DXVECTOR3(40, 0, -40));
+	m_listItem.push_back(pItem4);
+
+	FieldItem* pItem5 = new FieldItem();
+	pItem5->Setup("HelmetPart2", ITEMTYPE_PART);
+	pItem5->SetPosition(D3DXVECTOR3(30, 0, -30));
+	m_listItem.push_back(pItem5);
 	
 	///////////µ¿À±
 
@@ -189,8 +210,6 @@ HRESULT LJHcJustTestScene::Setup()
 
 	m_pCamera = new LDYCamera;
 	m_pGrid = new Hank::cGrid;
-
-
 
 	m_pCharacter = new LDYCharacter;
 	char* BodyName = "HeroBodyLv";
@@ -265,6 +284,8 @@ void LJHcJustTestScene::Update()
 {
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
+
+	//if (m_pConsole) m_pConsole->Update();
 
 	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end();)
 	{
@@ -634,8 +655,13 @@ float LJHcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void LJHcJustTestScene::Render()
 {
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
 	if (m_pInventory) m_pInventory->Render();
 	
+	//if (m_pConsole) m_pConsole->Render();
+
 	//if (m_pSkyBox)m_pSkyBox->Render(m_pCamera);
 	m_pGrid->Render();
 	if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
@@ -657,6 +683,9 @@ void LJHcJustTestScene::Render()
 	}
 
 	UIOBJECTMANAGER->Render();
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 }
 
 

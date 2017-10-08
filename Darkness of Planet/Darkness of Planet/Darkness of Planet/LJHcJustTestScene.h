@@ -20,6 +20,7 @@ class cUIObject;
 class Inventory;
 class SkyDome;
 class FieldItem;
+class cConsole;
 
 class LJHcJustTestScene:public cGameNode
 {
@@ -41,6 +42,8 @@ private:
 
 	cSkyDome*				m_pSkyDome;
 	list<FieldItem*>		m_listItem;
+	cConsole*				m_pConsole;
+
 public:
 	HankcGrid*				m_pNode;
 	LDYCharacter*			m_pCharacter;
@@ -56,6 +59,7 @@ public:
 	vector<bool>					m_vecAttackSlot;
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
+	
 public:
 
 	virtual HRESULT Setup();

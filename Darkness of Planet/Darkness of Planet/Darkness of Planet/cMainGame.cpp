@@ -8,6 +8,7 @@
 #include "cTestMain.h"
 #include "LoadingScene.h"
 #include "HankcDefferedRenderTest.h"
+#include "DarknessofPlanetMainScene.h"
 cMainGame::cMainGame()
 {
 }
@@ -29,13 +30,21 @@ HRESULT cMainGame::Setup()
 	SCENEMANAGER->addScene("LJHcJustTestScene", new LJHcJustTestScene);
 	SCENEMANAGER->addScene("HankcDefferedRenderTest", new HankcDefferedRenderTest);
 	SCENEMANAGER->addScene("cTestMain", new cTestMain);
-
+	SCENEMANAGER->addScene("DarknessofPlanetMainScene", new DarknessofPlanetMainScene);
+	
 	SCENEMANAGER->addScene("LoadingScene", new LoadingScene);
 	
 	//////////////////커밋 전에 항상 저스트 테스트 씬으로 바꾸세요~~
 	//여기서 씬 교체
-	SCENEMANAGER->changeScene("HankcDefferedRenderTest");
+	SCENEMANAGER->changeScene("LoadingScene");
+	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	GETDEVICE->SetRenderState(D3DRS_ALPHAREF, 0);
+	GETDEVICE->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	return S_OK;
 }
 
@@ -48,7 +57,7 @@ void cMainGame::Update()
 {
 	cGameNode::Update();
 	
-	if (KEYMANAGER->isOnceKeyDown('1'))
+	/*if (KEYMANAGER->isOnceKeyDown('1'))
 	{
 		SCENEMANAGER->changeScene("HankcDefferedRenderTest");
 	}
@@ -63,7 +72,7 @@ void cMainGame::Update()
 	if (KEYMANAGER->isOnceKeyDown('4'))
 	{
 		SCENEMANAGER->changeScene("TeicJustTestScene");
-	}
+	}*/
 	SCENEMANAGER->Update();
 	//AUTORELEASEPOOL->Drain();
 }

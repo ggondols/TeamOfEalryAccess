@@ -166,12 +166,10 @@ void TeicParticleSystem::Setup2(D3DXVECTOR3 start, D3DXVECTOR3 startVar, D3DXVEC
 
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
 
-	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
 
-	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+
+	
 	
 }
 
@@ -227,6 +225,20 @@ void TeicParticleSystem::Update4()
 		m_vecParticle[i]->Update4();
 	}
 }
+void TeicParticleSystem::Update5()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		m_vecParticle[i]->Update5();
+	}
+}
+void TeicParticleSystem::Update6()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		m_vecParticle[i]->Update6();
+	}
+}
 void TeicParticleSystem::Render()
 {
 	
@@ -265,7 +277,13 @@ void TeicParticleSystem::Start()
 		m_vecParticle[i]->Start();
 	}
 }
-
+void TeicParticleSystem::Start2()
+{
+	for (int i = 0; i < m_vecParticle.size(); i++)
+	{
+		m_vecParticle[i]->Start2();
+	}
+}
 void TeicParticleSystem::End()
 {
 	for (int i = 0; i < m_vecParticle.size(); i++)

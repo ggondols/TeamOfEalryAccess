@@ -107,7 +107,7 @@ void TeicMonsterBlood::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_stVertex[4].t = D3DXVECTOR2(0.0625 *m_iAlpha, 1);
 	m_stVertex[5].t = D3DXVECTOR2(0.0625 *m_iAlpha - 0.0625, 1);
 
-	D3DXCreateTextureFromFile(GETDEVICE, "sprites/monsterblood.png", &m_pTexture);
+	D3DXCreateTextureFromFile(GETDEVICE, "sprites/monsterblood2.png", &m_pTexture);
 	D3DXMATRIX trans,ro;
 	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
 
