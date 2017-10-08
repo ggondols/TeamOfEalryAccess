@@ -25,7 +25,7 @@ Callbacktime 1.0
 name FireGun
 type weapon
 value 10
-fireRate 0.2
+fireRate 0.05
 Callbacktime 1.0
 
 name Mask

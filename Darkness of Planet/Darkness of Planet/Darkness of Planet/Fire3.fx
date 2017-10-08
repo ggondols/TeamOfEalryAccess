@@ -73,7 +73,7 @@ VS_OUTPUT Fire_Effects_FireBall_Single_Pass_Vertex_Shader_main(float4 Pos: POSIT
    return Out;
 }
 
-float alpha;
+
 float colorDistribution
 <
    string UIName = "colorDistribution";
@@ -158,16 +158,7 @@ float4 Fire_Effects_FireBall_Single_Pass_Pixel_Shader_main( float2 pos:   TEXCOO
    float flame = saturate(1 - fade * dist + flamability * noisy);
 
    // Map flame into a color
-   float4 Color =  tex1D(Flame, pow(flame, colorDistribution));
-if(Color.x <0.2 && Color.y <0.2 && Color.z <0.2)
-{
-	Color.w =0;
-}
-else
-{
-	Color.w = alpha;
-}
-return Color;
+   return tex1D(Flame, pow(flame, colorDistribution));
 }
 
 
@@ -189,14 +180,10 @@ Fire_Effects_Explosion_Single_Pass_Vertex_Shader_VS_OUTPUT Fire_Effects_Explosio
 {
    Fire_Effects_Explosion_Single_Pass_Vertex_Shader_VS_OUTPUT Out;
 
-
- Out.Pos  = mul(Pos, matWorldViewProjectionMatrix);
    // Clean up inaccuracies
    Pos.xy = sign(Pos.xy);
 
-   //Out.Pos = float4(Pos.xy, 0, 1);
-  
-
+   Out.Pos = float4(Pos.xy, 0, 1);
    Out.texCoord = Pos.xy;
 
    return Out;
@@ -764,7 +751,7 @@ float4 Fire_Effects_Fire_Single_Pass_Pixel_Shader_main (float4 tc0 : TEXCOORD0, 
    float4 Color = base * opacity;
 if(Color.x <0.4 && Color.y <0.4 && Color.z <0.4 )
 {
-	Color.w = 0;
+	Color.xyz = 1;
 }
    return Color ;
 }
@@ -920,8 +907,74 @@ technique Fire
 {
    pass Single_Pass
    {
+      ZENABLE = TRUE;
+      FILLMODE = SOLID;
+      SHADEMODE = GOURAUD;
+      ZWRITEENABLE = TRUE;
+      ALPHATESTENABLE = FALSE;
+      LASTPIXEL = TRUE;
+      SRCBLEND = ONE;
+      DESTBLEND = ZERO;
       CULLMODE = NONE;
-
+      ALPHAREF = 0x0;
+      ALPHAFUNC = LESS;
+      DITHERENABLE = FALSE;
+      ALPHABLENDENABLE = FALSE;
+      FOGENABLE = FALSE;
+      SPECULARENABLE = FALSE;
+      FOGCOLOR = 0xFFFFFFFF;
+      FOGTABLEMODE = NONE;
+      FOGSTART = 0.000000;
+      FOGEND = 0.000000;
+      FOGDENSITY = 0.000000;
+      STENCILENABLE = FALSE;
+      STENCILFAIL = KEEP;
+      STENCILZFAIL = KEEP;
+      STENCILPASS = KEEP;
+      STENCILFUNC = ALWAYS;
+      STENCILREF = 0x0;
+      STENCILMASK = 0xffffffff;
+      STENCILWRITEMASK = 0xffffffff;
+      TEXTUREFACTOR = 0x0;
+      WRAP0 = 0;
+      WRAP1 = 0;
+      WRAP2 = 0;
+      WRAP3 = 0;
+      WRAP4 = 0;
+      WRAP5 = 0;
+      WRAP6 = 0;
+      WRAP7 = 0;
+      CLIPPING = FALSE;
+      LIGHTING = FALSE;
+      AMBIENT = 0x11111111;
+      FOGVERTEXMODE = NONE;
+      COLORVERTEX = TRUE;
+      LOCALVIEWER = TRUE;
+      NORMALIZENORMALS = FALSE;
+      DIFFUSEMATERIALSOURCE = COLOR1;
+      SPECULARMATERIALSOURCE = COLOR2;
+      AMBIENTMATERIALSOURCE = COLOR2;
+      EMISSIVEMATERIALSOURCE = COLOR2;
+      VERTEXBLEND = DISABLE;
+      CLIPPLANEENABLE = 0;
+      POINTSIZE = 0.000000;
+      POINTSIZE_MIN = 0.000000;
+      POINTSPRITEENABLE = FALSE;
+      POINTSCALEENABLE = FALSE;
+      POINTSCALE_A = 0.000000;
+      POINTSCALE_B = 0.000000;
+      POINTSCALE_C = 0.000000;
+      MULTISAMPLEANTIALIAS = TRUE;
+      MULTISAMPLEMASK = 0xffffffff;
+      PATCHEDGESTYLE = DISCRETE;
+      POINTSIZE_MAX = 0.000000;
+      INDEXEDVERTEXBLENDENABLE = FALSE;
+      COLORWRITEENABLE = RED | GREEN | BLUE | ALPHA;
+      TWEENFACTOR = 0.000000;
+      BLENDOP = ADD;
+      POSITIONDEGREE = CUBIC;
+      NORMALDEGREE = LINEAR;
+      ZFUNC = ALWAYS;
 
       VertexShader = compile vs_1_1 Fire_Effects_Fire_Single_Pass_Vertex_Shader_main();
       PixelShader = compile ps_2_0 Fire_Effects_Fire_Single_Pass_Pixel_Shader_main();
@@ -1007,4 +1060,5 @@ technique Fire_ASM
    }
 
 }
+
 

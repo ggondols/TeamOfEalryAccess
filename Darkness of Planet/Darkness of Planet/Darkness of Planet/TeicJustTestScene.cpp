@@ -357,6 +357,7 @@ void TeicJustTestScene::Update()
 	{
 		//CleanHit();
 		float callbacktiming = GetCallbackTime();
+		
 		if (TIMEMANAGER->getWorldTime() > m_fTime4 + callbacktiming)
 		{
 			m_pCharacter->m_pCtrl->setAttacking(false);
@@ -372,14 +373,41 @@ void TeicJustTestScene::Update()
 					m_pCharacter->m_pCtrl->setAttacking(true);
 					m_pCharacter->m_pCtrl->m_fSpeed = 0;
 					m_fTime4 = TIMEMANAGER->getWorldTime();
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					CAMERA->rebound();
+					if (m_pCharacter->getWeaponType() == WP_FireGun)
+					{
+						/*m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
+						target.x += RND->getFromFloatTo(-2, 2);
+						target.y += RND->getFromFloatTo(-2, 2);
+						target.z += RND->getFromFloatTo(-2, 2);
+						SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos() );*/
+
+					}
+					else
+					{
+						m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						CAMERA->rebound();
+					}
+					
 				}
 				else
 				{
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
 					m_fTime4 = TIMEMANAGER->getWorldTime();
-					CAMERA->rebound();
+					if (m_pCharacter->getWeaponType() == WP_FireGun)
+					{
+						m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
+						target.x += RND->getFromFloatTo(-2, 2);
+						target.y += RND->getFromFloatTo(-2, 2);
+						target.z += RND->getFromFloatTo(-2, 2);
+						SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos());
+
+					}
+					else
+					{
+						m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						CAMERA->rebound();
+					}
 				}
 			}
 			

@@ -219,6 +219,7 @@
     <ClInclude Include="HankRenderer.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="LDYAfterMarks.h" />
     <ClInclude Include="LDYCamera.h" />
     <ClInclude Include="LDYCharacter.h" />
     <ClInclude Include="LDYcJustTestScene.h" />
@@ -253,6 +254,7 @@
     <ClInclude Include="TeicIceBreath.h" />
     <ClInclude Include="TeicIceExplosion.h" />
     <ClInclude Include="TeicJustTestScene.h" />
+    <ClInclude Include="TeicLaser.h" />
     <ClInclude Include="TeicMinHeap.h" />
     <ClInclude Include="TeicMonsterBlood.h" />
     <ClInclude Include="TeicMonsterChill.h" />
@@ -338,6 +340,7 @@
     <ClCompile Include="HankRenderer.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="LDYAfterMarks.cpp" />
     <ClCompile Include="LDYCamera.cpp" />
     <ClCompile Include="LDYCharacter.cpp" />
     <ClCompile Include="LDYcJustTestScene.cpp" />
@@ -375,6 +378,7 @@
     <ClCompile Include="TeicIceBreath.cpp" />
     <ClCompile Include="TeicIceExplosion.cpp" />
     <ClCompile Include="TeicJustTestScene.cpp" />
+    <ClCompile Include="TeicLaser.cpp" />
     <ClCompile Include="TeicMonsterBlood.cpp" />
     <ClCompile Include="TeicMonsterChill.cpp" />
     <ClCompile Include="TeicMoveSequence.cpp" />

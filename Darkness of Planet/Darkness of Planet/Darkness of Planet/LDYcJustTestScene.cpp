@@ -257,10 +257,8 @@ HRESULT LDYcJustTestScene::Setup()
 		&m_pBloomDepthStencil,
 		NULL);
 
-	m_pBloomEffect = LoadEffect("blur.fx");
+	m_pBloomEffect = LoadEffect("shader/Shadow/blur.fx");
 
-	BloomRc.right -= 100;
-	BloomRc.bottom -= 100;
 
 	m_vecVertex.resize(6);
 	m_vecVertex[0].p = D3DXVECTOR4(0, 0, 0, 1);
@@ -280,7 +278,6 @@ HRESULT LDYcJustTestScene::Setup()
 
 	m_vecVertex[5].p = D3DXVECTOR4(0, BloomRc.bottom, 0, 1);
 	m_vecVertex[5].t = D3DXVECTOR2(0, 1);
-
 
 
 	/////////////태영
@@ -379,6 +376,7 @@ void LDYcJustTestScene::Update()
 	if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
+
 
 	m_pCamera->Update(&m_pCharacter->GetPosition());
 	m_pCharacter->Update(m_pCamera->getAngleY());
@@ -730,6 +728,33 @@ float LDYcJustTestScene::EnemyPlayerDistance(TeicEnemy *ene)
 void LDYcJustTestScene::Render()
 {
 	//if (motionBlur)motionBlur->Render();
+	
+	////블룸용 변수들
+	LPDIRECT3DSURFACE9 pHWBackBufferBloom = NULL;
+	LPDIRECT3DSURFACE9 pHWDepthStencilBufferBloom = NULL;
+
+	GETDEVICE->GetRenderTarget(0, &pHWBackBufferBloom);
+	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBufferBloom);
+
+	LPDIRECT3DSURFACE9 pTempSurface = NULL;
+	m_pBloomRenderTarget->GetSurfaceLevel(0, &pTempSurface);
+
+	GETDEVICE->SetRenderTarget(0, pTempSurface);
+	GETDEVICE->SetDepthStencilSurface(m_pBloomDepthStencil);
+
+	GETDEVICE->Clear(NULL,
+		NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCOLOR_XRGB(255, 255, 255),
+		1.0f, 0);
+
+	//여기다가 그림그려야함 
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);
+
+	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+
 
 	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
 
@@ -770,20 +795,15 @@ void LDYcJustTestScene::Render()
 	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
 
 	SAFE_RELEASE(pShadowSurface);
+
 	
-	// 저번 프레임에 그\렸던 그림자 정보를 지움
+	// 저번 프레임에 그렸던 그림자 정보를 지움
 	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
-	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
-	D3DXMATRIX scal;
-	D3DXMatrixScaling(&scal, 0.04, 0.04, 0.04);
-	D3DXMATRIX trans;
-	D3DXMatrixTranslation(&trans, m_pCharacter->GetPosition().x, m_pCharacter->GetPosition().y, m_pCharacter->GetPosition().z);
 
 	// 그림자 만들기 쉐이더 전역변수들을 설정
 
 	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
 	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
-	//m_pCreateShadow->SetTechnique(m_hCTechnic);
 	// 그림자 만들기 쉐이더를 시작
 
 	{
@@ -801,6 +821,20 @@ void LDYcJustTestScene::Render()
 		}
 		m_pCreateShadow->End();
 	}
+
+	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(255, 255, 255);
+	float start = 0.0f;
+	float end = 200.0f;
+	float m_fFogDensity = 0.01f;
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+
 
 	//////////////////////////////
 	// 2. 그림자 입히기
@@ -827,7 +861,6 @@ void LDYcJustTestScene::Render()
 	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
 	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
 
-
 	// 쉐이더를 시작한다.
 	UINT numPasses = 0;
 	m_pApplyShadow->Begin(&numPasses, NULL);
@@ -846,11 +879,9 @@ void LDYcJustTestScene::Render()
 	}
 	m_pApplyShadow->End();
 
-	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, false);
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);
-	if (m_pSkyDome)m_pSkyDome->Render();
-	if (m_pSkyCloud)m_pSkyCloud->Render();
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
+
+
 	AfterImage();
 	D3DXMATRIX spaceshipworld,transspaceship;
 	D3DXMatrixScaling(&spaceshipworld, 0.1f, 0.1f, 0.1f);
@@ -862,18 +893,75 @@ void LDYcJustTestScene::Render()
 	GETDEVICE->SetTexture(0, texspaceship);
 	m_pMesh->DrawSubset(0);
 
-	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(255, 255, 255);
-	float start = 0.0f;
-	float end = 200.0f;
-	float m_fFogDensity = 0.01f;
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
+	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
+
+	GETDEVICE->Clear(NULL,
+		NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		0xFFFFFFFF,
+		1.0f, 0);
+
+	D3DSURFACE_DESC destDesc;
+	pTempSurface->GetDesc(&destDesc);
+
+	float VBloomWeights[9];
+	float VBloomOffsets[9];
+
+	for (int i = 0; i < 9; i++)
+	{	
+		VBloomOffsets[i] = (static_cast< float >(i) - 4.0f) * (1.0f / static_cast< float >(destDesc.Height));
+
+	
+		float x = (static_cast< float >(i) - 4.0f) / 4.0f;
+
+		VBloomWeights[i] = 0.3f * ComputeGaussianValue(x, 0.0f, 0.2f);
+	}
+
+	m_pBloomEffect->SetFloatArray("VBloomWeights", VBloomWeights, 9);
+	m_pBloomEffect->SetFloatArray("VBloomOffsets", VBloomOffsets, 9);
+
+
+	float HBloomWeights[9];
+	float HBloomOffsets[9];
+
+	for (int i = 0; i < 9; i++)
+	{
+		HBloomOffsets[i] = (static_cast< float >(i) - 4.0f) * (1.0f / static_cast< float >(destDesc.Width));
+
+		float x = (static_cast< float >(i) - 4.0f) / 4.0f;
+
+		HBloomWeights[i] = 0.3f * ComputeGaussianValue(x, 0.0f, 0.2f);
+	}
+
+	m_pBloomEffect->SetFloatArray("HBloomWeights", HBloomWeights, 9);
+	m_pBloomEffect->SetFloatArray("HBloomOffsets", HBloomOffsets, 9);
+
+	m_pBloomEffect->SetTexture("TempRenderTargetTexture", m_pBloomRenderTarget);
+
+	UINT uiPasses = 0;
+	m_pBloomEffect->Begin(&uiPasses, 0);
+	for (UINT i = 0; i < uiPasses; ++i)
+	{
+		m_pBloomEffect->BeginPass(i);
+
+		GETDEVICE->SetTexture(0, m_pBloomRenderTarget);
+		GETDEVICE->SetFVF(ST_RHWT_VERTEX::FVF);
+		GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+			m_vecVertex.size() / 3,
+			&m_vecVertex[0],
+			sizeof(ST_RHWT_VERTEX));
+
+		m_pBloomEffect->EndPass();
+	}
+
+	m_pBloomEffect->End();
+
+
+
+	SAFE_RELEASE(pTempSurface);
+	SAFE_RELEASE(pHWBackBufferBloom);
+	SAFE_RELEASE(pHWDepthStencilBufferBloom);
 
 	/*if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
 	if (m_pCharacter) m_pCharacter->UpdateAndRender();*/
@@ -1149,6 +1237,12 @@ void LDYcJustTestScene::AfterImage()
 
 
 	
+}
+
+float LDYcJustTestScene::ComputeGaussianValue(float x, float mean, float std_deviation)
+{
+	return (1.0f / sqrt(2.0f * D3DX_PI * std_deviation * std_deviation))
+		* expf((-((x - mean) * (x - mean))) / (2.0f * std_deviation * std_deviation));
 }
 
 

@@ -174,6 +174,7 @@ public:
 	void AngleChange(TeicEnemy* A);
 	void WayUpdate();
 	void AfterImage();
+	float ComputeGaussianValue(float x, float mean, float std_deviation);
 
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
