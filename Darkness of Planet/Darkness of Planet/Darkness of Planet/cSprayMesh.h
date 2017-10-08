@@ -6,6 +6,7 @@
 //생성된 데이터를 기준으로 별도의 간소화된 구조체에 넣어두고
 //랜더로 출력 이후 세이브를 통해 데이터를 저장
 
+class cModel;
 
 struct sSIMPLEOBJ
 {
@@ -13,8 +14,26 @@ struct sSIMPLEOBJ
 	D3DXQUATERNION			m_orientation;
 	D3DXVECTOR3				m_scalling;
 	D3DXMATRIX				m_matScale;
+	D3DXMATRIX				m_matTrans;
+	D3DXMATRIX				m_matWorld;
+	D3DXMATRIX				m_matRotation;
+	
 
-	LPD3DXMESH				m_pSelectMesh;
+	cModel*				m_pSelectModel;
+
+	sSIMPLEOBJ() {};
+	sSIMPLEOBJ(D3DXVECTOR3 pos, D3DXQUATERNION quter, D3DXVECTOR3 sacle, cModel* model)
+	: m_position (pos)
+		, m_orientation(quter)
+		, m_scalling(sacle)
+		, m_pSelectModel(model)
+	{	
+		D3DXMatrixScaling(&m_matScale, m_scalling.x, m_scalling.y ,m_scalling.z);
+		D3DXMatrixRotationQuaternion(&m_matRotation, &m_orientation);
+		D3DXMatrixTranslation(&m_matTrans, m_position.x, m_position.y, m_position.z);
+		
+		m_matWorld = m_matScale * m_matRotation*m_matTrans;
+	}
 };
 
 class cSprayMesh
@@ -29,18 +48,27 @@ public:
 	D3DXQUATERNION	m_orientation;
 	D3DXVECTOR3		m_scalling;
 	D3DXMATRIX		m_matScale;
+	float			m_fAngle;
+	float			m_fCustomHigh;
 
 	LPD3DXMESH				m_pSelectMesh;
 	vector<LPD3DXMESH>		m_pMeshList;
 
+	cModel*					m_pSelectModel;
+	vector<cModel*>			m_pModelList;
+
 	list<sSIMPLEOBJ>	m_ObjSimpleList;
 
-	vector<D3DXVECTOR3>& m_vecNode;
+	vector<D3DXVECTOR3> m_vecNode;
 	
 	
+	void EntryModel(cModel * pMesh);
+
 	void EntryMesh(LPD3DXMESH pMesh);
 
 	void Update();
+
+	void SaveObjList(void);
 
 	void SetTargetNode(vector<D3DXVECTOR3>& vec);
 
@@ -48,11 +76,11 @@ public:
 
 	void Release();
 
-
-
 	cSprayMesh();
 	~cSprayMesh();
 	void MeshLoadFromScript(const std::string & fullPath);
 	void CreateMesh(ifstream & file);
+
+
 };
 

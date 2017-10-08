@@ -105,16 +105,18 @@ void cStaticMeshLoader::ObjPlacementSRTin(ifstream & file, cModel& pModel, std::
 
 			float sX, sY, sZ; //scale
 			float tX, tY, tZ; //translate
-			float rX, rY, rZ; //rotation
-			char dummy; // '/' 받기용
+			float rX, rY, rZ, rW; //rotation
+			char dummy; // '/' 받기용 	//iss.skipws; 작동 확인 필요
 
 			iss >> sX >> dummy >> sY >> dummy >> sZ;		
-			iss >> rX >> dummy >> rY >> dummy >> rZ;		
+			iss >> rX >> dummy >> rY >> dummy >> rZ >> dummy >> rW;
 			iss >> tX >> dummy >> tY >> dummy >> tZ;
+
+		
 			
 			// initialise spartial information 공간 정보 정의
 			tempObject->SetSclling(sX, sY, sZ);
-			tempObject->SetOrientation(D3DXQUATERNION(rX, rY, rZ, 1));
+			tempObject->SetOrientation(D3DXQUATERNION(rX, rY, rZ, rW));
 			tempObject->SetPosition(D3DXVECTOR3(tX, tY, tZ));
 			tempObject->m_bVisible = true;
 

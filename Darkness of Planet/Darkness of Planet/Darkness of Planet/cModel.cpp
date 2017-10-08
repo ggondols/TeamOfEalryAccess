@@ -8,6 +8,7 @@
 cModel::~cModel()
 {
 
+
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pVertexDeclaration);
 }
@@ -23,7 +24,7 @@ HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVI
 
 	// get the directory path.  
 	string pathName = path + name;
-
+	m_name = name;
 	//
 	// Load the XFile data.
 	//

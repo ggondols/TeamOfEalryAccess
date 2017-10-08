@@ -159,5 +159,15 @@ namespace D3D {
 	{
 		return a - (a*t) + (b*t);
 	}
+
+	D3DXQUATERNION GetAngletoQuaternion(float x, float y , float z ,float angle)
+	{
+		float qx, qy, qz, qw;
+		qx = x * sin(angle / 2);
+		qy = y * sin(angle / 2);
+		qz = z * sin(angle / 2);
+		qw = cos(angle / 2);
+		return D3DXQUATERNION(qx, qy, qz, qw);
+	}
 }
 
