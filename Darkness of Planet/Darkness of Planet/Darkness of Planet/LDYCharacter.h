@@ -49,6 +49,7 @@ private:
 
 	D3DXVECTOR3					m_afterPosMAX;
 	D3DXVECTOR3					m_afterPosMIN;
+	bool						m_bTCallback;
 
 public:
 	TeicPhysicsCrtCtrl*			m_pCtrl;
