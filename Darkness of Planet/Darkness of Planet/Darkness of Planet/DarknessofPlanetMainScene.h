@@ -19,6 +19,14 @@
 #include "TeicShoot.h"
 #include "TeicIceExplosion.h"
 #include "TeicBoss.h"
+
+//대원 헤더
+#include "cModel.h"
+#include "cObjectNode.h"
+#include "cStaticMeshLoader.h"
+#include "cConsole.h"
+
+
 class iMap;
 
 class cUIObject;
@@ -50,6 +58,14 @@ private:
 
 	// 인벤토리 추가
 	Inventory*				m_pInventory;
+
+private:
+	//Map Object Control
+	std::list<cObjectNode*>	m_ObjNodes;
+	cStaticMeshLoader		m_meshList;
+	cConsole*				m_pConsole;
+	
+
 public:
 
 	HankcGrid*				m_pNode;
