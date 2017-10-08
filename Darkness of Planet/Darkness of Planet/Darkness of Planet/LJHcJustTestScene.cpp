@@ -150,6 +150,9 @@ HRESULT LJHcJustTestScene::Setup()
 	D3DVIEWPORT9 viewport;
 	GETDEVICE->GetViewport(&viewport);
 
+	//SOUNDMANAGER->addSound("LazencaTest", "Sound/SoundTest/Lazenca.mp3", true, true);
+	//SOUNDMANAGER->play("LazencaTest");
+
 	//UIOBJECTMANAGER->AddRoot("aimTest", UITYPE_IMAGE, true);
 	//UIOBJECTMANAGER->SetTexture("aimTest", "./UI/aimNormal.png");
 	//UIOBJECTMANAGER->SetPosition("aimTest", viewport.Width / 2.0f - 15, viewport.Height / 2.0f - 15);
@@ -178,17 +181,17 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pInventory->Setup();
 
 	FieldItem* pItem1 = new FieldItem();
-	pItem1->Setup("ArmorArm", ITEMTYPE_PART);
+	pItem1->Setup("FullArmorPart1", ITEMTYPE_PART);
 	pItem1->SetPosition(D3DXVECTOR3(60, 0, -10));
 	m_listItem.push_back(pItem1);
 
 	FieldItem* pItem2 = new FieldItem();
-	pItem2->Setup("ArmorBody", ITEMTYPE_PART);
+	pItem2->Setup("FullArmorPart2", ITEMTYPE_PART);
 	pItem2->SetPosition(D3DXVECTOR3(30, 0, -20));
 	m_listItem.push_back(pItem2);
 	
 	FieldItem* pItem3 = new FieldItem();
-	pItem3->Setup("ArmorLeg", ITEMTYPE_PART);
+	pItem3->Setup("FullArmorPart3", ITEMTYPE_PART);
 	pItem3->SetPosition(D3DXVECTOR3(50, 0, -50));
 	m_listItem.push_back(pItem3);
 
@@ -282,7 +285,10 @@ void LJHcJustTestScene::Release()
 
 void LJHcJustTestScene::Update()
 {
+	SOUNDMANAGER->Update();
+
 	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
+	//if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
 
 	//if (m_pConsole) m_pConsole->Update();

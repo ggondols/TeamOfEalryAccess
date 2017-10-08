@@ -25,7 +25,7 @@ bool g_isLButtonDown = false;
 bool g_isRButtonDown = false;
 bool g_isLButtonUp = false;
 bool g_isRButtonUp = false;
-bool g_bCursor = true;
+bool g_bCursor = false;
 int g_MouseWheel = 0;
 LPARAM g_lparam = 0;
 

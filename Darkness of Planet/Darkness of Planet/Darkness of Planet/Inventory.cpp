@@ -111,9 +111,16 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		{
 			if (m_vecItems[m_pSelectItem->GetTag() - 1].stType == m_vecEquipments[pUpPositionEquipment->GetTag() - 1].stType)
 			{
-				string tempName = m_vecItems[m_pSelectItem->GetTag() - 1].sName;
-				m_vecItems[m_pSelectItem->GetTag() - 1].sName = m_vecEquipments[pUpPositionEquipment->GetTag() - 1].sName;
-				m_vecEquipments[pUpPositionEquipment->GetTag() - 1].sName = tempName;
+				if (UpgradeEquipmentItem(pUpPositionEquipment->GetTag() - 1, m_vecItems[m_pSelectItem->GetTag() - 1].stType))
+				{
+					DeleteInventoryItem(m_pSelectItem->GetTag() - 1);
+				}
+				else
+				{
+					string itemName = m_vecItems[m_pSelectItem->GetTag() - 1].sName;
+					m_vecItems[m_pSelectItem->GetTag() - 1].sName = m_vecEquipments[pUpPositionEquipment->GetTag() - 1].sName;
+					m_vecEquipments[pUpPositionEquipment->GetTag() - 1].sName = itemName;
+				}
 			}
 
 			for each(auto e in m_vecEquipments)
@@ -121,8 +128,11 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 				switch (e.stType)
 				{
 				case ITEMTYPE_WEAPON:
-					if (e.sName == "MP5") m_pCharacter->SetWeaponType(Wp_MP5);
+					if (e.sName == "AA12") m_pCharacter->SetWeaponType(Wp_AA12);
+					else if (e.sName == "AR6") m_pCharacter->SetWeaponType(Wp_AR6);
 					else if (e.sName == "M4") m_pCharacter->SetWeaponType(Wp_M4);
+					else if (e.sName == "MP5") m_pCharacter->SetWeaponType(Wp_MP5);
+					else if (e.sName == "FireGun") m_pCharacter->SetWeaponType(WP_FireGun);
 					break;
 				case ITEMTYPE_HELMET:
 					if (e.sName == "Mask") m_pCharacter->SetHeadLv(0);
@@ -130,7 +140,9 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 					break;
 				case ITEMTYPE_ARMOR:
 					if (e.sName == "Armor") m_pCharacter->SetBodyLv(0);
-					else if (e.sName == "FullArmor") m_pCharacter->SetBodyLv(2);
+					else if (e.sName == "FullArmor1") m_pCharacter->SetBodyLv(1);
+					else if (e.sName == "FullArmor2") m_pCharacter->SetBodyLv(2);
+					else if (e.sName == "FullArmor3") m_pCharacter->SetBodyLv(3);
 					break;
 				}
 			}
@@ -229,6 +241,40 @@ void Inventory::CombineInventoryItem(int selectItem, int targetItem, string comb
 	else if (combineName == "Helmet") m_vecItems[min].stType = ITEMTYPE_HELMET;
 	m_vecItems[max].ClearInventory();
 	DeleteInventoryItem(max);
+}
+
+bool Inventory::UpgradeEquipmentItem(int targetItem, ITEM_TYPE type)
+{
+	bool isUpgrade = true;
+
+	switch (type)
+	{
+	case ITEMTYPE_HELMET:
+		if (m_vecEquipments[targetItem].sName == "Mask")
+		{
+			m_vecEquipments[targetItem].sName = "Helmet";
+		}
+		break;
+	case ITEMTYPE_ARMOR:
+		if (m_vecEquipments[targetItem].sName == "Armor")
+		{
+			m_vecEquipments[targetItem].sName = "FullArmor1";
+		}
+		else if (m_vecEquipments[targetItem].sName == "FullArmor1")
+		{
+			m_vecEquipments[targetItem].sName = "FullArmor2";
+		}
+		else if (m_vecEquipments[targetItem].sName == "FullArmor2")
+		{
+			m_vecEquipments[targetItem].sName = "FullArmor3";
+		}
+		break;
+	case ITEMTYPE_WEAPON:
+		isUpgrade = false;
+		break;
+	}
+
+	return isUpgrade;
 }
 
 void Inventory::CheckCombineItem(string selectName, string targetName, int selectItem, int targetItem)

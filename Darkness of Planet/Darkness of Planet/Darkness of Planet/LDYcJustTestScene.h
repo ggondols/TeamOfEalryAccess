@@ -25,26 +25,6 @@ struct MotionBlurInfo
 };
 
 
-
-enum WeaponType {
-
-	Wp_Melee,
-	Wp_AA12,
-	Wp_AR6,
-	Wp_M4,
-	Wp_MP5,
-	WP_FireGun
-
-};
-
-enum StateType {
-
-	ST_Idle,
-	ST_Attack,
-	ST_Move
-};
-
-
 class iMap;
 class LDYCharacter;
 class cSkyBoxCube;
@@ -52,7 +32,6 @@ class cSkyDome;
 class cSkyCloud;
 class cShadowMapping;
 class LDYMotionBlur;
-class TeicParticle;
 
 class LDYcJustTestScene :public cGameNode
 {
@@ -92,6 +71,8 @@ public:
 
 	cShadowMapping*					m_pShadow;
 
+
+
 	//케릭터 그림자용
 	LPD3DXEFFECT			m_pCreateShadow;
 	LPD3DXEFFECT			m_pApplyShadow;
@@ -121,21 +102,6 @@ public:
 	D3DXMATRIXA16			matLightView;
 	D3DXMATRIXA16			matLightProjection;
 
-	LDYMotionBlur*			motionBlur;
-	//fog용 핸들
-	LPD3DXEFFECT			m_pFog;
-	D3DXHANDLE				m_hFogmatWorld;
-	D3DXHANDLE				m_hFogmatWolrdView;
-	D3DXHANDLE				m_hFogmatWorldViewProj;
-	D3DXHANDLE				m_hFogfFog;
-	D3DXHANDLE				m_hFogCamera;
-	D3DXHANDLE				m_hFogColorFog;
-	D3DXHANDLE				m_hFogTexture;
-	D3DXHANDLE				m_hFogtechnique;
-
-
-	float lookx;
-	float lookz;
 
 	deque<D3DXVECTOR3>		m_vecAfterImageMuzzle;
 	deque<D3DXVECTOR3>		m_vecAfterImageWeapon;
@@ -151,7 +117,6 @@ public:
 
 	vector<ST_RHWT_VERTEX>	m_vecVertex;
 
-	vector<TeicParticle*>	m_vecParticle;
 
 public:
 

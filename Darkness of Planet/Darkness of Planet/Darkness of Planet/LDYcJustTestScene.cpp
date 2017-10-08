@@ -112,8 +112,6 @@ LDYcJustTestScene::LDYcJustTestScene()
 	, m_pCreateShadow(NULL)
 	, m_pApplyShadow(NULL)
 	, m_pHeightMapmesh(NULL)
-	, lookz(0.0f)
-	, m_pFog(NULL)
 	, m_fStartTime(0.0f)
 	, m_fEndTime(0.0f)
 	, m_fCurrentTime(0.0f)
@@ -143,9 +141,6 @@ LDYcJustTestScene::~LDYcJustTestScene()
 	SAFE_RELEASE(m_pApplyShadow);
 	SAFE_RELEASE(m_pHeightMapmesh);
 
-	SAFE_RELEASE(m_pFog);
-
-	SAFE_DELETE(motionBlur);
 
 	SAFE_RELEASE(m_pBloomEffect);
 	SAFE_RELEASE(m_pBloomRenderTarget);
@@ -192,9 +187,6 @@ HRESULT LDYcJustTestScene::Setup()
 
 
 	///////////µ¿À±
-	motionBlur = new LDYMotionBlur;
-	motionBlur->Setup();
-
 	m_pShadow = new cShadowMapping;
 	m_pShadow->Setup();
 
@@ -375,7 +367,6 @@ void LDYcJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	if (motionBlur)motionBlur->Update();
 	if (m_pSkyBox) m_pSkyBox->Update();
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();

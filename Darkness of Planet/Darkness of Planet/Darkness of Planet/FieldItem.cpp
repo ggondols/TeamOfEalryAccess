@@ -18,7 +18,10 @@ void FieldItem::Setup(string name, ITEM_TYPE type)
 {
 	m_eType = type;
 
-	if (name == "ArmorArm")
+	m_sName = name;
+	m_pMesh = LoadModel("object/xFile/Item/", "ItemPart.X");
+
+	/*if (name == "ArmorArm")
 	{
 		m_sName = "FullArmorPart1";
 		m_pMesh = LoadModel("object/xFile/Item/", "ArmorArm.X");
@@ -42,7 +45,7 @@ void FieldItem::Setup(string name, ITEM_TYPE type)
 	{
 		m_sName = "HelmetPart2";
 		m_pMesh = LoadModel("object/xFile/Item/", "HelmetPart.X");
-	}
+	}*/
 }
 
 void FieldItem::Update()
@@ -55,23 +58,26 @@ void FieldItem::Render()
 	D3DXMATRIX matS, matRY, matT;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMatrixRotationY(&matRY, m_fAngleY);
-	if (m_sName == "FullArmorPart1") D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
+
+	/*if (m_sName == "FullArmorPart1") D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
 	else if (m_sName == "FullArmorPart2") D3DXMatrixScaling(&matS, 0.06f, 0.06f, 0.06f);
 	else if (m_sName == "FullArmorPart3") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
 	else if (m_sName == "HelmetPart1") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
-	else if (m_sName == "HelmetPart2") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
+	else if (m_sName == "HelmetPart2") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);*/
 
 	m_matWorld = matS * matRY * matT;
 	GETDEVICE->SetTransform(D3DTS_WORLD, &m_matWorld);
+	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture("object/xFile/Item/T_Pickup_Packs.tga"));
 
-	if (m_sName == "FullArmorPart1" || m_sName == "FullArmorPart2" || m_sName == "FullArmorPart3")
+	/*if (m_sName == "FullArmorPart1" || m_sName == "FullArmorPart2" || m_sName == "FullArmorPart3")
 	{
 		GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture("object/xFile/Item/T_GabeArmor_Diffuse.tga"));
 	}
 	else if (m_sName == "HelmetPart1" || m_sName == "HelmetPart2")
 	{
 		GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture("object/xFile/Item/T_Pickup_Packs.tga"));
-	}
+	}*/
 
 	m_pMesh->DrawSubset(0);
 }
