@@ -19,12 +19,22 @@
 #include "TeicShoot.h"
 #include "TeicIceExplosion.h"
 #include "TeicBoss.h"
+
+//대원 헤더
+#include "cModel.h"
+#include "cObjectNode.h"
+#include "cStaticMeshLoader.h"
+#include "cConsole.h"
+
+
 class iMap;
 
 class cUIObject;
 class cSkyDome;
 class cSkyCloud;
 class Inventory;
+
+
 class DarknessofPlanetMainScene:public cGameNode
 {
 
@@ -50,6 +60,14 @@ private:
 
 	// 인벤토리 추가
 	Inventory*				m_pInventory;
+
+private:
+	//Map Object Control
+	std::list<cObjectNode*>	m_ObjNodes;
+	cStaticMeshLoader		m_meshList;
+	cConsole*				m_pConsole;
+	
+
 public:
 
 	HankcGrid*				m_pNode;
@@ -66,7 +84,58 @@ public:
 	vector<bool>					m_vecAttackSlot;
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
+
+
+	//동윤
+private:
+
+	//케릭터 그림자용
+	LPD3DXEFFECT			m_pCreateShadow;
+	LPD3DXEFFECT			m_pApplyShadow;
+	LPD3DXMESH				m_pHeightMapmesh;
+
+	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
+	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
+
+	//create fx용핸들
+	D3DXHANDLE				m_hCmatWorld;
+	D3DXHANDLE				m_hCmatLightView;
+	D3DXHANDLE				m_hCmatLightProjection;
+	D3DXHANDLE				m_hCTechnic;
+
+	//apply fx용 핸들
+	D3DXHANDLE				m_hApplyTexture;
+	D3DXHANDLE				m_hAmatWorld;
+	D3DXHANDLE				m_hAmatLightView;
+	D3DXHANDLE				m_hAmatLightProjection;
+	D3DXHANDLE				m_hAm_vec4LightPosition;
+	D3DXHANDLE				m_hAmatViewProjection;
+	D3DXHANDLE				m_hAgObjectColor;
+
+
+	D3DXVECTOR4				m_vec4LightPosition;
+	D3DXMATRIXA16			matS;
+	D3DXMATRIXA16			matLightView;
+	D3DXMATRIXA16			matLightProjection;
+
+
+	deque<D3DXVECTOR3>		m_vecAfterImageMuzzle;
+	deque<D3DXVECTOR3>		m_vecAfterImageWeapon;
+	float					m_fStartTime;
+	float					m_fEndTime;
+	float					m_fCurrentTime;
+
+	LPD3DXMESH				m_pMesh;
+	DWORD					m_dNum;
+	LPD3DXEFFECT			m_pBloomEffect;
+	LPDIRECT3DTEXTURE9		m_pBloomRenderTarget;
+	LPDIRECT3DSURFACE9		m_pBloomDepthStencil;
+
+	vector<ST_RHWT_VERTEX>	m_vecVertex;
+
+
 public:
+
 	TeicEnemy*  m_pTempEnemy;
 	cSphere*	m_pTempSPhere;
 	TeicBoss*	m_pBoss;
@@ -95,6 +164,13 @@ public:
 	void CheckDie();
 	float GetFireRate();
 	float GetCallbackTime();
+
+	//동윤
+	void AfterImage();
+	float ComputeGaussianValue(float x, float mean, float std_deviation);
+	LPD3DXEFFECT LoadEffect(const char* szFileName);
+	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
+
 public:
 	DarknessofPlanetMainScene();
 	~DarknessofPlanetMainScene();

@@ -13,6 +13,7 @@
 #include "Inventory.h"
 
 
+
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -31,8 +32,18 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_pSkyCloud(NULL)
 	, m_pInventory(NULL)
 	, m_fTime5(0.0f)
+	, m_pCreateShadow(NULL)
+	, m_pApplyShadow(NULL)
+	, m_pHeightMapmesh(NULL)
+	, m_fStartTime(0.0f)
+	, m_fEndTime(0.0f)
+	, m_fCurrentTime(0.0f)
+	, m_pBloomEffect(NULL)
+	, m_pBloomRenderTarget(NULL)
+	, m_pBloomDepthStencil(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
+	m_ObjNodes.clear();
 }
 
 
@@ -56,6 +67,21 @@ DarknessofPlanetMainScene::~DarknessofPlanetMainScene()
 	SAFE_DELETE(m_pCollision);
 	SAFE_DELETE(m_pSkyDome);
 	SAFE_DELETE(m_pSkyCloud);
+
+	SAFE_RELEASE(m_pCreateShadow);
+	SAFE_RELEASE(m_pApplyShadow);
+	SAFE_RELEASE(m_pHeightMapmesh);
+
+
+	SAFE_RELEASE(m_pBloomEffect);
+	SAFE_RELEASE(m_pBloomRenderTarget);
+	SAFE_RELEASE(m_pBloomDepthStencil);
+
+
+
+	SAFE_DELETE(m_pConsole);
+	m_ObjNodes.clear();
+	
 }
 
 static CRITICAL_SECTION cs;
@@ -76,7 +102,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 			pSkinnedMesh->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, temp, (i + 1) * 10 + j));
 			pSkinnedMesh->SetAttack(5);
 			pSkinnedMesh->SetHP(100);
-			pSkinnedMesh->m_eGroup = Rush;
+
 			temp->m_vecEnemy.push_back(pSkinnedMesh);
 			//temp->m_vecEnemy[i * 10 + j]->GetBoundingSquare()->m_pSkinnedObject = temp->m_vecEnemy[i * 10 + j]->GetSkinnedMesh();
 		}
@@ -148,13 +174,17 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 
 
 
-
-
-
-
-
 HRESULT DarknessofPlanetMainScene::Setup()
 {
+	////////// 대원
+	//## 초기화 리스트
+	//## StaticMeshLoader, Object List controler
+	//## 메쉬를 불러와서, 컨트롤러에 저장하고 뿌린다.
+	
+	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
+	m_pConsole = new cConsole;
+	m_pConsole->Setup();
+
 	//////////정현
 	D3DVIEWPORT9 viewport;
 	GETDEVICE->GetViewport(&viewport);
@@ -180,14 +210,8 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 
 	///////////동윤
-
-
-
-
 	/*m_pCamera = new LDYCamera;*/
 	m_pGrid = new Hank::cGrid;
-
-
 
 	m_pCharacter = new LDYCharacter;
 	char* BodyName = "HeroBodyLv";
@@ -197,6 +221,102 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pCharacter->SetPosition(D3DXVECTOR3(20, 0, -20));
 	CAMERA->Setup(m_pCharacter->GetPositionPointer());
 	m_pCharacter->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, 0));
+
+	LPD3DXBUFFER pAdjacency;
+	LPD3DXBUFFER pMaterials;
+	string filename = "object/xFile/SpaceShip/spaceship_2.X";
+	D3DXLoadMeshFromX(filename.c_str(),
+		D3DXMESH_MANAGED,
+		GETDEVICE,
+		&pAdjacency,
+		&pMaterials,
+		NULL,
+		&m_dNum,
+		&m_pMesh);
+
+
+	// 렌더타깃을 만든다.
+	RECT BloomRc;
+	GetClientRect(g_hWnd, &BloomRc);
+
+	GETDEVICE->CreateTexture(
+		BloomRc.right,
+		BloomRc.bottom,
+		1,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_A8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&m_pBloomRenderTarget,
+		NULL);
+
+	// 그림자 맵과 동일한 크기의 깊이버퍼도 만들어줘야 한다.
+	GETDEVICE->CreateDepthStencilSurface(
+		BloomRc.right,
+		BloomRc.bottom,
+		D3DFMT_D24S8,
+		D3DMULTISAMPLE_NONE,
+		0,
+		TRUE,
+		&m_pBloomDepthStencil,
+		NULL);
+
+	m_pBloomEffect = LoadEffect("shader/Shadow/blur.fx");
+
+
+	m_vecVertex.resize(6);
+	m_vecVertex[0].p = D3DXVECTOR4(0, 0, 0, 1);
+	m_vecVertex[0].t = D3DXVECTOR2(0, 0);
+
+	m_vecVertex[1].p = D3DXVECTOR4(BloomRc.right, 0, 0, 1);
+	m_vecVertex[1].t = D3DXVECTOR2(1, 0);
+
+	m_vecVertex[2].p = D3DXVECTOR4(BloomRc.right, BloomRc.bottom, 0, 1);
+	m_vecVertex[2].t = D3DXVECTOR2(1, 1);
+
+	m_vecVertex[3].p = D3DXVECTOR4(0, 0, 0, 1);
+	m_vecVertex[3].t = D3DXVECTOR2(0, 0);
+
+	m_vecVertex[4].p = D3DXVECTOR4(BloomRc.right, BloomRc.bottom, 0, 1);
+	m_vecVertex[4].t = D3DXVECTOR2(1, 1);
+
+	m_vecVertex[5].p = D3DXVECTOR4(0, BloomRc.bottom, 0, 1);
+	m_vecVertex[5].t = D3DXVECTOR2(0, 1);
+
+
+	const int shadowMapSize = 2048;
+	if (FAILED(GETDEVICE->CreateTexture(shadowMapSize, shadowMapSize,
+		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
+		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
+	{
+
+	}
+
+
+
+	// 그림자 맵과 동일한 크기의 깊이버퍼도 만들어줘야 한다.
+	if (FAILED(GETDEVICE->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
+		D3DFMT_D24S8, D3DMULTISAMPLE_NONE, 0, TRUE,
+		&m_pShadowDepthStencil, NULL)))
+	{
+	}
+
+	m_pCreateShadow = LoadEffectHpp("MultiAnimationCreateShadowBlur.hpp");
+	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx");
+
+
+	m_hCmatLightView = m_pCreateShadow->GetParameterByName(0, "matLightView");
+	m_hCmatLightProjection = m_pCreateShadow->GetParameterByName(0, "gLightProjectionMatrix");
+	m_hCTechnic = m_pCreateShadow->GetTechniqueByName("Skinning20");
+
+
+	m_hApplyTexture = m_pApplyShadow->GetParameterByName(0, "ShadowMap_Tex");
+	m_hAmatWorld = m_pApplyShadow->GetParameterByName(0, "matWorld");
+	m_hAmatLightView = m_pApplyShadow->GetParameterByName(0, "matLightView");
+	m_hAmatLightProjection = m_pApplyShadow->GetParameterByName(0, "matLightProjection");
+	m_hAm_vec4LightPosition = m_pApplyShadow->GetParameterByName(0, "m_vec4LightPosition");
+	m_hAmatViewProjection = m_pApplyShadow->GetParameterByName(0, "matViewProjection");
+	m_hAgObjectColor = m_pApplyShadow->GetParameterByName(0, "gObjectColor");
+
 
 
 	/////////////태영
@@ -284,6 +404,7 @@ void DarknessofPlanetMainScene::Release()
 	SAFE_DELETE(m_pMap);
 	/*SAFE_DELETE(m_pCamera);*/
 	SAFE_DELETE(m_pCharacter);
+
 
 
 }
@@ -512,6 +633,9 @@ void DarknessofPlanetMainScene::Update()
 
 	UIOBJECTMANAGER->Update();
 
+	m_pConsole->Update();
+
+
 
 }
 
@@ -739,46 +863,253 @@ float DarknessofPlanetMainScene::EnemyPlayerDistance(TeicEnemy *ene)
 }
 
 
-
 void DarknessofPlanetMainScene::Render()
 {
-
-
-
-
-	/*if (m_pSkyDome)m_pSkyDome->Render();
-	if (m_pSkyCloud)m_pSkyCloud->Render();
-	if (m_pInventory) m_pInventory->Render();*/
-	char str[2056];
-	RECT rc = RectMake(200, 200, 1000, 1000);
-	sprintf_s(str, "number:%d", m_pBoss->GetAninum() - 1);
-	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
-
-
-
-
-	//m_pTempEnemy->UpdateAndRender();
-	//m_pShoot->Render();
-	//GETDEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
-	/*m_pTempSPhere->Setup(D3DXVECTOR3( 0,10,0), 0.1f);
-	m_pTempSPhere->Render();*/
-	/*m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeX/2);
-	m_pTempSPhere->Render();
-	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeY/2);
-	m_pTempSPhere->Render();
-	m_pTempSPhere->Setup(m_pTempEnemy->GetBoundingSquare()->m_vCenterPos, m_pTempEnemy->GetBoundingSquare()->m_fSizeZ/2);
-	m_pTempSPhere->Render();*/
-
-
-
-	m_pGrid->Render();
-	//if (m_pMap) m_pMap->Render(m_pCharacter->GetPositionYZero());
-	if (m_pMap)m_pMap->frustumcullingRender();
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-	if (m_pCharacter) m_pCharacter->UpdateAndRender();
+
+
+	////블룸용 변수들
+	LPDIRECT3DSURFACE9 pHWBackBufferBloom = NULL;
+	LPDIRECT3DSURFACE9 pHWDepthStencilBufferBloom = NULL;
+
+	GETDEVICE->GetRenderTarget(0, &pHWBackBufferBloom);
+	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBufferBloom);
+
+	LPDIRECT3DSURFACE9 pTempSurface = NULL;
+	m_pBloomRenderTarget->GetSurfaceLevel(0, &pTempSurface);
+
+	GETDEVICE->SetRenderTarget(0, pTempSurface);
+	GETDEVICE->SetDepthStencilSurface(m_pBloomDepthStencil);
+
+	GETDEVICE->Clear(NULL,
+		NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCOLOR_XRGB(255, 255, 255),
+		1.0f, 0);
+
+	//여기다가 그림그려야함 
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, false);
+
+	if (m_pSkyDome)m_pSkyDome->Render();
+	if (m_pSkyCloud)m_pSkyCloud->Render();
+
+
+	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
+
+	{
+		m_vec4LightPosition = { light.x + 100.0f,light.y + 200.0f,light.z + 100.0f,1.0f };
+		D3DXVECTOR3 vEyePt(m_vec4LightPosition.x, m_vec4LightPosition.y, m_vec4LightPosition.z);
+		D3DXVECTOR3 vLookatPt = m_pCharacter->GetPositionYZero();
+		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+		D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+	}
+
+
+	D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
+
+	D3DXMATRIXA16 matWorld, matView, matProjection, matViewProjection;
+
+	D3DXMatrixIdentity(&matWorld);
+
+	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+	matViewProjection = matView*matProjection;
+
+	LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+	LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+	GETDEVICE->GetRenderTarget(0, &pHWBackBuffer);
+	GETDEVICE->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+
+	//////////////////////////////
+	// 1. 그림자 만들기
+	//////////////////////////////
+	// 그림자 맵의 렌더타깃과 깊이버퍼를 사용한다.
+	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+	m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface);
+
+
+	GETDEVICE->SetRenderTarget(0, pShadowSurface);
+	GETDEVICE->SetDepthStencilSurface(m_pShadowDepthStencil);
+
+	SAFE_RELEASE(pShadowSurface);
+
+
+	// 저번 프레임에 그렸던 그림자 정보를 지움
+	GETDEVICE->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+
+	// 그림자 만들기 쉐이더 전역변수들을 설정
+
+	m_pCreateShadow->SetMatrix(m_hCmatLightView, &matLightView);
+	m_pCreateShadow->SetMatrix(m_hCmatLightProjection, &matLightProjection);
+	// 그림자 만들기 쉐이더를 시작
+
+	{
+		UINT numPasses = 0;
+		m_pCreateShadow->Begin(&numPasses, NULL);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				m_pCreateShadow->BeginPass(i);
+				{
+					m_pCharacter->MeshRender(m_pCreateShadow);
+				}
+				m_pCreateShadow->EndPass();
+			}
+		}
+		m_pCreateShadow->End();
+	}
+
+	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(255, 255, 255);
+	float start = 0.0f;
+	float end = 200.0f;
+	float m_fFogDensity = 0.01f;
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+
+
+	//////////////////////////////
+	// 2. 그림자 입히기
+	//////////////////////////////
+
+	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
+	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
+
+	SAFE_RELEASE(pHWBackBuffer);
+	SAFE_RELEASE(pHWDepthStencilBuffer);
+
+	// 그림자 입히기 쉐이더 전역변수들을 설정
+	m_pApplyShadow->SetMatrix(m_hAmatWorld, &matWorld);      //원환체
+	m_pApplyShadow->SetMatrix(m_hAmatViewProjection, &matViewProjection);
+	m_pApplyShadow->SetMatrix(m_hAmatLightView, &matLightView);
+	m_pApplyShadow->SetMatrix(m_hAmatLightProjection, &matLightProjection);
+
+	m_pApplyShadow->SetVector(m_hAm_vec4LightPosition, &m_vec4LightPosition);
+
+	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
+
+	LPDIRECT3DTEXTURE9 tex;
+	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
+	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
+
+	// 쉐이더를 시작한다.
+	UINT numPasses = 0;
+	m_pApplyShadow->Begin(&numPasses, NULL);
+	{
+		for (UINT i = 0; i < numPasses; ++i)
+		{
+			m_pApplyShadow->BeginPass(i);
+			{
+				// 디스크를 그린다.
+				m_pApplyShadow->CommitChanges();
+				//if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+				if (m_pMap)m_pMap->frustumcullingRender();
+			}
+			m_pApplyShadow->EndPass();
+		}
+	}
+	m_pApplyShadow->End();
+
+	if (m_pCharacter)m_pCharacter->UpdateAndRender();
+	if (m_pInventory) m_pInventory->Render();
+	
+
+	AfterImage();
+	D3DXMATRIX spaceshipworld, transspaceship;
+	D3DXMatrixScaling(&spaceshipworld, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixTranslation(&transspaceship, 150.0f, 100.0f, -150.0f);
+	spaceshipworld *= transspaceship;
+	LPDIRECT3DTEXTURE9 texspaceship;
+	texspaceship = TEXTUREMANAGER->GetTexture("object/xFile/SpaceShip/SF_Corvette-F3_diffuse.jpg");
+	GETDEVICE->SetTransform(D3DTS_WORLD, &spaceshipworld);
+	GETDEVICE->SetTexture(0, texspaceship);
+	m_pMesh->DrawSubset(0);
+
+	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
+	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
+
+	GETDEVICE->Clear(NULL,
+		NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		0xFFFFFFFF,
+		1.0f, 0);
+
+	D3DSURFACE_DESC destDesc;
+	pTempSurface->GetDesc(&destDesc);
+
+	float VBloomWeights[9];
+	float VBloomOffsets[9];
+
+	for (int i = 0; i < 9; i++)
+	{
+		VBloomOffsets[i] = (static_cast< float >(i) - 4.0f) * (1.0f / static_cast< float >(destDesc.Height));
+
+
+		float x = (static_cast< float >(i) - 4.0f) / 4.0f;
+
+		VBloomWeights[i] = 0.3f * ComputeGaussianValue(x, 0.0f, 0.2f);
+	}
+
+	m_pBloomEffect->SetFloatArray("VBloomWeights", VBloomWeights, 9);
+	m_pBloomEffect->SetFloatArray("VBloomOffsets", VBloomOffsets, 9);
+
+
+	float HBloomWeights[9];
+	float HBloomOffsets[9];
+
+	for (int i = 0; i < 9; i++)
+	{
+		HBloomOffsets[i] = (static_cast< float >(i) - 4.0f) * (1.0f / static_cast< float >(destDesc.Width));
+
+		float x = (static_cast< float >(i) - 4.0f) / 4.0f;
+
+		HBloomWeights[i] = 0.3f * ComputeGaussianValue(x, 0.0f, 0.2f);
+	}
+
+	m_pBloomEffect->SetFloatArray("HBloomWeights", HBloomWeights, 9);
+	m_pBloomEffect->SetFloatArray("HBloomOffsets", HBloomOffsets, 9);
+
+	m_pBloomEffect->SetTexture("TempRenderTargetTexture", m_pBloomRenderTarget);
+
+	UINT uiPasses = 0;
+	m_pBloomEffect->Begin(&uiPasses, 0);
+	for (UINT i = 0; i < uiPasses; ++i)
+	{
+		m_pBloomEffect->BeginPass(i);
+
+		GETDEVICE->SetTexture(0, m_pBloomRenderTarget);
+		GETDEVICE->SetFVF(ST_RHWT_VERTEX::FVF);
+		GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+			m_vecVertex.size() / 3,
+			&m_vecVertex[0],
+			sizeof(ST_RHWT_VERTEX));
+
+		m_pBloomEffect->EndPass();
+	}
+
+	m_pBloomEffect->End();
+
+
+
+	SAFE_RELEASE(pTempSurface);
+	SAFE_RELEASE(pHWBackBufferBloom);
+	SAFE_RELEASE(pHWDepthStencilBufferBloom);
+	
+
+
+
+
+
+	
 
 
 	if (m_bThread)
@@ -788,18 +1119,29 @@ void DarknessofPlanetMainScene::Render()
 			if (!m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
 				m_vecEnemy[i]->UpdateAndRender();
 		}
-		/*char str[2056];
-		RECT rc = RectMake(300, 300, 1000, 1000);
-		sprintf_s(str, "1 %.2f	%.2f	%.2f	2 %.2f	%.2f	%.2f",
-		m_vecEnemy[0]->GetPosition().x, m_vecEnemy[0]->GetPosition().y, m_vecEnemy[0]->GetPosition().z,
-		m_vecEnemy[1]->GetPosition().x, m_vecEnemy[1]->GetPosition().y, m_vecEnemy[1]->GetPosition().z);
-		m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0))*/
+		
+	
 	}
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+
+
 	m_pBoss->UpdateAndRender();
+
 	UIOBJECTMANAGER->Render();
+
+	m_pConsole->Render();
+
+	for (std::list<cObjectNode*>::iterator i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
+	{
+		cObjectNode* pNode = *i;
+		D3DXMATRIX matWorld;
+		pNode->GetWorldMatrix(&matWorld);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+
+		pNode->m_pModel->Render(GETDEVICE);
+	}
 
 }
 
@@ -1111,6 +1453,156 @@ float DarknessofPlanetMainScene::GetCallbackTime()
 	default:
 		break;
 	}
+}
+
+void DarknessofPlanetMainScene::AfterImage()
+{
+	//데큐 총용량 30개로제한 
+	if (m_vecAfterImageMuzzle.size() > 20) {
+
+		m_vecAfterImageMuzzle.pop_front();
+	}
+
+	if (m_vecAfterImageWeapon.size() > 20) {
+
+		m_vecAfterImageWeapon.pop_front();
+	}
+
+	//검광 색깔흰색지정
+	D3DCOLOR c = D3DCOLOR_XRGB(0, 0, 0);
+
+	//무기위치벡터에넣음
+	m_vecAfterImageMuzzle.push_back(m_pCharacter->getMuzzlePos());
+	m_vecAfterImageWeapon.push_back(m_pCharacter->getWeaponPos());
+
+
+	vector<ST_PC_VERTEX> vecMuzzlePos;
+	if (m_vecAfterImageMuzzle.size() >= 20) {
+		for (int i = 0; i < 19; ++i) {
+
+			D3DXVECTOR3 result;
+
+			float mull = (i + 1) / 20.f;
+			D3DXVec3CatmullRom(&result, &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i + 1], &m_vecAfterImageMuzzle[i + 1], mull);
+
+			vecMuzzlePos.push_back(ST_PC_VERTEX(result, c));
+		}
+		GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
+		GETDEVICE->DrawPrimitiveUP(
+			D3DPT_LINESTRIP,
+			vecMuzzlePos.size() - 1,
+			&vecMuzzlePos[0],
+			sizeof(ST_PC_VERTEX));
+	}
+}
+
+float DarknessofPlanetMainScene::ComputeGaussianValue(float x, float mean, float std_deviation)
+{
+	return (1.0f / sqrt(2.0f * D3DX_PI * std_deviation * std_deviation))
+		* expf((-((x - mean) * (x - mean))) / (2.0f * std_deviation * std_deviation));
+}
+
+LPD3DXEFFECT DarknessofPlanetMainScene::LoadEffect(const char * szFileName)
+{
+	LPD3DXEFFECT pEffect = NULL;
+
+	// 셰이더 로딩
+
+	LPD3DXBUFFER      pError = NULL;         //에러 버퍼 ( 셰이더를 컴파일할때 잘못 된 문법이나 오류정보를 리턴해주는 버퍼 )
+	DWORD            dwShaderFlag = 0;      //셰이더 플레그 0 
+
+#ifdef _DEBUG
+
+	dwShaderFlag = dwShaderFlag | D3DXSHADER_DEBUG;      //셰이더를 디버그모드로 컴파일하겠다 ( 디버그모드로 해야 잘못된 컴파일 오류가 날때 Error 버퍼에 오류정보가 들어간다 ) 
+#endif
+														 //fx 파일로 부터 셰이더 객체 생성
+	D3DXCreateEffectFromFile(
+
+		GETDEVICE,            // 디바이스
+		szFileName,               // 불러올 셰이더 코드 파일이름
+		NULL,                  // 셰이더를 컴파일할때 추가로 사용할 #define 정의 ( 일단 NULL )
+		NULL,                  // 셰이더를 컴파일할때 #include 지시문을 처리할때 사용할 인터페이스 플레그 ( 일단 NULL )
+		dwShaderFlag,            // 셰이더 컴파일 플레그
+		NULL,                  // 셰이더 매개변수를 공유할 메모리풀 ( 일단 NULL )
+		&pEffect,               // 로딩될 셰이더 Effect 포인터
+		&pError                  // 셰이더를 로딩하고 컴파일할때 문제가 생기면 해당 버퍼에 에러메시지가 들어간다 ( 성공적으로 로딩되면 NULL 이 참조된다 )
+	);
+
+	//셰이더 파일로딩에문재가 있다면..
+	if (pError != NULL || pEffect == NULL) {
+
+		//문제의 내용이 뭔지 문자열로 확인
+		int size = pError->GetBufferSize();
+		char* str = new char[size];
+
+		//str에 버퍼에있는 내용을 저장한다.
+		sprintf_s(str, size, (const char*)pError->GetBufferPointer());
+
+		OutputDebugString(str);
+		//오류내용을 출력했으니 오류버퍼 해제
+		SAFE_RELEASE(pError);
+		SAFE_DELETE_ARRAY(str);
+
+		return NULL;
+	}
+
+	return pEffect;
+}
+
+LPD3DXEFFECT DarknessofPlanetMainScene::LoadEffectHpp(const char * szFileName)
+{
+	LPD3DXEFFECT pEffect = NULL;
+
+	D3DXMACRO mac[2] =
+	{
+		{ "MATRIX_PALETTE_SIZE_DEFAULT", "35" },
+		{ NULL,                          NULL }
+	};
+
+	D3DCAPS9 caps;
+	D3DXMACRO *pmac = NULL;
+	GETDEVICE->GetDeviceCaps(&caps);
+	if (caps.VertexShaderVersion > D3DVS_VERSION(1, 1))
+		pmac = mac;
+
+	DWORD dwShaderFlags = 0;
+
+#if defined( DEBUG ) || defined( _DEBUG )
+	// Set the D3DXSHADER_DEBUG flag to embed debug information in the shaders.
+	// Setting this flag improves the shader debugging experience, but still allows 
+	// the shaders to be optimized and to run exactly the way they will run in 
+	// the release configuration of this program.
+	dwShaderFlags |= D3DXSHADER_DEBUG;
+#endif
+
+#ifdef DEBUG_VS
+	dwShaderFlags |= D3DXSHADER_FORCE_VS_SOFTWARE_NOOPT;
+#endif
+#ifdef DEBUG_PS
+	dwShaderFlags |= D3DXSHADER_FORCE_PS_SOFTWARE_NOOPT;
+#endif
+
+	ID3DXBuffer* pBuffer = NULL;
+	if (FAILED(D3DXCreateEffectFromFile(GETDEVICE,
+		szFileName,
+		pmac,
+		NULL,
+		dwShaderFlags,
+		NULL,
+		&pEffect,
+		&pBuffer)))
+	{
+		// if creation fails, and debug information has been returned, output debug info
+		if (pBuffer)
+		{
+			OutputDebugStringA((char*)pBuffer->GetBufferPointer());
+			SAFE_RELEASE(pBuffer);
+		}
+
+		return NULL;
+	}
+
+	return pEffect;
 }
 
 
