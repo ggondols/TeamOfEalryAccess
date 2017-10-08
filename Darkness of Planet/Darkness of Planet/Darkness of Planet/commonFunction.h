@@ -60,6 +60,8 @@ namespace D3D {
 	float GetDistanceVec3(D3DXVECTOR3 a, D3DXVECTOR3 b);
 
 	float Lerp(float a, float b, float t);
+
+	D3DXQUATERNION GetAngletoQuaternion(float x, float y, float z, float angle);
 }
 
 //RectMakeCenter

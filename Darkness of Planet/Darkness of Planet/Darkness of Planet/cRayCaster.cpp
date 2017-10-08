@@ -33,6 +33,10 @@ D3DXVECTOR3 cRayCaster::GetMousePT(int x, int y, vector<D3DXVECTOR3>& vec)
 	//2---3
 	//012 - 213;
 	//벡터 4개
+	if (vec.empty())
+	{
+		return D3DXVECTOR3(0, 0, 0);
+	}
 
 	D3D::Ray ray = CalcuRay(x, y);
 
@@ -43,7 +47,6 @@ D3DXVECTOR3 cRayCaster::GetMousePT(int x, int y, vector<D3DXVECTOR3>& vec)
 		if (D3DXIntersectTri(&vec[i], &vec[i + 1], &vec[i + 2],
 			&ray._origin, &ray._direction, NULL, NULL, &dist))
 		{
-			printf("\n 거리 %f 대상 i %d \n ", dist, i);
 			break;
 		}
 
@@ -74,7 +77,7 @@ D3DXVECTOR3 cRayCaster::GetMousePtFromNode(int x, int y, vector<D3DXVECTOR3>& ve
 	{
 		return ray._origin + ray._direction * dist;
 	}
-	else if (D3DXIntersectTri(&vec[2], &vec[1], &vec[3],
+	else if (D3DXIntersectTri(&vec[3], &vec[4], &vec[5],
 		&ray._origin, &ray._direction, NULL, NULL, &dist))
 	{
 		return ray._origin + ray._direction * dist;

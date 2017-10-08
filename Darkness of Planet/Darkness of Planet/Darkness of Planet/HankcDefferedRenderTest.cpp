@@ -55,6 +55,7 @@ HRESULT HankcDefferedRenderTest::Setup()
 	// obj 가 가진 model 클래스 안에 메쉬 파일 포인터를 저장
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
 	m_pMeshSpray->MeshLoadFromScript("Data/Script/ObjectList.txt");
+	m_pMeshSpray->SetTargetNode(NODEMANAGER->GetPickingNode()->GetPosition());
 
 	for (auto i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
@@ -97,15 +98,11 @@ void HankcDefferedRenderTest::Update()
 
 	m_pConsole->Update();
 
-	
-	if (m_mna != 0)
-	{
-		int a = 0;
-	}
-
 	//m_pCharacter->Update();
 
 	UIOBJECTMANAGER->Update();
+
+	m_pMeshSpray->Update();
 }
 
 void HankcDefferedRenderTest::Render()

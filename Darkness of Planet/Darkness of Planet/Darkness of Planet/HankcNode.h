@@ -121,6 +121,7 @@ public:
 	~HankcNode();
 
 	virtual INTERFACETYPE GetInterType(void) {return E_INTER_END;};
+	virtual vector<D3DXVECTOR3>& GetPosition(void) { return m_vPosList->m_vecVertex; }
 };
 
 

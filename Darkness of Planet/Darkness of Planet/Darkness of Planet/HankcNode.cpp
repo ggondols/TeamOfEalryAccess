@@ -51,9 +51,9 @@ nPositionInfo::nPositionInfo(int fx,int fy, int fz, int size)
 	// 012 - 213
 	// imap 역수로 전환 해야함
 	nodeVertex.push_back(D3DXVECTOR3(0, 0, 0));
-	nodeVertex.push_back(D3DXVECTOR3(1 * size, 0, 0));
-	nodeVertex.push_back(D3DXVECTOR3(0, 0, -1 * size));
-	nodeVertex.push_back(D3DXVECTOR3(1, 0, -1 * size));
+	nodeVertex.push_back(D3DXVECTOR3(size + fx * size, 0, 0));
+	nodeVertex.push_back(D3DXVECTOR3(0, 0, -size + -fz * size));
+	nodeVertex.push_back(D3DXVECTOR3(size + fx * size, 0, -size + -fz * size));
 
 	m_vPos.x = fx * size;
 	m_vPos.y = 0;

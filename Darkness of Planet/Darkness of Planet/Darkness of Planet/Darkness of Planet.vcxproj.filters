@@ -190,6 +190,12 @@
     <Filter Include="#3D Framework\Manager\EffectManager\FontManager">
       <UniqueIdentifier>{f2eed02a-4814-4af3-8c18-6976e7d59862}</UniqueIdentifier>
     </Filter>
+    <Filter Include="테스트용 폴더\Hank 디퍼드 렌더링\클래스\ObjectTool">
+      <UniqueIdentifier>{41da0626-7dcc-4e13-9d13-a1ae6fe395fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#3D Framework\Utility">
+      <UniqueIdentifier>{7f9f5694-fa36-4ca5-94f8-3ff7278daf07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -507,9 +513,6 @@
     <ClInclude Include="cEffectManager.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
-    <ClInclude Include="cModel.h">
-      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
-    </ClInclude>
     <ClInclude Include="cModelManager.h">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
@@ -534,17 +537,11 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>테스트용 폴더</Filter>
     </ClInclude>
-    <ClInclude Include="cConsole.h">
-      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
-    </ClInclude>
     <ClInclude Include="TeicIceblizzard.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
     <ClInclude Include="TeicCharacterBlood.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
-    </ClInclude>
-    <ClInclude Include="cSprayMesh.h">
-      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClInclude>
     <ClInclude Include="TeicMonsterBlood.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
@@ -553,7 +550,16 @@
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
     <ClInclude Include="cRayCaster.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClInclude>
+    <ClInclude Include="cSprayMesh.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\ObjectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="cModel.h">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\ObjectTool</Filter>
+    </ClInclude>
+    <ClInclude Include="cConsole.h">
+      <Filter>#3D Framework\Utility</Filter>
     </ClInclude>
     <ClInclude Include="TeicFire.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
@@ -860,9 +866,6 @@
     <ClCompile Include="cEffectManager.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
-    <ClCompile Include="cModel.cpp">
-      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
-    </ClCompile>
     <ClCompile Include="cModelManager.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
     </ClCompile>
@@ -890,23 +893,26 @@
     <ClCompile Include="HankcDefferedRenderTest.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링</Filter>
     </ClCompile>
-    <ClCompile Include="cConsole.cpp">
-      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
-    </ClCompile>
     <ClCompile Include="TeicIceblizzard.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
     <ClCompile Include="TeicCharacterBlood.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
-    <ClCompile Include="cSprayMesh.cpp">
-      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
-    </ClCompile>
     <ClCompile Include="TeicMonsterBlood.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
     <ClCompile Include="cRayCaster.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="cSprayMesh.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\ObjectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="cModel.cpp">
+      <Filter>테스트용 폴더\Hank 디퍼드 렌더링\클래스\ObjectTool</Filter>
+    </ClCompile>
+    <ClCompile Include="cConsole.cpp">
+      <Filter>#3D Framework\Utility</Filter>
     </ClCompile>
     <ClCompile Include="TeicMonsterChill.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
