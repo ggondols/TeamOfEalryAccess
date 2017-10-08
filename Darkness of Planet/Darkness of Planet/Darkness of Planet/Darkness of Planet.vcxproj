@@ -219,6 +219,7 @@
     <ClInclude Include="HankRenderer.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="LDYAfterMarks.h" />
     <ClInclude Include="LDYCamera.h" />
     <ClInclude Include="LDYCharacter.h" />
     <ClInclude Include="LDYcJustTestScene.h" />
@@ -339,6 +340,7 @@
     <ClCompile Include="HankRenderer.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="LDYAfterMarks.cpp" />
     <ClCompile Include="LDYCamera.cpp" />
     <ClCompile Include="LDYCharacter.cpp" />
     <ClCompile Include="LDYcJustTestScene.cpp" />

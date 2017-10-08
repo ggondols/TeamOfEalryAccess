@@ -561,6 +561,9 @@
     <ClInclude Include="TeicLaser.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
+    <ClInclude Include="LDYAfterMarks.h">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -909,6 +912,9 @@
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
     <ClCompile Include="TeicLaser.cpp">
+      <Filter>#3D Framework\Manager\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LDYAfterMarks.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
   </ItemGroup>
