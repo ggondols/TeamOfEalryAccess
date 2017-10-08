@@ -6,6 +6,8 @@
 #include "TeicCharacterBlood.h"
 #include "TeicMonsterBlood.h"
 #include "TeicMonsterChill.h"
+#include "TeicFire.h"
+#include "TeicEffect.h"
 void TeicEffectManager::Setup()
 {
 }
@@ -44,7 +46,9 @@ void TeicEffectManager::Render()
 {
 	iterTotalEffect vIter;
 	iterEffect mIter;
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	//이펙트를 넣어둔 벡터 검사
 	for (vIter = _vTotalEffects.begin(); vIter != _vTotalEffects.end(); ++vIter)
 	{
@@ -58,6 +62,9 @@ void TeicEffectManager::Render()
 			}
 		}
 	}
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 
 void TeicEffectManager::Update()
@@ -175,7 +182,36 @@ void TeicEffectManager::AddEffect(char * Key, EffectType type, D3DXVECTOR3 posit
 		//키값과 버퍼를 담은 맵을 다시 _vTotalEffects에 넣어준다
 		_vTotalEffects.push_back(mArrEffect);
 	}
+	else if (type == Flame)
+	{
+		//이펙트 벡터로 푸쉬.....
+		for (int i = 0; i < buffer; i++)
+		{
+			vEffectBuffer.push_back(new TeicFire);
+			vEffectBuffer[i]->Setup(position, character);
+		}
 
+		//이펙트 버퍼를 맵에 담는다
+		mArrEffect.insert(make_pair(Key, vEffectBuffer));
+
+		//키값과 버퍼를 담은 맵을 다시 _vTotalEffects에 넣어준다
+		_vTotalEffects.push_back(mArrEffect);
+	}
+	else if (type == sample)
+	{
+		//이펙트 벡터로 푸쉬.....
+		for (int i = 0; i < buffer; i++)
+		{
+			vEffectBuffer.push_back(new TeicEffect);
+			vEffectBuffer[i]->Setup(position, character);
+		}
+
+		//이펙트 버퍼를 맵에 담는다
+		mArrEffect.insert(make_pair(Key, vEffectBuffer));
+
+		//키값과 버퍼를 담은 맵을 다시 _vTotalEffects에 넣어준다
+		_vTotalEffects.push_back(mArrEffect);
+	}
 	
 }
 

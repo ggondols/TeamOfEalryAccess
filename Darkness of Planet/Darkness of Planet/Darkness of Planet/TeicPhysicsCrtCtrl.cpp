@@ -99,7 +99,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
 			if(!m_bAttacking)
-			m_fAcceleration -= 0.001f*0.5;
+				m_fSpeed = -0.1*0.5;
 		}
 		else
 		{

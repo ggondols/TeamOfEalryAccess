@@ -69,9 +69,10 @@ void TeicShoot::Shoot(WeaponType type)
 					case Wp_Melee:
 						break;
 					case Wp_AA12:
-						position= GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
-						SKILLEFFECTMANAGER->play("MBlood", position, D3DXVECTOR3(0, 0, 0));
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AA12");
+						
+
+
+						
 						break;
 					case Wp_AR6:
 						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
@@ -81,6 +82,9 @@ void TeicShoot::Shoot(WeaponType type)
 						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fSlowTime = TIMEMANAGER->getWorldTime();
 						break;
 					case Wp_M4:
+						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+						SKILLEFFECTMANAGER->play("MBlood", position, D3DXVECTOR3(0, 0, 0));
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("M4");
 						break;
 					case Wp_MP5:
 						break;
