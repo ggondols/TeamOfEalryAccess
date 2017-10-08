@@ -11,7 +11,8 @@ enum EffectType
 	Monseter_Blood,
 	Monster_Chill,
 	Flame,
-	sample
+	sample,
+	Laser
 };
 class TeicEffectManager:public cSingletonBase<TeicEffectManager>
 {

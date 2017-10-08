@@ -8,6 +8,7 @@
 #include "TeicMonsterChill.h"
 #include "TeicFire.h"
 #include "TeicEffect.h"
+#include "TeicLaser.h"
 void TeicEffectManager::Setup()
 {
 }
@@ -212,6 +213,22 @@ void TeicEffectManager::AddEffect(char * Key, EffectType type, D3DXVECTOR3 posit
 		//키값과 버퍼를 담은 맵을 다시 _vTotalEffects에 넣어준다
 		_vTotalEffects.push_back(mArrEffect);
 	}
+	else if (type == Laser)
+	{
+		//이펙트 벡터로 푸쉬.....
+		for (int i = 0; i < buffer; i++)
+		{
+			vEffectBuffer.push_back(new TeicLaser);
+			vEffectBuffer[i]->Setup(position, character);
+		}
+
+		//이펙트 버퍼를 맵에 담는다
+		mArrEffect.insert(make_pair(Key, vEffectBuffer));
+
+		//키값과 버퍼를 담은 맵을 다시 _vTotalEffects에 넣어준다
+		_vTotalEffects.push_back(mArrEffect);
+	}
+	
 	
 }
 

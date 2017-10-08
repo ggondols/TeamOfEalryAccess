@@ -395,6 +395,8 @@ void TeicJustTestScene::Update()
 					m_fTime4 = TIMEMANAGER->getWorldTime();
 					if (m_pCharacter->getWeaponType() == WP_FireGun)
 					{
+						
+
 						m_pShoot->Shoot(m_pCharacter->getWeaponType());
 						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
 						target.x += RND->getFromFloatTo(-2, 2);
