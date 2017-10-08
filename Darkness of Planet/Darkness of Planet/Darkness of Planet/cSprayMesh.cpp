@@ -70,45 +70,62 @@ void cSprayMesh::Update()
 			m_scalling.z -= 0.09;
 		}
 	}
-	else if (KEYMANAGER->isOnceKeyDown('P'))
+	else if (KEYMANAGER->isOnceKeyDown('P')) //print
 	{
   		if (m_pSelectModel) {
 			sSIMPLEOBJ obj(m_position, m_orientation, m_scalling, m_pSelectModel);
 			m_ObjSimpleList.push_back(obj);
 		}
 	}
-	else if (KEYMANAGER->isOnceKeyDown('O'))
+	else if (KEYMANAGER->isOnceKeyDown('O')) // save
 	{
 		if (!m_ObjSimpleList.empty())
 		{
 			SaveObjList();
 		}
 	}
-
-	if (KEYMANAGER->isStayKeyDown('U'))
-	{
-		m_fAngle -= 0.1;
-	}
-	else if (KEYMANAGER->isStayKeyDown('I'))
-	{
-		m_fAngle += 0.1;
-	}
-
-	if (KEYMANAGER->isStayKeyDown('J'))
-	{
-		m_fCustomHigh -= 0.1;
-	}
-	else if (KEYMANAGER->isStayKeyDown('K'))
-	{
-		m_fCustomHigh += 0.1;
-	}
-	
-	if (KEYMANAGER->isOnceKeyDown('L'))
+	if (KEYMANAGER->isOnceKeyDown('L')) //undo remove
 	{
 		if (!m_ObjSimpleList.empty())
 			m_ObjSimpleList.pop_back();
 	}
 
+
+	if (KEYMANAGER->isStayKeyDown('I')) //roatate Y
+	{
+		m_fAngleY -= 0.1;
+	}
+	else if (KEYMANAGER->isStayKeyDown('K')) //rotate Y
+	{
+		m_fAngleY += 0.1;
+	}
+	if (KEYMANAGER->isStayKeyDown('U')) //roatate Z
+	{
+		m_fAngleZ -= 0.1;
+	}
+	else if (KEYMANAGER->isStayKeyDown('J')) //roatate Z
+	{
+		m_fAngleZ += 0.1;
+	}
+	if (KEYMANAGER->isStayKeyDown('Y')) //roatate X
+	{
+		m_fAngleX -= 0.1;
+	}
+	else if (KEYMANAGER->isStayKeyDown('H')) //roatate X
+	{
+		m_fAngleX += 0.1;
+	}
+
+	if (KEYMANAGER->isStayKeyDown('T'))
+	{
+		m_fCustomHigh -= 0.1;
+	}
+	else if (KEYMANAGER->isStayKeyDown('G'))
+	{
+		m_fCustomHigh += 0.1;
+	}
+	
+	
 }
 
 void cSprayMesh::SaveObjList(void)
@@ -181,7 +198,7 @@ void cSprayMesh::Render()
 
 	//ÄõÅÍ´Ï¾ð È¸Àü °è»ê
 	//m_orientation = D3D::GetAngletoQuaternion(m_position.x, m_position.y, m_position.z, m_fAngle);
-	D3DXQuaternionRotationYawPitchRoll(&m_orientation, m_fAngle, 0, 0);
+	D3DXQuaternionRotationYawPitchRoll(&m_orientation, m_fAngleX, m_fAngleY, m_fAngleZ);
 
 	//ÀÌ°Å ¾²¸é Çï¸®ÄßÅÍµÊ
 	/*D3DXQUATERNION rotQuat, rotResult;
@@ -225,11 +242,11 @@ cSprayMesh::cSprayMesh()
 	, m_orientation(0, 0, 0, 1)
 	, m_scalling(0.01, 0.01, 0.01)
 	, m_vecNode(vector<D3DXVECTOR3>())
-	, m_fAngle(0)
+	, m_fAngleX(0)
 	, m_fCustomHigh(0)
 {
 	D3DXMatrixIdentity(&m_matScale);
-	D3D::GetAngletoQuaternion(m_position.x, m_position.y, m_position.z, m_fAngle);
+	D3D::GetAngletoQuaternion(m_position.x, m_position.y, m_position.z, m_fAngleX);
 }
 
 

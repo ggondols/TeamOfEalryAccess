@@ -598,3 +598,5 @@ __pycache__/
 *.odx.cs
 
 *.xsd.cs
+/Darkness of Planet/Darkness of Planet/Darkness of Planet/Data/Script/LastSave/LastestSave.txt
+/Darkness of Planet/Darkness of Planet/Darkness of Planet/Data/Script/LastSave/ObjectList.txt

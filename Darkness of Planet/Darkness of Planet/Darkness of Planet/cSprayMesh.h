@@ -48,7 +48,9 @@ public:
 	D3DXQUATERNION	m_orientation;
 	D3DXVECTOR3		m_scalling;
 	D3DXMATRIX		m_matScale;
-	float			m_fAngle;
+	float			m_fAngleX;
+	float			m_fAngleY;
+	float			m_fAngleZ;
 	float			m_fCustomHigh;
 
 	LPD3DXMESH				m_pSelectMesh;

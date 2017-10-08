@@ -18,7 +18,7 @@ TeicEnemy::TeicEnemy()
 	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.0f;
 	m_fSpeed = 5.0f;
-	m_iGroup = Field;
+	m_eGroup = Field;
 }
 
 

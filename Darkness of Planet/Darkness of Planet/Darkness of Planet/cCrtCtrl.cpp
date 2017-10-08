@@ -92,21 +92,21 @@ void cCrtCtrl::UpdateByDir(D3DXVECTOR3 &pDir)
 	}
 	if (KEYMANAGER->isStayKeyDown('A'))
 	{
-		D3DXVECTOR3 lDir, front;
-		D3DXVECTOR3 up;
-		D3DXMATRIX matR;
-		float angle = D3DXToDegree(45);
-		D3DXQUATERNION qr;
-		//D3DXQuaternionRotationYawPitchRoll(&qr, 0, angle, 0);
-		
-		//D3DXMatrixRotationQuaternion(&matR, &qr);
+		//D3DXVECTOR3 lDir, front;
+		//D3DXVECTOR3 up;
+		//D3DXMATRIX matR;
+		//float angle = D3DXToDegree(45);
+		//D3DXQUATERNION qr;
+		////D3DXQuaternionRotationYawPitchRoll(&qr, 0, angle, 0);
+		//
+		////D3DXMatrixRotationQuaternion(&matR, &qr);
 
-		D3DXVec3TransformNormal(&lDir, &pDir, &matR);
+		//D3DXVec3TransformNormal(&lDir, &pDir, &matR);
 
 	
-		//D3DXVec3Cross(&lDir, &pDir, &up);
-		//D3DXVec3Normalize(&lDir, &lDir);
-		m_vPos = m_vPos - lDir * (m_fSpeed + m_fRun);
+		////D3DXVec3Cross(&lDir, &pDir, &up);
+		////D3DXVec3Normalize(&lDir, &lDir);
+		//m_vPos = m_vPos - lDir * (m_fSpeed + m_fRun);
 	}
 	else if (KEYMANAGER->isStayKeyDown('D'))
 	{

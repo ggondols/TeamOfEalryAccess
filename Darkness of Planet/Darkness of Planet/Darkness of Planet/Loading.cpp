@@ -145,7 +145,6 @@ void Loading::LoadTestResource(string keyName, int width, int height)
 
 void Loading::LoadHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD dwBytesPerPixel /*=1*/)
 {
-	
 	LoadItem* item = new LoadItem;
 	item->InitForHeightMap(keyName, szFolder, szFile, szTexture, dwBytesPerPixel);
 	m_vecLoadItems.push_back(item);
