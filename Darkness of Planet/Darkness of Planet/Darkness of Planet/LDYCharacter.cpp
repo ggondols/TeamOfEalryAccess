@@ -349,7 +349,8 @@ void LDYCharacter::UpdateAndRender()
 			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->UpdateAndRender();
@@ -433,7 +434,8 @@ void LDYCharacter::UpdateAndRender()
 			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->UpdateAndRender();
@@ -516,7 +518,8 @@ void LDYCharacter::UpdateAndRender()
 			m_pHeroHead[m_iHeadLv]->UpdateAndRender();
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->UpdateAndRender();
@@ -634,7 +637,8 @@ void LDYCharacter::MeshRender(LPD3DXEFFECT effect)
 			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_SMG[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->ShaderMeshRender(effect);
@@ -718,7 +722,8 @@ void LDYCharacter::MeshRender(LPD3DXEFFECT effect)
 			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_Base[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->ShaderMeshRender(effect);
@@ -801,7 +806,8 @@ void LDYCharacter::MeshRender(LPD3DXEFFECT effect)
 			m_pHeroHead[m_iHeadLv]->ShaderMeshRender(effect);
 
 			D3DXMATRIX matT;
-			D3DXMatrixRotationY(&matT, D3DX_PI);
+			//D3DXMatrixRotationY(&matT, D3DX_PI);
+			D3DXMatrixIdentity(&matT);
 			matWeapon *= m_pHeroBody_IdleBreak[m_iBodyLv]->m_matWeapon;
 			m_pWeapon_FireGun->m_matWeapon = matT*matWeapon;
 			m_pWeapon_FireGun->ShaderMeshRender(effect);

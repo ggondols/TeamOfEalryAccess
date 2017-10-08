@@ -35,6 +35,8 @@ private:
 	vector<POINT>			m_vecPoint;
 	vector<POINT>			m_vecDeletePoint;
 	vector<HankcNode*>		m_vecTargetNode;
+
+
 public:
 	void Setup(HankcGrid* node, LDYCamera* camera, LDYCharacter* character);
 	void Shoot(WeaponType type);

@@ -147,7 +147,7 @@ void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 		CalRotation(CharacterPos);
 	}
 	
-	SKILLEFFECTMANAGER->Update();
+	
 	if (KEYMANAGER->isOnceKeyDown('L'))
 	{
 		
@@ -299,6 +299,9 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 	SKILLEFFECTMANAGER->AddEffect("Blood", Character_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 10);
 	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	SKILLEFFECTMANAGER->AddEffect("MChill", Monster_Chill, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
+	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
+	SKILLEFFECTMANAGER->AddEffect("sample", sample, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
+	SKILLEFFECTMANAGER->play("sample", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
 	m_pSkillCubeEffect = LoadEffect("sprites/SkillCircle.fx");
 }
 
@@ -379,6 +382,7 @@ void TeicBoss::UpdateAndRender()
 
 	}
 	//MakeBoundingBox();
+	SKILLEFFECTMANAGER->Update();
 	SKILLEFFECTMANAGER->Render();
 	ShowSkillCube();
 	
