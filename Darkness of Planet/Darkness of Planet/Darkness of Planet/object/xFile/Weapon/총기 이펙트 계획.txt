@@ -1,0 +1,20 @@
+	case Wp_Melee:
+		미정
+	case Wp_AA12:
+		레이저 관통 형 총 
+		공속 느리고 데미지 쎄다
+		공속 하
+	case Wp_AR6:
+		얼음 총(적 이동 슬로우)
+		공속 중
+	case Wp_M4:
+		기본 총에 다가 대미지 업	
+		공속 상
+	case Wp_MP5:
+		기본 총
+		공속 중
+	case WP_FireGun:
+		화염 방사기 형식
+		공속 최상
+		대미지 하
+		멀티 공격
