@@ -14,6 +14,7 @@
 #include "LDYSkinnedMesh.h"
 
 
+
 static CRITICAL_SECTION cs;
 
 
@@ -278,6 +279,8 @@ HRESULT LDYcJustTestScene::Setup()
 
 	m_vecVertex[5].p = D3DXVECTOR4(0, BloomRc.bottom, 0, 1);
 	m_vecVertex[5].t = D3DXVECTOR2(0, 1);
+
+
 
 
 	/////////////еб©╣
