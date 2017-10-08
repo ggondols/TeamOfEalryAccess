@@ -100,13 +100,7 @@ Material Mat_SciFi_Fighter_AK5 {
  0.041400;0.041400;0.041400;;
  0.000000;0.000000;0.000000;;
 
- TextureFilename {
-  "SciFi_Fighter_AK5-diffuse.jpg";
- }
 
- TextureFilename {
-  "SciFi_Fighter_AK5-diffuse.jpg";
- }
 
  TextureFilename {
   "SciFi_Fighter_AK5-Lights.jpg";
@@ -114,6 +108,14 @@ Material Mat_SciFi_Fighter_AK5 {
 
  TextureFilename {
   "SciFi_Fighter_AK5-Normal_Map.jpg";
+ }
+
+  TextureFilename {
+  "SciFi_Fighter_AK5-diffuse.jpg";
+ }
+
+ TextureFilename {
+  "SciFi_Fighter_AK5-diffuse.jpg";
  }
 }
 

@@ -100,21 +100,24 @@ Material SF_Corvette-F3 {
  0.126000;0.126000;0.126000;;
  0.000000;0.000000;0.000000;;
 
- TextureFilename {
-  "object/xFile/SpaceShip/SF_Corvette-F3_diffuse.jpg";
+  TextureFilename {
+  "SF_Corvette-F3_specular.jpg";
  }
 
  TextureFilename {
-  "object/xFile/SpaceShip/SF_Corvette-F3_specular.jpg";
+  "SF_Corvette-F3_glow.jpg";
  }
 
  TextureFilename {
-  "object/xFile/SpaceShip/SF_Corvette-F3_glow.jpg";
+  "SF_Corvette-F3_bump.jpg";
  }
 
- TextureFilename {
-  "object/xFile/SpaceShip/SF_Corvette-F3_bump.jpg";
+
+  TextureFilename {
+  "SF_Corvette-F3_diffuse.jpg";
  }
+
+
 }
 
 Frame SF_Imperial-Corvette-F3 {
