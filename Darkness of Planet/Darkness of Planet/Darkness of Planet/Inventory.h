@@ -47,6 +47,7 @@ private:
 
 	void ChangeInventoryItem(int selectItem, int targetItem);
 	void CombineInventoryItem(int selectItem, int targetItem, string combineName);
+	bool UpgradeEquipmentItem(int targetItem, ITEM_TYPE type);
 	void CheckCombineItem(string selectName, string targetName, int selectItem, int targetItem);
 	void DeleteInventoryItem(int index);
 
@@ -55,7 +56,7 @@ public:
 	~Inventory();
 
 	void Setup();
-	void Update(LDYCamera* chamera, LDYCharacter* character);
+	void Update(LDYCamera* camera, LDYCharacter* character);
 	void Render();
 
 	void AddItem(string itemName, ITEM_TYPE type, int count = 1);
