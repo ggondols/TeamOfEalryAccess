@@ -516,16 +516,43 @@ void TeicBoss::CalRotation(D3DXVECTOR3 position)
 	float targetangle = acosf(D3DXVec3Dot(&base, &vDirection));
 	if (Cross.y < 0) targetangle = D3DX_PI * 2 - targetangle;
 
+
+
 	if (targetangle > m_fAngle)
 	{
-		m_fAngle += 0.05;
-		if (m_fAngle > targetangle) m_fAngle = targetangle;
+		if (targetangle - m_fAngle > D3DX_PI)
+		{
+			m_fAngle -= 0.05;
+			if (m_fAngle < 0)
+			{
+				m_fAngle = D3DX_PI * 2 - m_fAngle;
+			}
+		}
+		else
+		{
+			m_fAngle += 0.05;
+			if (m_fAngle > targetangle) m_fAngle = targetangle;
+		}
+
 	}
 	else
 	{
-		m_fAngle -= 0.05;
-		if (m_fAngle < targetangle) m_fAngle = targetangle;
+		if (m_fAngle - targetangle > D3DX_PI)
+		{
+			m_fAngle += 0.05;
+			if (m_fAngle >D3DX_PI * 2)
+			{
+				m_fAngle = m_fAngle - D3DX_PI * 2;
+			}
+		}
+		else
+		{
+			m_fAngle -= 0.05;
+			if (m_fAngle < targetangle) m_fAngle = targetangle;
+		}
 	}
+
+
 
 
 

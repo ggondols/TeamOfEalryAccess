@@ -77,17 +77,43 @@ void TeicCollisionMove::CalRotation()
 	D3DXVECTOR3 Cross;
 	D3DXVec3Cross(&Cross,&base, &vDirection);
 	float targetangle =acosf( D3DXVec3Dot(&base, &vDirection));
+
 	if (Cross.y < 0) targetangle = D3DX_PI*2 - targetangle;
+
+	
 
 	if (targetangle > m_fRotationAngle)
 	{
-		m_fRotationAngle += 0.05;
-		if (m_fRotationAngle > targetangle) m_fRotationAngle = targetangle;
+		if (targetangle - m_fRotationAngle > D3DX_PI)
+		{
+			m_fRotationAngle -= 0.05;
+			if (m_fRotationAngle < 0)
+			{
+				m_fRotationAngle = D3DX_PI * 2 - m_fRotationAngle;
+			}
+		}
+		else
+		{
+			m_fRotationAngle += 0.05;
+			if (m_fRotationAngle > targetangle) m_fRotationAngle = targetangle;
+		}
+		
 	}
 	else
 	{
-		m_fRotationAngle -= 0.05;
-		if (m_fRotationAngle < targetangle) m_fRotationAngle = targetangle;
+		if (m_fRotationAngle - targetangle > D3DX_PI)
+		{
+			m_fRotationAngle += 0.05;
+			if (m_fRotationAngle >D3DX_PI*2 )
+			{
+				m_fRotationAngle = m_fRotationAngle -D3DX_PI * 2  ;
+			}
+		}
+		else
+		{
+			m_fRotationAngle -= 0.05;
+			if (m_fRotationAngle < targetangle) m_fRotationAngle = targetangle;
+		}
 	}
 	
 	
