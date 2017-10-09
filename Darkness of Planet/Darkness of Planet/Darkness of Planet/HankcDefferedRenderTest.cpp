@@ -4,6 +4,8 @@
 #include "TeicPhysicsCrtCtrl.h"
 #include "cHeightMap.h"
 #include "cCrtCtrl.h"
+#include <fstream>
+#include <sstream>
 
 
 HankcDefferedRenderTest::HankcDefferedRenderTest()
@@ -43,6 +45,35 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
 	m_pNode = NODEMANAGER->GetNode();
 	//여기부터
+	
+	string  buffer, token;
+	string scriptPath = "Data/Script/SoundList.txt";
+	ifstream file(scriptPath);
+
+	if(file.good())
+		while (getline(file, buffer))
+		{
+			istringstream iss(buffer);
+
+			iss >> token;
+
+			if (token == "BGM")
+			{
+				string soundKey, soundName, soundPath;
+				float bgm, loop;
+
+				SOUNDMANAGER->addSound(soundKey, soundPath, soundName, false, false);
+			}
+
+
+			
+
+		}
+	
+	/*SOUNDMANAGER->addSound(soundKey, soundName, false, false);
+	SOUNDMANAGER->GetSoundNamebyTrack(0);*/
+
+	//for(int i = 0; i < )
 
 
 	m_pCamera->Setup(m_DummyCtrl->GetPosition());
@@ -101,6 +132,21 @@ void HankcDefferedRenderTest::Update()
 	UIOBJECTMANAGER->Update();
 
 	m_pMeshSpray->Update();
+
+
+
+	if (KEYMANAGER->isOnceKeyDown('B'))
+	{
+
+	}
+	else if (KEYMANAGER->isStayKeyDown('N'))
+	{
+
+	}
+	else if (KEYMANAGER->isStayKeyDown('M'))
+	{
+
+	}
 }
 
 void HankcDefferedRenderTest::Render()

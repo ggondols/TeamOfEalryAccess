@@ -125,7 +125,6 @@ void cSprayMesh::Update()
 		m_fCustomHigh += 0.1;
 	}
 	
-	
 }
 
 void cSprayMesh::SaveObjList(void)
@@ -169,7 +168,7 @@ void cSprayMesh::SaveObjList(void)
 
 	for each(auto p in buffer)
 	{
-		openFile << p.first << endl;
+		openFile << p.first << "\t"<< endl;
 		for (int i = 0; i < p.second.size(); i++)
 		{
 			openFile << p.second[i] << endl;

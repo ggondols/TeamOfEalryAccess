@@ -41,7 +41,8 @@ private:
 	int						m_iBodyUpgrade;
 
 	cSkyDome*				m_pSkyDome;
-	list<FieldItem*>		m_listItem;
+	//list<FieldItem*>		m_listItem;
+	vector<FieldItem*>		m_vecItem;
 	cConsole*				m_pConsole;
 
 public:

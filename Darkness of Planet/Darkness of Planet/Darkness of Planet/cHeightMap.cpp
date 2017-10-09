@@ -263,11 +263,11 @@ bool cHeightMap::GetHeight(IN float x, OUT float& y, IN float z)
 	if (x < 0 || z > 0 || x > m_nTile*2 || z < -m_nTile*2)
 		return false;
 
-	if (x > m_nTile)
+	if (x >= m_nTile)
 	{
 		x -= m_nTile;
 	}
-	if (z < -m_nTile)
+	if (z <= -m_nTile)
 	{
 		z += m_nTile;
 	}
@@ -610,7 +610,7 @@ void cHeightMap::OnlyMeshRender(int num)
 {
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
-	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+	//GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 
 	switch (num)
 	{

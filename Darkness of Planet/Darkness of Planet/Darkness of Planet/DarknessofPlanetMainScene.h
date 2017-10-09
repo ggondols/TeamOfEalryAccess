@@ -29,7 +29,7 @@
 
 class iMap;
 
-class cUIObject;
+class FieldItem;
 class cSkyDome;
 class cSkyCloud;
 class Inventory;
@@ -61,6 +61,7 @@ private:
 
 	// 인벤토리 추가
 	Inventory*				m_pInventory;
+	vector<FieldItem*>		m_vecItem;
 
 private:
 	//Map Object Control

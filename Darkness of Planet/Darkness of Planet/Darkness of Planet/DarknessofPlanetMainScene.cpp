@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DarknessofPlanetMainScene.h"
-
-
+//진짜 최고
+//진짜 최고
 //진짜 최고
 #include "iMap.h"
 #include "cHeightMap.h"
@@ -11,9 +11,6 @@
 #include "cSkyDome.h"
 #include "cSkyCloud.h"
 #include "Inventory.h"
-
-//이게 아까전꺼야
-
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -78,7 +75,10 @@ DarknessofPlanetMainScene::~DarknessofPlanetMainScene()
 	SAFE_RELEASE(m_pBloomRenderTarget);
 	SAFE_RELEASE(m_pBloomDepthStencil);
 
-
+	for (size_t i = 0; i < m_vecItem.size(); i++)
+	{
+		SAFE_RELEASE(m_vecItem[i]);
+	}
 
 	SAFE_DELETE(m_pConsole);
 	m_ObjNodes.clear();
@@ -245,6 +245,99 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pInventory = new Inventory;
 	m_pInventory->Setup();
 
+	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
+
+	for (size_t i = 0; i < 16; i++)
+	{
+		FieldItem* pItem = new FieldItem();
+		pItem->Setup(RND->getInt(5));
+		D3DXVECTOR3 vPos;
+		switch (i)
+		{
+		case 0:
+			vPos = D3DXVECTOR3(64.4186f, 35.0f, -95.7918f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 1:
+			vPos = D3DXVECTOR3(430.622f, 35.0f, -37.3627f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 2:
+			vPos = D3DXVECTOR3(529.199f, 35.0f, -128.479f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 3:
+			vPos = D3DXVECTOR3(493.756f, 35.0f, -296.701f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 4:
+			vPos = D3DXVECTOR3(605.995f, 39.0f, -679.417f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 5:
+			vPos = D3DXVECTOR3(859.68f, 52.0f, -871.927f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 6:
+			vPos = D3DXVECTOR3(209.549f, 39.0f, -525.958f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 7:
+			vPos = D3DXVECTOR3(280.177f, 60.0f, -256.315f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 8:
+			vPos = D3DXVECTOR3(425.924f, 39.0f, -391.909f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 9:
+			vPos = D3DXVECTOR3(959.669f, 39.0f, -333.557f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 10:
+			vPos = D3DXVECTOR3(654.76f, 39.0f, -522.515f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 11:
+			vPos = D3DXVECTOR3(428.911f, 39.0f, -614.705f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 12:
+			vPos = D3DXVECTOR3(402.471f, 39.0f, -619.421f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 13:
+			vPos = D3DXVECTOR3(451.957f, 39.0f, -641.89f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 14:
+			vPos = D3DXVECTOR3(506.443f, 39.0f, -609.262f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 15:
+			vPos = D3DXVECTOR3(234.735f, 62.0f, -288.516f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		}
+
+		m_vecItem.push_back(pItem);
+	}
 
 	///////////동윤
 	/*m_pCamera = new LDYCamera;*/
@@ -352,9 +445,13 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pFont = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
 	m_pGrid->Setup();
 
-	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
-
 	//노드 추가 합니다.
+	m_pNode = NODEMANAGER->GetNode();
+	//대원 -> 노드가 필요해 부득이 이쪽에서 실행
+	for each(auto p in m_ObjNodes)
+	{
+		p->PutBoundBoxtoNodeByPosition(m_pNode);
+	}
 
 
 
@@ -453,9 +550,20 @@ void DarknessofPlanetMainScene::Update()
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 
-	if (KEYMANAGER->isOnceKeyDown('I'))
+	for (size_t i = 0; i < m_vecItem.size(); i++)
 	{
-		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
+		m_vecItem[i]->Update();
+
+		if (m_vecItem[i]->GetIsNull() && m_vecItem[i]->GetNullTime() >= 8.0f)
+		{
+			m_vecItem[i]->SetIsNull(false);
+			m_vecItem[i]->SetNameNumber(RND->getInt(5));
+		}
+		else if (!m_vecItem[i]->GetIsNull() && D3DXVec3Length(&(m_pCharacter->GetPosition() - m_vecItem[i]->GetPosition())) < 2.0f)
+		{
+			m_pInventory->AddItem(m_vecItem[i]->GetName(), m_vecItem[i]->GetItemType());
+			m_vecItem[i]->SetIsNull(true);
+		}
 	}
 
 	CAMERA->Update(&m_pCharacter->GetPosition());
@@ -965,7 +1073,6 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
-
 	////블룸용 변수들
 	LPDIRECT3DSURFACE9 pHWBackBufferBloom = NULL;
 	LPDIRECT3DSURFACE9 pHWDepthStencilBufferBloom = NULL;
@@ -993,6 +1100,11 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
+
+	for each(auto i in m_vecItem)
+	{
+		i->Render();
+	}
 
 	D3DXVECTOR3 light = m_pCharacter->GetPositionYZero();
 
@@ -1430,6 +1542,18 @@ void DarknessofPlanetMainScene::SlowUpdate()
 		}
 	}
 
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		if (m_vecEnemy[i]->GetFire())
+		{
+			
+			if (TIMEMANAGER->getWorldTime() > m_vecEnemy[i]->GetFireTime() + 0.3)
+			{
+				m_vecEnemy[i]->SetFire(false);
+			}
+		}
+	}
+
 }
 
 void DarknessofPlanetMainScene::CleanHit()
@@ -1463,6 +1587,7 @@ bool DarknessofPlanetMainScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)
 		return true;
 	}
 	return false;
+
 }
 
 void DarknessofPlanetMainScene::CheckDie()

@@ -11,6 +11,8 @@ float4		vWorldCameraPos		= float4( -50.00, 50.00, -50.00, 1.00 );
 float4x4	g_mWorld			: WORLD;
 float4x4	g_mViewProj			: VIEWPROJECTION;
 int		iSlow=0;
+int		iFire=0;
+
 texture		g_txScene;
 
 //--------------------------------------------------------------------------------------
@@ -67,13 +69,21 @@ float4 PixScene(
 	float4 Color = tex2D( g_samScene, TexCoord ) * float4(color + specular, 1.0f);
 	if(iSlow==0)
 	{
-		return Color;
 	}
 	else
 	{
 		Color.b = 0.7;
-		return Color;
 	}
+	if(iFire==0)
+	{
+	}
+	else
+	{
+		Color.r = 0.7;
+	}
+
+
+return Color;
 }
 
 

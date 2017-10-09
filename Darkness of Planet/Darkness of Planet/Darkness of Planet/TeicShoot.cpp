@@ -32,13 +32,20 @@ void TeicShoot::Shoot(WeaponType type)
 	D3DXVec3Normalize(&m_vShootDir, &m_vShootDir);
 	m_vFinish = m_vShootPosition + m_vShootDir* m_fShootDistance;
 
-	m_stBulletSquare.m_vCenterPos = (m_vShootPosition + m_vFinish) / 2;
-	m_stBulletSquare.m_fSizeZ = m_fShootDistance/2;
-	CalRotation();
+	
 
 	if (type == WP_FireGun)
 	{
-		/*D3DXVECTOR3 target = m_vShootPosition + m_vShootDir * 20;
+		
+		D3DXVECTOR3 target = m_vShootPosition + m_vShootDir * 30;
+		D3DXVECTOR3 start = m_vShootPosition + m_vShootDir * 10;
+		m_stBulletSquare.m_vCenterPos = (start + target) / 2;
+		m_stBulletSquare.m_fSizeZ =D3DXVec3Length(&(target - start)) / 2;
+		m_stBulletSquare.m_fSizeY = 1;
+		m_stBulletSquare.m_fSizeX = 3;
+
+		CalRotation();
+
 		m_vecPoint = m_pBresenham->FindNodeAccuracy2(m_vShootPosition.x, m_vShootPosition.z,
 			target.x, target.z);
 		m_vecDeletePoint = m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
@@ -69,16 +76,26 @@ void TeicShoot::Shoot(WeaponType type)
 				{
 					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
 					{
-
+						
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("FireGun");
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fFireTime = TIMEMANAGER->getWorldTime();
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bFire = true;
+					
 					}
 				}
 			}
-		}*/
+		}
 	}
 	else
 	{
 
+		m_stBulletSquare.m_vCenterPos = (m_vShootPosition + m_vFinish) / 2;
+		m_stBulletSquare.m_fSizeZ = m_fShootDistance / 2;
+		m_stBulletSquare.m_fSizeY = 0.1;
+		m_stBulletSquare.m_fSizeX = 0.1;
 
+		CalRotation();
 
 		m_vecPoint = m_pBresenham->FindNodeAccuracy(m_vShootPosition.x, m_vShootPosition.z,
 			m_vFinish.x, m_vFinish.z);

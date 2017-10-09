@@ -51,8 +51,8 @@ void cSkyDome::Setup()
 void cSkyDome::Update()
 {
 	///////////m_fNightvalue 1¾îµÓ°í 0¹àÀ½
-	m_fNowtime += 0.0001f;
-	m_fNightvalue += 0.0001f *m_iBuho;
+	m_fNowtime += 0.0005f;
+	m_fNightvalue += 0.0005f *m_iBuho;
 	if (m_fNightvalue >= 1)
 	{
 		m_iBuho = -1;

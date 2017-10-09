@@ -5,6 +5,8 @@ public:
 	bool	m_bSlotOn;
 	bool	m_bHit;
 	bool	m_bSlow;
+	bool	m_bFire;
+	float	m_fFireTime;
 	float	m_fSlowTime;
 	int m_iHp;
 	int m_iAttack;

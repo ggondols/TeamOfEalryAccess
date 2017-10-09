@@ -186,7 +186,7 @@ void TeicEffect::Update()
 void TeicEffect::Render()
 {
 	
-	
+	if (!m_bStart) return;
 	m_fTimeChange += 0.01;
 
 
@@ -224,7 +224,7 @@ void TeicEffect::Render()
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pEffect->BeginPass(i);
-		
+		m_pEffect->CommitChanges();
 		m_pMesh->DrawSubset(0);
 		m_pEffect->EndPass();
 	}
