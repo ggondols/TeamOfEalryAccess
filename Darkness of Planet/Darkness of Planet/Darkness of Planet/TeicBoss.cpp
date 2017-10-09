@@ -277,6 +277,10 @@ void TeicBoss::CallbackOn(int n)
 			m_bAttackOn = false;
 		}
 	}
+	if (m_Callback)
+	{
+		m_Callback();
+	}
 	if (m_pSkinnedMesh)
 	{
 		
@@ -301,10 +305,7 @@ void TeicBoss::CallbackOn(int n)
 		
 
 	}
-	if (m_Callback)
-	{
-		m_Callback();
-	}
+	
 
 }
 
@@ -328,7 +329,7 @@ void TeicBoss::UpdateAndRender()
 	}
 	//MakeBoundingBox();
 	
-	AfterImage();
+	//AfterImage();
 	ShowSkillCube();
 	
 }
@@ -551,6 +552,7 @@ void TeicBoss::ShowSkillCube()
 	}
 	case Boss_Skill_Breath:
 	{
+		m_vecCheckCube = m_vecSkillCube;
 		D3DXMATRIX trans;
 		D3DXMatrixTranslation(&trans, 0, 0, 60);
 
@@ -570,6 +572,11 @@ void TeicBoss::ShowSkillCube()
 		D3DXMatrixTranslation(&FinalTrans, m_pSkinnedMesh->GetPosition().x, m_pSkinnedMesh->GetPosition().y + 0.1, m_pSkinnedMesh->GetPosition().z);
 
 		matWorld = trans * matR * FinalTrans;
+
+		for (int i = 0; i < m_vecCheckCube.size(); i++)
+		{
+			D3DXVec3TransformCoord(&m_vecCheckCube[i].p, &m_vecCheckCube[i].p, &matWorld);
+		}
 		break;
 	}
 	case Boss_Skill_None:
@@ -789,7 +796,7 @@ DWORD TeicBoss::FtoDw(float f)
 void TeicBoss::SkillOn(D3DXVECTOR3 CharacterPos)
 {
 	int a = RND->getInt(3);
-
+	
 
 	switch (a)
 	{

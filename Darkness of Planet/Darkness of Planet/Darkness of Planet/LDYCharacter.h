@@ -41,8 +41,7 @@ private:
 	CallbackBindFunction		m_AttackCallback;
 	
 
-	int							m_iHeadLv;
-	int							m_iBodyLv;
+
 	WeaponType					m_eWpType;
 	StateType					m_eStType;
 	bool						m_bRun;
@@ -52,6 +51,8 @@ private:
 	
 
 public:
+	int							m_iHeadLv;
+	int							m_iBodyLv;
 	TeicPhysicsCrtCtrl*			m_pCtrl;
 	POINT				m_pPreviousPoint;
 	bool						m_bTCallback;

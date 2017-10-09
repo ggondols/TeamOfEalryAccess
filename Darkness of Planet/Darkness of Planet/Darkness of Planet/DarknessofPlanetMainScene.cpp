@@ -43,6 +43,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_pBloomDepthStencil(NULL)
 	, m_fTime7(0)
 	, m_iCameranum(0)
+	, tex(NULL)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -500,7 +501,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 
 
-	
+
 	m_pBoss->SetPosition(m_pNode->m_vRow[174].m_vCol[74].m_vPosList->m_vCenterPos);
 
 
@@ -528,6 +529,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 
 
+	D3DXCreateTextureFromFile(GETDEVICE, "map/FFFFFFFFFF.png", &tex);
 
 	for (int i = 0; i < 20; i++)
 	{
@@ -552,10 +554,10 @@ void DarknessofPlanetMainScene::Release()
 
 void DarknessofPlanetMainScene::Update()
 {
-	
+
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
-	if(!m_pBoss->m_bAttackOn)
-	m_pBossMove->Update();
+	if (!m_pBoss->m_bAttackOn)
+		m_pBossMove->Update();
 	m_pMap->GetHeight(m_pBoss->GetPositionPointer()->x, m_pBoss->GetPositionPointer()->y, m_pBoss->GetPositionPointer()->z);
 	m_pBoss->Update(m_pCharacter->GetPosition());
 	BossAttack();
@@ -580,17 +582,17 @@ void DarknessofPlanetMainScene::Update()
 		}
 	}
 
-	
-	
+
+
 	if (m_iCameranum == 0)
 	{
-		CAMERA->Update(&m_pCharacter->GetPosition(),0);
+		CAMERA->Update(&m_pCharacter->GetPosition(), 0);
 	}
 	else
 	{
-		CAMERA->Update(&m_pBoss->GetPosition(),1);
+		CAMERA->Update(&m_pBoss->GetPosition(), 1);
 	}
-	
+
 	m_pCharacter->Update(CAMERA->getAngleY());
 	//bool check = ChangeCheckPoint();
 	MakingEnemy();
@@ -691,7 +693,7 @@ void DarknessofPlanetMainScene::Update()
 				}
 				else
 				{
-					
+
 					//m_pShoot->Shoot(m_pCharacter->getWeaponType());
 					//CAMERA->rebound();
 				}
@@ -700,13 +702,13 @@ void DarknessofPlanetMainScene::Update()
 			else
 			{
 				m_fTime4 = TIMEMANAGER->getWorldTime();
-				
+
 				if (m_pCharacter->m_bTCallback)
 				{
 					if (m_pCharacter->getWeaponType() == WP_FireGun)
 					{
 
-					
+
 						m_pCharacter->m_pCtrl->setAttacking(true);
 						m_pShoot->Shoot(m_pCharacter->getWeaponType());
 						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
@@ -729,7 +731,7 @@ void DarknessofPlanetMainScene::Update()
 						CAMERA->rebound();
 					}
 				}
-				
+
 			}
 		}
 
@@ -890,6 +892,72 @@ void DarknessofPlanetMainScene::MakingEnemy()
 	}
 
 }
+bool DarknessofPlanetMainScene::CollisionSkill()
+{
+	//m_pBoss->m_vecCheckCube;
+
+	//0----1
+	//|    |
+	//2----3
+
+	/*DWORD Index[6];
+	Index[0] = 0;
+	Index[1] = 1;
+	Index[2] = 2;
+	Index[5] = 3;*/
+
+
+
+	D3DXVECTOR3 m_CollisionVec[4];
+	m_CollisionVec[0] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[0].p.x, m_pBoss->m_vecCheckCube[0].p.z, 0);
+	m_CollisionVec[1] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[1].p.x, m_pBoss->m_vecCheckCube[1].p.z, 0);
+	m_CollisionVec[2] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[2].p.x, m_pBoss->m_vecCheckCube[2].p.z, 0);
+	m_CollisionVec[3] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[5].p.x, m_pBoss->m_vecCheckCube[5].p.z, 0);
+
+
+	D3DXVECTOR3 Mouse;
+	Mouse.x = m_pCharacter->GetPosition().x;
+	Mouse.y = m_pCharacter->GetPosition().z;
+	Mouse.z = 0;
+	if (!LineDotDown(m_CollisionVec[0], m_CollisionVec[1], Mouse))
+	{
+		return false;
+	}
+	if (!LineDotDown(m_CollisionVec[1], m_CollisionVec[3], Mouse))
+	{
+		return false;
+	}
+	if (!LineDotDown(m_CollisionVec[3], m_CollisionVec[2], Mouse))
+	{
+		return false;
+	}
+	if (!LineDotDown(m_CollisionVec[2], m_CollisionVec[0], Mouse))
+	{
+		return false;
+	}
+
+
+	return true;
+
+
+
+
+}
+
+bool DarknessofPlanetMainScene::LineDotDown(D3DXVECTOR3 startDot, D3DXVECTOR3 finishDot, D3DXVECTOR3 targetDot)
+{
+	D3DXVECTOR3 A_B = finishDot - startDot;
+	D3DXVECTOR3 A_C = targetDot - startDot;
+
+	D3DXVECTOR3 Cross;
+	D3DXVec3Cross(&Cross, &A_B, &A_C);
+
+	if (Cross.z <= 0)
+		return true;
+	else
+		return false;
+
+}
 
 void DarknessofPlanetMainScene::CallbackOn(int number)
 {
@@ -913,7 +981,134 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 		{
 			m_pBoss->m_eType = Boss_Attack;
 			m_iCameranum = 0;
+			CAMERA->m_fDistance = 8;
 		}
+		if (m_pBoss->GetAninum() == 6)
+		{
+			if (D3DXVec3Length(&(m_pBoss->m_vCharacterPos - m_pCharacter->GetPosition())) > 30)
+			{
+				return;
+			}
+
+
+
+			float body;
+			switch (m_pCharacter->m_iBodyLv)
+			{
+			case 0:
+				body = DATABASE->GetItemValue("Armor");
+				break;
+			case 1:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 2:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 3:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			default:
+				break;
+			}
+			float helmet;
+			switch (m_pCharacter->m_iHeadLv)
+			{
+			case 0:
+				helmet = DATABASE->GetItemValue("Mask");
+				break;
+			case 1:
+				helmet = DATABASE->GetItemValue("Helmet");
+				break;
+			default:
+				break;
+			}
+			int damage = 50 - (body - helmet);
+			if (damage < 1) damage = 1;
+			m_pCharacter->m_iHP -= damage;
+			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+		}
+		if (m_pBoss->GetAninum() == 12)
+		{
+			if (D3DXVec3Length(&(m_pBoss->GetPosition() - m_pCharacter->GetPosition())) > 100)
+			{
+				return;
+			}
+			float body;
+			switch (m_pCharacter->m_iBodyLv)
+			{
+			case 0:
+				body = DATABASE->GetItemValue("Armor");
+				break;
+			case 1:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 2:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 3:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			default:
+				break;
+			}
+			float helmet;
+			switch (m_pCharacter->m_iHeadLv)
+			{
+			case 0:
+				helmet = DATABASE->GetItemValue("Mask");
+				break;
+			case 1:
+				helmet = DATABASE->GetItemValue("Helmet");
+				break;
+			default:
+				break;
+			}
+			int damage = 30 - (body - helmet);
+			if (damage < 1) damage = 1;
+			m_pCharacter->m_iHP -= damage;
+			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+		}
+		if (m_pBoss->GetAninum() == 22)
+		{
+			if (CollisionSkill() == false)
+				return;
+
+			float body;
+			switch (m_pCharacter->m_iBodyLv)
+			{
+			case 0:
+				body = DATABASE->GetItemValue("Armor");
+				break;
+			case 1:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 2:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 3:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			default:
+				break;
+			}
+			float helmet;
+			switch (m_pCharacter->m_iHeadLv)
+			{
+			case 0:
+				helmet = DATABASE->GetItemValue("Mask");
+				break;
+			case 1:
+				helmet = DATABASE->GetItemValue("Helmet");
+				break;
+			default:
+				break;
+			}
+			int damage = 40 - (body - helmet);
+			if (damage < 1) damage = 1;
+			m_pCharacter->m_iHP -= damage;
+			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+		}
+
 	}
 	for (int i = 10; i < 10 + m_vecEnemy.size(); i++)
 	{
@@ -923,45 +1118,77 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			{
 				m_vecEnemy[i - 10]->m_bAttackOn = false;
 				m_vecEnemy[i - 10]->SetAnimation(1);
-				
 
-				
+				float body;
+				switch (m_pCharacter->m_iBodyLv)
+				{
+				case 0:
+					body = DATABASE->GetItemValue("Armor");
+					break;
+				case 1:
+					body = DATABASE->GetItemValue("FullArmor");
+					break;
+				case 2:
+					body = DATABASE->GetItemValue("FullArmor");
+					break;
+				case 3:
+					body = DATABASE->GetItemValue("FullArmor");
+					break;
+				default:
+					break;
+				}
+				float helmet;
+				switch (m_pCharacter->m_iHeadLv)
+				{
+				case 0:
+					helmet = DATABASE->GetItemValue("Mask");
+					break;
+				case 1:
+					helmet = DATABASE->GetItemValue("Helmet");
+					break;
+				default:
+					break;
+				}
+				int damage = m_vecEnemy[i - 10]->GetAttack() - (body - helmet);
+				if (damage < 1) damage = 1;
+				m_pCharacter->m_iHP -= damage;
+				SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
 			}
 
 			if (m_vecEnemy[i - 10]->GetAninum() == 4)
 			{
 				m_vecEnemy[i - 10]->SetShow(false);
-				if (m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo != NULL)
+				if (m_pNode->m_vRow[m_vecEnemy[i - 10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i - 10]->m_PreviousGrid.x].m_pBoundInfo != NULL)
 				{
-					for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
+					for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i - 10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i - 10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
 					{
-						if (m_vecEnemy[i-10]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+						if (m_vecEnemy[i - 10]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i - 10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i - 10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
 						{
-							m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
-								m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
+							m_pNode->m_vRow[m_vecEnemy[i - 10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i - 10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
+								m_pNode->m_vRow[m_vecEnemy[i - 10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i - 10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
 
 						}
 					}
 				}
 
 
-				if (m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo != NULL)
+				if (m_pNode->m_vRow[m_vecEnemy[i - 10]->GetNodeNum().y].m_vCol[m_vecEnemy[i - 10]->GetNodeNum().x].m_pBoundInfo != NULL)
 				{
-					for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.size(); j++)
+					for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i - 10]->GetNodeNum().y].m_vCol[m_vecEnemy[i - 10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.size(); j++)
 					{
-						if (m_vecEnemy[i-10]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+						if (m_vecEnemy[i - 10]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i - 10]->GetNodeNum().y].m_vCol[m_vecEnemy[i - 10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
 						{
-							m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.erase(
-								m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.begin() + j);
+							m_pNode->m_vRow[m_vecEnemy[i - 10]->GetNodeNum().y].m_vCol[m_vecEnemy[i - 10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.erase(
+								m_pNode->m_vRow[m_vecEnemy[i - 10]->GetNodeNum().y].m_vCol[m_vecEnemy[i - 10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.begin() + j);
 
 						}
 					}
 				}
 
-				m_vecEnemy.erase(m_vecEnemy.begin() + (i-10));
+				m_vecEnemy.erase(m_vecEnemy.begin() + (i - 10));
 				m_vecEnemyWay.erase(m_vecEnemyWay.begin() + (i - 10));
 				m_vecEnemyCollisionMove.erase(m_vecEnemyCollisionMove.begin() + (i - 10));
-	
+
 				for (int k = 0; k < m_vecEnemy.size(); k++)
 				{
 					m_vecEnemy[k]->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, 10 + k));
@@ -1098,10 +1325,10 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 	//보스
 	m_pBoss->m_PresentGrid = m_pBoss->GetNodeNum();
 	/////////// 비교
-	
+
 	if (m_pBoss->m_PreviousGrid.x == m_pBoss->m_PresentGrid.x &&
 		m_pBoss->m_PreviousGrid.y == m_pBoss->m_PresentGrid.y)return;
-	
+
 	for (int a = -1; a < 2; a++)
 	{
 		for (int b = -1; b < 2; b++)
@@ -1110,14 +1337,14 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 			if (m_pBoss->m_PreviousGrid.x + b < 0)continue;
 			if (m_pBoss->m_PresentGrid.y + a < 0)continue;
 			if (m_pBoss->m_PresentGrid.x + b < 0)continue;
-			if (m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo != NULL)
+			if (m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y + a].m_vCol[m_pBoss->m_PreviousGrid.x + b].m_pBoundInfo != NULL)
 			{
-				for (int j = 0; j < m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding.size(); j++)
+				for (int j = 0; j < m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y + a].m_vCol[m_pBoss->m_PreviousGrid.x + b].m_pBoundInfo->m_vecBounding.size(); j++)
 				{
-					if (m_pBoss->GetSkinnedMesh() == m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+					if (m_pBoss->GetSkinnedMesh() == m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y + a].m_vCol[m_pBoss->m_PreviousGrid.x + b].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
 					{
-						m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding.erase(
-							m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding.begin() + j);
+						m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y + a].m_vCol[m_pBoss->m_PreviousGrid.x + b].m_pBoundInfo->m_vecBounding.erase(
+							m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y + a].m_vCol[m_pBoss->m_PreviousGrid.x + b].m_pBoundInfo->m_vecBounding.begin() + j);
 
 					}
 				}
@@ -1125,7 +1352,7 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 
 		}
 	}
-	
+
 	for (int a = -1; a < 2; a++)
 	{
 		for (int b = -1; b < 2; b++)
@@ -1134,15 +1361,15 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 			if (m_pBoss->m_PreviousGrid.x + b < 0)continue;
 			if (m_pBoss->m_PresentGrid.y + a < 0)continue;
 			if (m_pBoss->m_PresentGrid.x + b < 0)continue;
-			if (m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo == NULL)
+			if (m_pNode->m_vRow[m_pBoss->m_PresentGrid.y + a].m_vCol[m_pBoss->m_PresentGrid.x + b].m_pBoundInfo == NULL)
 			{
-				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo = new nNodeBoundInfo;
-				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo->m_vecBounding.push_back(
+				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y + a].m_vCol[m_pBoss->m_PresentGrid.x + b].m_pBoundInfo = new nNodeBoundInfo;
+				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y + a].m_vCol[m_pBoss->m_PresentGrid.x + b].m_pBoundInfo->m_vecBounding.push_back(
 					m_pBoss->GetBoundingSquare());
 			}
 			else
 			{
-				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo->m_vecBounding.push_back(
+				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y + a].m_vCol[m_pBoss->m_PresentGrid.x + b].m_pBoundInfo->m_vecBounding.push_back(
 					m_pBoss->GetBoundingSquare());
 			}
 
@@ -1337,25 +1564,25 @@ void DarknessofPlanetMainScene::Render()
 	}
 
 
-	//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(150, 150, 150);
-	//float start = 0.0f;
-	//float end = 200.0f;
-	//float m_fFogDensity = 0.01f;
-	//GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	//GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-	//GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
-	//GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-	//GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	//GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	//GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(217, 217, 217);
+	float start = 0.0f;
+	float end = 200.0f;
+	float m_fFogDensity = 0.01f;
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
 
 
-	//////////////////////////////
-	// 2. 그림자 입히기
-	//////////////////////////////
+//////////////////////////////
+// 2. 그림자 입히기
+//////////////////////////////
 
-	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
 	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
@@ -1372,8 +1599,8 @@ void DarknessofPlanetMainScene::Render()
 
 	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
 
-	LPDIRECT3DTEXTURE9 tex;
-	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
+
+
 	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
 
 	// 쉐이더를 시작한다.
@@ -1387,6 +1614,7 @@ void DarknessofPlanetMainScene::Render()
 				// 디스크를 그린다.
 				m_pApplyShadow->CommitChanges();
 				//if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+
 				if (m_pMap)m_pMap->frustumcullingRender();
 			}
 			m_pApplyShadow->EndPass();
@@ -1399,11 +1627,11 @@ void DarknessofPlanetMainScene::Render()
 
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 	if (m_pInventory) m_pInventory->Render();
-	
+
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-		
+
 		m_vecEnemy[i]->UpdateAndRender();
 	}
 
@@ -1414,6 +1642,17 @@ void DarknessofPlanetMainScene::Render()
 	LPD3DXFONT f;
 	f = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
 	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
+
+
+
+	if (m_pBoss->m_eType != Boss_Idle)
+		m_pBoss->UpdateAndRender();
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+
+	SKILLEFFECTMANAGER->Update();
+	SKILLEFFECTMANAGER->Render();
 	for (std::list<cObjectNode*>::iterator i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
 		cObjectNode* pNode = *i;
@@ -1423,15 +1662,6 @@ void DarknessofPlanetMainScene::Render()
 
 		pNode->m_pModel->Render(GETDEVICE);
 	}
-	if(m_pBoss->m_eType != Boss_Idle)
-	m_pBoss->UpdateAndRender();
-
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-
-	SKILLEFFECTMANAGER->Update();
-	SKILLEFFECTMANAGER->Render();
-
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
@@ -1490,7 +1720,7 @@ void DarknessofPlanetMainScene::Render()
 	{
 		m_pBloomEffect->BeginPass(i);
 
-		GETDEVICE->SetTexture(0, m_pBloomRenderTarget);
+		/*	GETDEVICE->SetTexture(0, m_pBloomRenderTarget);*/
 		GETDEVICE->SetFVF(ST_RHWT_VERTEX::FVF);
 		GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 			m_vecVertex.size() / 3,
@@ -1651,7 +1881,7 @@ void DarknessofPlanetMainScene::AngleChange(TeicEnemy * A)
 
 	if (targetangle > Angle)
 	{
-	
+
 		if (targetangle - Angle > D3DX_PI)
 		{
 			Angle -= 0.05;
@@ -1669,7 +1899,7 @@ void DarknessofPlanetMainScene::AngleChange(TeicEnemy * A)
 	}
 	else
 	{
-		
+
 		if (Angle - targetangle > D3DX_PI)
 		{
 			Angle += 0.05;
@@ -1908,7 +2138,7 @@ void DarknessofPlanetMainScene::BossAttack()
 	if (t < 70)
 	{
 		m_pBossMove->Stop();
-		
+
 		if (TIMEMANAGER->getWorldTime() > m_fBossTime + 10.0f && !m_pBoss->m_bAttackOn)
 		{
 			m_fBossTime = TIMEMANAGER->getWorldTime();
@@ -2206,7 +2436,7 @@ void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 
-		
+
 		if (A->GetSlot() && B->GetSlot())
 		{
 			if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
@@ -2252,7 +2482,7 @@ void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 		}
 	}
-	
+
 
 
 

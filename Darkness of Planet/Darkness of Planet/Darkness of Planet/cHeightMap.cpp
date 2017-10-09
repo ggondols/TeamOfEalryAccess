@@ -338,7 +338,7 @@ void cHeightMap::frustumcullingRender()
 
 void cHeightMap::MeshRender(int number)
 {
-	D3DXMATRIX matWorld;
+	/*D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture(m_sTexture));
@@ -494,7 +494,7 @@ void cHeightMap::MeshRender(int number)
 		default:
 		break;
 	}
-
+*/
 }
 
 

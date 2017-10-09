@@ -60,7 +60,8 @@ private:
 	float					m_fTime7; //// 필드 몬스터 생성 시간 (20초 간격)
 	float					m_fBossTime;
 	int						m_iBodyUpgrade;
-
+	
+	LPDIRECT3DTEXTURE9		tex;
 	// 인벤토리 추가
 	Inventory*				m_pInventory;
 	vector<FieldItem*>		m_vecItem;
@@ -150,6 +151,8 @@ public:
 	virtual void Render();
 	virtual void Update();
 	void MakingEnemy();
+	bool CollisionSkill();
+	bool LineDotDown(D3DXVECTOR3 startDot, D3DXVECTOR3 finishDot, D3DXVECTOR3 targetDot);
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 	void Push2(TeicEnemy* A, TeicEnemy* B);

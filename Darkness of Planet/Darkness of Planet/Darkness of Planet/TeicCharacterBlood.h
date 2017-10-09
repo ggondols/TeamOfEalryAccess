@@ -4,7 +4,7 @@ class TeicCharacterBlood:public TeicEffectParent
 {
 private:
 	LPD3DXEFFECT			m_pEffect;
-	LPDIRECT3DTEXTURE9		m_pTexture[5];
+	LPDIRECT3DTEXTURE9		m_pTexture;
 	ST_PT_VERTEX			m_stVertex[6];
 	float					m_fAlpha;
 	float					m_fDelta;
