@@ -11,6 +11,8 @@
 #include "cSkyDome.h"
 #include "cSkyCloud.h"
 #include "Inventory.h"
+#include "FieldItem.h"
+
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -1234,7 +1236,6 @@ void DarknessofPlanetMainScene::Render()
 
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 	if (m_pInventory) m_pInventory->Render();
-	AfterImage();
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -1259,6 +1260,7 @@ void DarknessofPlanetMainScene::Render()
 		pNode->m_pModel->Render(GETDEVICE);
 	}
 	m_pBoss->UpdateAndRender();
+
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
@@ -1268,7 +1270,8 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
-	
+
+	AfterImage();
 
 	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
