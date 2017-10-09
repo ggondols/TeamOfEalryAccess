@@ -151,7 +151,8 @@ LRESULT cGameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPar
 	case WM_LBUTTONDOWN:
 	{
 		g_isLButtonDown = true;
-		g_isLButtonUp = false;
+		g_isLButtonUp = false;		
+		
 	}
 	break;
 	case WM_RBUTTONDOWN:

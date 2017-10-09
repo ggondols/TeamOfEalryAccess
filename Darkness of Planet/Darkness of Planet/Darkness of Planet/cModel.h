@@ -31,6 +31,12 @@ public:
 	std::vector< LPDIRECT3DTEXTURE9 >	m_pNormalTextures;
 
 public:
+	//Model infomation for bounding box
+	D3DXVECTOR3 m_vMin, m_vMax; 
+	D3DXVECTOR3 m_centerPos;
+	float		m_fSizeX, m_fSizeY, m_fSizeZ;
+
+public:
 	cModel() : m_pMesh(NULL), m_pVertexDeclaration(NULL), m_bHasNormals(false), m_bHasEmissive(false)
 	{
 		m_mtrls.clear();

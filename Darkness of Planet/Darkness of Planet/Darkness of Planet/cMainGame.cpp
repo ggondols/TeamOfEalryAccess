@@ -36,7 +36,7 @@ HRESULT cMainGame::Setup()
 	
 	//////////////////커밋 전에 항상 저스트 테스트 씬으로 바꾸세요~~
 	//여기서 씬 교체
-	SCENEMANAGER->changeScene("LoadingScene");
+	SCENEMANAGER->changeScene("HankcDefferedRenderTest");
 	GETDEVICE->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	GETDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	GETDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);

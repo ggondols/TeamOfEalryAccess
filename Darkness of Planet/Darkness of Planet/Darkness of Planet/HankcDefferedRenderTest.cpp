@@ -24,6 +24,9 @@ void HankcDefferedRenderTest::CallbackOn(int num)
 
 HRESULT HankcDefferedRenderTest::Setup()
 {
+	//마우스 설정
+	SetCapture(g_hWnd);
+
 	//scene render state 
 	
 	m_pCamera = new Hank::cCamera;
@@ -64,10 +67,6 @@ HRESULT HankcDefferedRenderTest::Setup()
 
 				SOUNDMANAGER->addSound(soundKey, soundPath, soundName, false, false);
 			}
-
-
-			
-
 		}
 	
 	/*SOUNDMANAGER->addSound(soundKey, soundName, false, false);
@@ -85,6 +84,11 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
 	m_pMeshSpray->MeshLoadFromScript("Data/Script/ObjectList.txt");
 	m_pMeshSpray->SetTargetNode(NODEMANAGER->GetPickingNode()->GetPosition());
+
+	for each(auto p in m_ObjNodes)
+	{
+		p->PutBoundBoxtoNodeByPosition(m_pNode);
+	}
 
 	/*for (auto i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{

@@ -1,6 +1,7 @@
 #pragma once
-class cModel;
+
 class HankcGrid;
+#include "cModel.h"
 
 class cSpatial
 {
@@ -102,10 +103,38 @@ public:
 		m_pNode->m_vRow[0].m_vCol[0].m_pBoundInfo->m_vecBounding.push_back();*/
 
 		BoundingSquare* temp = new BoundingSquare;
+		
+		D3DXMATRIX rot;
+		D3DXVECTOR3 vDir(0,0,0);
+		D3DXMatrixRotationX(&rot, m_orientation.x);
+		D3DXVec3TransformNormal(&vDir, &vDir, &rot);
+		temp->m_vXdir = vDir;
+
+		vDir = D3DXVECTOR3(0, 0, 0);
+		D3DXMatrixRotationY(&rot, m_orientation.y);
+		D3DXVec3TransformNormal(&vDir, &vDir, &rot);
+		temp->m_vYdir = vDir;;
+
+		vDir =  D3DXVECTOR3(0, 0, 0);
+		D3DXMatrixRotationZ(&rot, m_orientation.z);
+		D3DXVec3TransformNormal(&vDir, &vDir, &rot);
+		temp->m_vZdir = vDir;;
+
+		temp->m_fSizeX = m_pModel->m_fSizeX * m_scalling.x;
+		temp->m_fSizeY = m_pModel->m_fSizeY * m_scalling.y;
+		temp->m_fSizeZ = m_pModel->m_fSizeY * m_scalling.y;
+
+		D3DXVECTOR3 scalledMeshCenter;
+		scalledMeshCenter.x = m_pModel->m_centerPos.x * m_scalling.x;
+		scalledMeshCenter.y = m_pModel->m_centerPos.y * m_scalling.y;
+		scalledMeshCenter.z = m_pModel->m_centerPos.z * m_scalling.z;
+
+		temp->m_vCenterPos = m_position + scalledMeshCenter;
+
+		temp->st_Type = Bounding_Object;
 
 		node->m_vRow[-(m_position.z / NodeLength)].m_vCol[m_position.x / NodeLength].m_pBoundInfo = new nNodeBoundInfo;
-		node->m_vRow[0].m_vCol[0].m_pBoundInfo->m_vecBounding.push_back(temp);
-
+		node->m_vRow[-(m_position.z / NodeLength)].m_vCol[m_position.x / NodeLength].m_pBoundInfo->m_vecBounding.push_back(temp);
 
 	}
 
