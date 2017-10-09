@@ -610,7 +610,7 @@ void cHeightMap::OnlyMeshRender(int num)
 {
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
-	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+	//GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 
 	switch (num)
 	{
