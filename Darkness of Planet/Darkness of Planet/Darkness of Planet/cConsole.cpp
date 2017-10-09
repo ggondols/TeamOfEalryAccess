@@ -13,7 +13,7 @@ void cConsole::Setup()
 	//m_box->SetTexture("./UI/Icon_Empty.png");
 	//m_box->SetPosition(1,1);
 
-	UIOBJECTMANAGER->AddRoot("ConsoleBar", UITYPE_IMAGE, true);
+	UIOBJECTMANAGER->AddRoot("ConsoleBar", UITYPE_IMAGE);
 	UIOBJECTMANAGER->SetTexture("ConsoleBar", "./UI/ConsoleBar.png");
 	UIOBJECTMANAGER->SetPosition("ConsoleBar", 0.0f, 0.85f);
 
@@ -25,7 +25,7 @@ void cConsole::Setup()
 	UIOBJECTMANAGER->SetPosition("ConsoleBar", 3, 0, -0.3); // ¾Æ¿ôÇ² µ¥ÀÌÅÍ
 
 	m_pFont = FONTMANAGER->GetFont(cFontManager::E_CONSOLE);
-
+	UIOBJECTMANAGER->SetShowState("ConsoleBar", false);
 
 }
 
@@ -40,12 +40,12 @@ void cConsole::Update()
 	{
 		if (m_bRender) 
 		{
-			UIOBJECTMANAGER->SetShowState("ConsoleBar", false);
+			
 			m_bRender = false;
 		}
 		else if (!m_bRender)
 		{
-			UIOBJECTMANAGER->SetShowState("ConsoleBar", true);
+			
 			m_bRender = true;
 		}
 	}
