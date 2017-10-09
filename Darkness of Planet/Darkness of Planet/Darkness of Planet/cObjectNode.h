@@ -102,7 +102,7 @@ public:
 		m_pNode->m_vRow[0].m_vCol[0].m_pBoundInfo->m_vecBounding.push_back();*/
 
 		BoundingSquare* temp = new BoundingSquare;
-
+		temp->st_Type = Bounding_Object;
 		node->m_vRow[-(m_position.z / NodeLength)].m_vCol[m_position.x / NodeLength].m_pBoundInfo = new nNodeBoundInfo;
 		node->m_vRow[-(m_position.z / NodeLength)].m_vCol[m_position.x / NodeLength].m_pBoundInfo->m_vecBounding.push_back(temp);
 
