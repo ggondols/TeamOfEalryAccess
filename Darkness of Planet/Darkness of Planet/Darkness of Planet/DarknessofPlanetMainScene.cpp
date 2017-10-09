@@ -95,7 +95,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 	EnterCriticalSection(&cs);
 	DarknessofPlanetMainScene* temp = (DarknessofPlanetMainScene*)lpParam;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -576,7 +576,7 @@ void DarknessofPlanetMainScene::Update()
 	m_pCharacter->Update(CAMERA->getAngleY());
 	bool check = ChangeCheckPoint();
 	MakingEnemy();
-	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() <40)
+	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() <20)
 	{
 		m_fTime7 = TIMEMANAGER->getWorldTime();
 		MakingFieldEnemy();
@@ -673,31 +673,34 @@ void DarknessofPlanetMainScene::Update()
 				}
 				else
 				{
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					CAMERA->rebound();
+					//m_pShoot->Shoot(m_pCharacter->getWeaponType());
+					//CAMERA->rebound();
 				}
 
 			}
 			else
 			{
 				m_fTime4 = TIMEMANAGER->getWorldTime();
-				if (m_pCharacter->getWeaponType() == WP_FireGun)
+				if (m_pCharacter->m_bTCallback)
 				{
+					if (m_pCharacter->getWeaponType() == WP_FireGun)
+					{
 
-					m_pCharacter->m_pCtrl->setAttacking(true);
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
-					target.x += RND->getFromFloatTo(-2, 2);
-					target.y += RND->getFromFloatTo(-2, 2);
-					target.z += RND->getFromFloatTo(-2, 2);
-					SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos());
+						m_pCharacter->m_pCtrl->setAttacking(true);
+						m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
+						target.x += RND->getFromFloatTo(-2, 2);
+						target.y += RND->getFromFloatTo(-2, 2);
+						target.z += RND->getFromFloatTo(-2, 2);
+						SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos());
 
-				}
-				else
-				{
-					m_pCharacter->m_pCtrl->setAttacking(true);
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					CAMERA->rebound();
+					}
+					else
+					{
+						m_pCharacter->m_pCtrl->setAttacking(true);
+						m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						CAMERA->rebound();
+					}
 				}
 			}
 		}
@@ -1017,7 +1020,7 @@ void DarknessofPlanetMainScene::TargetOn()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-		if (EnemyPlayerDistance(m_vecEnemy[i]) < 50.0f)
+		if (EnemyPlayerDistance(m_vecEnemy[i]) < 100.0f)
 		{
 			m_vecEnemy[i]->m_eMode = Attack;
 			if (m_vecEnemy[i]->m_eGroup == Rush)
