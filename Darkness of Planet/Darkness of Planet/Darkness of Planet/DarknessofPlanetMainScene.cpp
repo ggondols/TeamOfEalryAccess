@@ -1119,6 +1119,7 @@ void DarknessofPlanetMainScene::Render()
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
 	if (m_pSkyDome)m_pSkyDome->Render();
 	if (m_pSkyCloud)m_pSkyCloud->Render();
 
@@ -1233,6 +1234,7 @@ void DarknessofPlanetMainScene::Render()
 	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
 	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
 
+
 	// 쉐이더를 시작한다.
 	UINT numPasses = 0;
 	m_pApplyShadow->Begin(&numPasses, NULL);
@@ -1253,7 +1255,6 @@ void DarknessofPlanetMainScene::Render()
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 	if (m_pInventory) m_pInventory->Render();
 	
@@ -1263,7 +1264,7 @@ void DarknessofPlanetMainScene::Render()
 
 		m_vecEnemy[i]->UpdateAndRender();
 	}
-
+	AfterImage();
 
 
 	char str[256];
@@ -1287,12 +1288,11 @@ void DarknessofPlanetMainScene::Render()
 
 	SKILLEFFECTMANAGER->Update();
 	SKILLEFFECTMANAGER->Render();
+	
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
-
-	AfterImage();
 
 	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
@@ -1363,14 +1363,6 @@ void DarknessofPlanetMainScene::Render()
 	SAFE_RELEASE(pTempSurface);
 	SAFE_RELEASE(pHWBackBufferBloom);
 	SAFE_RELEASE(pHWDepthStencilBufferBloom);
-
-
-
-
-
-
-
-
 
 
 
@@ -1804,6 +1796,9 @@ void DarknessofPlanetMainScene::AfterImage()
 
 			vecMuzzlePos.push_back(ST_PC_VERTEX(result, c));
 		}
+		D3DXMATRIX matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 		GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
 		GETDEVICE->DrawPrimitiveUP(
 			D3DPT_LINESTRIP,
