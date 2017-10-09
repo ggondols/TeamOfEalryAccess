@@ -136,10 +136,15 @@ LJHcJustTestScene::~LJHcJustTestScene()
 
 	}
 
-	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end(); it++)
+	for (size_t i = 0; i < m_vecItem.size(); i++)
 	{
-		SAFE_RELEASE((*it));
+		SAFE_RELEASE(m_vecItem[i]);
 	}
+
+	//for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end(); it++)
+	//{
+	//	SAFE_RELEASE((*it));
+	//}
 }
 
 
@@ -177,33 +182,102 @@ HRESULT LJHcJustTestScene::Setup()
 	m_pSkyDome = new cSkyDome;
 	m_pSkyDome->Setup();
 
+	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
+
 	m_pInventory = new Inventory;
 	m_pInventory->Setup();
 
-	FieldItem* pItem1 = new FieldItem();
-	pItem1->Setup("FullArmorPart1", ITEMTYPE_PART);
-	pItem1->SetPosition(D3DXVECTOR3(60, 0, -10));
-	m_listItem.push_back(pItem1);
+	for (size_t i = 0; i < 16; i++)
+	{
+		FieldItem* pItem = new FieldItem();
+		pItem->Setup(RND->getInt(5));
+		D3DXVECTOR3 vPos;
+		switch (i)
+		{
+		case 0:
+			vPos = D3DXVECTOR3(64.4186f, 35.0f, -95.7918f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 1:
+			vPos = D3DXVECTOR3(430.622f, 35.0f, -37.3627f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 2:
+			vPos = D3DXVECTOR3(529.199f, 35.0f, -128.479f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 3:
+			vPos = D3DXVECTOR3(493.756f, 35.0f, -296.701f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 4:
+			vPos = D3DXVECTOR3(605.995f, 39.0f, -679.417f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 5:
+			vPos = D3DXVECTOR3(859.68f, 52.0f, -871.927f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 6:
+			vPos = D3DXVECTOR3(209.549f, 39.0f, -525.958f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 7:
+			vPos = D3DXVECTOR3(280.177f, 60.0f, -256.315f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 8:
+			vPos = D3DXVECTOR3(425.924f, 39.0f, -391.909f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 9:
+			vPos = D3DXVECTOR3(959.669f, 39.0f, -333.557f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 10:
+			vPos = D3DXVECTOR3(654.76f, 39.0f, -522.515f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 11:
+			vPos = D3DXVECTOR3(428.911f, 39.0f, -614.705f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 12:
+			vPos = D3DXVECTOR3(402.471f, 39.0f, -619.421f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 13:
+			vPos = D3DXVECTOR3(451.957f, 39.0f, -641.89f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 14:
+			vPos = D3DXVECTOR3(506.443f, 39.0f, -609.262f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		case 15:
+			vPos = D3DXVECTOR3(234.735f, 62.0f, -288.516f);
+			m_pMap->GetHeight(vPos.x, vPos.y, vPos.z);
+			pItem->SetPosition(vPos);
+			break;
+		}
 
-	FieldItem* pItem2 = new FieldItem();
-	pItem2->Setup("FullArmorPart2", ITEMTYPE_PART);
-	pItem2->SetPosition(D3DXVECTOR3(30, 0, -20));
-	m_listItem.push_back(pItem2);
-	
-	FieldItem* pItem3 = new FieldItem();
-	pItem3->Setup("FullArmorPart3", ITEMTYPE_PART);
-	pItem3->SetPosition(D3DXVECTOR3(50, 0, -50));
-	m_listItem.push_back(pItem3);
-
-	FieldItem* pItem4 = new FieldItem();
-	pItem4->Setup("HelmetPart1", ITEMTYPE_PART);
-	pItem4->SetPosition(D3DXVECTOR3(40, 0, -40));
-	m_listItem.push_back(pItem4);
-
-	FieldItem* pItem5 = new FieldItem();
-	pItem5->Setup("HelmetPart2", ITEMTYPE_PART);
-	pItem5->SetPosition(D3DXVECTOR3(30, 0, -30));
-	m_listItem.push_back(pItem5);
+		m_vecItem.push_back(pItem);
+	}
 	
 	///////////동윤
 
@@ -226,14 +300,6 @@ HRESULT LJHcJustTestScene::Setup()
 
 	/////////////태영
 	m_pGrid->Setup();
-	m_pMap = HEIGHTMAPMANAGER->GetHeightMap("terrain");
-	
-	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end(); it++)
-	{
-		D3DXVECTOR3 temp = (*it)->GetPosition();
-		m_pMap->GetHeight(temp.x, temp.y, temp.z);
-		(*it)->SetPosition(temp);
-	}
 
 	//노드 추가 합니다.
 	m_pNode = new HankcGrid;
@@ -293,19 +359,24 @@ void LJHcJustTestScene::Update()
 
 	//if (m_pConsole) m_pConsole->Update();
 
-	for (list<FieldItem*>::iterator it = m_listItem.begin(); it != m_listItem.end();)
+	for (size_t i = 0; i < m_vecItem.size(); i++)
 	{
-		(*it)->Update();
-		if (D3DXVec3Length(&(m_pCharacter->GetPosition() - (*it)->GetPosition())) < 2.0f)
+		m_vecItem[i]->Update();
+
+		if (m_vecItem[i]->GetIsNull() && m_vecItem[i]->GetNullTime() >= 8.0f)
 		{
-			FieldItem* collidedItem = (*it);
-			m_pInventory->AddItem(collidedItem->GetName(), collidedItem->GetItemType());
-			it = m_listItem.erase(it);
-			SAFE_RELEASE(collidedItem);
+			m_vecItem[i]->SetIsNull(false);
+			m_vecItem[i]->SetNameNumber(RND->getInt(5));
+			/*if (m_vecItem[i]->GetNullTime() >= 500.0f);
+			{
+				m_vecItem[i]->SetIsNull(false);
+				m_vecItem[i]->SetNameNumber(RND->getInt(5));
+			}*/
 		}
-		else
+		else if (!m_vecItem[i]->GetIsNull() && D3DXVec3Length(&(m_pCharacter->GetPosition() - m_vecItem[i]->GetPosition())) < 2.0f)
 		{
-			it++;
+			m_pInventory->AddItem(m_vecItem[i]->GetName(), m_vecItem[i]->GetItemType());
+			m_vecItem[i]->SetIsNull(true);
 		}
 	}
 
@@ -683,7 +754,7 @@ void LJHcJustTestScene::Render()
 		}
 	}
 
-	for each(auto i in m_listItem)
+	for each(auto i in m_vecItem)
 	{
 		i->Render();
 	}

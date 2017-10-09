@@ -6,6 +6,8 @@ FieldItem::FieldItem()
 	: m_pMesh(NULL)
 	, m_fAngleY(0.0f)
 	, m_eType(ITEMTYPE_NONE)
+	, m_fNullTime(0.0f)
+	, m_isNull(false)
 {
 }
 
@@ -20,66 +22,65 @@ void FieldItem::Setup(string name, ITEM_TYPE type)
 
 	m_sName = name;
 	m_pMesh = LoadModel("object/xFile/Item/", "ItemPart.X");
+}
 
-	/*if (name == "ArmorArm")
-	{
-		m_sName = "FullArmorPart1";
-		m_pMesh = LoadModel("object/xFile/Item/", "ArmorArm.X");
-	}
-	else if (name == "ArmorBody")
-	{
-		m_sName = "FullArmorPart2";
-		m_pMesh = LoadModel("object/xFile/Item/", "ArmorBody.X");
-	}
-	else if (name == "ArmorLeg")
-	{
-		m_sName = "FullArmorPart3";
-		m_pMesh = LoadModel("object/xFile/Item/", "ArmorLeg.X");
-	}
-	else if (name == "HelmetPart1")
-	{
-		m_sName = "HelmetPart1";
-		m_pMesh = LoadModel("object/xFile/Item/", "HelmetPart.X");
-	}
-	else if (name == "HelmetPart2")
-	{
-		m_sName = "HelmetPart2";
-		m_pMesh = LoadModel("object/xFile/Item/", "HelmetPart.X");
-	}*/
+void FieldItem::Setup(int itemNum)
+{
+	m_eType = ITEMTYPE_PART;
+	m_pMesh = LoadModel("object/xFile/Item/", "ItemPart.X");
+
+	SetNameNumber(itemNum);
 }
 
 void FieldItem::Update()
 {
 	m_fAngleY += 0.05f;
+	if (m_isNull)
+	{
+		m_fNullTime += TIMEMANAGER->getElapsedTime();
+	}
+	else
+	{
+		m_fNullTime = 0.0f;
+	}
 }
 
 void FieldItem::Render()
 {
+	if (m_isNull) return;
+
 	D3DXMATRIX matS, matRY, matT;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMatrixRotationY(&matRY, m_fAngleY);
 	D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
 
-	/*if (m_sName == "FullArmorPart1") D3DXMatrixScaling(&matS, 0.1f, 0.1f, 0.1f);
-	else if (m_sName == "FullArmorPart2") D3DXMatrixScaling(&matS, 0.06f, 0.06f, 0.06f);
-	else if (m_sName == "FullArmorPart3") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
-	else if (m_sName == "HelmetPart1") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);
-	else if (m_sName == "HelmetPart2") D3DXMatrixScaling(&matS, 0.07f, 0.07f, 0.07f);*/
-
 	m_matWorld = matS * matRY * matT;
 	GETDEVICE->SetTransform(D3DTS_WORLD, &m_matWorld);
 	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture("object/xFile/Item/T_Pickup_Packs.tga"));
 
-	/*if (m_sName == "FullArmorPart1" || m_sName == "FullArmorPart2" || m_sName == "FullArmorPart3")
-	{
-		GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture("object/xFile/Item/T_GabeArmor_Diffuse.tga"));
-	}
-	else if (m_sName == "HelmetPart1" || m_sName == "HelmetPart2")
-	{
-		GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture("object/xFile/Item/T_Pickup_Packs.tga"));
-	}*/
-
 	m_pMesh->DrawSubset(0);
+}
+
+void FieldItem::SetNameNumber(int nNum)
+{
+	switch (nNum)
+	{
+	case 0:
+		m_sName = "FullArmorPart1";
+		break;
+	case 1:
+		m_sName = "FullArmorPart2";
+		break;
+	case 2:
+		m_sName = "FullArmorPart3";
+		break;
+	case 3:
+		m_sName = "HelmetPart1";
+		break;
+	case 4:
+		m_sName = "HelmetPart2";
+		break;
+	}
 }
 
 LPD3DXMESH FieldItem::LoadModel(char* szFolder, char* szFilename)

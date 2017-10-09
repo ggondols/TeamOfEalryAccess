@@ -29,7 +29,7 @@
 
 class iMap;
 
-class cUIObject;
+class FieldItem;
 class cSkyDome;
 class cSkyCloud;
 class Inventory;
