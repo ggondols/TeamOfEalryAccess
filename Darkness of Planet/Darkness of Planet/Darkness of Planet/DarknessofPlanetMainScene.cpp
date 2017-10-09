@@ -1385,6 +1385,8 @@ void DarknessofPlanetMainScene::TargetOn()
 	{
 		if (D3DXVec3Length(&(m_pCharacter->GetPositionYZero() - m_pBoss->GetPositionYzero())) < 70.0f)
 		{
+
+
 			m_iCameranum = 1;
 			m_pBoss->m_eType = Boss_Show;
 			m_pBoss->SetAnimation(40);
