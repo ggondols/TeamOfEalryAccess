@@ -25,6 +25,12 @@ enum Boss_Skill
 	Boss_Skill_None
 
 };
+enum Boss_type
+{
+	Boss_Idle,
+	Boss_Show,
+	Boss_Attack
+};
 class TeicBoss
 {
 
@@ -36,6 +42,8 @@ private:
 
 public:
 	
+
+	Boss_type			m_eType;
 	Boss_Skill			m_eSkilltype;
 	void MakeBoundingBox();
 	POINT m_PresentGrid;
@@ -90,6 +98,9 @@ public:
 	LPD3DXEFFECT LoadEffect(const char * szFileName);
 	bool GetDie();
 	void SetDIe(bool on);
+	void SkillOn(D3DXVECTOR3 CharacterPos);
+	void SetHp(int n);
+	int GetHp();
 public:
 	TeicBoss();
 	~TeicBoss();

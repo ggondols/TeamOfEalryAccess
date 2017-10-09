@@ -55,6 +55,8 @@ public:
 	TeicPhysicsCrtCtrl*			m_pCtrl;
 	POINT				m_pPreviousPoint;
 	bool						m_bTCallback;
+	int							m_iMaxHP;
+	int							m_iHP;
 public:
 	void Setup(char* Foldername, char* Filename);
 	void CallbackOn(int n);

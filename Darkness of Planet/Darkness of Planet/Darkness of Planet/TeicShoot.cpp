@@ -79,8 +79,11 @@ void TeicShoot::Shoot(WeaponType type)
 						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->GetDie())continue;
 						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("FireGun");
 						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fFireTime = TIMEMANAGER->getWorldTime();
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bFire = true;
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type != Bounding_Boss)
+						{
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fFireTime = TIMEMANAGER->getWorldTime();
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bFire = true;
+						}
 					
 					}
 				}
@@ -146,8 +149,11 @@ void TeicShoot::Shoot(WeaponType type)
 							position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
 							SKILLEFFECTMANAGER->play("MChill", position, D3DXVECTOR3(0, 0, 0));
 							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AR6");
-							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bSlow = true;
-							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fSlowTime = TIMEMANAGER->getWorldTime();
+							if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type != Bounding_Boss)
+							{
+								m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bSlow = true;
+								m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fSlowTime = TIMEMANAGER->getWorldTime();
+							}
 							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
 							break;
 						case Wp_M4:

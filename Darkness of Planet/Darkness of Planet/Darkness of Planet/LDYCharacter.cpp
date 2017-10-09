@@ -64,7 +64,8 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 {
 	//ctrl생성
 	m_pCtrl = new TeicPhysicsCrtCtrl;
-
+	m_iMaxHP = 100;
+	m_iHP = 100;
 
 	//body 상황별 메쉬 셋업 
 

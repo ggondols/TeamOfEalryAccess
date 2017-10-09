@@ -58,6 +58,7 @@ private:
 	float					m_fTime5; /// 총 연사 속도 시간
 	float					m_fTime6; //// 일반 모드에서 캐릭터 쫓아옴  10초간격
 	float					m_fTime7; //// 필드 몬스터 생성 시간 (20초 간격)
+	float					m_fBossTime;
 	int						m_iBodyUpgrade;
 
 	// 인벤토리 추가
@@ -89,7 +90,7 @@ public:
 	vector<bool>					m_vecAttackSlot;
 	POINT							m_pAttackNode;
 	D3DXVECTOR3						m_EnemyTarget;
-
+	TeicCollisionMove*				m_pBossMove;
 
 	//동윤
 private:
@@ -140,7 +141,7 @@ private:
 
 
 public:
-
+	int			m_iCameranum;
 	TeicEnemy*  m_pTempEnemy;
 	cSphere*	m_pTempSPhere;
 	TeicBoss*	m_pBoss;
@@ -170,6 +171,7 @@ public:
 	float GetFireRate();
 	float GetCallbackTime();
 	void SetRushAttack();
+	void BossAttack();
 	//동윤
 	void AfterImage();
 	float ComputeGaussianValue(float x, float mean, float std_deviation);
@@ -177,6 +179,7 @@ public:
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
 	void MakingFieldEnemy();
 	D3DXVECTOR3 GetWhere(int n);
+
 public:
 	DarknessofPlanetMainScene();
 	~DarknessofPlanetMainScene();
