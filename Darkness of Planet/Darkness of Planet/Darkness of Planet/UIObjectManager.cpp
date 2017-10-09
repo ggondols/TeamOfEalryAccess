@@ -213,6 +213,18 @@ void UIObjectManager::SetDrawTextFormat(string key, int tag, DWORD formet)
 	if (pTextView) pTextView->SetDrawTextFormat(formet);
 }
 
+void UIObjectManager::SetFontType(string key, cFontManager::eFontType type)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key);
+	if (pTextView) pTextView->SetFontType(type);
+}
+
+void UIObjectManager::SetFontType(string key, int tag, cFontManager::eFontType type)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key)->GetChildByTag(tag);
+	if (pTextView) pTextView->SetFontType(type);
+}
+
 void UIObjectManager::SetShowState(string key, bool isShow)
 {
 	m_mapShowStateIter = m_mapUIShowState.find(key);
