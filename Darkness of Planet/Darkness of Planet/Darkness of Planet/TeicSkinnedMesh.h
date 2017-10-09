@@ -51,7 +51,7 @@ protected:
 	bool						m_bAnion;
 	D3DXMATRIX					m_RotationMat;
 	bool m_bCollision;
-	
+	bool  m_bShow;
 public:
 	float	m_fAttacktiming;
 	float m_fScaleSize;

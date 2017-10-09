@@ -46,6 +46,7 @@ public:
 	float			 m_fSpeed;
 	group			m_eGroup;
 	Mode			 m_eMode;
+	
 public:
 	void MeshRender(LPD3DXEFFECT effect);
 	void SetNextAni();
@@ -81,6 +82,7 @@ public:
 	void SetAttack(int n);
 	int GetHP();
 	int GetAttack();
+	void SetShow(bool on);
 	
 	void SetSlow(bool on);
 	void SetSlowTime(float t);
@@ -92,6 +94,7 @@ public:
 	float GetFireTime();
 	bool GetDie();
 	void SetDIe(bool on);
+	
 public:
 	TeicEnemy();
 	~TeicEnemy();

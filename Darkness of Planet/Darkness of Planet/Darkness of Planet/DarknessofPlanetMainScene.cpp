@@ -153,6 +153,7 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 	{
 		if (!temp->m_vecEnemy[i]->m_bThreadCalOn)continue;
 		if (temp->m_vecEnemy[i]->m_bAttackOn)continue;
+		if (temp->m_vecEnemy[i]->GetDie())continue;
 		temp->m_pAttackNode.x = temp->m_pCharacter->GetNodeNum().x + RND->getFromIntTo(-1, 1);
 		temp->m_pAttackNode.y = temp->m_pCharacter->GetNodeNum().y + RND->getFromIntTo(-1, 1);
 		temp->m_vecEnemyWay[i] = temp->m_pAstarShort->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
@@ -179,6 +180,7 @@ static DWORD WINAPI ThFunc3(LPVOID lpParam)
 	{
 		if (temp->m_vecEnemy[i]->m_eMode == Attack)continue;
 		if (temp->m_vecEnemy[i]->m_eGroup == Field)continue;
+		if (temp->m_vecEnemy[i]->GetDie())continue;
 		temp->m_pAttackNode.x = temp->m_pCharacter->GetNodeNum().x + RND->getFromIntTo(-1, 1);
 		temp->m_pAttackNode.y = temp->m_pCharacter->GetNodeNum().y + RND->getFromIntTo(-1, 1);
 		temp->m_vecEnemyWay[i] = temp->m_pAstar->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
@@ -898,11 +900,14 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			{
 				m_vecEnemy[i - 10]->m_bAttackOn = false;
 				m_vecEnemy[i - 10]->SetAnimation(1);
+				
+
+				
 			}
 
 			if (m_vecEnemy[i - 10]->GetAninum() == 4)
 			{
-
+				m_vecEnemy[i - 10]->SetShow(false);
 				if (m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo != NULL)
 				{
 					for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
@@ -1314,7 +1319,7 @@ void DarknessofPlanetMainScene::Render()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-
+		
 		m_vecEnemy[i]->UpdateAndRender();
 	}
 
@@ -1691,7 +1696,11 @@ void DarknessofPlanetMainScene::CleanHit()
 		if (m_vecEnemy[i]->GetDie())continue;
 		if (m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
 		{
-			m_vecEnemy[i]->m_eMode == Attack;
+			if (m_vecEnemy[i]->m_eGroup == Field)
+			{
+				int a = 0;
+			}
+			m_vecEnemy[i]->m_eMode = Attack;
 			if (m_vecEnemy[i]->m_eGroup == Rush)
 			{
 				SetRushAttack();

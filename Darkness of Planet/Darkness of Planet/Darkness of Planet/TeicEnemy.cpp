@@ -20,6 +20,7 @@ TeicEnemy::TeicEnemy()
 	m_fSpeed = 5.0f;
 	m_eGroup = Field;
 	m_eMode = Idle;
+
 }
 
 
@@ -413,6 +414,15 @@ int TeicEnemy::GetAttack()
 	if (m_pSkinnedMesh)
 	{
 		return m_pSkinnedMesh->GetAttack();
+
+	}
+}
+
+void TeicEnemy::SetShow(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		 m_pSkinnedMesh->m_bShow=on;
 
 	}
 }
