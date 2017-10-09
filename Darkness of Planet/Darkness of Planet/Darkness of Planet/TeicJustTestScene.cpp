@@ -295,7 +295,7 @@ void TeicJustTestScene::Update()
 	{
 		m_pBoss->SetAnimation(0);
 	}
-	if (m_pInventory) m_pInventory->Update(CAMERA, m_pCharacter);
+	if (m_pInventory) m_pInventory->Update(m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 

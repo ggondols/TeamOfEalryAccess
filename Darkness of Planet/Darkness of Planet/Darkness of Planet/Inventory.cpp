@@ -46,17 +46,18 @@ void Inventory::Setup()
 		UIOBJECTMANAGER->AddChild("equipment", UITYPE_IMAGE);
 		UIOBJECTMANAGER->SetPosition("equipment", i, 4 * 0.2f, (i - 1) * 0.2f, 9.0f, 9.0f);
 	}
-
+	
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_ARMOR, "FullArmor"));
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_WEAPON, "M4"));
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_HELMET, "Helmet"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_EXPENDABLE, "HealPack"));
 
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_HELMET, "Mask"));
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_ARMOR, "Armor"));
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_WEAPON, "MP5"));
 }
 
-void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
+void Inventory::Update(LDYCharacter* character)
 {
 	m_pCharacter = character;
 
@@ -78,7 +79,24 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 		UIOBJECTMANAGER->SetTexture("equipment", i + 1, m_sFileAddress + m_vecEquipments[i].sName + m_sFileType);
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (UIOBJECTMANAGER->CheckShowState("inventory") && KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+	{
+		cUIObject* pSelectItem = UIOBJECTMANAGER->GetSelectChild("inventory");
+		if (pSelectItem && m_vecItems[pSelectItem->GetTag() - 1].stType == ITEMTYPE_EXPENDABLE)
+		{
+			if (m_vecItems[pSelectItem->GetTag() - 1].sName == "HealPack")
+			{
+				m_pCharacter->m_iHP += 20;
+
+				if (m_pCharacter->m_iHP >= m_pCharacter->m_iMaxHP) m_pCharacter->m_iHP = m_pCharacter->m_iMaxHP;
+				if (m_pCharacter->m_iHP <= 0) m_pCharacter->m_iHP = 0;
+				
+				DeleteInventoryItem(pSelectItem->GetTag() - 1);
+			}
+		}
+	}
+
+	if (UIOBJECTMANAGER->CheckShowState("inventory") && KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		m_pSelectItem = UIOBJECTMANAGER->GetSelectChild("inventory");
 		if (m_pSelectItem)

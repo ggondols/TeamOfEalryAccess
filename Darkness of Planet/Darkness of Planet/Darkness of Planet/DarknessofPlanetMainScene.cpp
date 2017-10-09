@@ -556,7 +556,7 @@ void DarknessofPlanetMainScene::Update()
 	m_pBoss->Update(m_pCharacter->GetPosition());
 	BossAttack();
 
-	if (m_pInventory) m_pInventory->Update(CAMERA, m_pCharacter);
+	if (m_pInventory) m_pInventory->Update(m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 
