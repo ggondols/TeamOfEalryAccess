@@ -213,6 +213,18 @@ void UIObjectManager::SetDrawTextFormat(string key, int tag, DWORD formet)
 	if (pTextView) pTextView->SetDrawTextFormat(formet);
 }
 
+void UIObjectManager::SetTextColor(string key, D3DCOLOR color)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key);
+	if (pTextView) pTextView->SetColor(color);
+}
+
+void UIObjectManager::SetTextColor(string key, int tag, D3DCOLOR color)
+{
+	cUITextView* pTextView = (cUITextView*)FindRoot(key)->GetChildByTag(tag);
+	if (pTextView) pTextView->SetColor(color);
+}
+
 void UIObjectManager::SetFontType(string key, cFontManager::eFontType type)
 {
 	cUITextView* pTextView = (cUITextView*)FindRoot(key);
@@ -263,6 +275,9 @@ cUIObject * UIObjectManager::FindRoot(string key)
 
 cUIObject * UIObjectManager::GetChildByTag(string key, int tag)
 {
+	/*cUIObject* object = FindRoot(key);
+	if (object) return object->GetChildByTag(tag);
+	else return NULL;*/
 	return FindRoot(key)->GetChildByTag(tag);
 }
 

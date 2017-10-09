@@ -113,9 +113,23 @@ void Loading::Setup(void)
 	pLoadingImageUp->SetTexture("./UI/lifeBarUp.bmp");
 	pLoadingImageUp->SetSizeWidth(0);
 
+	cUIImageView* pLodingBgImage = new cUIImageView;
+	pLodingBgImage->SetTexture("./UI/loadingBg.png");
+	UIOBJECTMANAGER->AddRoot("LoadingBg", pLodingBgImage, true);
+
 	UIOBJECTMANAGER->AddRoot("LoadingBar", pLoadingImageDown, true);
 	UIOBJECTMANAGER->AddChild("LoadingBar", pLoadingImageUp);
-	m_pFont = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
+
+	UIOBJECTMANAGER->AddRoot("LoadingText", UITYPE_TEXT, true);
+	UIOBJECTMANAGER->SetPosition("LoadingText", 0.5f, 0.85f);
+	UIOBJECTMANAGER->SetDrawTextFormat("LoadingText", DT_CENTER | DT_TOP | DT_NOCLIP);
+	UIOBJECTMANAGER->SetTextColor("LoadingText", D3DCOLOR_XRGB(218, 149, 31));
+	//0, 0, 0
+	//218, 149, 31
+	//89, 231, 53
+	UIOBJECTMANAGER->SetFontType("LoadingText", cFontManager::E_LODING);
+
+	m_pFont = FONTMANAGER->GetFont(cFontManager::E_LODING);
 }
 
 void Loading::Release(void)
@@ -126,22 +140,28 @@ void Loading::Release(void)
 		SAFE_DELETE(*iter);
 	}
 
+	UIOBJECTMANAGER->ReleaseRoot("LoadingBg");
 	UIOBJECTMANAGER->ReleaseRoot("LoadingBar");
+	UIOBJECTMANAGER->ReleaseRoot("LoadingText");
 	
 }
 
 void Loading::Update(void)
 {
+	UIOBJECTMANAGER->Update("LoadingBg");
 	UIOBJECTMANAGER->Update("LoadingBar");
+	UIOBJECTMANAGER->Update("LoadingText");
 }
 
 void Loading::Render(void)
 {
+	UIOBJECTMANAGER->Render("LoadingBg");
 	UIOBJECTMANAGER->Render("LoadingBar");
+	UIOBJECTMANAGER->Render("LoadingText");
 	
 	
-	RECT rc = RectMake(200, 500, 1000, 1000);
-	m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_CENTER, D3DCOLOR_XRGB(255, 255, 255));
+	//RECT rc = RectMake(200, 500, 1000, 1000);
+	//m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_CENTER, D3DCOLOR_XRGB(0, 0, 0));
 }
 
 void Loading::LoadTestResource(string keyName, int width, int height)
@@ -197,68 +217,69 @@ BOOL Loading::LoadNext(void)
 	
 	switch (item->GetLoadingKind())
 	{
-	case LOADING_KIND_TEST:
-	{
-		// 예시.. 
-		//tagImageResource ir = item->getImageResource();
-		//IMAGEMANAGER->addImage(ir.keyName, ir.width, ir.height);
-		break;
-	}
-	case LOADING_KIND_HEIGHT:
-	{
-		sprintf_s(str, "하이트 맵 로딩 중");
-		tagHeight ir = item->GetHeightMapResource();
-		HEIGHTMAPMANAGER->AddHeightMap(ir.keyName, ir.szFolder, ir.szFile, ir.szTexture, ir.dwBytesPerPixel);
-		break;
-	}
-	case LOADING_KIND_WAY:
-	{
-		sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
-		tagWay ir = item->GetWayResource();
-		WAYMANAGER->AddWay(ir.keyName.c_str(), ir.Node, ir.StartX, ir.StartZ, ir.LastX, ir.LastZ);
-		break;
-	}
-	case LOADING_KIND_WAY2:
-	{
-		sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
-		tagWay2 ir = item->GetWayResource2();
-		WAYMANAGER->AddWay2(ir.keyName.c_str(), ir.Node, ir.start, ir.last);
-		break;
-	}
-	case LOADING_KIND_MESH:
-	{
-		sprintf_s(str, "메쉬 불러오는 중");
-		tagMesh ir = item->GetMeshResource();
-		if (ir.type == MESH_NORMAL)
+		case LOADING_KIND_TEST:
 		{
-			MESHLOADER->AddSkinnedMesh(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+			// 예시.. 
+			//tagImageResource ir = item->getImageResource();
+			//IMAGEMANAGER->addImage(ir.keyName, ir.width, ir.height);
+			break;
 		}
-		else if(ir.type ==MESH_HEAD)
+		case LOADING_KIND_HEIGHT:
 		{
-			MESHLOADER->AddSkinnedMeshHead(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+			//sprintf_s(str, "하이트 맵 로딩 중");
+			sprintf_s(str, "HeightMap Loading...");
+			tagHeight ir = item->GetHeightMapResource();
+			HEIGHTMAPMANAGER->AddHeightMap(ir.keyName, ir.szFolder, ir.szFile, ir.szTexture, ir.dwBytesPerPixel);
+			break;
 		}
-		else if (ir.type == MESH_WEAPON)
+		case LOADING_KIND_WAY:
 		{
-			MESHLOADER->AddSkinnedWeapon(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+			//sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
+			sprintf_s(str, "Monster's Way Loading...");
+			tagWay ir = item->GetWayResource();
+			WAYMANAGER->AddWay(ir.keyName.c_str(), ir.Node, ir.StartX, ir.StartZ, ir.LastX, ir.LastZ);
+			break;
 		}
-		break;
-	}
-	case LOADING_KIND_SOUND:
-	{
-		sprintf_s(str, "사운드 불러오는 중");
-		tagSoundList ir = item->GetSoundResource();
-		
-		SOUNDMANAGER->addSound(ir._soundKey, ir._soundPath, ir._soundName, ir._bgm, ir._loop);
+		case LOADING_KIND_WAY2:
+		{
+			//sprintf_s(str, "몬스터 경로를 미리 찾아 놓는 중");
+			sprintf_s(str, "Monster's Way Loading...");
+			tagWay2 ir = item->GetWayResource2();
+			WAYMANAGER->AddWay2(ir.keyName.c_str(), ir.Node, ir.start, ir.last);
+			break;
+		}
+		case LOADING_KIND_MESH:
+		{
+			//sprintf_s(str, "메쉬 불러오는 중");
+			sprintf_s(str, "Mesh Loading...");
+			tagMesh ir = item->GetMeshResource();
+			if (ir.type == MESH_NORMAL)
+			{
+				MESHLOADER->AddSkinnedMesh(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+			}
+			else if(ir.type ==MESH_HEAD)
+			{
+				MESHLOADER->AddSkinnedMeshHead(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+			}
+			else if (ir.type == MESH_WEAPON)
+			{
+				MESHLOADER->AddSkinnedWeapon(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+			}
+			break;
+		}
+		case LOADING_KIND_SOUND:
+		{
+			//sprintf_s(str, "사운드 불러오는 중");
+			sprintf_s(str, "Sound Loading...");
+			tagSoundList ir = item->GetSoundResource();
+			
+			SOUNDMANAGER->addSound(ir._soundKey, ir._soundPath, ir._soundName, ir._bgm, ir._loop);
 
-		break;
+			break;
+		}
 	}
-	//case LOADING_KIND_ADDIMAGE_01:
-	//{
-	//	tagImageResource ir = item->getImageResource();
-	//	IMAGEMANAGER->addImage(ir.keyName, ir.fileName, ir.x, ir.y, ir.width, ir.height, ir.trans, ir.transColor);
-	//}
-	//break;
-	}
+
+	UIOBJECTMANAGER->SetText("LoadingText", str);
 
 	SetGauge((float)m_nCurrent, m_vecLoadItems.size());
 

@@ -10,6 +10,7 @@ public:
 		E_QUEST,
 		E_TEI,
 		E_CONSOLE,
+		E_LODING,
 		E_END,
 	};
 
