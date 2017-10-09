@@ -14,6 +14,7 @@ private:
 	cTimer *_timer;
 	LPD3DXFONT m_pFont;
 	RECT _rc;
+	SYNTHESIZE(bool, _showFrame, ShowFrame);
 public:
 	cTimeManager();
 	~cTimeManager();
