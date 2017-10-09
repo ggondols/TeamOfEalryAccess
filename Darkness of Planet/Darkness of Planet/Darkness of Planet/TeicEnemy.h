@@ -18,6 +18,11 @@ enum group
 	Field,
 	Rush
 };
+enum Mode
+{
+	Idle,
+	Attack
+};
 class TeicEnemy
 {
 
@@ -40,6 +45,7 @@ public:
 	D3DXVECTOR3		 m_vPreviousPosition;
 	float			 m_fSpeed;
 	group			m_eGroup;
+	Mode			 m_eMode;
 public:
 	void MeshRender(LPD3DXEFFECT effect);
 	void SetNextAni();
@@ -75,10 +81,15 @@ public:
 	void SetAttack(int n);
 	int GetHP();
 	int GetAttack();
-	bool GetSlow();
+	
 	void SetSlow(bool on);
 	void SetSlowTime(float t);
+	void SetFire(bool on);
+	void SetFireTime(float t);
+	bool GetSlow();
 	float GetSlowTime();
+	bool GetFire();
+	float GetFireTime();
 public:
 	TeicEnemy();
 	~TeicEnemy();

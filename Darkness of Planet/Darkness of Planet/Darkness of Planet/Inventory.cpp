@@ -62,6 +62,7 @@ void Inventory::Update(LDYCamera* camera, LDYCharacter* character)
 
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
+		g_bCursor = !g_bCursor;
 		bool showState = !UIOBJECTMANAGER->CheckShowState("inventory");
 		UIOBJECTMANAGER->SetShowState("inventory", showState);
 		UIOBJECTMANAGER->SetShowState("equipment", showState);

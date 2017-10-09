@@ -14,6 +14,9 @@ private:
 	D3DXHANDLE				m_hMatProjection;
 	D3DXHANDLE				m_hfNight;
 	float					m_fNightvalue;
+	int						m_iBuho;
+public:
+	float					m_fNowtime;
 public:
 	cSkyDome();
 	~cSkyDome();

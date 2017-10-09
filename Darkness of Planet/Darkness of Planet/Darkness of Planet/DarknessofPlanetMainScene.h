@@ -29,7 +29,7 @@
 
 class iMap;
 
-class cUIObject;
+class FieldItem;
 class cSkyDome;
 class cSkyCloud;
 class Inventory;
@@ -53,13 +53,15 @@ private:
 
 	float					m_fTime;   /// 쓰레드 시작
 	float					m_fTime2;  ///  쓰레드 완료
-	float					m_fTime3;
+	float					m_fTime3;   ////  타겟 잡는 시간
 	float					m_fTime4; /// 총잡는 자세에서 돌아오는 시간
 	float					m_fTime5; /// 총 연사 속도 시간
+	float					m_fTime6; //// 일반 모드에서 캐릭터 쫓아옴  10초간격
 	int						m_iBodyUpgrade;
 
 	// 인벤토리 추가
 	Inventory*				m_pInventory;
+	vector<FieldItem*>		m_vecItem;
 
 private:
 	//Map Object Control
@@ -76,8 +78,10 @@ public:
 	TeicAstarShort*		    m_pAstarShort;
 	bool					m_bThread;
 	bool					m_bAstarThread;
-	bool					m_bAttackOn;
+	bool					m_bAstarThread2;
+
 	vector<TeicEnemy*>				m_vecEnemy;
+	vector<TeicEnemy*>				m_vecMakingEnemy;
 	vector< vector<D3DXVECTOR3>>	m_vecEnemyWay;
 	vector<TeicMoveSequence*>		m_vecEnemyCollisionMove;
 	vector<POINT>					m_vecBresnhamNode;
@@ -125,7 +129,7 @@ private:
 	float					m_fEndTime;
 	float					m_fCurrentTime;
 
-	LPD3DXMESH				m_pMesh;
+
 	DWORD					m_dNum;
 	LPD3DXEFFECT			m_pBloomEffect;
 	LPDIRECT3DTEXTURE9		m_pBloomRenderTarget;
@@ -143,7 +147,7 @@ public:
 	virtual void Release();
 	virtual void Render();
 	virtual void Update();
-
+	void MakingEnemy();
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 	void Push2(TeicEnemy* A, TeicEnemy* B);
@@ -164,7 +168,7 @@ public:
 	void CheckDie();
 	float GetFireRate();
 	float GetCallbackTime();
-
+	void SetRushAttack();
 	//동윤
 	void AfterImage();
 	float ComputeGaussianValue(float x, float mean, float std_deviation);

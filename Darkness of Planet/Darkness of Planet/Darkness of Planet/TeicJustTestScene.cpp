@@ -290,11 +290,7 @@ void TeicJustTestScene::Update()
 {
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
 	m_pBoss->Update(m_pCharacter->GetPosition());
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
-	{
-		m_pBoss->SetNextAni();
-		//m_ptest->Start();
-	}
+	
 	if (KEYMANAGER->isOnceKeyDown('0'))
 	{
 		m_pBoss->SetAnimation(0);

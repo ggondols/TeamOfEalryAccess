@@ -1612,6 +1612,7 @@ D3DXVECTOR3 LDYCharacter::GetPosition()
 void LDYCharacter::SetPosition(D3DXVECTOR3 position)
 {
 	//if (m_pHeroBody_Base)m_pHeroBody_Base->SetPosition(position);
+	m_pCtrl->SetPosition(position);
 	switch (m_eStType)
 	{
 	case ST_Attack:

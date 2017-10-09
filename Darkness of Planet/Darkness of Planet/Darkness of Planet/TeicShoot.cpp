@@ -32,75 +32,145 @@ void TeicShoot::Shoot(WeaponType type)
 	D3DXVec3Normalize(&m_vShootDir, &m_vShootDir);
 	m_vFinish = m_vShootPosition + m_vShootDir* m_fShootDistance;
 
-	m_stBulletSquare.m_vCenterPos = (m_vShootPosition + m_vFinish) / 2;
-	m_stBulletSquare.m_fSizeZ = m_fShootDistance/2;
-	CalRotation();
-	m_vecPoint = m_pBresenham->FindNodeAccuracy(m_vShootPosition.x, m_vShootPosition.z,
-		m_vFinish.x, m_vFinish.z);
-	m_vecDeletePoint= m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
-		m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
-	for (int i = 0; i < m_vecPoint.size(); i++)
+	
+
+	if (type == WP_FireGun)
 	{
-		if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
-			m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
-		int a = 0;
-		for (int j = 0; j < m_vecDeletePoint.size(); j++)
+		
+		D3DXVECTOR3 target = m_vShootPosition + m_vShootDir * 30;
+		D3DXVECTOR3 start = m_vShootPosition + m_vShootDir * 10;
+		m_stBulletSquare.m_vCenterPos = (start + target) / 2;
+		m_stBulletSquare.m_fSizeZ =D3DXVec3Length(&(target - start)) / 2;
+		m_stBulletSquare.m_fSizeY = 1;
+		m_stBulletSquare.m_fSizeX = 3;
+
+		CalRotation();
+
+		m_vecPoint = m_pBresenham->FindNodeAccuracy2(m_vShootPosition.x, m_vShootPosition.z,
+			target.x, target.z);
+		m_vecDeletePoint = m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
+			m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
+		for (int i = 0; i < m_vecPoint.size(); i++)
 		{
-			if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
-				m_vecPoint[i].y == m_vecDeletePoint[j].y)
+			if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
+				m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
+			int a = 0;
+			for (int j = 0; j < m_vecDeletePoint.size(); j++)
 			{
-				a = 1;
+				if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
+					m_vecPoint[i].y == m_vecDeletePoint[j].y)
+				{
+					a = 1;
+				}
+			}
+			if (a == 0)
+				m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
+		}
+		
+
+		for (int i = 0; i < m_vecTargetNode.size(); i++)
+		{
+			if (m_vecTargetNode[i]->m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
+					{
+						
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("FireGun");
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fFireTime = TIMEMANAGER->getWorldTime();
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bFire = true;
+					
+					}
+				}
 			}
 		}
-		if(a==0)
-		m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x] );
 	}
-	D3DXVECTOR3 position;
-	if (type == Wp_AA12)
+	else
 	{
-		SKILLEFFECTMANAGER->play("Laser", m_vShootPosition+ m_vShootDir*20, m_vFinish);
-	}
-	for (int i = 0; i < m_vecTargetNode.size(); i++)
-	{
-		if (m_vecTargetNode[i]->m_pBoundInfo != NULL)
+
+		m_stBulletSquare.m_vCenterPos = (m_vShootPosition + m_vFinish) / 2;
+		m_stBulletSquare.m_fSizeZ = m_fShootDistance / 2;
+		m_stBulletSquare.m_fSizeY = 0.1;
+		m_stBulletSquare.m_fSizeX = 0.1;
+
+		CalRotation();
+
+		m_vecPoint = m_pBresenham->FindNodeAccuracy(m_vShootPosition.x, m_vShootPosition.z,
+			m_vFinish.x, m_vFinish.z);
+		m_vecDeletePoint = m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
+			m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
+		for (int i = 0; i < m_vecPoint.size(); i++)
 		{
-			for (int j = 0; j < m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding.size(); j++)
+			if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
+				m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
+			int a = 0;
+			for (int j = 0; j < m_vecDeletePoint.size(); j++)
 			{
-				if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
+				if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
+					m_vecPoint[i].y == m_vecDeletePoint[j].y)
 				{
-					switch (type)
+					a = 1;
+				}
+			}
+			if (a == 0)
+				m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
+		}
+		D3DXVECTOR3 position;
+		if (type == Wp_AA12)
+		{
+			SKILLEFFECTMANAGER->play("Laser", m_vShootPosition + m_vShootDir * 20, m_vFinish);
+		}
+
+		for (int i = 0; i < m_vecTargetNode.size(); i++)
+		{
+			if (m_vecTargetNode[i]->m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
 					{
-					case Wp_Melee:
-						break;
-					case Wp_AA12:
-						
+						switch (type)
+						{
+						case Wp_Melee:
+							break;
+						case Wp_AA12:
 
 
-						
-						break;
-					case Wp_AR6:
-						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
-						SKILLEFFECTMANAGER->play("MChill", position, D3DXVECTOR3(0, 0, 0));
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AR6");
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bSlow = true;
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fSlowTime = TIMEMANAGER->getWorldTime();
-						break;
-					case Wp_M4:
-						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
-						SKILLEFFECTMANAGER->play("MBlood", position, D3DXVECTOR3(0, 0, 0));
-						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("M4");
-						break;
-					case Wp_MP5:
-						break;
-					case WP_FireGun:
-						break;
-					default:
-						break;
+
+
+							break;
+						case Wp_AR6:
+							position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+							SKILLEFFECTMANAGER->play("MChill", position, D3DXVECTOR3(0, 0, 0));
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AR6");
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bSlow = true;
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fSlowTime = TIMEMANAGER->getWorldTime();
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
+							break;
+						case Wp_M4:
+							position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+							SKILLEFFECTMANAGER->play("MBlood", position, D3DXVECTOR3(0, 0, 0));
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("M4");
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
+							break;
+						case Wp_MP5:
+							position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+							SKILLEFFECTMANAGER->play("MBlood", position, D3DXVECTOR3(0, 0, 0));
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("MP5");
+							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
+							break;
+						case WP_FireGun:
+							break;
+						default:
+							break;
+						}
+
+						/*if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit == true) continue;
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;*/
+						return;
 					}
-					
-					/*if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit == true) continue;
-					m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;*/
-					return;
 				}
 			}
 		}
