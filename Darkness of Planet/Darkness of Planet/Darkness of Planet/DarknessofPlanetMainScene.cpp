@@ -11,6 +11,7 @@
 #include "cSkyDome.h"
 #include "cSkyCloud.h"
 #include "Inventory.h"
+#include "FieldItem.h"
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
