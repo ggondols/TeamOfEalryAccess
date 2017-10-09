@@ -451,7 +451,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 
 
-
 	m_pSkyDome->m_fNowtime = 0;
 	return S_OK;
 }
