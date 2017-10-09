@@ -201,6 +201,10 @@ static DWORD WINAPI ThFunc3(LPVOID lpParam)
 
 HRESULT DarknessofPlanetMainScene::Setup()
 {
+	//윈도우 옵션 MOUSEMOVE 전역으로
+	//마우스 설정
+	SetCapture(g_hWnd);
+
 	////////// 대원
 	//## 초기화 리스트
 	//## StaticMeshLoader, Object List controler
