@@ -12,6 +12,7 @@
 #include "cSkyCloud.h"
 #include "Inventory.h"
 #include "FieldItem.h"
+
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -501,6 +502,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 
 
+	
 	m_pBoss->SetPosition(m_pNode->m_vRow[174].m_vCol[74].m_vPosList->m_vCenterPos);
 
 
@@ -673,6 +675,7 @@ void DarknessofPlanetMainScene::Update()
 				}
 				else
 				{
+					
 					//m_pShoot->Shoot(m_pCharacter->getWeaponType());
 					//CAMERA->rebound();
 				}
@@ -681,11 +684,13 @@ void DarknessofPlanetMainScene::Update()
 			else
 			{
 				m_fTime4 = TIMEMANAGER->getWorldTime();
+				
 				if (m_pCharacter->m_bTCallback)
 				{
 					if (m_pCharacter->getWeaponType() == WP_FireGun)
 					{
 
+					
 						m_pCharacter->m_pCtrl->setAttacking(true);
 						m_pShoot->Shoot(m_pCharacter->getWeaponType());
 						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
@@ -707,6 +712,7 @@ void DarknessofPlanetMainScene::Update()
 						CAMERA->rebound();
 					}
 				}
+				
 			}
 		}
 
@@ -1241,6 +1247,7 @@ void DarknessofPlanetMainScene::Render()
 		m_pCreateShadow->End();
 	}
 
+
 	//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(150, 150, 150);
 	//float start = 0.0f;
 	//float end = 200.0f;
@@ -1303,7 +1310,7 @@ void DarknessofPlanetMainScene::Render()
 
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 	if (m_pInventory) m_pInventory->Render();
-	AfterImage();
+	
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -1328,6 +1335,7 @@ void DarknessofPlanetMainScene::Render()
 		pNode->m_pModel->Render(GETDEVICE);
 	}
 	m_pBoss->UpdateAndRender();
+
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
@@ -1338,6 +1346,7 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
 
+	AfterImage();
 
 	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
@@ -1552,6 +1561,7 @@ void DarknessofPlanetMainScene::AngleChange(TeicEnemy * A)
 
 	if (targetangle > Angle)
 	{
+	
 		if (targetangle - Angle > D3DX_PI)
 		{
 			Angle -= 0.05;
@@ -1569,6 +1579,7 @@ void DarknessofPlanetMainScene::AngleChange(TeicEnemy * A)
 	}
 	else
 	{
+		
 		if (Angle - targetangle > D3DX_PI)
 		{
 			Angle += 0.05;
@@ -2056,6 +2067,7 @@ void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
 
+		
 		if (A->GetSlot() && B->GetSlot())
 		{
 			if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
@@ -2101,6 +2113,7 @@ void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 		}
 	}
+	
 
 
 
