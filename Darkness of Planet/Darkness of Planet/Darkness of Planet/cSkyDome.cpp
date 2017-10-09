@@ -7,6 +7,7 @@ cSkyDome::cSkyDome()
 	, m_pMesh(NULL)
 	, m_dMatarial(0)
 	, m_fNightvalue(0.0f)
+	, m_iBuho(1)
 {
 }
 
@@ -43,12 +44,24 @@ void cSkyDome::Setup()
 	UIOBJECTMANAGER->SetPosition("skydometime", 0.9f, 0.05f);
 	UIOBJECTMANAGER->SetSize("skydometime", 100, 30);
 	UIOBJECTMANAGER->SetDrawTextFormat("skydometime", DT_CENTER | DT_VCENTER | DT_WORDBREAK);
-	UIOBJECTMANAGER->SetTime("skydometime", &m_fNightvalue);
+	UIOBJECTMANAGER->SetTime("skydometime", &m_fNowtime);
+	m_fNowtime = 0;
 }
 
 void cSkyDome::Update()
 {
-	m_fNightvalue += 0.00001f;
+	///////////m_fNightvalue 1¾îµÓ°í 0¹àÀ½
+	m_fNowtime += 0.0001f;
+	m_fNightvalue += 0.0001f *m_iBuho;
+	if (m_fNightvalue >= 1)
+	{
+		m_iBuho = -1;
+	}
+	if (m_fNightvalue <= 0)
+	{
+		m_iBuho = 1;
+		m_fNowtime = 0;
+	}
 }
 
 void cSkyDome::Render()

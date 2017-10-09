@@ -135,42 +135,12 @@ void TeicParticleSystem::Setup2(D3DXVECTOR3 start, D3DXVECTOR3 startVar, D3DXVEC
 		m_vecParticle[i]->Start();
 	}
 	m_text = texture;
-	GETDEVICE->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+	
 
 	m_fDotSize = dotsize;
 	m_fDotSizevar = dotsizevar;
-	// 포인트 사이즈 설정
-	GETDEVICE->SetRenderState(D3DRS_POINTSIZE, FtoDw(dotsize + RND->getFromFloatTo(-dotsizevar, dotsizevar)));
-
-	// 포인트 스케일링 Factor값 설정
-	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_A, FtoDw(1.0f));
-	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_B, FtoDw(1.0f));
-	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_C, FtoDw(1.0f));
-
-	// 포인트 최소 크기
-	GETDEVICE->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDw(0.0f));
-
-	// 포인트 최대 크기
-	GETDEVICE->SetRenderState(D3DRS_POINTSIZE_MAX, FtoDw(1000.0f));
-
-	// 포인트에 텍스쳐를 입힐 수 있게 해줌
-	GETDEVICE->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
-
-	// 텍스쳐 알파 옵션 설정
-	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-
-	GETDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-
-
-	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
-
-
-
-
 	
-	
+
 }
 
 
@@ -250,7 +220,34 @@ void TeicParticleSystem::Render()
 	GETDEVICE->SetTexture(0, NULL);
 	GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
 
-	GETDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+	// 포인트 사이즈 설정
+	GETDEVICE->SetRenderState(D3DRS_POINTSIZE, FtoDw(m_fDotSize + RND->getFromFloatTo(-m_fDotSizevar, m_fDotSizevar)));
+
+	// 포인트 스케일링 Factor값 설정
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_A, FtoDw(1.0f));
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_B, FtoDw(1.0f));
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALE_C, FtoDw(1.0f));
+
+	// 포인트 최소 크기
+	GETDEVICE->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDw(0.0f));
+
+	// 포인트 최대 크기
+	GETDEVICE->SetRenderState(D3DRS_POINTSIZE_MAX, FtoDw(1000.0f));
+
+	// 포인트에 텍스쳐를 입힐 수 있게 해줌
+	GETDEVICE->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
+
+	// 텍스쳐 알파 옵션 설정
+	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	GETDEVICE->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+
+	GETDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+
+
+	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
+
 
 	GETDEVICE->SetTexture(0, TEXTUREMANAGER->GetTexture(m_text));
 
@@ -259,7 +256,12 @@ void TeicParticleSystem::Render()
 		&m_vecVertex[0],
 		sizeof(ST_PC_VERTEX));
 
-	GETDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, true);
+
+
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALEENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
+
+	
 }
 
 void TeicParticleSystem::Release()

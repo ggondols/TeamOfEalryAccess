@@ -17,6 +17,7 @@ private:
 public:
 	vector<POINT> FindNode(float startX,float startY,float endX,float endY);
 	vector<POINT> FindNodeAccuracy(float startX, float startY, float endX, float endY);
+	vector<POINT> FindNodeAccuracy2(float startX, float startY, float endX, float endY);
 	TeicBresenham();
 	~TeicBresenham();
 };
