@@ -2,6 +2,7 @@
 #include "Loading.h"
 #include "cUIImageView.h"
 #include "HankcNode.h"
+#include "cSoundLoader.h"
 LoadItem::LoadItem(void)
 {
 }
@@ -75,6 +76,13 @@ HRESULT LoadItem::InitForMesh(string keyName, MESHTYPE type, char * foldername, 
 	strcpy_s(m_stMesh.Foldername,256, foldername);
 	strcpy_s(m_stMesh.Filename, 256, filename);
 	
+	return S_OK;
+}
+
+HRESULT LoadItem::InitForSound(tagSoundList &sm)
+{
+	m_kind = LOADING_KIND_SOUND;
+	m_stSound = sm;
 	return S_OK;
 }
 
@@ -171,6 +179,13 @@ void Loading::LoadMesh(string keyName,MESHTYPE type, char * folername, char * fi
 	m_vecLoadItems.push_back(item);
 }
 
+void Loading::LoadSound(tagSoundList& sm)
+{
+	LoadItem* item = new LoadItem;
+	item->InitForSound(sm);
+	m_vecLoadItems.push_back(item);
+}
+
 BOOL Loading::LoadNext(void)
 {
 	if (m_nCurrent >= m_vecLoadItems.size())
@@ -226,6 +241,15 @@ BOOL Loading::LoadNext(void)
 		{
 			MESHLOADER->AddSkinnedWeapon(ir.keyName.c_str(), ir.Foldername, ir.Filename);
 		}
+		break;
+	}
+	case LOADING_KIND_SOUND:
+	{
+		sprintf_s(str, "사운드 불러오는 중");
+		tagSoundList ir = item->GetSoundResource();
+		
+		SOUNDMANAGER->addSound(ir._soundKey, ir._soundPath, ir._soundName, ir._bgm, ir._loop);
+
 		break;
 	}
 	//case LOADING_KIND_ADDIMAGE_01:

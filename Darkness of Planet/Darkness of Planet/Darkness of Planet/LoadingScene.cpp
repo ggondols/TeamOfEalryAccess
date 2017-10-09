@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "LoadingScene.h"
 #include "Loading.h"
+#include "cSoundLoader.h"
 
 LoadingScene::LoadingScene()
 	: m_pLoading(NULL)
@@ -72,6 +73,15 @@ HRESULT LoadingScene::Setup()
 	
 	m_pLoading->LoadTestResource("test", 10, 10);
 	m_pLoading->LoadTestResource("test", 10, 10);
+
+	//soudn Loading
+	cSoundLoader ls;
+	ls.LoadSound();
+	for (int i = 0; i < ls._wholeSound.size(); i++)
+	{
+		m_pLoading->LoadSound(ls._wholeSound[i]);
+	}
+
 
 	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursor.png", &m_cursortex);
 	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursorHit.png", &m_cursortex2);
