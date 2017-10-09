@@ -81,10 +81,15 @@ public:
 	void SetAttack(int n);
 	int GetHP();
 	int GetAttack();
-	bool GetSlow();
+	
 	void SetSlow(bool on);
 	void SetSlowTime(float t);
+	void SetFire(bool on);
+	void SetFireTime(float t);
+	bool GetSlow();
 	float GetSlowTime();
+	bool GetFire();
+	float GetFireTime();
 public:
 	TeicEnemy();
 	~TeicEnemy();

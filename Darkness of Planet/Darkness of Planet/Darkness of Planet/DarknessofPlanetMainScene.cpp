@@ -1432,6 +1432,18 @@ void DarknessofPlanetMainScene::SlowUpdate()
 		}
 	}
 
+	for (int i = 0; i < m_vecEnemy.size(); i++)
+	{
+		if (m_vecEnemy[i]->GetFire())
+		{
+			
+			if (TIMEMANAGER->getWorldTime() > m_vecEnemy[i]->GetFireTime() + 0.3)
+			{
+				m_vecEnemy[i]->SetFire(false);
+			}
+		}
+	}
+
 }
 
 void DarknessofPlanetMainScene::CleanHit()
@@ -1465,6 +1477,7 @@ bool DarknessofPlanetMainScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)
 		return true;
 	}
 	return false;
+
 }
 
 void DarknessofPlanetMainScene::CheckDie()

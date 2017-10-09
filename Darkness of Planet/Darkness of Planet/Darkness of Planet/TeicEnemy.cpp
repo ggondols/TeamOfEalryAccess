@@ -444,11 +444,47 @@ void TeicEnemy::SetSlowTime(float t)
 	}
 }
 
+void TeicEnemy::SetFire(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->m_bFire = on;
+
+	}
+}
+
+void TeicEnemy::SetFireTime(float t)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->m_fFireTime = t;
+
+	}
+}
+
 float TeicEnemy::GetSlowTime()
 {
 	if (m_pSkinnedMesh)
 	{
 		return m_pSkinnedMesh->m_fSlowTime;
+
+	}
+}
+
+bool TeicEnemy::GetFire()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->m_bFire;
+
+	}
+}
+
+float TeicEnemy::GetFireTime()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->m_fFireTime;
 
 	}
 }
