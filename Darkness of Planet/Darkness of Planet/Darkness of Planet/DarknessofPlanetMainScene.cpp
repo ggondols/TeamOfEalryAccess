@@ -327,6 +327,11 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	//노드 추가 합니다.
 	m_pNode = NODEMANAGER->GetNode();
+	//대원 -> 노드가 필요해 부득이 이쪽에서 실행
+	for each(auto p in m_ObjNodes)
+	{
+		p->PutBoundBoxtoNodeByPosition(m_pNode);
+	}
 
 
 	m_pAstar = new TeicAstar;

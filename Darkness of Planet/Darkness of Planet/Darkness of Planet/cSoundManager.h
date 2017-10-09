@@ -25,6 +25,7 @@ private:
 	typedef std::map<std::string, Sound**>::iterator arrSoundsIter;
 	typedef std::map<std::string, Channel**> arrChannels;
 	typedef std::map<std::string, Channel**>::iterator arrChannelsIter;
+	typedef std::map<int, string> playList;
 	
 private:
 	System* _system;
@@ -33,12 +34,14 @@ private:
 
 	arrSounds _mTotalSounds;
 
+	playList _mPlayList;
+
 public:
 	HRESULT Setup(void);
 	void Release(void);
 
 	//flac, mp3, wave, midi, ogg, m4a, aac, aif, aiff, wma
-	void addSound(string keyName, string soundName, bool background, bool loop);
+	void addSound(string keyName, string fullPath, string soundName, bool background, bool loop);
 	void play(string keyName);
 
 	//이하는 숙제...
@@ -61,6 +64,9 @@ public:
 
 	//재생중인 음악의 현재 위치를 가져온다
 	unsigned int getPosition(string keyName);
+
+	//해당 트렉의 번호로 트랙네임을 가져온다.
+	std::string GetSoundNamebyTrack(int trackNum);
 
 	//fmod 시스템 갱신...
 	void Update(void);

@@ -60,30 +60,34 @@ void cSoundManager::Release(void)
 }
 
 //flac, mp3, wave, midi, ogg, m4a, aac, aif, aiff, wma
-void cSoundManager::addSound(string keyName, string soundName, bool background, bool loop)
+void cSoundManager::addSound(string keyName, string fullPath, string soundName, bool background, bool loop)
 {
-	//뺑뻉이 사운드냐?
+	string fullPathName;
+
+	fullPathName = fullPath + soundName;
+
 	if (loop)
 	{
 		//bgm!!
 		if (background)
 		{
-			//배경음악일때...
-			_system->createStream(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSounds.size()]);
+			
+			_system->createStream(fullPathName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSounds.size()]);
 		}
 		else
 		{
-			//일반 사운드면....
-			_system->createSound(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSounds.size()]);
+			
+			_system->createSound(fullPathName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSounds.size()]);
 		}
 	}
 	else
 	{
-		_system->createSound(soundName.c_str(), FMOD_DEFAULT, 0, &_sound[_mTotalSounds.size()]);
+		_system->createSound(fullPathName.c_str(), FMOD_DEFAULT, 0, &_sound[_mTotalSounds.size()]);
 	}
 
 	//맵에 사운드를 키값과 함께 넣어준다
 	_mTotalSounds.insert(make_pair(keyName, &_sound[_mTotalSounds.size()]));
+	_mPlayList.insert(make_pair(_mPlayList.size(), keyName));
 }
 
 void cSoundManager::play(string keyName)
@@ -102,7 +106,7 @@ void cSoundManager::play(string keyName)
 	}
 }
 
-//이하는 숙제...
+
 void cSoundManager::play(string keyName, float volume)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
@@ -214,7 +218,7 @@ bool cSoundManager::isPlaySound(string keyName)
 void cSoundManager::Update(void)
 {
 	//볼륨이 바뀐다거나 재생이 끝난 사운드를 채널에서 빼는 등의 다양한 작업을
-	//자동으로 해줌....
+	//자동으로 해줌
 	_system->update();
 }
 
@@ -271,3 +275,12 @@ unsigned int cSoundManager::getPosition(string keyName)
 
 	return NULL;
 }
+
+std::string cSoundManager::GetSoundNamebyTrack(int trackNum)
+{
+	if (!_mPlayList.empty())
+		return _mPlayList[trackNum];
+	else
+		return string();
+}
+
