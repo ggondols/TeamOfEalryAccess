@@ -105,18 +105,16 @@ public:
 		BoundingSquare* temp = new BoundingSquare;
 		
 		D3DXMATRIX rot;
-		D3DXVECTOR3 vDir(0,0,0);
-		D3DXMatrixRotationX(&rot, m_orientation.x);
+		D3DXVECTOR3 vDir(1,0,0);
+		D3DXMatrixRotationQuaternion(&rot, &m_orientation);
 		D3DXVec3TransformNormal(&vDir, &vDir, &rot);
 		temp->m_vXdir = vDir;
 
-		vDir = D3DXVECTOR3(0, 0, 0);
-		D3DXMatrixRotationY(&rot, m_orientation.y);
+		vDir = D3DXVECTOR3(0, 1, 0);		
 		D3DXVec3TransformNormal(&vDir, &vDir, &rot);
 		temp->m_vYdir = vDir;;
 
-		vDir =  D3DXVECTOR3(0, 0, 0);
-		D3DXMatrixRotationZ(&rot, m_orientation.z);
+		vDir =  D3DXVECTOR3(0, 0, 1);
 		D3DXVec3TransformNormal(&vDir, &vDir, &rot);
 		temp->m_vZdir = vDir;;
 
