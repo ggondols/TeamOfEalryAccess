@@ -17,7 +17,7 @@ TeicBoss::TeicBoss()
 	m_vPreviousPosition = D3DXVECTOR3(0, 0, 0);
 	m_fAngle = 0.0f;
 	m_fSpeed = 5.0f;
-	
+	m_eType = Boss_Idle;
 	m_eSkilltype = Boss_Skill_None;
 	
 	m_bSkillCircleOn = false;
@@ -35,7 +35,7 @@ TeicBoss::~TeicBoss()
 
 void TeicBoss::MakeBoundingBox()
 {
-	vector<ST_PN_VERTEX>	m_vecVertex;
+	m_pSkinnedMesh->m_vecVertex.clear();
 	vector<D3DXVECTOR3>	vecVertex;
 	vector<DWORD>		vecIndex;
 	float fCubeSizeX = m_pSkinnedMesh->m_pBoundingSquare.m_fSizeX;
@@ -109,7 +109,7 @@ void TeicBoss::MakeBoundingBox()
 	{
 		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
 		D3DXVECTOR3 n = vecNormal[i / 6];
-		m_vecVertex.push_back(ST_PN_VERTEX(p, n));
+		m_pSkinnedMesh->m_vecVertex.push_back(ST_PN_VERTEX(p, n));
 	}
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -123,7 +123,7 @@ void TeicBoss::MakeBoundingBox()
 	//D3DXMatrixRotationY(&matWorld, m_pSkinnedMesh->GetAngle());
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
-	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_vecVertex[0], sizeof(ST_PN_VERTEX));
+	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_pSkinnedMesh->m_vecVertex[0], sizeof(ST_PN_VERTEX));
 
 }
 
@@ -134,46 +134,9 @@ void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 
 
 
-	if (m_pSkinnedMesh->GetAninum() == 0)
+	if (!m_bAttackOn)
 	{
 		CalRotation(CharacterPos);
-	}
-	
-	
-	if (KEYMANAGER->isOnceKeyDown('L'))
-	{
-		
-		m_pSkinnedMesh->m_fAttacktiming = 2.4;
-		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(12);
-
-		m_eSkilltype = Boss_Skill_Blizzard;
-		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/circle2.png");
-		SetSkillCube(100, 100);
-		m_bSkillCircleOn = true;
-		m_vCharacterPos = CharacterPos;
-	}
-	if (KEYMANAGER->isOnceKeyDown('P'))
-	{
-		m_pSkinnedMesh->m_fAttacktiming = 1.4;
-		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(6);
-		
-		m_eSkilltype = Boss_Skill_Explosion;
-		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/circle2.png");
-		SetSkillCube(30, 30);
-		m_bSkillCircleOn = true;
-		m_vCharacterPos = CharacterPos;
-		
-	}
-	if (KEYMANAGER->isOnceKeyDown('O'))
-	{
-		m_pSkinnedMesh->m_fAttacktiming = 2.4;
-		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(22);
-
-		m_eSkilltype = Boss_Skill_Breath;
-		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/Rectangle.png");
-		SetSkillCube(20, 60);
-		m_bSkillCircleOn = true;
-		m_vCharacterPos = CharacterPos;
 	}
 	
 
@@ -272,11 +235,11 @@ void TeicBoss::Setup(char* Foldername, char* Filename)
 
 	m_pSkinnedMesh->m_pBoundingSquare = SKINMANAGER->GetTeiBoundingSquare(Foldername, Filename);
 	m_pSkinnedMesh->m_pBoundingSquare.m_pSkinnedObject = m_pSkinnedMesh;
-	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Enemy;;
+	m_pSkinnedMesh->m_pBoundingSquare.st_Type = Bounding_Boss;;
 	m_pSkinnedMesh->m_pCopy = m_pSkinnedMesh->m_pBoundingSquare;
-	m_pSkinnedMesh->m_pBoundingSquare.m_fControlX = 1.0f;
-	m_pSkinnedMesh->m_pBoundingSquare.m_fControlY = 0.3f;
-	m_pSkinnedMesh->m_pBoundingSquare.m_fControlZ = 0.0f;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlX = 0;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlY = -20;
+	m_pSkinnedMesh->m_pBoundingSquare.m_fControlZ = 10;
 
 
 	//m_fBoundingSize = CalBoundingSize();
@@ -301,15 +264,17 @@ void TeicBoss::CallbackOn(int n)
 		if (m_pSkinnedMesh->GetAninum() == 6)
 		{
 			SKILLEFFECTMANAGER->play("Explosion", m_vCharacterPos, m_vCharacterPos);
-
+			m_bAttackOn = false;
 		}
 		if (m_pSkinnedMesh->GetAninum() == 12)
 		{
 			SKILLEFFECTMANAGER->play("Blizzard", m_pSkinnedMesh->GetPosition(), m_pSkinnedMesh->GetPosition());
+			m_bAttackOn = false;
 		}
 		if (m_pSkinnedMesh->GetAninum() == 22)
 		{
 			SKILLEFFECTMANAGER->play("Breath", m_pSkinnedMesh->GetPosition(), m_vCharacterPos);
+			m_bAttackOn = false;
 		}
 	}
 	if (m_pSkinnedMesh)
@@ -355,7 +320,7 @@ void TeicBoss::SetAttackCallbackfunction(CallbackBindFunction function)
 
 void TeicBoss::UpdateAndRender()
 {
-
+	
 	if (m_pSkinnedMesh)
 	{
 		m_pSkinnedMesh->UpdateAndRender();
@@ -819,4 +784,59 @@ void TeicBoss::AfterImage()
 DWORD TeicBoss::FtoDw(float f)
 {
 	return *((DWORD*)&f);
+}
+
+void TeicBoss::SkillOn(D3DXVECTOR3 CharacterPos)
+{
+	int a = RND->getInt(3);
+
+
+	switch (a)
+	{
+	case 0:
+		m_pSkinnedMesh->m_fAttacktiming = 2.4;
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(12);
+
+		m_eSkilltype = Boss_Skill_Blizzard;
+		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/circle2.png");
+		SetSkillCube(100, 100);
+		m_bSkillCircleOn = true;
+		m_vCharacterPos = CharacterPos;
+		break;
+	case 1:
+		m_pSkinnedMesh->m_fAttacktiming = 1.4;
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(6);
+
+		m_eSkilltype = Boss_Skill_Explosion;
+		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/circle2.png");
+		SetSkillCube(30, 30);
+		m_bSkillCircleOn = true;
+		m_vCharacterPos = CharacterPos;
+		break;
+	case 2:
+		m_pSkinnedMesh->m_fAttacktiming = 2.4;
+		if (m_pSkinnedMesh)m_pSkinnedMesh->SetAnimation(22);
+
+		m_eSkilltype = Boss_Skill_Breath;
+		m_pSkillCubeTexture = TEXTUREMANAGER->GetTexture("sprites/Rectangle.png");
+		SetSkillCube(20, 60);
+		m_bSkillCircleOn = true;
+		m_vCharacterPos = CharacterPos;
+		break;
+	default:
+		break;
+	}
+
+	
+
+}
+
+void TeicBoss::SetHp(int n)
+{
+	m_pSkinnedMesh->m_iHp = n;
+}
+
+int TeicBoss::GetHp()
+{
+	return m_pSkinnedMesh->m_iHp;
 }

@@ -670,8 +670,15 @@ void TeicSkinnedMesh::SetAnimation(int num)
 	m_pAnimController->SetTrackPosition(m_iCurrentAniNum, 0);
 
 
+	if (num == 4)
+	{
+		m_Finishtime = m_Starttime + pAnimset->GetPeriod()-0.1;
+	}
+	else
+	{
+		m_Finishtime = m_Starttime + pAnimset->GetPeriod();
+	}
 	
-	m_Finishtime = m_Starttime + pAnimset->GetPeriod();
 	
 	m_Middletime = m_Starttime + pAnimset->GetPeriod() - m_fAttacktiming;
 	

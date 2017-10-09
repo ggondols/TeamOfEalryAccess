@@ -6,6 +6,7 @@
 #include "cCrtCtrl.h"
 #include <fstream>
 #include <sstream>
+#include "cSoundLoader.h"
 
 
 HankcDefferedRenderTest::HankcDefferedRenderTest()
@@ -24,6 +25,9 @@ void HankcDefferedRenderTest::CallbackOn(int num)
 
 HRESULT HankcDefferedRenderTest::Setup()
 {
+	//마우스 설정
+	SetCapture(g_hWnd);
+
 	//scene render state 
 	
 	m_pCamera = new Hank::cCamera;
@@ -46,29 +50,10 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pNode = NODEMANAGER->GetNode();
 	//여기부터
 	
-	string  buffer, token;
-	string scriptPath = "Data/Script/SoundList.txt";
-	ifstream file(scriptPath);
-
-	if(file.good())
-		while (getline(file, buffer))
-		{
-			istringstream iss(buffer);
-
-			iss >> token;
-
-			if (token == "BGM")
-			{
-				string soundKey, soundName, soundPath;
-				float bgm, loop;
-
-				SOUNDMANAGER->addSound(soundKey, soundPath, soundName, false, false);
-			}
+	cSoundLoader ls;
+	ls.LoadSound();
 
 
-			
-
-		}
 	
 	/*SOUNDMANAGER->addSound(soundKey, soundName, false, false);
 	SOUNDMANAGER->GetSoundNamebyTrack(0);*/
@@ -85,6 +70,11 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
 	m_pMeshSpray->MeshLoadFromScript("Data/Script/ObjectList.txt");
 	m_pMeshSpray->SetTargetNode(NODEMANAGER->GetPickingNode()->GetPosition());
+
+	for each(auto p in m_ObjNodes)
+	{
+		p->PutBoundBoxtoNodeByPosition(m_pNode);
+	}
 
 	/*for (auto i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
@@ -137,8 +127,9 @@ void HankcDefferedRenderTest::Update()
 
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
-
-	}
+		SOUNDMANAGER->play(SOUNDMANAGER->GetSoundNamebyTrack(0));
+		string tt = SOUNDMANAGER->GetSoundNamebyTrack(0);
+;	}
 	else if (KEYMANAGER->isStayKeyDown('N'))
 	{
 
@@ -147,6 +138,8 @@ void HankcDefferedRenderTest::Update()
 	{
 
 	}
+
+	SOUNDMANAGER->Update();
 }
 
 void HankcDefferedRenderTest::Render()

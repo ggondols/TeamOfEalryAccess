@@ -379,7 +379,7 @@ void LJHcJustTestScene::Update()
 	//m_bThread = false;
 
 	//if (m_pSkyBox) m_pSkyBox->Update();
-	m_pCamera->Update(&m_pCharacter->GetPosition());
+	m_pCamera->Update(&m_pCharacter->GetPosition(),0);
 	m_pCharacter->Update(m_pCamera->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)

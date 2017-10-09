@@ -200,8 +200,28 @@ HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVI
 	MeshBB.GetVertices((D3DXVECTOR3*)&m_BoundingBoxVertices[0]);
 
 	*/
+	//충돌체 만들기
+	BYTE* v = 0;
+	m_pMesh->LockVertexBuffer(0, (void**)&v);
+	D3DVERTEXELEMENT9 decl[MAX_FVF_DECL_SIZE];
+	m_pMesh->GetDeclaration(decl);
+	UINT vertSize = D3DXGetDeclVertexSize(decl, 0);
 
+	
+	D3DXComputeBoundingBox((D3DXVECTOR3*)v,
+		m_pMesh->GetNumVertices(),
+		vertSize,
+		&m_vMin,
+		&m_vMax);
 
+	m_pMesh->UnlockVertexBuffer();
+
+	m_centerPos = m_vMin + m_vMax;	//두개 더해서 반으로 나눔
+	m_centerPos = m_centerPos * 0.5; //센터점 찾기
+	m_fSizeX = (m_vMax.x - m_vMin.x)/2;	//사이즈 구함
+	m_fSizeY = (m_vMax.y - m_vMin.y)/2;
+	m_fSizeZ = (m_vMax.z - m_vMin.z)/2;
+	
 
 	//이밑은 아님
 	/*

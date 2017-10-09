@@ -1,0 +1,11 @@
+BGM	BGM_Avenge	Sound/BGM/	BGM_Avenge.mp3	0	1
+BGM	BGM_BattleBegun	Sound/BGM/	BGM_BattleBegun.ogg	0	1
+BGM	BGM_BattleRage	Sound/BGM/	BGM_BattleRage.mp3	0	1
+BGM	BGM_ColdLock_Village	Sound/BGM/	BGM_ColdLock_Village.ogg	0	1
+BGM	BGM_Engage	Sound/BGM/	BGM_Engage.ogg	0	1
+BGM	BGM_FinalDecision	Sound/BGM/	BGM_FinalDecision.mp3	0	1
+BGM	BGM_Hunting	Sound/BGM/	BGM_Hunting.flac	0	1
+BGM	BGM_Resting	Sound/BGM/	BGM_Resting.mp3	0	1
+BGM	BGM_Suspence	Sound/BGM/	BGM_Suspence.ogg	0	1
+BGM	BGM_Walk	Sound/BGM/	BGM_Walk.flac	0	1
+BGM	BGM_WatchingYou	Sound/BGM/	BGM_WatchingYou.ogg	0	1

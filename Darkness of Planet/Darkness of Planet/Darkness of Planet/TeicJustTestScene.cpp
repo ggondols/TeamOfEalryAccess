@@ -304,7 +304,7 @@ void TeicJustTestScene::Update()
 		UIOBJECTMANAGER->SetShowState("inventory", !UIOBJECTMANAGER->CheckShowState("inventory"));
 	}
 
-	CAMERA->Update(&m_pCharacter->GetPosition());
+	CAMERA->Update(&m_pCharacter->GetPosition(),0);
 	m_pCharacter->Update(CAMERA->getAngleY());
 	bool check = ChangeCheckPoint();
 	if (m_bThread)

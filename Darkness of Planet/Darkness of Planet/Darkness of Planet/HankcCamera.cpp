@@ -48,6 +48,26 @@ namespace Hank
 
 	void cCamera::Update()
 	{
+
+		//static float time;
+		//time += TIMEMANAGER->getElapsedTime();
+		//if (2 < time)
+		//{
+		//	time = 0;
+		//
+		//	RECT rc, rcFrom;
+		//	POINT tt;
+		//	GetWindowRect(g_hWnd, &rcFrom);
+		//	
+		//	ScreenToClient(g_hWnd, &tt);
+		//	GetClientRect(g_hWnd, &rc);
+		//	
+		//	SetCursorPos(rcFrom.left + rc.right / 2+20, rcFrom.top +  rc.bottom/2+20);
+		//	g_ptMouse.x = rc.right / 2;
+		//	g_ptMouse.y = rc.bottom / 2;
+		//	//m_ptPrevMouse = g_ptMouse;
+		//}
+
 		//방향키 이동 for debug
 		/*if (GetKeyState(VK_UP) & 0x8000)
 		{
@@ -90,8 +110,10 @@ namespace Hank
 			if (m_fangleX > D3DX_PI / 2.0f - 0.0001f)
 				m_fangleX = D3DX_PI / 2.0f - 0.0001f;
 
-			m_ptPrevMouse = g_ptMouse;
+			m_ptPrevMouse = g_ptMouse;	
+
 		}
+
 		if (g_MouseWheel)
 		{
 			if (g_MouseWheel > 0)
@@ -134,6 +156,8 @@ namespace Hank
 			&D3DXVECTOR3(0, 1, 0));
 		GETDEVICE->SetTransform(D3DTS_VIEW, &matView);
 
+
+		
 	}
 
 
