@@ -28,7 +28,7 @@ HRESULT cMainGame::Setup()
 	SCENEMANAGER->addScene("TeicJustTestScene", new TeicJustTestScene);
 	SCENEMANAGER->addScene("LDYcJustTestScene", new LDYcJustTestScene);
 	SCENEMANAGER->addScene("LJHcJustTestScene", new LJHcJustTestScene);
-	SCENEMANAGER->addScene("HankcDefferedRenderTest", new HankcDefferedRenderTest);
+	SCENEMANAGER->addScene("HankcDefferedRederTest", new HankcDefferedRenderTest);
 	SCENEMANAGER->addScene("cTestMain", new cTestMain);
 	SCENEMANAGER->addScene("DarknessofPlanetMainScene", new DarknessofPlanetMainScene);
 	
