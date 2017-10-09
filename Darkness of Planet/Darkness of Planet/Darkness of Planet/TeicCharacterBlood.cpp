@@ -8,20 +8,18 @@ TeicCharacterBlood::TeicCharacterBlood()
 	m_fDelta = 0.05;
 	m_bStart = false;
 	m_pEffect = NULL;
-	for (int i = 0; i < 5; i++)
-	{
-		m_pTexture[i] = NULL;
-	}
+
+	m_pTexture = NULL;
+
 }
 
 
 TeicCharacterBlood::~TeicCharacterBlood()
 {
 	SAFE_RELEASE(m_pEffect);
-	for (int i = 0; i < 5; i++)
-	{
-		SAFE_RELEASE(m_pTexture[i]);
-	}
+
+	SAFE_RELEASE(m_pTexture);
+
 }
 
 void TeicCharacterBlood::Update()
@@ -53,9 +51,10 @@ void TeicCharacterBlood::Render()
 		{
 			m_pEffect->BeginPass(i);
 			{
+				m_pEffect->SetTexture("base_Tex", m_pTexture);
 				m_pEffect->CommitChanges();
-				
-						
+
+
 				GETDEVICE->SetFVF(ST_PT_VERTEX::FVF);
 				GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, &m_stVertex[0], sizeof(ST_PT_VERTEX));
 
@@ -88,7 +87,7 @@ void TeicCharacterBlood::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_stVertex[3].t = D3DXVECTOR2(1, 0);
 	m_stVertex[4].t = D3DXVECTOR2(1, 1);
 	m_stVertex[5].t = D3DXVECTOR2(0, 1);
-	
+
 	/*for (int i = 0; i < 1; i++)
 	{
 		char str[128];
@@ -96,16 +95,14 @@ void TeicCharacterBlood::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 		D3DXCreateTextureFromFile(GETDEVICE, str, &m_pTexture[i]);
 	}*/
 
-	m_pTexture[0] = TEXTUREMANAGER->GetTexture("sprites/bloodfinal.jpg");
-	
-	int a = RND->getInt(1);
+	m_pTexture = TEXTUREMANAGER->GetTexture("sprites/bloodfinal.jpg");
 
-	m_pEffect->SetTexture("base_Tex", m_pTexture[a]);
+
 }
 void TeicCharacterBlood::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
-	int a = RND->getInt(1);
-	m_pEffect->SetTexture("base_Tex", m_pTexture[a]);
+
+
 }
 bool TeicCharacterBlood::IsRunning()
 {

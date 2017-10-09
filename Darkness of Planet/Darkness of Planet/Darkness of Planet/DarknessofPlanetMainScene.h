@@ -60,7 +60,7 @@ private:
 	float					m_fTime7; //// 필드 몬스터 생성 시간 (20초 간격)
 	float					m_fBossTime;
 	int						m_iBodyUpgrade;
-
+	LPDIRECT3DTEXTURE9 tex;
 	// 인벤토리 추가
 	Inventory*				m_pInventory;
 	vector<FieldItem*>		m_vecItem;

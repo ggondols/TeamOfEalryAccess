@@ -101,11 +101,11 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 
 	if (m_bRunning&&m_bMoving)
 	{
-		m_fSpeedSetting = 20.0f;
+		m_fSpeedSetting = 5.0f;
 	}
 	else if(!m_bRunning&&m_bMoving)
 	{
-		m_fSpeedSetting = 0.5f;
+		m_fSpeedSetting = 2.0f;
 	}
 
 	

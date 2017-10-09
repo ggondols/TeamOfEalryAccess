@@ -329,7 +329,7 @@ void TeicBoss::UpdateAndRender()
 	}
 	//MakeBoundingBox();
 	
-	AfterImage();
+	//AfterImage();
 	ShowSkillCube();
 	
 }

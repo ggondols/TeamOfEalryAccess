@@ -512,17 +512,17 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pBossMove = new TeicCollisionMove;
 
 
-	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
-	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
-	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
-	SKILLEFFECTMANAGER->AddEffect("Blood", Character_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 10);
-	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
-	SKILLEFFECTMANAGER->AddEffect("MChill", Monster_Chill, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
-	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
-	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+//	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+//	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+//	SKILLEFFECTMANAGER->AddEffect("Blizzard", Skill_Blizzard, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
+////	SKILLEFFECTMANAGER->AddEffect("Blood", Character_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 10);
+////	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
+//	SKILLEFFECTMANAGER->AddEffect("MChill", Monster_Chill, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
+//	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
+//	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 
 
-
+	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
 
 
 	for (int i = 0; i < 20; i++)
@@ -1558,19 +1558,19 @@ void DarknessofPlanetMainScene::Render()
 	}
 
 
-	//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(150, 150, 150);
-	//float start = 0.0f;
-	//float end = 200.0f;
-	//float m_fFogDensity = 0.01f;
-	//GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	//GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-	//GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
-	//GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-	//GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	//GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	//GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
-
+	/*D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(217, 217, 217);
+	float start = 0.0f;
+	float end = 200.0f;
+	float m_fFogDensity = 0.01f;
+	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+*/
 
 	//////////////////////////////
 	// 2. 그림자 입히기
@@ -1593,8 +1593,8 @@ void DarknessofPlanetMainScene::Render()
 
 	m_pApplyShadow->SetTexture(m_hApplyTexture, m_pShadowRenderTarget);
 
-	LPDIRECT3DTEXTURE9 tex;
-	tex = TEXTUREMANAGER->GetTexture("map/final5.png");
+	
+	
 	m_pApplyShadow->SetTexture("heightMap_Tex", tex);
 
 	// 쉐이더를 시작한다.
@@ -1608,6 +1608,7 @@ void DarknessofPlanetMainScene::Render()
 				// 디스크를 그린다.
 				m_pApplyShadow->CommitChanges();
 				//if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+
 				if (m_pMap)m_pMap->frustumcullingRender();
 			}
 			m_pApplyShadow->EndPass();
@@ -1635,6 +1636,17 @@ void DarknessofPlanetMainScene::Render()
 	LPD3DXFONT f;
 	f = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
 	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
+
+
+
+	if(m_pBoss->m_eType != Boss_Idle)
+	m_pBoss->UpdateAndRender();
+
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+
+	SKILLEFFECTMANAGER->Update();
+	SKILLEFFECTMANAGER->Render();
 	for (std::list<cObjectNode*>::iterator i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
 		cObjectNode* pNode = *i;
@@ -1644,15 +1656,6 @@ void DarknessofPlanetMainScene::Render()
 
 		pNode->m_pModel->Render(GETDEVICE);
 	}
-	if(m_pBoss->m_eType != Boss_Idle)
-	m_pBoss->UpdateAndRender();
-
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-
-	SKILLEFFECTMANAGER->Update();
-	SKILLEFFECTMANAGER->Render();
-
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
@@ -1711,7 +1714,7 @@ void DarknessofPlanetMainScene::Render()
 	{
 		m_pBloomEffect->BeginPass(i);
 
-		GETDEVICE->SetTexture(0, m_pBloomRenderTarget);
+	/*	GETDEVICE->SetTexture(0, m_pBloomRenderTarget);*/
 		GETDEVICE->SetFVF(ST_RHWT_VERTEX::FVF);
 		GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 			m_vecVertex.size() / 3,
