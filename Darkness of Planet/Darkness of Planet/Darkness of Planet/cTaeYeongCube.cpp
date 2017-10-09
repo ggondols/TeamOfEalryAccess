@@ -28,8 +28,8 @@ void cTaeYeongCube::Update()
 	}
 	if (KEYMANAGER->isStayKeyDown('S'))
 	{
-		position.x -= 0.3 * sinf(rotationangle);
-		position.z -= 0.3 * cosf(rotationangle);
+		//position.x -= 0.3 * sinf(rotationangle);
+		//position.z -= 0.3 * cosf(rotationangle);
 	}
 
 

@@ -29,7 +29,6 @@ private:
 	float					m_fAngle;
 	bool					m_bMoving;
 
-	bool					m_bRunning;
 	D3DXMATRIX				m_matRotation;
 	POINT					m_ptPrevMouse;
 	bool					m_isLButtonDown;
@@ -41,6 +40,7 @@ private:
 public:
 	bool					m_bAttacking;
 	float					m_fSpeed;
+	bool					m_bRunning;
 protected:
 	SYNTHESIZE_PASS_BY_REF(float, m_fSpeedSetting, Speed);
 	SYNTHESIZE_PASS_BY_REF(D3DXMATRIX, m_matWorld, WorldTM);
@@ -60,6 +60,7 @@ public:
 	void SetPosition(D3DXVECTOR3 p) { m_vPos = p; }
 	float getAngle() { return m_fAngle; }
 	D3DXMATRIX getCrtCtrlMatrix() { return m_matWorld; }
+	bool getRunning() { return m_bRunning; }
 
 
 

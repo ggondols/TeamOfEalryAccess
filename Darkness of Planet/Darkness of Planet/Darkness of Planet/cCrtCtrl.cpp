@@ -28,7 +28,7 @@ void cCrtCtrl::Update(iMap* pMap/* = NULL*/)
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		vPos = m_vPos - m_vDir * (m_fSpeed+m_fRun);
+		//vPos = m_vPos - m_vDir * (m_fSpeed+m_fRun);
 	}
 
 	if (GetKeyState('A') & 0x8000)
@@ -80,7 +80,7 @@ void cCrtCtrl::UpdateByDir(D3DXVECTOR3 &pDir)
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		m_vPos = m_vPos + pDir * (m_fSpeed + m_fRun);
+		//m_vPos = m_vPos + pDir * (m_fSpeed + m_fRun);
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_SPACE))
 	{

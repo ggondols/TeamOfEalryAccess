@@ -107,17 +107,18 @@ void TeicMonsterBlood::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_stVertex[4].t = D3DXVECTOR2(0.0625 *m_iAlpha, 1);
 	m_stVertex[5].t = D3DXVECTOR2(0.0625 *m_iAlpha - 0.0625, 1);
 
-	D3DXCreateTextureFromFile(GETDEVICE, "sprites/monsterblood2.png", &m_pTexture);
-	D3DXMATRIX trans,ro;
-	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
+	m_pTexture = TEXTUREMANAGER->GetTexture("sprites/monsterblood2.png");
+	//D3DXCreateTextureFromFile(GETDEVICE, "sprites/monsterblood2.png", &m_pTexture);
+	//D3DXMATRIX trans,ro;
+	//D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
 
-	D3DXMatrixLookAtLH(&ro,
-		&CAMERA->getEye(),
-		&position,
-		&D3DXVECTOR3(0, 1, 0));
-	ro._41 = ro._42 = ro._43 = 0;
-	D3DXMatrixTranspose(&ro, &ro);
-	m_World = ro*trans;
+	//D3DXMatrixLookAtLH(&ro,
+	//	&CAMERA->getEye(),
+	//	&position,
+	//	&D3DXVECTOR3(0, 1, 0));
+	//ro._41 = ro._42 = ro._43 = 0;
+	//D3DXMatrixTranspose(&ro, &ro);
+	//m_World = ro*trans;
 	
 }
 void TeicMonsterBlood::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
