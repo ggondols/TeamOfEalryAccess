@@ -45,6 +45,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_iCameranum(0)
 	, tex(NULL)
 	, m_iSound(0)
+	, m_fTime8(0)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -655,32 +656,36 @@ void DarknessofPlanetMainScene::Update()
 
 	}
 
-	////////// 찾기
-	if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000 && m_vecEnemy.size() < 40)
-	{
-		m_fTime = INF;
-		DWORD dwThID1;
-		HANDLE hThreads;
-		unsigned long ulStackSize = 0;
-		dwThID1 = 0;
-		hThreads = NULL;
-		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
-		ResumeThread(hThreads);
-		SOUNDMANAGER->stop("BGM_Walk");
-		SOUNDMANAGER->play("BGM_Suspence");
-		m_iSound = 0;
-	}
 
-	if (m_pSkyDome->m_fNowtime < 1)
+	if (m_pBoss->m_eType == Boss_Idle)
 	{
-		m_fTime = 0;
-		if (m_iSound == 0)
+		////////// 찾기
+		if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000 && m_vecEnemy.size() < 40)
 		{
-			SOUNDMANAGER->stop("BGM_Suspence");
-			SOUNDMANAGER->play("BGM_Walk");
-			m_iSound++;
+			m_fTime = INF;
+			DWORD dwThID1;
+			HANDLE hThreads;
+			unsigned long ulStackSize = 0;
+			dwThID1 = 0;
+			hThreads = NULL;
+			hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
+			ResumeThread(hThreads);
+			SOUNDMANAGER->stop("BGM_Walk");
+			SOUNDMANAGER->play("BGM_Suspence");
+			m_iSound = 0;
 		}
-		
+
+		if (m_pSkyDome->m_fNowtime < 1)
+		{
+			m_fTime = 0;
+			if (m_iSound == 0)
+			{
+				SOUNDMANAGER->stop("BGM_Suspence");
+				SOUNDMANAGER->play("BGM_Walk");
+				m_iSound++;
+			}
+
+		}
 	}
 
 
@@ -2233,42 +2238,47 @@ void DarknessofPlanetMainScene::SetRushAttack()
 
 void DarknessofPlanetMainScene::BossAttack()
 {
-	if (m_pBoss->m_eType != Boss_Attack)return;
-	float t = D3DXVec3Length(&(m_pCharacter->GetPositionYZero() - m_pBoss->GetPositionYzero()));
-	if (t < 70)
-	{
-		m_pBossMove->Stop();
 
-		if (TIMEMANAGER->getWorldTime() > m_fBossTime + 10.0f && !m_pBoss->m_bAttackOn)
-		{
-			m_fBossTime = TIMEMANAGER->getWorldTime();
-			m_pBoss->m_bAttackOn = true;
-			m_pBoss->SkillOn(m_pCharacter->GetPosition());
-		}
-		if (!m_pBoss->m_bAttackOn)
-		{
-			if (m_pBoss->GetAninum() != 31)
-			{
-				m_pBoss->SetAnimation(31);
-			}
-		}
-	}
-	else
+	if (TIMEMANAGER->getWorldTime() > m_fTime8 + 1.0f)
 	{
-		if (!m_pBoss->m_bAttackOn)
+		m_fTime8 = TIMEMANAGER->getWorldTime();
+		if (m_pBoss->m_eType != Boss_Attack)return;
+		float t = D3DXVec3Length(&(m_pCharacter->GetPositionYZero() - m_pBoss->GetPositionYzero()));
+		if (t < 70)
 		{
-			if (m_pBoss->GetAninum() != 33)
+			m_pBossMove->Stop();
+
+			if (TIMEMANAGER->getWorldTime() > m_fBossTime + 10.0f && !m_pBoss->m_bAttackOn)
 			{
-				m_pBoss->SetAnimation(33);
+				m_fBossTime = TIMEMANAGER->getWorldTime();
+				m_pBoss->m_bAttackOn = true;
+				m_pBoss->SkillOn(m_pCharacter->GetPosition());
 			}
-			if (TIMEMANAGER->getWorldTime() > m_fBossTime + 2.0f)
+			if (!m_pBoss->m_bAttackOn)
 			{
-				m_pBossMove->SetSkinnedTarget(m_pBoss->GetSkinnedMesh());
-				m_pBossMove->SetSpeed(m_pBoss->m_fSpeed);
-				m_pBossMove->SetFrom(m_pBoss->GetPositionYzero());
-				m_pBossMove->SetTo(m_pCharacter->GetPositionYZero());
-				m_pBossMove->SetRoationAngle(m_pBoss->GetRoationAngle());
-				m_pBossMove->Start();
+				if (m_pBoss->GetAninum() != 31)
+				{
+					m_pBoss->SetAnimation(31);
+				}
+			}
+		}
+		else
+		{
+			if (!m_pBoss->m_bAttackOn)
+			{
+				if (m_pBoss->GetAninum() != 33)
+				{
+					m_pBoss->SetAnimation(33);
+				}
+				if (TIMEMANAGER->getWorldTime() > m_fBossTime + 2.0f)
+				{
+					m_pBossMove->SetSkinnedTarget(m_pBoss->GetSkinnedMesh());
+					m_pBossMove->SetSpeed(m_pBoss->m_fSpeed);
+					m_pBossMove->SetFrom(m_pBoss->GetPositionYzero());
+					m_pBossMove->SetTo(m_pCharacter->GetPositionYZero());
+					m_pBossMove->SetRoationAngle(m_pBoss->GetRoationAngle());
+					m_pBossMove->Start();
+				}
 			}
 		}
 	}

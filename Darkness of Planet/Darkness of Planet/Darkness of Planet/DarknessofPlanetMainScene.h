@@ -59,6 +59,7 @@ private:
 	float					m_fTime6; //// 일반 모드에서 캐릭터 쫓아옴  10초간격
 	float					m_fTime7; //// 필드 몬스터 생성 시간 (20초 간격)
 	float					m_fBossTime;
+	float					m_fTime8;    ///보스 어택 시간
 	int						m_iBodyUpgrade;
 	
 	LPDIRECT3DTEXTURE9		tex;
