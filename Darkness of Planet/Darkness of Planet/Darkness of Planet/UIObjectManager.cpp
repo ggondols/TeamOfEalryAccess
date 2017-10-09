@@ -275,6 +275,9 @@ cUIObject * UIObjectManager::FindRoot(string key)
 
 cUIObject * UIObjectManager::GetChildByTag(string key, int tag)
 {
+	/*cUIObject* object = FindRoot(key);
+	if (object) return object->GetChildByTag(tag);
+	else return NULL;*/
 	return FindRoot(key)->GetChildByTag(tag);
 }
 

@@ -23,6 +23,12 @@ TeicBoss::TeicBoss()
 	m_bSkillCircleOn = false;
 	m_pSkillCubeTexture = NULL;
 	m_pSkillCubeEffect = NULL;
+
+	UIOBJECTMANAGER->AddRoot("bossHP", UITYPE_IMAGE);
+	UIOBJECTMANAGER->SetTexture("bossHP", "./UI/lifeBarDown.bmp");
+	UIOBJECTMANAGER->SetPosition("bossHP", 0.35f, 0.05f);
+	UIOBJECTMANAGER->AddChild("bossHP", UITYPE_IMAGE);
+	UIOBJECTMANAGER->SetTexture("bossHP", 1, "./UI/lifeBarUp.bmp");
 }
 
 
@@ -172,6 +178,9 @@ void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 		m_eSkilltype = Skill_Explosion;
 	}*/
 
+	cUIObject* currentGauge = UIOBJECTMANAGER->GetChildByTag("bossHP", 1);
+	currentGauge->SetSizeWidth(((float)GetHp() / 10000.0f) * UIOBJECTMANAGER->FindRoot("bossHP")->GetSize().fWidth);
+	if (GetHp() <= 0) SetHp(0);
 }
 
 void TeicBoss::MeshRender(LPD3DXEFFECT effect)
