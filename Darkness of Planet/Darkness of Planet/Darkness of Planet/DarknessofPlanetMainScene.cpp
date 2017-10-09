@@ -247,7 +247,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	for (size_t i = 0; i < 16; i++)
 	{
 		FieldItem* pItem = new FieldItem();
-		pItem->Setup(RND->getInt(5));
+		pItem->Setup(RND->getInt(6));
 		D3DXVECTOR3 vPos;
 		switch (i)
 		{
