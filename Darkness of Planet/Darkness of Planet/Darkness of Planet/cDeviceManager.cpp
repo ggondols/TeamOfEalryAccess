@@ -43,7 +43,7 @@ void cDeviceManager::Setup(void)
 	m_pD3D->CreateDevice(D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
 		g_hWnd,
-		ver,
+		ver | D3DCREATE_MULTITHREADED,
 		&dpp,
 		&m_pD3DDevice);
 

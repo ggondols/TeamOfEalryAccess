@@ -239,6 +239,8 @@ HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVI
 HRESULT cModel::Render(LPDIRECT3DDEVICE9 pDevice)
 {
 	HRESULT hr = S_OK;
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
 	for (unsigned int i = 0; i < m_mtrls.size(); i++)
 	{
@@ -247,6 +249,7 @@ HRESULT cModel::Render(LPDIRECT3DDEVICE9 pDevice)
 		pDevice->SetTexture(0, m_pTextures[i]);
 		m_pMesh->DrawSubset(i);
 	}
-
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 	return hr;
 }

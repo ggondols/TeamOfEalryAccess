@@ -210,7 +210,7 @@ void TeicSkinnedMesh::UpdateAndRender()
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
 
-		getAnotherMatrix(m_pRootFrame, NULL);
+		//getAnotherMatrix(m_pRootFrame, NULL);
 
 	}
 }
