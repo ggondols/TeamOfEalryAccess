@@ -204,7 +204,7 @@ static DWORD WINAPI ThFunc3(LPVOID lpParam)
 
 
 
-HRESULT DarknessofPlanetMainScene::Setup()
+HRESULT DarknessofPlanetMainScene::Setup()	
 {
 	//윈도우 옵션 MOUSEMOVE 전역으로
 	//마우스 설정
@@ -236,6 +236,9 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
 	m_pConsole = new cConsole;
 	m_pConsole->Setup();
+	
+
+	
 
 	//////////정현
 	D3DVIEWPORT9 viewport;
@@ -542,6 +545,10 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	m_pSkyDome->m_fNowtime = 0;
 	SOUNDMANAGER->play("BGM_Walk");
+
+	//콘솔 링크
+	m_pConsole->addValues("HP", "int", &m_pCharacter->m_iHP);
+
 	return S_OK;
 }
 
@@ -1445,8 +1452,8 @@ void DarknessofPlanetMainScene::TargetOn()
 	{
 		if (D3DXVec3Length(&(m_pCharacter->GetPositionYZero() - m_pBoss->GetPositionYzero())) < 70.0f)
 		{
+			UIOBJECTMANAGER->SetShowState("bossHP", true);
 
-			
 			m_iCameranum = 1;
 			m_pBoss->m_eType = Boss_Show;
 			m_pBoss->SetAnimation(40);
@@ -1702,7 +1709,7 @@ void DarknessofPlanetMainScene::Render()
 	sprintf_s(str, "%d %d", m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
 	LPD3DXFONT f;
 	f = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
-	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
+//	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
 
 

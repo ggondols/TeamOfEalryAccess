@@ -63,6 +63,8 @@ public:
 	void SetTime(string key, int tag, float* time);
 	void SetDrawTextFormat(string key, DWORD formet);
 	void SetDrawTextFormat(string key, int tag, DWORD formet);
+	void SetTextColor(string key, D3DCOLOR color);
+	void SetTextColor(string key, int tag, D3DCOLOR color);
 	void SetFontType(string key, cFontManager::eFontType type);
 	void SetFontType(string key, int tag, cFontManager::eFontType type);
 	// UITextView에서만 사용.. 여기까지..

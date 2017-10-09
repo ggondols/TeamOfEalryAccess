@@ -57,6 +57,14 @@ void cMainGame::Update()
 {
 	cGameNode::Update();
 	
+	if (KEYMANAGER->isToggleKey('0'))
+	{
+		TIMEMANAGER->SetShowFrame(true);
+	}
+	else
+	{
+		TIMEMANAGER->SetShowFrame(false);
+	}
 	/*if (KEYMANAGER->isOnceKeyDown('1'))
 	{
 		SCENEMANAGER->changeScene("HankcDefferedRenderTest");

@@ -64,6 +64,28 @@ LPD3DXFONT cFontManager::GetFont(eFontType e)
 			//AddFontResource("umberto.ttf");
 			strcpy_s(fd.FaceName, "나눔고딕");	//글꼴 스타일
 		}
+		else if (e == E_LODING)
+		{
+			fd.Height = 32;
+			fd.Width = 20;
+			fd.Weight = FW_NORMAL;
+			fd.Italic = false;
+			fd.CharSet = DEFAULT_CHARSET;
+			fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+			fd.PitchAndFamily = FF_DONTCARE;
+			//AddFontResource("umberto.ttf");
+			strcpy_s(fd.FaceName, "Algerian");	//글꼴 스타일
+			
+			//Algerian
+			//Book Antiqua
+			//Bradley Hand ITC
+			//Castellar
+			//Comic Sans MS
+			//Copperplate Gothic Light
+			//Forte
+			//OCR A Extended
+			//Rockwell
+		}
 		D3DXCreateFontIndirect(GETDEVICE, &fd, &m_mapFont[e]);
 	}
 
