@@ -154,6 +154,8 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 	GETDEVICE->SetTransform(D3DTS_VIEW, &matView);
 
 	m_ptPrevMouse = g_ptMouse;
+
+	
 }
 
 void LDYCamera::rebound()

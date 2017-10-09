@@ -1150,9 +1150,6 @@ float DarknessofPlanetMainScene::EnemyPlayerDistance(TeicEnemy *ene)
 
 void DarknessofPlanetMainScene::Render()
 {
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-
 	////블룸용 변수들
 	LPDIRECT3DSURFACE9 pHWBackBufferBloom = NULL;
 	LPDIRECT3DSURFACE9 pHWDepthStencilBufferBloom = NULL;
@@ -1165,6 +1162,7 @@ void DarknessofPlanetMainScene::Render()
 
 	GETDEVICE->SetRenderTarget(0, pTempSurface);
 	GETDEVICE->SetDepthStencilSurface(m_pBloomDepthStencil);
+
 
 	GETDEVICE->Clear(NULL,
 		NULL,
@@ -1316,7 +1314,7 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 	if (m_pInventory) m_pInventory->Render();
-	
+	if(m_pBoss)m_pBoss->UpdateAndRender();
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -1324,7 +1322,7 @@ void DarknessofPlanetMainScene::Render()
 		m_vecEnemy[i]->UpdateAndRender();
 	}
 	AfterImage();
-
+	
 
 	char str[256];
 	sprintf_s(str, "%d %d", m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
@@ -1340,7 +1338,7 @@ void DarknessofPlanetMainScene::Render()
 
 		pNode->m_pModel->Render(GETDEVICE);
 	}
-	m_pBoss->UpdateAndRender();
+	
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
@@ -1349,12 +1347,9 @@ void DarknessofPlanetMainScene::Render()
 	SKILLEFFECTMANAGER->Render();
 	
 
-	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-
-
 	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
+
 
 	GETDEVICE->Clear(NULL,
 		NULL,
@@ -1419,9 +1414,6 @@ void DarknessofPlanetMainScene::Render()
 
 
 
-	SAFE_RELEASE(pTempSurface);
-	SAFE_RELEASE(pHWBackBufferBloom);
-	SAFE_RELEASE(pHWDepthStencilBufferBloom);
 
 
 
@@ -1429,7 +1421,9 @@ void DarknessofPlanetMainScene::Render()
 
 	m_pConsole->Render();
 
-
+	SAFE_RELEASE(pTempSurface);
+	SAFE_RELEASE(pHWBackBufferBloom);
+	SAFE_RELEASE(pHWDepthStencilBufferBloom);
 
 }
 

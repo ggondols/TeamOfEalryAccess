@@ -53,6 +53,11 @@ public:
 	LPDIRECT3DTEXTURE9      m_pSkillCubeTexture;
 	LPD3DXEFFECT			m_pSkillCubeEffect;
 	D3DXVECTOR3				m_vCharacterPos;
+
+	deque<D3DXVECTOR3>		m_deqRHand;
+	deque<D3DXVECTOR3>		m_deqLHand;
+
+
 public:
 	void Update(D3DXVECTOR3	CharacterPos);
 	void MeshRender(LPD3DXEFFECT effect);
@@ -90,6 +95,9 @@ public:
 	LPD3DXEFFECT LoadEffect(const char * szFileName);
 	bool GetDie();
 	void SetDIe(bool on);
+
+	void AfterImage();
+	DWORD FtoDw(float f);
 public:
 	TeicBoss();
 	~TeicBoss();
