@@ -300,7 +300,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	{
 	}
 
-	m_pCreateShadow = LoadEffectHpp("MultiAnimationCreateShadowBlur.hpp");
+	m_pCreateShadow = LoadEffectHpp("MultiAnimationCreateShadow.hpp");
 	m_pApplyShadow = LoadEffect("shader/shadow/ApplyShadow.fx");
 
 
@@ -365,8 +365,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pSkyCloud = new cSkyCloud;
 	m_pSkyCloud->Setup();
 
-
-
 	m_pBoss = new TeicBoss;
 
 
@@ -380,8 +378,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	m_pBoss->SetScaleSize(0.1);
 	
-
-
 
 	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 	SKILLEFFECTMANAGER->AddEffect("Breath", Skill_breath, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
@@ -1011,7 +1007,7 @@ void DarknessofPlanetMainScene::Render()
 			{
 				// 디스크를 그린다.
 				m_pApplyShadow->CommitChanges();
-				//if (m_pMap)m_pMap->MeshRender(m_pCharacter->GetPositionYZero());
+			
 				if (m_pMap)m_pMap->frustumcullingRender();
 			}
 			m_pApplyShadow->EndPass();
@@ -1104,13 +1100,6 @@ void DarknessofPlanetMainScene::Render()
 	SAFE_RELEASE(pHWBackBufferBloom);
 	SAFE_RELEASE(pHWDepthStencilBufferBloom);
 	
-
-
-
-
-
-	
-
 
 	if (m_bThread)
 	{

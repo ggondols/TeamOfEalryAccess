@@ -816,7 +816,7 @@ void LDYcJustTestScene::Render()
 		m_pCreateShadow->End();
 	}
 
-	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(255, 255, 255);
+	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(100, 100, 255);
 	float start = 0.0f;
 	float end = 200.0f;
 	float m_fFogDensity = 0.01f;
