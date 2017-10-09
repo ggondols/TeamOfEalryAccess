@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DarknessofPlanetMainScene.h"
-
-
+//진짜 최고
+//진짜 최고
 //진짜 최고
 #include "iMap.h"
 #include "cHeightMap.h"
@@ -11,9 +11,9 @@
 #include "cSkyDome.h"
 #include "cSkyCloud.h"
 #include "Inventory.h"
-
-
-
+//진짜 최고
+//진짜 최고
+//진짜 최고
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
