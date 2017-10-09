@@ -239,15 +239,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, true);
 
-	cUIImageView* pLifeImageDown = new cUIImageView;
-	pLifeImageDown->SetTexture("./UI/HPBarDown.png");
-	pLifeImageDown->SetPosition(10, viewport.Height - 30);
-	cUIImageView* pLifeImageUp = new cUIImageView;
-	pLifeImageUp->SetTexture("./UI/HPBarUp.png");
-
-	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
-	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
-
 	m_pInventory = new Inventory;
 	m_pInventory->Setup();
 

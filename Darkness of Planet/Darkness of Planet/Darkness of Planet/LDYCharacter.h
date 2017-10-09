@@ -93,6 +93,7 @@ public:
 	void SetWeaponType(WeaponType type) { m_eWpType = type; }
 	void SetHeadLv(int HeadLv) { m_iHeadLv = HeadLv; }
 	void SetBodyLv(int BodyLv) { m_iBodyLv = BodyLv; }
+	void SetGauge(int currentHP, int maxHP);
 
 	//검광효과에 필요한 값들
 	D3DXVECTOR3 getMuzzlePos();
