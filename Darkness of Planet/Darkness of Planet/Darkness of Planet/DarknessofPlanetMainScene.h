@@ -142,6 +142,7 @@ private:
 
 
 public:
+	int			m_iSound;
 	int			m_iCameranum;
 	TeicEnemy*  m_pTempEnemy;
 	cSphere*	m_pTempSPhere;

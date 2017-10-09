@@ -76,6 +76,7 @@ void TeicShoot::Shoot(WeaponType type)
 				{
 					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
 					{
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type == Bounding_Object)continue;
 						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->GetDie())continue;
 						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("FireGun");
 						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
@@ -134,6 +135,7 @@ void TeicShoot::Shoot(WeaponType type)
 				{
 					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
 					{
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type==Bounding_Object)continue;
 						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->GetDie())continue;
 						switch (type)
 						{

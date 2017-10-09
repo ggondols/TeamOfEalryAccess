@@ -74,12 +74,14 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 			m_fAngle = angle - D3DX_PI / 2;
 			m_eDir = Up;
 			m_bMoving = true;
+			
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
 			m_fAcceleration -= 0.001f*m_fSpeedSetting;
 			m_fAngle = angle - D3DX_PI / 2;
 			m_bMoving = true;
+			
 		}
 		if (KEYMANAGER->isStayKeyDown('A'))
 		{
@@ -87,6 +89,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 			m_eDir = Left;
 			m_fAngle = angle - D3DX_PI;
 			m_bMoving = true;
+			
 		}
 
 		if (KEYMANAGER->isStayKeyDown('D'))
@@ -95,6 +98,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 			m_eDir = Right;
 			m_fAngle = angle;
 			m_bMoving = true;
+			
 		}
 	}
 

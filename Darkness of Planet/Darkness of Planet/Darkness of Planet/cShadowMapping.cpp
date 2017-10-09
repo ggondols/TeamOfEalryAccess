@@ -133,7 +133,7 @@ void cShadowMapping::Setup()
 	}
 
 	m_pMap = new LDYHeightMap;
-	m_pMap->Load("map/","HeightMap.raw","terrian.jpg",1);
+	m_pMap->Load("map/","HeightMap.raw","terrian.jpg");
 
 	D3DXMatrixScaling(&matWorld, 0.04f, 0.04f, 0.04f);
 	//D3DXMatrixTranslation(&matWorld, 20.0f, 0.0f, -20.0f);

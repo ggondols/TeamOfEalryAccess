@@ -44,6 +44,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_fTime7(0)
 	, m_iCameranum(0)
 	, tex(NULL)
+	, m_iSound(0)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -111,6 +112,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetAttack(5);
 				pSkinnedMesh->SetHP(100);
 				pSkinnedMesh->SetSpeed(5);
+				pSkinnedMesh->m_eName = Wolf;
 			}
 			else if (a < 9)
 			{
@@ -119,6 +121,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetAttack(8);
 				pSkinnedMesh->SetHP(200);
 				pSkinnedMesh->SetSpeed(10);
+				pSkinnedMesh->m_eName = Tiger;
 			}
 			else if (a < 10)
 			{
@@ -128,6 +131,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetHP(500);
 				pSkinnedMesh->SetSpeed(15);
 				pSkinnedMesh->SetScaleSize(0.1);
+				pSkinnedMesh->m_eName = Argo;
 			}
 
 			pSkinnedMesh->m_eGroup = Rush;
@@ -185,8 +189,8 @@ static DWORD WINAPI ThFunc3(LPVOID lpParam)
 		if (temp->m_vecEnemy[i]->GetDie())continue;
 		temp->m_pAttackNode.x = temp->m_pCharacter->GetNodeNum().x + RND->getFromIntTo(-1, 1);
 		temp->m_pAttackNode.y = temp->m_pCharacter->GetNodeNum().y + RND->getFromIntTo(-1, 1);
-		temp->m_vecEnemyWay[i] = temp->m_pAstar->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
-			temp->m_pAttackNode.x, temp->m_pAttackNode.y);
+		temp->m_vecEnemyWay[i] = temp->m_pAstarShort->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
+			temp->m_pAttackNode.x, temp->m_pAttackNode.y, temp->m_pCharacter->GetNodeNum().x, temp->m_pCharacter->GetNodeNum().y);
 
 	}
 	temp->m_bAstarThread2 = false;
@@ -537,6 +541,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	}
 
 	m_pSkyDome->m_fNowtime = 0;
+	SOUNDMANAGER->play("BGM_Walk");
 	return S_OK;
 }
 
@@ -554,7 +559,7 @@ void DarknessofPlanetMainScene::Release()
 
 void DarknessofPlanetMainScene::Update()
 {
-
+	SOUNDMANAGER->Update();
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
 	if (!m_pBoss->m_bAttackOn)
 		m_pBossMove->Update();
@@ -654,11 +659,21 @@ void DarknessofPlanetMainScene::Update()
 		hThreads = NULL;
 		hThreads = CreateThread(NULL, ulStackSize, ThFunc1, this, CREATE_SUSPENDED, &dwThID1);
 		ResumeThread(hThreads);
+		SOUNDMANAGER->stop("BGM_Walk");
+		SOUNDMANAGER->play("BGM_Suspence");
+		m_iSound = 0;
 	}
 
 	if (m_pSkyDome->m_fNowtime < 1)
 	{
 		m_fTime = 0;
+		if (m_iSound == 0)
+		{
+			SOUNDMANAGER->stop("BGM_Suspence");
+			SOUNDMANAGER->play("BGM_Walk");
+			m_iSound++;
+		}
+		
 	}
 
 
@@ -707,7 +722,7 @@ void DarknessofPlanetMainScene::Update()
 				{
 					if (m_pCharacter->getWeaponType() == WP_FireGun)
 					{
-
+						SOUNDMANAGER->play("Firegun");
 
 						m_pCharacter->m_pCtrl->setAttacking(true);
 						m_pShoot->Shoot(m_pCharacter->getWeaponType());
@@ -720,6 +735,26 @@ void DarknessofPlanetMainScene::Update()
 					}
 					else
 					{
+						switch (m_pCharacter->getWeaponType())
+						{
+						case Wp_Melee:
+							break;
+						case Wp_AA12:
+							break;
+						case Wp_AR6:
+							SOUNDMANAGER->play("ArFire");
+							break;
+						case Wp_M4:
+							SOUNDMANAGER->play("M4Fire");
+							break;
+						case Wp_MP5:
+							SOUNDMANAGER->play("M5Fire");
+							break;
+						case WP_FireGun:
+							break;
+						default:
+							break;
+						}
 						for (int i = 0; i < m_vecEnemy.size(); i++)
 						{
 							if (m_vecEnemy[i]->GetDie())continue;
@@ -762,6 +797,20 @@ void DarknessofPlanetMainScene::Update()
 			if (m_vecEnemy[i]->GetAninum() != 7)
 			{
 				m_vecEnemy[i]->SetAnimation(7);
+				switch (m_vecEnemy[i]->m_eName)
+				{
+				case Wolf:
+					SOUNDMANAGER->play("WolfAttack");
+					break;
+				case Argo:
+					SOUNDMANAGER->play("ArgoAttack");
+					break;
+				case Tiger:
+					SOUNDMANAGER->play("TigerAttack");
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}
@@ -982,6 +1031,9 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			m_pBoss->m_eType = Boss_Attack;
 			m_iCameranum = 0;
 			CAMERA->m_fDistance = 8;
+			SOUNDMANAGER->play("BGM_BattleRage");
+			SOUNDMANAGER->stop("BGM_Walk");
+			SOUNDMANAGER->stop("BGM_Suspence");
 		}
 		if (m_pBoss->GetAninum() == 6)
 		{
@@ -1026,6 +1078,7 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			if (damage < 1) damage = 1;
 			m_pCharacter->m_iHP -= damage;
 			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+			SOUNDMANAGER->play("Hit");
 		}
 		if (m_pBoss->GetAninum() == 12)
 		{
@@ -1067,6 +1120,7 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			if (damage < 1) damage = 1;
 			m_pCharacter->m_iHP -= damage;
 			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+			SOUNDMANAGER->play("Hit");
 		}
 		if (m_pBoss->GetAninum() == 22)
 		{
@@ -1107,6 +1161,7 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			if (damage < 1) damage = 1;
 			m_pCharacter->m_iHP -= damage;
 			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+			SOUNDMANAGER->play("Hit");
 		}
 
 	}
@@ -1153,6 +1208,7 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 				if (damage < 1) damage = 1;
 				m_pCharacter->m_iHP -= damage;
 				SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+				SOUNDMANAGER->play("Hit");
 			}
 
 			if (m_vecEnemy[i - 10]->GetAninum() == 4)
@@ -1390,10 +1446,13 @@ void DarknessofPlanetMainScene::TargetOn()
 		if (D3DXVec3Length(&(m_pCharacter->GetPositionYZero() - m_pBoss->GetPositionYzero())) < 70.0f)
 		{
 
-
+			
 			m_iCameranum = 1;
 			m_pBoss->m_eType = Boss_Show;
 			m_pBoss->SetAnimation(40);
+			SOUNDMANAGER->stop("BGM_Walk");
+			SOUNDMANAGER->stop("BGM_Suspence");
+			SOUNDMANAGER->play("ValakVoice");
 		}
 	}
 	for (int i = 0; i < m_vecEnemy.size(); i++)
@@ -2011,8 +2070,26 @@ void DarknessofPlanetMainScene::CleanHit()
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		if (m_vecEnemy[i]->GetDie())continue;
+
+		
+
+
 		if (m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
 		{
+			switch (m_vecEnemy[i]->m_eName)
+			{
+			case Wolf:
+				SOUNDMANAGER->play("WolfDmg");
+				break;
+			case Argo:
+				SOUNDMANAGER->play("ArgoDmg");
+				break;
+			case Tiger:
+				SOUNDMANAGER->play("TigerDmg");
+				break;
+			default:
+				break;
+			}
 			if (m_vecEnemy[i]->m_eGroup == Field)
 			{
 				int a = 0;
@@ -2055,6 +2132,20 @@ void DarknessofPlanetMainScene::CheckDie()
 		{
 			m_vecEnemy[i]->SetDIe(true);
 			m_vecEnemy[i]->SetAnimation(4);
+			switch (m_vecEnemy[i]->m_eName)
+			{
+			case Wolf:
+				SOUNDMANAGER->play("WolfDeath");
+				break;
+			case Argo:
+				SOUNDMANAGER->play("ArgoDeath");
+				break;
+			case Tiger:
+				SOUNDMANAGER->play("TigerDeath");
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -2208,6 +2299,10 @@ void DarknessofPlanetMainScene::AfterImage()
 
 			vecMuzzlePos.push_back(ST_PC_VERTEX(result, c));
 		}
+
+		D3DXMATRIX matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 		GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
 		GETDEVICE->DrawPrimitiveUP(
 			D3DPT_LINESTRIP,
@@ -2339,6 +2434,7 @@ void DarknessofPlanetMainScene::MakingFieldEnemy()
 		pSkinnedMesh->SetAttack(5);
 		pSkinnedMesh->SetHP(100);
 		pSkinnedMesh->SetSpeed(5);
+		pSkinnedMesh->m_eName = Wolf;
 	}
 	else if (a < 95)
 	{
@@ -2347,6 +2443,7 @@ void DarknessofPlanetMainScene::MakingFieldEnemy()
 		pSkinnedMesh->SetAttack(8);
 		pSkinnedMesh->SetHP(200);
 		pSkinnedMesh->SetSpeed(10);
+		pSkinnedMesh->m_eName = Tiger;
 	}
 	else if (a < 100)
 	{
@@ -2356,6 +2453,7 @@ void DarknessofPlanetMainScene::MakingFieldEnemy()
 		pSkinnedMesh->SetHP(500);
 		pSkinnedMesh->SetSpeed(15);
 		pSkinnedMesh->SetScaleSize(0.1);
+		pSkinnedMesh->m_eName = Argo;
 	}
 	pSkinnedMesh->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, num + 10));
 	pSkinnedMesh->m_eGroup = Field;

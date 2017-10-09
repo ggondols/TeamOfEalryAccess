@@ -809,6 +809,7 @@ void TeicBoss::SkillOn(D3DXVECTOR3 CharacterPos)
 		SetSkillCube(100, 100);
 		m_bSkillCircleOn = true;
 		m_vCharacterPos = CharacterPos;
+		SOUNDMANAGER->play("ValakNova");
 		break;
 	case 1:
 		m_pSkinnedMesh->m_fAttacktiming = 1.4;
@@ -819,6 +820,7 @@ void TeicBoss::SkillOn(D3DXVECTOR3 CharacterPos)
 		SetSkillCube(30, 30);
 		m_bSkillCircleOn = true;
 		m_vCharacterPos = CharacterPos;
+		SOUNDMANAGER->play("ValakMulti");
 		break;
 	case 2:
 		m_pSkinnedMesh->m_fAttacktiming = 2.4;
@@ -829,6 +831,7 @@ void TeicBoss::SkillOn(D3DXVECTOR3 CharacterPos)
 		SetSkillCube(20, 60);
 		m_bSkillCircleOn = true;
 		m_vCharacterPos = CharacterPos;
+		SOUNDMANAGER->play("ValakWind");
 		break;
 	default:
 		break;

@@ -11,7 +11,7 @@ void cConsole::Setup()
 	GETDEVICE->GetViewport(&viewport);
 	m_box = new cUIImageView;
 	//m_box->SetTexture("./UI/Icon_Empty.png");
-	//m_box->SetPosition(1,1);
+	//m_box->SetPosition(1);
 
 	UIOBJECTMANAGER->AddRoot("ConsoleBar", UITYPE_IMAGE, true);
 	UIOBJECTMANAGER->SetTexture("ConsoleBar", "./UI/ConsoleBar.png");

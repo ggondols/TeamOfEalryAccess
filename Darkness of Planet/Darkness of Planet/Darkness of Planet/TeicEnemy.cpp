@@ -20,7 +20,7 @@ TeicEnemy::TeicEnemy()
 	m_fSpeed = 5.0f;
 	m_eGroup = Field;
 	m_eMode = Idle;
-
+	m_eName = Wolf;
 }
 
 

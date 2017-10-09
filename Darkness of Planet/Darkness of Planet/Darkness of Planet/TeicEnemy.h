@@ -23,6 +23,12 @@ enum Mode
 	Idle,
 	Attack
 };
+enum Name
+{
+	Argo,
+	Wolf,
+	Tiger
+};
 class TeicEnemy
 {
 
@@ -32,6 +38,7 @@ private:
 	CallbackBindFunction m_AttackCallback;
 	
 public:
+	Name		m_eName;
 	void MakeBoundingBox();
 	POINT m_PresentGrid;
 	POINT m_PreviousGrid;
