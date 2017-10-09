@@ -720,3 +720,23 @@ LPD3DXEFFECT TeicBoss::LoadEffect(const char * szFileName)
 
 	return pEffect;
 }
+
+
+
+bool TeicBoss::GetDie()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->GetDie();
+
+	}
+}
+
+void TeicBoss::SetDIe(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		m_pSkinnedMesh->SetDie(on);
+
+	}
+}

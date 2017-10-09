@@ -90,6 +90,8 @@ public:
 	float GetSlowTime();
 	bool GetFire();
 	float GetFireTime();
+	bool GetDie();
+	void SetDIe(bool on);
 public:
 	TeicEnemy();
 	~TeicEnemy();

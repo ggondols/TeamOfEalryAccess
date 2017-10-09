@@ -11,7 +11,7 @@ public:
 	int m_iHp;
 	int m_iAttack;
 	vector<ST_PN_VERTEX>	m_vecVertex;
-	
+	SYNTHESIZE(bool, m_bDie, Die);
 public:
 	TeicSkinnedMeshParent();
 	~TeicSkinnedMeshParent();

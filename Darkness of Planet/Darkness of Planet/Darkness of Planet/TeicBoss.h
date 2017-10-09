@@ -88,6 +88,8 @@ public:
 	void ShowSkillCube();
 	void SetSkillCube(float x, float y);
 	LPD3DXEFFECT LoadEffect(const char * szFileName);
+	bool GetDie();
+	void SetDIe(bool on);
 public:
 	TeicBoss();
 	~TeicBoss();

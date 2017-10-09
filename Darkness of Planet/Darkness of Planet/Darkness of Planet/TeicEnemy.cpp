@@ -233,7 +233,7 @@ void TeicEnemy::UpdateAndRender()
 		m_pSkinnedMesh->UpdateAndRender();
 
 	}
-	MakeBoundingBox();
+	//MakeBoundingBox();
 }
 
 void TeicEnemy::SetAnimationIndex(int nIndex)
@@ -485,6 +485,24 @@ float TeicEnemy::GetFireTime()
 	if (m_pSkinnedMesh)
 	{
 		return m_pSkinnedMesh->m_fFireTime;
+
+	}
+}
+
+bool TeicEnemy::GetDie()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->GetDie();
+
+	}
+}
+
+void TeicEnemy::SetDIe(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		 m_pSkinnedMesh->SetDie(on);
 
 	}
 }

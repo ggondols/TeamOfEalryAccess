@@ -32,7 +32,9 @@ protected:
 
 	SYNTHESIZE(D3DXVECTOR3, m_vPosition, Position);
 	SYNTHESIZE(float, m_fAngle, Angle);
+
 	bool						m_bBlending;
+	
 	float						m_fWeightDivide;
 	float						m_fWeight;
 	int m_iCurrentAniNum;
