@@ -85,7 +85,7 @@ DarknessofPlanetMainScene::~DarknessofPlanetMainScene()
 		SAFE_RELEASE(m_vecItem[i]);
 	}
 
-	//SAFE_DELETE(m_pConsole);
+	SAFE_DELETE(m_pConsole);
 	m_ObjNodes.clear();
 
 }
@@ -230,8 +230,8 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
-//	m_pConsole = new cConsole;
-	//m_pConsole->Setup();
+	m_pConsole = new cConsole;
+	m_pConsole->Setup();
 
 	//////////Á¤Çö
 	D3DVIEWPORT9 viewport;
@@ -838,7 +838,7 @@ void DarknessofPlanetMainScene::Update()
 
 	UIOBJECTMANAGER->Update();
 
-	//m_pConsole->Update();
+	m_pConsole->Update();
 
 
 
@@ -1752,7 +1752,7 @@ void DarknessofPlanetMainScene::Render()
 
 	UIOBJECTMANAGER->Render();
 
-	//m_pConsole->Render();
+	m_pConsole->Render();
 
 
 

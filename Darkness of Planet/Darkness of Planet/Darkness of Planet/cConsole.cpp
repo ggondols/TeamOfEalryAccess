@@ -23,7 +23,7 @@ void cConsole::Setup()
 	UIOBJECTMANAGER->SetPosition("ConsoleBar", 2, 0, -0.6); // 텍스트 로그
 	UIOBJECTMANAGER->AddChild("ConsoleBar", UITYPE_TEXT);
 	UIOBJECTMANAGER->SetPosition("ConsoleBar", 3, 0, -0.3); // 아웃풋 데이터
-	
+
 	m_pFont = FONTMANAGER->GetFont(cFontManager::E_CONSOLE);
 
 
@@ -38,10 +38,16 @@ void cConsole::Update()
 {
 	if (KEYMANAGER->isOnceKeyDown(VK_TAB))  //껐다 켰다 할 수 있다.
 	{
-		if (m_bRender)
+		if (m_bRender) 
+		{
+			UIOBJECTMANAGER->SetShowState("ConsoleBar", false);
 			m_bRender = false;
+		}
 		else if (!m_bRender)
+		{
+			UIOBJECTMANAGER->SetShowState("ConsoleBar", true);
 			m_bRender = true;
+		}
 	}
 
 	if (!m_bRender)
@@ -62,7 +68,7 @@ void cConsole::Update()
 		else if ((int)str == 8) // 백스페이스
 		{
 			if (!m_input.empty())
-			m_input.pop_back();
+				m_input.pop_back();
 		}
 		else if ((int)str == 13) // 엔터
 		{
@@ -87,7 +93,7 @@ void cConsole::Update()
 		GETLPARAM = 0;
 	}
 
-	
+
 }
 
 void cConsole::DataInput(istringstream& iss, string& type, void* data)
@@ -104,7 +110,7 @@ void cConsole::DataInput(istringstream& iss, string& type, void* data)
 	{
 		float x, y, z;
 		iss >> x >> y >> z;
-		*(D3DXVECTOR3*)data = D3DXVECTOR3(x,y,z);
+		*(D3DXVECTOR3*)data = D3DXVECTOR3(x, y, z);
 	}
 	else if (type == "string")
 	{
@@ -120,23 +126,27 @@ void cConsole::DataInput(istringstream& iss, string& type, void* data)
 
 void cConsole::Render()
 {
+
+
 	if (!m_bRender)
+	{
 		return;
+	}
 
 	UIOBJECTMANAGER->Render("ConsoleBar");
 	string str = m_input;
 	//RECT rc = RectMake(200, 500, 1000, 1000);
 	//m_pFont->DrawTextA(NULL, str.c_str(), str.size(), &rc, DT_CENTER, D3DCOLOR_XRGB(255, 255, 255));
 	UIOBJECTMANAGER->SetText("ConsoleBar", 1, str);
-	
+
 	for (int i = 0; i < m_log.size(); i++)
 	{
 		float x, y;
 		UIOBJECTMANAGER->GetPosition("ConsoleBar", x, y);
 		RECT rc;
-		y = y - i*15;
+		y = y - i * 15;
 		SetRect(&rc, x, y, x + 1000, y + 1000);
-		m_pFont->DrawTextA(NULL, m_log[m_log.size() -1 - i].c_str(), m_log[m_log.size()-1- i].size(), &rc, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
+		m_pFont->DrawTextA(NULL, m_log[m_log.size() - 1 - i].c_str(), m_log[m_log.size() - 1 - i].size(), &rc, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 	}
 }
 
