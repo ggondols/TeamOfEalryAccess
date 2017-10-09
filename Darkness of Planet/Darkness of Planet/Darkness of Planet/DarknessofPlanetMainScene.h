@@ -57,6 +57,7 @@ private:
 	float					m_fTime4; /// 총잡는 자세에서 돌아오는 시간
 	float					m_fTime5; /// 총 연사 속도 시간
 	float					m_fTime6; //// 일반 모드에서 캐릭터 쫓아옴  10초간격
+	float					m_fTime7; //// 필드 몬스터 생성 시간 (20초 간격)
 	int						m_iBodyUpgrade;
 
 	// 인벤토리 추가
@@ -174,7 +175,8 @@ public:
 	float ComputeGaussianValue(float x, float mean, float std_deviation);
 	LPD3DXEFFECT LoadEffect(const char* szFileName);
 	LPD3DXEFFECT LoadEffectHpp(const char* szFileName);
-
+	void MakingFieldEnemy();
+	D3DXVECTOR3 GetWhere(int n);
 public:
 	DarknessofPlanetMainScene();
 	~DarknessofPlanetMainScene();

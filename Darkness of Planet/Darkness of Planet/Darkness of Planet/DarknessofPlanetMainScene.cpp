@@ -43,6 +43,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_pBloomEffect(NULL)
 	, m_pBloomRenderTarget(NULL)
 	, m_pBloomDepthStencil(NULL)
+	, m_fTime7(0)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -497,7 +498,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 
 
-	m_pBoss->SetPosition(D3DXVECTOR3(150, 40, -150));
+	m_pBoss->SetPosition(m_pNode->m_vRow[174].m_vCol[74].m_vPosList->m_vCenterPos);
 
 
 	m_pBoss->SetAnimation(0);
@@ -521,7 +522,10 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 
 
-
+	for (int i = 0; i < 20; i++)
+	{
+		MakingFieldEnemy();
+	}
 
 
 	m_pSkyDome->m_fNowtime = 0;
@@ -543,6 +547,7 @@ void DarknessofPlanetMainScene::Release()
 void DarknessofPlanetMainScene::Update()
 {
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	m_pMap->GetHeight(m_pBoss->GetPositionPointer()->x, m_pBoss->GetPositionPointer()->y, m_pBoss->GetPositionPointer()->z);
 	m_pBoss->Update(m_pCharacter->GetPosition());
 
 
@@ -570,7 +575,11 @@ void DarknessofPlanetMainScene::Update()
 	m_pCharacter->Update(CAMERA->getAngleY());
 	bool check = ChangeCheckPoint();
 	MakingEnemy();
-
+	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() <40)
+	{
+		m_fTime7 = TIMEMANAGER->getWorldTime();
+		MakingFieldEnemy();
+	}
 
 
 
@@ -1007,7 +1016,7 @@ void DarknessofPlanetMainScene::TargetOn()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-		if (EnemyPlayerDistance(m_vecEnemy[i]) < 30.0f)
+		if (EnemyPlayerDistance(m_vecEnemy[i]) < 50.0f)
 		{
 			m_vecEnemy[i]->m_eMode = Attack;
 			if (m_vecEnemy[i]->m_eGroup == Rush)
@@ -1172,18 +1181,18 @@ void DarknessofPlanetMainScene::Render()
 		m_pCreateShadow->End();
 	}
 
-	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(150, 150, 150);
-	float start = 0.0f;
-	float end = 200.0f;
-	float m_fFogDensity = 0.01f;
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+	//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(150, 150, 150);
+	//float start = 0.0f;
+	//float end = 200.0f;
+	//float m_fFogDensity = 0.01f;
+	//GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	//GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	//GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	//GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	//GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	//GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	//GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
 
 
 	//////////////////////////////
@@ -1372,6 +1381,8 @@ bool DarknessofPlanetMainScene::TotalCollisionCheck()
 	{
 		for (int j = i + 1; j < m_vecEnemy.size(); j++)
 		{
+			if (m_vecEnemy[i]->m_eMode == Field)continue;
+			if (m_vecEnemy[j]->m_eMode == Field)continue;
 			if (CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]))
 			{
 				check = true;
@@ -1470,16 +1481,55 @@ void DarknessofPlanetMainScene::AngleChange(TeicEnemy * A)
 	float targetangle = acosf(D3DXVec3Dot(&base, &A_B));
 	if (Cross.y < 0) targetangle = D3DX_PI * 2 - targetangle;
 	float Angle = A->GetRoationAngle();
+
+
+
+
 	if (targetangle > Angle)
 	{
-		Angle += 0.05;
-		if (Angle > targetangle) Angle = targetangle;
+		if (targetangle - Angle > D3DX_PI)
+		{
+			Angle -= 0.05;
+			if (Angle < 0)
+			{
+				Angle = D3DX_PI * 2 - Angle;
+			}
+		}
+		else
+		{
+			Angle += 0.05;
+			if (Angle > targetangle) Angle = targetangle;
+		}
+
 	}
 	else
 	{
-		Angle -= 0.05;
-		if (Angle < targetangle) Angle = targetangle;
+		if (Angle - targetangle > D3DX_PI)
+		{
+			Angle += 0.05;
+			if (Angle >D3DX_PI * 2)
+			{
+				Angle = Angle - D3DX_PI * 2;
+			}
+		}
+		else
+		{
+			Angle -= 0.05;
+			if (Angle < targetangle) Angle = targetangle;
+		}
 	}
+
+
+	//if (targetangle > Angle)
+	//{
+	//	Angle += 0.05;
+	//	if (Angle > targetangle) Angle = targetangle;
+	//}
+	//else
+	//{
+	//	Angle -= 0.05;
+	//	if (Angle < targetangle) Angle = targetangle;
+	//}
 	A->SetRotationAngle(Angle);
 
 
@@ -1855,19 +1905,120 @@ LPD3DXEFFECT DarknessofPlanetMainScene::LoadEffectHpp(const char * szFileName)
 	return pEffect;
 }
 
+void DarknessofPlanetMainScene::MakingFieldEnemy()
+{
+	TeicEnemy* pSkinnedMesh =new  TeicEnemy;
+	int a = RND->getInt(100);
+	int where = RND->getInt(8);
+	int num = m_vecEnemy.size();
+	if (a < 60)
+	{
+		pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
+		pSkinnedMesh->SetPosition(GetWhere(where));
+		pSkinnedMesh->SetAttack(5);
+		pSkinnedMesh->SetHP(100);
+		pSkinnedMesh->SetSpeed(5);
+	}
+	else if (a < 95)
+	{
+		pSkinnedMesh->Setup("object/xFile/tiger/", "tiger.X");
+		pSkinnedMesh->SetPosition(GetWhere(where));
+		pSkinnedMesh->SetAttack(8);
+		pSkinnedMesh->SetHP(200);
+		pSkinnedMesh->SetSpeed(10);
+	}
+	else if (a < 100)
+	{
+		pSkinnedMesh->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
+		pSkinnedMesh->SetPosition(GetWhere(where));
+		pSkinnedMesh->SetAttack(15);
+		pSkinnedMesh->SetHP(500);
+		pSkinnedMesh->SetSpeed(15);
+		pSkinnedMesh->SetScaleSize(0.1);
+	}
+	pSkinnedMesh->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, num +10));
+	pSkinnedMesh->m_eGroup = Field;
+	pSkinnedMesh->SetAnimation(0);
+	m_vecEnemy.push_back(pSkinnedMesh);
+
+	
+	m_vecEnemyWay.resize(m_vecEnemy.size());
+	m_vecEnemyCollisionMove.resize(m_vecEnemy.size());
+	m_vecEnemyCollisionMove[m_vecEnemy.size()-1] = new TeicMoveSequence;
+
+
+}
+
+D3DXVECTOR3 DarknessofPlanetMainScene::GetWhere(int n)
+{
+	D3DXVECTOR3 temp = D3DXVECTOR3(0, 0, 0);
+	//	892.892 / 37 / -121.117
+//	207.94 / 39.5 / -169.153
+	//843.88 / 50.5 / -878.838
+//	178.974 / 37 / -886.544
+//	798.869 / 37 / -526.444
+//	256.194 / 51 / -719.275
+//	191.122 / 37 / -378.23
+//	726.537 / 53.5535 / -792.43						
+	switch (n)
+	{
+	case 0:
+		temp = D3DXVECTOR3(892.892 +RND->getFromFloatTo(-30,30), 0, -121.117 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 1:
+		temp = D3DXVECTOR3(207.94 + RND->getFromFloatTo(-30, 30), 0, -169.153 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 2:
+		temp = D3DXVECTOR3(843.88 + RND->getFromFloatTo(-30, 30), 0, -878.838 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 3:
+		temp = D3DXVECTOR3(178.974 + RND->getFromFloatTo(-30, 30), 0, -886.544 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 4:
+		temp = D3DXVECTOR3(798.869 + RND->getFromFloatTo(-30, 30), 0, -526.444 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 5:
+		temp = D3DXVECTOR3(256.194 + RND->getFromFloatTo(-30, 30), 0, -719.275 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 6:
+		temp = D3DXVECTOR3(191.122 + RND->getFromFloatTo(-30, 30), 0, -378.23 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 7:
+		temp = D3DXVECTOR3(726.537 + RND->getFromFloatTo(-30, 30), 0, -792.43 + RND->getFromFloatTo(-30, 30));
+		break;
+	default:
+		break;
+	}
+	return temp;
+}
+
 
 
 
 
 void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 {
-
+	if (A->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
+		A->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
+	{
+		D3DXVECTOR3 temp = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+		D3DXVec3Normalize(&temp, &temp);
+		A->SetPosition(A->GetPositionYzero() + temp*0.1);
+	}
+	if (B->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
+		B->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
+	{
+		D3DXVECTOR3 temp = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+		D3DXVec3Normalize(&temp, &temp);
+		B->SetPosition(B->GetPositionYzero() + temp*0.1);
+	}
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
-		if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
-			return;
+		
 		if (A->GetSlot() && B->GetSlot())
 		{
+			if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
+				return;
 			float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_pCharacter->GetPositionYZero()));
 			float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_pCharacter->GetPositionYZero()));
 
@@ -1909,20 +2060,7 @@ void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 		}
 	}
-	if (A->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
-		A->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
-	{
-		D3DXVECTOR3 temp = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
-		D3DXVec3Normalize(&temp, &temp);
-		A->SetPosition(A->GetPositionYzero() + temp*0.1);
-	}
-	if (B->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
-		B->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
-	{
-		D3DXVECTOR3 temp = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
-		D3DXVec3Normalize(&temp, &temp);
-		B->SetPosition(B->GetPositionYzero() + temp*0.1);
-	}
+	
 
 
 }
