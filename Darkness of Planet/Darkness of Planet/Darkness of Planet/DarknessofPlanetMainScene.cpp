@@ -12,9 +12,7 @@
 #include "cSkyCloud.h"
 #include "Inventory.h"
 #include "FieldItem.h"
-//진짜 최고
-//진짜 최고
-//진짜 최고
+
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -43,6 +41,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_pBloomEffect(NULL)
 	, m_pBloomRenderTarget(NULL)
 	, m_pBloomDepthStencil(NULL)
+	, m_fTime7(0)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -128,7 +127,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetSpeed(15);
 				pSkinnedMesh->SetScaleSize(0.1);
 			}
-			
+
 			pSkinnedMesh->m_eGroup = Rush;
 			temp->m_vecMakingEnemy.push_back(pSkinnedMesh);
 
@@ -154,6 +153,7 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 	{
 		if (!temp->m_vecEnemy[i]->m_bThreadCalOn)continue;
 		if (temp->m_vecEnemy[i]->m_bAttackOn)continue;
+		if (temp->m_vecEnemy[i]->GetDie())continue;
 		temp->m_pAttackNode.x = temp->m_pCharacter->GetNodeNum().x + RND->getFromIntTo(-1, 1);
 		temp->m_pAttackNode.y = temp->m_pCharacter->GetNodeNum().y + RND->getFromIntTo(-1, 1);
 		temp->m_vecEnemyWay[i] = temp->m_pAstarShort->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
@@ -180,6 +180,7 @@ static DWORD WINAPI ThFunc3(LPVOID lpParam)
 	{
 		if (temp->m_vecEnemy[i]->m_eMode == Attack)continue;
 		if (temp->m_vecEnemy[i]->m_eGroup == Field)continue;
+		if (temp->m_vecEnemy[i]->GetDie())continue;
 		temp->m_pAttackNode.x = temp->m_pCharacter->GetNodeNum().x + RND->getFromIntTo(-1, 1);
 		temp->m_pAttackNode.y = temp->m_pCharacter->GetNodeNum().y + RND->getFromIntTo(-1, 1);
 		temp->m_vecEnemyWay[i] = temp->m_pAstar->FindWay(temp->m_vecEnemy[i]->GetNodeNum().x, temp->m_vecEnemy[i]->GetNodeNum().y,
@@ -503,7 +504,8 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pBoss->Setup("object/xFile/Valak/", "Valak.X");
 
 
-	m_pBoss->SetPosition(D3DXVECTOR3(150, 40, -150));
+	
+	m_pBoss->SetPosition(m_pNode->m_vRow[174].m_vCol[74].m_vPosList->m_vCenterPos);
 
 
 	m_pBoss->SetAnimation(0);
@@ -520,15 +522,16 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	SKILLEFFECTMANAGER->AddEffect("MChill", Monster_Chill, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
-
 	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 
 
 
 
 
-
-
+	for (int i = 0; i < 20; i++)
+	{
+		MakingFieldEnemy();
+	}
 
 	m_pSkyDome->m_fNowtime = 0;
 	return S_OK;
@@ -549,6 +552,7 @@ void DarknessofPlanetMainScene::Release()
 void DarknessofPlanetMainScene::Update()
 {
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	m_pMap->GetHeight(m_pBoss->GetPositionPointer()->x, m_pBoss->GetPositionPointer()->y, m_pBoss->GetPositionPointer()->z);
 	m_pBoss->Update(m_pCharacter->GetPosition());
 
 
@@ -574,17 +578,21 @@ void DarknessofPlanetMainScene::Update()
 
 	CAMERA->Update(&m_pCharacter->GetPosition());
 	m_pCharacter->Update(CAMERA->getAngleY());
-	bool check = ChangeCheckPoint();
+	//bool check = ChangeCheckPoint();
 	MakingEnemy();
+	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() < 40)
+	{
+		m_fTime7 = TIMEMANAGER->getWorldTime();
+		MakingFieldEnemy();
+	}
 
 
 
-
-	if (check)
+	/*if (check)
 	{
 		m_fTime2 = 0;
-	}
-	if (TIMEMANAGER->getWorldTime() > m_fTime2 + 3.0f)
+	}*/
+	if (TIMEMANAGER->getWorldTime() > m_fTime2 + 2.0f)
 	{
 		m_fTime2 = TIMEMANAGER->getWorldTime();
 		if (!m_bAstarThread)
@@ -601,7 +609,7 @@ void DarknessofPlanetMainScene::Update()
 		}
 
 	}
-	if (TIMEMANAGER->getWorldTime() > m_fTime6 + 10.0f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime6 + 5.0f)
 	{
 		m_fTime6 = TIMEMANAGER->getWorldTime();
 		if (!m_bAstarThread2)
@@ -620,7 +628,7 @@ void DarknessofPlanetMainScene::Update()
 	}
 
 	////////// 찾기
-	if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000)
+	if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000 && m_vecEnemy.size() < 60)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -639,7 +647,7 @@ void DarknessofPlanetMainScene::Update()
 
 
 	CleanHit();
-	
+
 	float callbacktiming = GetCallbackTime();
 
 	if (TIMEMANAGER->getWorldTime() > m_fTime4 + callbacktiming)
@@ -669,32 +677,44 @@ void DarknessofPlanetMainScene::Update()
 				}
 				else
 				{
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					CAMERA->rebound();
+					
+					//m_pShoot->Shoot(m_pCharacter->getWeaponType());
+					//CAMERA->rebound();
 				}
 
 			}
 			else
 			{
 				m_fTime4 = TIMEMANAGER->getWorldTime();
-				if (m_pCharacter->getWeaponType() == WP_FireGun)
+				
+				if (m_pCharacter->m_bTCallback)
 				{
+					if (m_pCharacter->getWeaponType() == WP_FireGun)
+					{
 
-					m_pCharacter->m_pCtrl->setAttacking(true);
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
-					target.x += RND->getFromFloatTo(-2, 2);
-					target.y += RND->getFromFloatTo(-2, 2);
-					target.z += RND->getFromFloatTo(-2, 2);
-					SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos());
+					
+						m_pCharacter->m_pCtrl->setAttacking(true);
+						m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
+						target.x += RND->getFromFloatTo(-2, 2);
+						target.y += RND->getFromFloatTo(-2, 2);
+						target.z += RND->getFromFloatTo(-2, 2);
+						SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos());
 
+					}
+					else
+					{
+						for (int i = 0; i < m_vecEnemy.size(); i++)
+						{
+							if (m_vecEnemy[i]->GetDie())continue;
+							m_vecEnemy[i]->MakeBoundingBox();
+						}
+						m_pCharacter->m_pCtrl->setAttacking(true);
+						m_pShoot->Shoot(m_pCharacter->getWeaponType());
+						CAMERA->rebound();
+					}
 				}
-				else
-				{
-					m_pCharacter->m_pCtrl->setAttacking(true);
-					m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					CAMERA->rebound();
-				}
+				
 			}
 		}
 
@@ -708,6 +728,7 @@ void DarknessofPlanetMainScene::Update()
 	CheckSlot();
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		if (D3DXVec3Length(&(m_vecEnemy[i]->GetPositionYzero() - m_pCharacter->GetPositionYZero())) < m_vecEnemy[i]->m_fAttackRange)
 		{
 			if (!m_vecEnemy[i]->GetSlot())continue;
@@ -734,6 +755,7 @@ void DarknessofPlanetMainScene::Update()
 	for (int i = 0; i < m_vecEnemyCollisionMove.size(); i++)
 	{
 		if (m_vecEnemy[i]->m_bAttackOn)continue;
+		if (m_vecEnemy[i]->GetDie())continue;
 		m_vecEnemyCollisionMove[i]->Update();
 
 		if (m_vecEnemyCollisionMove[i]->m_bStart)
@@ -757,7 +779,7 @@ void DarknessofPlanetMainScene::Update()
 		}
 	}
 	TotalPushCheck2();
-	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 0.5f)
+	if (TIMEMANAGER->getWorldTime() > m_fTime3 + 0.1f)
 	{
 		m_fTime3 = TIMEMANAGER->getWorldTime();
 		TargetOn();
@@ -765,11 +787,13 @@ void DarknessofPlanetMainScene::Update()
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		if (!m_vecEnemy[i]->m_bAttackOn)continue;
+		if (m_vecEnemy[i]->GetDie())continue;
 		AngleChange(m_vecEnemy[i]);
 
 	}
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+
 		m_pMap->GetHeight(m_vecEnemy[i]->GetPositionPointer()->x, m_vecEnemy[i]->GetPositionPointer()->y, m_vecEnemy[i]->GetPositionPointer()->z);
 	}
 
@@ -777,6 +801,7 @@ void DarknessofPlanetMainScene::Update()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		if (SameVector(m_vecEnemy[i]->GetPositionYzero(), m_vecEnemy[i]->m_vPreviousPosition))
 		{
 			if (m_vecEnemy[i]->m_bAttackOn == false)
@@ -809,7 +834,7 @@ void DarknessofPlanetMainScene::MakingEnemy()
 		int num = m_vecEnemy.size();
 		for (int i = 0; i < m_vecMakingEnemy.size(); i++)
 		{
-			m_vecMakingEnemy[i]->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, num + i+10));
+			m_vecMakingEnemy[i]->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, num + i + 10));
 			m_vecEnemy.push_back(m_vecMakingEnemy[i]);
 		}
 
@@ -875,6 +900,50 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			{
 				m_vecEnemy[i - 10]->m_bAttackOn = false;
 				m_vecEnemy[i - 10]->SetAnimation(1);
+				
+
+				
+			}
+
+			if (m_vecEnemy[i - 10]->GetAninum() == 4)
+			{
+				m_vecEnemy[i - 10]->SetShow(false);
+				if (m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo != NULL)
+				{
+					for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
+					{
+						if (m_vecEnemy[i-10]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+						{
+							m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
+								m_pNode->m_vRow[m_vecEnemy[i-10]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i-10]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
+
+						}
+					}
+				}
+
+
+				if (m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo != NULL)
+				{
+					for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.size(); j++)
+					{
+						if (m_vecEnemy[i-10]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+						{
+							m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.erase(
+								m_pNode->m_vRow[m_vecEnemy[i-10]->GetNodeNum().y].m_vCol[m_vecEnemy[i-10]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.begin() + j);
+
+						}
+					}
+				}
+
+				m_vecEnemy.erase(m_vecEnemy.begin() + (i-10));
+				m_vecEnemyWay.erase(m_vecEnemyWay.begin() + (i - 10));
+				m_vecEnemyCollisionMove.erase(m_vecEnemyCollisionMove.begin() + (i - 10));
+	
+				for (int k = 0; k < m_vecEnemy.size(); k++)
+				{
+					m_vecEnemy[k]->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, 10 + k));
+				}
+
 			}
 		}
 	}
@@ -948,6 +1017,8 @@ void DarknessofPlanetMainScene::TotalPushCheck2()
 	{
 		for (int j = i + 1; j < m_vecEnemy.size(); j++)
 		{
+			if (m_vecEnemy[i]->GetDie())continue;
+			if (m_vecEnemy[j]->GetDie())continue;
 			Push2(m_vecEnemy[i], m_vecEnemy[j]);
 
 		}
@@ -961,7 +1032,7 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-
+		if (m_vecEnemy[i]->GetDie())continue;
 		m_vecEnemy[i]->m_PresentGrid = m_vecEnemy[i]->GetNodeNum();
 	}
 
@@ -969,6 +1040,7 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		if (m_vecEnemy[i]->m_PreviousGrid.x == m_vecEnemy[i]->m_PresentGrid.x &&
 			m_vecEnemy[i]->m_PreviousGrid.y == m_vecEnemy[i]->m_PresentGrid.y)continue;
 
@@ -1013,7 +1085,8 @@ void DarknessofPlanetMainScene::TargetOn()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-		if (EnemyPlayerDistance(m_vecEnemy[i]) < 30.0f)
+		if (m_vecEnemy[i]->GetDie())continue;
+		if (EnemyPlayerDistance(m_vecEnemy[i]) < 100.0f)
 		{
 			m_vecEnemy[i]->m_eMode = Attack;
 			if (m_vecEnemy[i]->m_eGroup == Rush)
@@ -1027,6 +1100,7 @@ void DarknessofPlanetMainScene::TargetOn()
 	{
 		for (int i = 0; i < m_vecEnemy.size(); i++)
 		{
+			if (m_vecEnemy[i]->GetDie())continue;
 			if (m_vecEnemy[i]->m_eGroup == Rush)
 			{
 				m_vecEnemy[i]->m_eMode = Attack;
@@ -1178,18 +1252,19 @@ void DarknessofPlanetMainScene::Render()
 		m_pCreateShadow->End();
 	}
 
-	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(150, 150, 150);
-	float start = 0.0f;
-	float end = 200.0f;
-	float m_fFogDensity = 0.01f;
-	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
-	GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
-	GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
+
+	//D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(150, 150, 150);
+	//float start = 0.0f;
+	//float end = 200.0f;
+	//float m_fFogDensity = 0.01f;
+	//GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
+	//GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+	//GETDEVICE->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+	//GETDEVICE->SetRenderState(D3DRS_RANGEFOGENABLE, true);
+	//GETDEVICE->SetRenderState(D3DRS_FOGCOLOR, m_d3dFogColor);
+	//GETDEVICE->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+	//GETDEVICE->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	//GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
 
 
 	//////////////////////////////
@@ -1240,16 +1315,16 @@ void DarknessofPlanetMainScene::Render()
 
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 	if (m_pInventory) m_pInventory->Render();
-
+	
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-
+		
 		m_vecEnemy[i]->UpdateAndRender();
 	}
 
 
-	
+
 	char str[256];
 	sprintf_s(str, "%d %d", m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
 	LPD3DXFONT f;
@@ -1265,14 +1340,16 @@ void DarknessofPlanetMainScene::Render()
 		pNode->m_pModel->Render(GETDEVICE);
 	}
 	m_pBoss->UpdateAndRender();
+
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
 	SKILLEFFECTMANAGER->Update();
 	SKILLEFFECTMANAGER->Render();
-	
+
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
 
 	AfterImage();
 
@@ -1371,6 +1448,7 @@ bool DarknessofPlanetMainScene::TotalCollisionCheck()
 	check = false;
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		m_vecEnemy[i]->SetCollision(false);
 	}
 
@@ -1378,6 +1456,10 @@ bool DarknessofPlanetMainScene::TotalCollisionCheck()
 	{
 		for (int j = i + 1; j < m_vecEnemy.size(); j++)
 		{
+			if (m_vecEnemy[i]->m_eMode == Field)continue;
+			if (m_vecEnemy[j]->m_eMode == Field)continue;
+			if (m_vecEnemy[i]->GetDie())continue;
+			if (m_vecEnemy[j]->GetDie())continue;
 			if (CollisionCheck(m_vecEnemy[i], m_vecEnemy[j]))
 			{
 				check = true;
@@ -1399,6 +1481,7 @@ bool DarknessofPlanetMainScene::CheckSlot()
 	}
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		m_vecEnemy[i]->SetSlot(false);
 		if (m_vecEnemy[i]->m_eMode == Attack)
 			m_vecEnemy[i]->m_bThreadCalOn = true;
@@ -1426,7 +1509,8 @@ bool DarknessofPlanetMainScene::CheckSlot()
 					m_vecAttackSlot[count] = true;
 					for (int a = 0; a < m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding.size(); a++)
 					{
-						m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[a]->m_pSkinnedObject->m_bSlotOn = true;
+						if (m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[a]->st_Type != Bounding_Object)
+							m_pNode->m_vRow[m_pCharacter->GetNodeNum().y + i].m_vCol[m_pCharacter->GetNodeNum().x + j].m_pBoundInfo->m_vecBounding[a]->m_pSkinnedObject->m_bSlotOn = true;
 					}
 				}
 				else
@@ -1476,16 +1560,57 @@ void DarknessofPlanetMainScene::AngleChange(TeicEnemy * A)
 	float targetangle = acosf(D3DXVec3Dot(&base, &A_B));
 	if (Cross.y < 0) targetangle = D3DX_PI * 2 - targetangle;
 	float Angle = A->GetRoationAngle();
+
+
+
+
 	if (targetangle > Angle)
 	{
-		Angle += 0.05;
-		if (Angle > targetangle) Angle = targetangle;
+	
+		if (targetangle - Angle > D3DX_PI)
+		{
+			Angle -= 0.05;
+			if (Angle < 0)
+			{
+				Angle = D3DX_PI * 2 - Angle;
+			}
+		}
+		else
+		{
+			Angle += 0.05;
+			if (Angle > targetangle) Angle = targetangle;
+		}
+
 	}
 	else
 	{
-		Angle -= 0.05;
-		if (Angle < targetangle) Angle = targetangle;
+		
+		if (Angle - targetangle > D3DX_PI)
+		{
+			Angle += 0.05;
+			if (Angle > D3DX_PI * 2)
+			{
+				Angle = Angle - D3DX_PI * 2;
+			}
+		}
+		else
+		{
+			Angle -= 0.05;
+			if (Angle < targetangle) Angle = targetangle;
+		}
 	}
+
+
+	//if (targetangle > Angle)
+	//{
+	//	Angle += 0.05;
+	//	if (Angle > targetangle) Angle = targetangle;
+	//}
+	//else
+	//{
+	//	Angle -= 0.05;
+	//	if (Angle < targetangle) Angle = targetangle;
+	//}
 	A->SetRotationAngle(Angle);
 
 
@@ -1496,6 +1621,7 @@ void DarknessofPlanetMainScene::WayUpdate()
 {
 	for (int i = 0; i < m_vecEnemyWay.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		if (m_vecEnemyWay[i].size() != 0)
 		{
 			m_vecEnemyCollisionMove[i]->SetClear();
@@ -1537,6 +1663,7 @@ void DarknessofPlanetMainScene::SlowUpdate()
 {
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+
 		if (m_vecEnemy[i]->GetSlow())
 		{
 			m_vecEnemyCollisionMove[i]->SetSpeedAll(2.0f);
@@ -1552,7 +1679,7 @@ void DarknessofPlanetMainScene::SlowUpdate()
 	{
 		if (m_vecEnemy[i]->GetFire())
 		{
-			
+
 			if (TIMEMANAGER->getWorldTime() > m_vecEnemy[i]->GetFireTime() + 0.3)
 			{
 				m_vecEnemy[i]->SetFire(false);
@@ -1566,9 +1693,14 @@ void DarknessofPlanetMainScene::CleanHit()
 {
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		if (m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)
 		{
-			m_vecEnemy[i]->m_eMode == Attack;
+			if (m_vecEnemy[i]->m_eGroup == Field)
+			{
+				int a = 0;
+			}
+			m_vecEnemy[i]->m_eMode = Attack;
 			if (m_vecEnemy[i]->m_eGroup == Rush)
 			{
 				SetRushAttack();
@@ -1579,7 +1711,7 @@ void DarknessofPlanetMainScene::CleanHit()
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
-
+		if (m_vecEnemy[i]->GetDie())continue;
 		m_vecEnemy[i]->GetSkinnedMesh()->m_bHit = false;
 	}
 }
@@ -1601,48 +1733,20 @@ void DarknessofPlanetMainScene::CheckDie()
 	int a = 0;
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		if (m_vecEnemy[i]->GetHP() <= 0)
 		{
-			if (m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo != NULL)
-			{
-				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.size(); j++)
-				{
-					if (m_vecEnemy[i]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
-					{
-						m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.erase(
-							m_pNode->m_vRow[m_vecEnemy[i]->m_PreviousGrid.y].m_vCol[m_vecEnemy[i]->m_PreviousGrid.x].m_pBoundInfo->m_vecBounding.begin() + j);
-
-					}
-				}
-			}
-
-
-			if (m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo != NULL)
-			{
-				for (int j = 0; j < m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.size(); j++)
-				{
-					if (m_vecEnemy[i]->GetSkinnedMesh() == m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
-					{
-						m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.erase(
-							m_pNode->m_vRow[m_vecEnemy[i]->GetNodeNum().y].m_vCol[m_vecEnemy[i]->GetNodeNum().x].m_pBoundInfo->m_vecBounding.begin() + j);
-
-					}
-				}
-			}
-
-			m_vecEnemy.erase(m_vecEnemy.begin() + i);
-			m_vecEnemyWay.erase(m_vecEnemyWay.begin() + i);
-			m_vecEnemyCollisionMove.erase(m_vecEnemyCollisionMove.begin() + i);
-			a++;
+			m_vecEnemy[i]->SetDIe(true);
+			m_vecEnemy[i]->SetAnimation(4);
 		}
 	}
-	if (a != 0)
-	{
-		for (int i = 0; i < m_vecEnemy.size(); i++)
-		{
-			m_vecEnemy[i]->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, 10 + i));
-		}
-	}
+
+
+
+
+
+
+
 }
 
 float DarknessofPlanetMainScene::GetFireRate()
@@ -1704,6 +1808,7 @@ void DarknessofPlanetMainScene::SetRushAttack()
 {
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
+		if (m_vecEnemy[i]->GetDie())continue;
 		if (m_vecEnemy[i]->m_eGroup == Rush)
 		{
 			m_vecEnemy[i]->m_eMode = Attack;
@@ -1714,12 +1819,12 @@ void DarknessofPlanetMainScene::SetRushAttack()
 void DarknessofPlanetMainScene::AfterImage()
 {
 	//데큐 총용량 30개로제한 
-	if (m_vecAfterImageMuzzle.size() > 20) {
+	if (m_vecAfterImageMuzzle.size() > 21) {
 
 		m_vecAfterImageMuzzle.pop_front();
 	}
 
-	if (m_vecAfterImageWeapon.size() > 20) {
+	if (m_vecAfterImageWeapon.size() > 21) {
 
 		m_vecAfterImageWeapon.pop_front();
 	}
@@ -1738,7 +1843,7 @@ void DarknessofPlanetMainScene::AfterImage()
 
 			D3DXVECTOR3 result;
 
-			float mull = (i + 1) / 20.f;
+			float mull = (i + 1) / 19.0f;
 			D3DXVec3CatmullRom(&result, &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i + 1], &m_vecAfterImageMuzzle[i + 1], mull);
 
 			vecMuzzlePos.push_back(ST_PC_VERTEX(result, c));
@@ -1861,19 +1966,121 @@ LPD3DXEFFECT DarknessofPlanetMainScene::LoadEffectHpp(const char * szFileName)
 	return pEffect;
 }
 
+void DarknessofPlanetMainScene::MakingFieldEnemy()
+{
+	TeicEnemy* pSkinnedMesh = new  TeicEnemy;
+	int a = RND->getInt(100);
+	int where = RND->getInt(8);
+	int num = m_vecEnemy.size();
+	if (a < 60)
+	{
+		pSkinnedMesh->Setup("object/xFile/wolf/", "wolf.X");
+		pSkinnedMesh->SetPosition(GetWhere(where));
+		pSkinnedMesh->SetAttack(5);
+		pSkinnedMesh->SetHP(100);
+		pSkinnedMesh->SetSpeed(5);
+	}
+	else if (a < 95)
+	{
+		pSkinnedMesh->Setup("object/xFile/tiger/", "tiger.X");
+		pSkinnedMesh->SetPosition(GetWhere(where));
+		pSkinnedMesh->SetAttack(8);
+		pSkinnedMesh->SetHP(200);
+		pSkinnedMesh->SetSpeed(10);
+	}
+	else if (a < 100)
+	{
+		pSkinnedMesh->Setup("object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
+		pSkinnedMesh->SetPosition(GetWhere(where));
+		pSkinnedMesh->SetAttack(15);
+		pSkinnedMesh->SetHP(500);
+		pSkinnedMesh->SetSpeed(15);
+		pSkinnedMesh->SetScaleSize(0.1);
+	}
+	pSkinnedMesh->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, num + 10));
+	pSkinnedMesh->m_eGroup = Field;
+	pSkinnedMesh->SetAnimation(0);
+	m_vecEnemy.push_back(pSkinnedMesh);
+
+
+	m_vecEnemyWay.resize(m_vecEnemy.size());
+	m_vecEnemyCollisionMove.resize(m_vecEnemy.size());
+	m_vecEnemyCollisionMove[m_vecEnemy.size() - 1] = new TeicMoveSequence;
+
+
+}
+
+D3DXVECTOR3 DarknessofPlanetMainScene::GetWhere(int n)
+{
+	D3DXVECTOR3 temp = D3DXVECTOR3(0, 0, 0);
+	//	892.892 / 37 / -121.117
+//	207.94 / 39.5 / -169.153
+	//843.88 / 50.5 / -878.838
+//	178.974 / 37 / -886.544
+//	798.869 / 37 / -526.444
+//	256.194 / 51 / -719.275
+//	191.122 / 37 / -378.23
+//	726.537 / 53.5535 / -792.43						
+	switch (n)
+	{
+	case 0:
+		temp = D3DXVECTOR3(892.892 + RND->getFromFloatTo(-30, 30), 0, -121.117 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 1:
+		temp = D3DXVECTOR3(207.94 + RND->getFromFloatTo(-30, 30), 0, -169.153 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 2:
+		temp = D3DXVECTOR3(843.88 + RND->getFromFloatTo(-30, 30), 0, -878.838 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 3:
+		temp = D3DXVECTOR3(178.974 + RND->getFromFloatTo(-30, 30), 0, -886.544 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 4:
+		temp = D3DXVECTOR3(798.869 + RND->getFromFloatTo(-30, 30), 0, -526.444 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 5:
+		temp = D3DXVECTOR3(256.194 + RND->getFromFloatTo(-30, 30), 0, -719.275 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 6:
+		temp = D3DXVECTOR3(191.122 + RND->getFromFloatTo(-30, 30), 0, -378.23 + RND->getFromFloatTo(-30, 30));
+		break;
+	case 7:
+		temp = D3DXVECTOR3(726.537 + RND->getFromFloatTo(-30, 30), 0, -792.43 + RND->getFromFloatTo(-30, 30));
+		break;
+	default:
+		break;
+	}
+	return temp;
+}
+
 
 
 
 
 void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 {
-
+	if (A->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
+		A->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
+	{
+		D3DXVECTOR3 temp = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+		D3DXVec3Normalize(&temp, &temp);
+		A->SetPosition(A->GetPositionYzero() + temp*0.1);
+	}
+	if (B->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
+		B->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
+	{
+		D3DXVECTOR3 temp = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
+		D3DXVec3Normalize(&temp, &temp);
+		B->SetPosition(B->GetPositionYzero() + temp*0.1);
+	}
 	if (EnemyEnemyDistance(A, B) < A->m_fBoundingSize + B->m_fBoundingSize)
 	{
-		if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
-			return;
+
+		
 		if (A->GetSlot() && B->GetSlot())
 		{
+			if (m_pCollision->CheckCollision(A->GetBoundingSquare(), B->GetBoundingSquare()) == false)
+				return;
 			float Adist = D3DXVec3Length(&(A->GetPositionYzero() - m_pCharacter->GetPositionYZero()));
 			float Bdist = D3DXVec3Length(&(B->GetPositionYzero() - m_pCharacter->GetPositionYZero()));
 
@@ -1915,20 +2122,8 @@ void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 
 		}
 	}
-	if (A->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
-		A->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
-	{
-		D3DXVECTOR3 temp = A->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
-		D3DXVec3Normalize(&temp, &temp);
-		A->SetPosition(A->GetPositionYzero() + temp*0.1);
-	}
-	if (B->GetNodeNum().x == m_pCharacter->GetNodeNum().x &&
-		B->GetNodeNum().y == m_pCharacter->GetNodeNum().y)
-	{
-		D3DXVECTOR3 temp = B->GetPositionYzero(); -m_pCharacter->GetPositionYZero();
-		D3DXVec3Normalize(&temp, &temp);
-		B->SetPosition(B->GetPositionYzero() + temp*0.1);
-	}
+	
+
 
 
 }

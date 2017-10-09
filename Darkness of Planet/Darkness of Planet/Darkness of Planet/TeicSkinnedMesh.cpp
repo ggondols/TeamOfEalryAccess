@@ -16,6 +16,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	, m_fScaleSize(0.05f)
 	, m_fAttacktiming(0)
 
+
 {
 	TeicSkinnedMesh* pSkinnedMesh =	SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
 
@@ -59,6 +60,8 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	D3DXMatrixIdentity(&m_RotationMat);
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
 	m_fUpdateSpeed = 1.0f;
+	m_bShow = true;
+
 	m_bAnion = true;
 	
 }
@@ -77,6 +80,8 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 	m_fUpdateSpeed = 1.0f;
 	m_fAttacktiming = 0.0f;
 	m_bAnion = true;
+	m_bShow = true;
+
 }
 
 
@@ -183,6 +188,7 @@ void TeicSkinnedMesh::UpdateAndRender()
 
 	if (m_pRootFrame)
 	{
+		if (!m_bShow)return;
 		D3DXMATRIXA16 mat;
 		D3DXMATRIX    scal;
 	
@@ -418,6 +424,8 @@ void TeicSkinnedMesh::SetAnimationIndex(int nIndex)
 	LPD3DXANIMATIONSET pAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
 	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+	m_pAnimController->SetTrackAnimationSet(m_iCurrentAniNum, pAnimSet);
+	
 	SAFE_RELEASE(pAnimSet);
 }
 
@@ -434,6 +442,15 @@ void TeicSkinnedMesh::Blending()
 	if (!m_bBlending)return;
 	int Num = 1 + m_iCurrentAniNum;
 	if (Num > 1) Num = 0;
+	if (TIMEMANAGER->getWorldTime() > m_Finishtime)
+	{
+		m_bBlending = false;
+		if (m_callback)
+		{
+			m_callback();
+		}
+	}
+	
 	if (TIMEMANAGER->getWorldTime() <= m_Starttime + 0.3)
 	{
 		m_fWeight += m_fWeightDivide;
@@ -446,14 +463,7 @@ void TeicSkinnedMesh::Blending()
 
 		m_pAnimController->SetTrackWeight(m_iCurrentAniNum, 1);
 		m_pAnimController->SetTrackWeight(Num, 0);
-		if (TIMEMANAGER->getWorldTime() > m_Finishtime)
-		{
-			m_bBlending = false;
-			if (m_callback)
-			{
-				m_callback();
-			}
-		}
+		
 		if (TIMEMANAGER->getWorldTime() > m_Middletime)
 		{
 			if (m_attackCallback)

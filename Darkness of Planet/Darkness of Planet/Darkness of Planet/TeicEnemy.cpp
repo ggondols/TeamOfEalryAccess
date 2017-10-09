@@ -20,6 +20,7 @@ TeicEnemy::TeicEnemy()
 	m_fSpeed = 5.0f;
 	m_eGroup = Field;
 	m_eMode = Idle;
+
 }
 
 
@@ -233,7 +234,7 @@ void TeicEnemy::UpdateAndRender()
 		m_pSkinnedMesh->UpdateAndRender();
 
 	}
-	MakeBoundingBox();
+	//MakeBoundingBox();
 }
 
 void TeicEnemy::SetAnimationIndex(int nIndex)
@@ -417,6 +418,15 @@ int TeicEnemy::GetAttack()
 	}
 }
 
+void TeicEnemy::SetShow(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		 m_pSkinnedMesh->m_bShow=on;
+
+	}
+}
+
 bool TeicEnemy::GetSlow()
 {
 	if (m_pSkinnedMesh)
@@ -485,6 +495,24 @@ float TeicEnemy::GetFireTime()
 	if (m_pSkinnedMesh)
 	{
 		return m_pSkinnedMesh->m_fFireTime;
+
+	}
+}
+
+bool TeicEnemy::GetDie()
+{
+	if (m_pSkinnedMesh)
+	{
+		return m_pSkinnedMesh->GetDie();
+
+	}
+}
+
+void TeicEnemy::SetDIe(bool on)
+{
+	if (m_pSkinnedMesh)
+	{
+		 m_pSkinnedMesh->SetDie(on);
 
 	}
 }
