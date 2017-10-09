@@ -895,6 +895,72 @@ void DarknessofPlanetMainScene::MakingEnemy()
 	}
 
 }
+bool DarknessofPlanetMainScene::CollisionSkill()
+{
+	//m_pBoss->m_vecCheckCube;
+
+	//0----1
+	//|    |
+	//2----3
+
+	/*DWORD Index[6];
+	Index[0] = 0;
+	Index[1] = 1;
+	Index[2] = 2;
+	Index[5] = 3;*/
+
+
+
+	D3DXVECTOR3 m_CollisionVec[4];
+	m_CollisionVec[0] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[0].p.x, m_pBoss->m_vecCheckCube[0].p.z, 0);
+	m_CollisionVec[1] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[1].p.x,m_pBoss->m_vecCheckCube[1].p.z,0);
+	m_CollisionVec[2] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[2].p.x,m_pBoss->m_vecCheckCube[2].p.z, 0);
+	m_CollisionVec[3] = D3DXVECTOR3(m_pBoss->m_vecCheckCube[5].p.x, m_pBoss->m_vecCheckCube[5].p.z, 0);
+
+	
+	D3DXVECTOR3 Mouse;
+	Mouse.x = m_pCharacter->GetPosition().x;
+	Mouse.y = m_pCharacter->GetPosition().z;
+	Mouse.z = 0;
+	if (!LineDotDown(m_CollisionVec[0], m_CollisionVec[1], Mouse))
+	{
+		return false;
+	}
+	if (!LineDotDown(m_CollisionVec[1], m_CollisionVec[3], Mouse))
+	{
+		return false;
+	}
+	if (!LineDotDown(m_CollisionVec[3], m_CollisionVec[2], Mouse))
+	{
+		return false;
+	}
+	if (!LineDotDown(m_CollisionVec[2], m_CollisionVec[0], Mouse))
+	{
+		return false;
+	}
+
+
+	return true;
+
+
+
+
+}
+
+bool DarknessofPlanetMainScene::LineDotDown(D3DXVECTOR3 startDot, D3DXVECTOR3 finishDot, D3DXVECTOR3 targetDot)
+{
+	D3DXVECTOR3 A_B = finishDot - startDot;
+	D3DXVECTOR3 A_C = targetDot - startDot;
+
+	D3DXVECTOR3 Cross;
+	D3DXVec3Cross(&Cross, &A_B, &A_C);
+
+	if (Cross.z <= 0)
+		return true;
+	else
+		return false;
+
+}
 
 void DarknessofPlanetMainScene::CallbackOn(int number)
 {
@@ -918,7 +984,134 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 		{
 			m_pBoss->m_eType = Boss_Attack;
 			m_iCameranum = 0;
+			CAMERA->m_fDistance = 8; 
 		}
+		if (m_pBoss->GetAninum() == 6)
+		{
+			if (D3DXVec3Length(&(m_pBoss->m_vCharacterPos - m_pCharacter->GetPosition())) >30)
+			{
+				return;
+			}
+
+
+
+			float body;
+			switch (m_pCharacter->m_iBodyLv)
+			{
+			case 0:
+				body = DATABASE->GetItemValue("Armor");
+				break;
+			case 1:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 2:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 3:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			default:
+				break;
+			}
+			float helmet;
+			switch (m_pCharacter->m_iHeadLv)
+			{
+			case 0:
+				helmet = DATABASE->GetItemValue("Mask");
+				break;
+			case 1:
+				helmet = DATABASE->GetItemValue("Helmet");
+				break;
+			default:
+				break;
+			}
+			int damage = 50 - (body - helmet);
+			if (damage < 1) damage = 1;
+			m_pCharacter->m_iHP -= damage;
+			SKILLEFFECTMANAGER->play("Blood",m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+		}
+		if (m_pBoss->GetAninum() == 12)
+		{
+			if (D3DXVec3Length(&(m_pBoss->GetPosition() - m_pCharacter->GetPosition())) >100)
+			{
+				return;
+			}
+			float body;
+			switch (m_pCharacter->m_iBodyLv)
+			{
+			case 0:
+				body = DATABASE->GetItemValue("Armor");
+				break;
+			case 1:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 2:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 3:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			default:
+				break;
+			}
+			float helmet;
+			switch (m_pCharacter->m_iHeadLv)
+			{
+			case 0:
+				helmet = DATABASE->GetItemValue("Mask");
+				break;
+			case 1:
+				helmet = DATABASE->GetItemValue("Helmet");
+				break;
+			default:
+				break;
+			}
+			int damage = 30 - (body - helmet);
+			if (damage < 1) damage = 1;
+			m_pCharacter->m_iHP -= damage;
+			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+		}
+		if (m_pBoss->GetAninum() == 22)
+		{
+			if (CollisionSkill() == false)
+				return;
+
+			float body;
+			switch (m_pCharacter->m_iBodyLv)
+			{
+			case 0:
+				body = DATABASE->GetItemValue("Armor");
+				break;
+			case 1:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 2:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			case 3:
+				body = DATABASE->GetItemValue("FullArmor");
+				break;
+			default:
+				break;
+			}
+			float helmet;
+			switch (m_pCharacter->m_iHeadLv)
+			{
+			case 0:
+				helmet = DATABASE->GetItemValue("Mask");
+				break;
+			case 1:
+				helmet = DATABASE->GetItemValue("Helmet");
+				break;
+			default:
+				break;
+			}
+			int damage = 40 - (body - helmet);
+			if (damage < 1) damage = 1;
+			m_pCharacter->m_iHP -= damage;
+			SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
+		}
+		
 	}
 	for (int i = 10; i < 10 + m_vecEnemy.size(); i++)
 	{
@@ -929,8 +1122,40 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 				m_vecEnemy[i - 10]->m_bAttackOn = false;
 				m_vecEnemy[i - 10]->SetAnimation(1);
 				
-
-				
+				float body;
+				switch (m_pCharacter->m_iBodyLv)
+				{
+				case 0:
+					body = DATABASE->GetItemValue("Armor");
+					break;
+				case 1:
+					body = DATABASE->GetItemValue("FullArmor");
+					break;
+				case 2:
+					body = DATABASE->GetItemValue("FullArmor");
+					break;
+				case 3:
+					body = DATABASE->GetItemValue("FullArmor");
+					break;
+				default:
+					break;
+				}
+				float helmet;
+				switch (m_pCharacter->m_iHeadLv)
+				{
+				case 0:
+					helmet = DATABASE->GetItemValue("Mask");
+					break;
+				case 1:
+					helmet = DATABASE->GetItemValue("Helmet");
+					break;
+				default:
+					break;
+				}
+				int damage = m_vecEnemy[i - 10]->GetAttack() - (body - helmet);
+				if (damage < 1) damage = 1;
+				m_pCharacter->m_iHP -= damage;
+				SKILLEFFECTMANAGER->play("Blood", m_pCharacter->GetPosition(), m_pCharacter->GetPosition());
 			}
 
 			if (m_vecEnemy[i - 10]->GetAninum() == 4)

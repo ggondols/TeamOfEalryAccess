@@ -11,12 +11,13 @@ private:
 	D3DXVECTOR3 *m_pvTarget;
 	D3DXVECTOR3 m_vEye;
 	D3DXVECTOR3	m_vTartget;
-	float m_fDistance;
+	
 
 	bool getMousePos;
 
 
 public:
+	float m_fDistance;
 	LDYCamera();
 	~LDYCamera();
 

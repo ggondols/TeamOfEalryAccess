@@ -58,6 +58,7 @@ public:
 	float			 m_fSpeed;
 	bool			 m_bSkillCircleOn;
 	vector<ST_PT_VERTEX>	m_vecSkillCube;
+	vector<ST_PT_VERTEX>	m_vecCheckCube;
 	LPDIRECT3DTEXTURE9      m_pSkillCubeTexture;
 	LPD3DXEFFECT			m_pSkillCubeEffect;
 	D3DXVECTOR3				m_vCharacterPos;

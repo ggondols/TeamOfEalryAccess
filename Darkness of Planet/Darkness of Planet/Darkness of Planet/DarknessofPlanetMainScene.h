@@ -150,6 +150,8 @@ public:
 	virtual void Render();
 	virtual void Update();
 	void MakingEnemy();
+	bool CollisionSkill();
+	bool LineDotDown(D3DXVECTOR3 startDot, D3DXVECTOR3 finishDot, D3DXVECTOR3 targetDot);
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 	void Push2(TeicEnemy* A, TeicEnemy* B);

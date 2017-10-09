@@ -89,12 +89,15 @@ void TeicCharacterBlood::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_stVertex[4].t = D3DXVECTOR2(1, 1);
 	m_stVertex[5].t = D3DXVECTOR2(0, 1);
 	
-	for (int i = 0; i < 1; i++)
+	/*for (int i = 0; i < 1; i++)
 	{
 		char str[128];
 		sprintf_s(str, "sprites/blood%d.jpg", i+1);
 		D3DXCreateTextureFromFile(GETDEVICE, str, &m_pTexture[i]);
-	}
+	}*/
+
+	m_pTexture[0] = TEXTUREMANAGER->GetTexture("sprites/bloodfinal.jpg");
+	
 	int a = RND->getInt(1);
 
 	m_pEffect->SetTexture("base_Tex", m_pTexture[a]);
