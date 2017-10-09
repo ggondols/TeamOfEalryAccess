@@ -18,20 +18,21 @@ HRESULT LoadingScene::Setup()
 
 	
 	D3DXVECTOR3 temp = D3DXVECTOR3(200, 0, -100);
-	char str[256];
+	/*char str[256];
 	sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", 200, 0, -100);
-	m_pLoading->LoadWay2(str, NODEMANAGER->GetNode(), temp, D3DXVECTOR3(0, 0, 0));
-	/*for (int i = 0; i < 2; i++)
+	m_pLoading->LoadWay2(str, NODEMANAGER->GetNode(), temp, D3DXVECTOR3(0, 0, 0));*/
+	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			D3DXVECTOR3 temp = D3DXVECTOR3(3 * i + 200, 0, -(100 + 3 * j));
 			char str[256];
-			sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", (int)temp.x, (int)temp.y, (int)temp.z);
-			m_pLoading->LoadWay2(str, NODEMANAGER->GetNode(), temp, D3DXVECTOR3(0, 0, 0));
+			sprintf_s(str, "SX%dSZ%dLX%dLZ%d", 26+j,45+i, 116, 46);
+			m_pLoading->LoadWay(str, NODEMANAGER->GetNode(), 26 + j, 45 + i, 116, 46);
 
 		}
-	}*/
+	}
+
+	
 	//m_pLoading->LoadMesh("", MESH_NORMAL, "object/xFile/", "MP5_Aim_Anims/HeroBodyLv",i,"_MP5.X");
 	
 

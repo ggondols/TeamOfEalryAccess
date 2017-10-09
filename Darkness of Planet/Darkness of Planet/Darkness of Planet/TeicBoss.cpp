@@ -129,15 +129,7 @@ void TeicBoss::MakeBoundingBox()
 
 void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 {
-	//9876
-	if (KEYMANAGER->isOnceKeyDown('7'))
-	{
-		SKILLEFFECTMANAGER->play("Blood", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	}
-	if (KEYMANAGER->isOnceKeyDown('M'))
-	{
-		SKILLEFFECTMANAGER->play("MBlood", m_pSkinnedMesh->GetPosition(), D3DXVECTOR3(0, 0, 0));
-	}
+
 
 
 
@@ -183,11 +175,7 @@ void TeicBoss::Update(D3DXVECTOR3	CharacterPos)
 		m_bSkillCircleOn = true;
 		m_vCharacterPos = CharacterPos;
 	}
-	if (KEYMANAGER->isOnceKeyDown('8'))
-	{
-
-		SKILLEFFECTMANAGER->play("Breath", D3DXVECTOR3(m_pSkinnedMesh->GetPosition()), D3DXVECTOR3(100, 40, -100));
-	}
+	
 
 
 
@@ -374,8 +362,7 @@ void TeicBoss::UpdateAndRender()
 
 	}
 	//MakeBoundingBox();
-	SKILLEFFECTMANAGER->Update();
-	SKILLEFFECTMANAGER->Render();
+	
 	ShowSkillCube();
 	
 }
@@ -554,6 +541,8 @@ void TeicBoss::CalRotation(D3DXVECTOR3 position)
 void TeicBoss::ShowSkillCube()
 {
 	if (!m_bSkillCircleOn)return;
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	D3DXMATRIX matWorld, matView, matProjection;
 	switch (m_eSkilltype)
 	{
@@ -615,6 +604,8 @@ void TeicBoss::ShowSkillCube()
 		m_pSkillCubeEffect->EndPass();
 	}
 	m_pSkillCubeEffect->End();
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 
 void TeicBoss::SetSkillCube(float x, float y)

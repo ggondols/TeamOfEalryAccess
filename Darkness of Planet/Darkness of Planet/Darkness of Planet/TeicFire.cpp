@@ -129,6 +129,7 @@ void TeicFire::Render()
 {
 
 	if (!m_bStart)return;
+	
 	m_fTimeChange -= 0.01;
 	if (m_fTimeChange < 0)
 	{
@@ -211,7 +212,7 @@ void TeicFire::Render()
 
 
 
-
+	
 
 
 }

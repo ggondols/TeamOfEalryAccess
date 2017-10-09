@@ -19,6 +19,7 @@ TeicEnemy::TeicEnemy()
 	m_fAngle = 0.0f;
 	m_fSpeed = 5.0f;
 	m_eGroup = Field;
+	m_eMode = Idle;
 }
 
 

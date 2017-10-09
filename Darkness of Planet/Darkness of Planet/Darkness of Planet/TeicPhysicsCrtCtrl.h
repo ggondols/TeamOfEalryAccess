@@ -57,6 +57,7 @@ public:
 	bool getAttacking() { return m_bAttacking; }
 	void setAttacking(bool on) { m_bAttacking = on; }
 	void setMoving(bool on) { m_bMoving = on; }
+	void SetPosition(D3DXVECTOR3 p) { m_vPos = p; }
 	float getAngle() { return m_fAngle; }
 	D3DXMATRIX getCrtCtrlMatrix() { return m_matWorld; }
 
