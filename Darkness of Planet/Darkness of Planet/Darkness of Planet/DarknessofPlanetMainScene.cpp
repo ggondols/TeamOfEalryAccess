@@ -12,7 +12,7 @@
 #include "cSkyCloud.h"
 #include "Inventory.h"
 
-
+//이게 아까전꺼야
 
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
