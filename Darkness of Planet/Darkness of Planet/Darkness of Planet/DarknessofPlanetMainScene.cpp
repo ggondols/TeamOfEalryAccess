@@ -731,6 +731,7 @@ void DarknessofPlanetMainScene::Update()
 			}
 			
 		
+		
 		m_vecEnemy[i]->m_vPreviousPosition = m_vecEnemy[i]->GetPositionYzero();
 	}
 
