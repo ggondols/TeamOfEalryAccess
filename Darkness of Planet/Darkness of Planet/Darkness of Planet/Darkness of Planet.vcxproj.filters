@@ -339,9 +339,6 @@
     <ClInclude Include="HankcNode.h">
       <Filter>#3D Framework\GridNode\Hank</Filter>
     </ClInclude>
-    <ClInclude Include="cGameObject.h">
-      <Filter>#3D Framework</Filter>
-    </ClInclude>
     <ClInclude Include="TeicPhysicsCrtCtrl.h">
       <Filter>#3D Framework\Control</Filter>
     </ClInclude>
@@ -573,6 +570,12 @@
     <ClInclude Include="DarknessofPlanetMainScene.h">
       <Filter>MainGame\GameMain</Filter>
     </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundLoader.h">
+      <Filter>#3D Framework\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -700,9 +703,6 @@
     </ClCompile>
     <ClCompile Include="HankcNode.cpp">
       <Filter>#3D Framework\GridNode\Hank</Filter>
-    </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
-      <Filter>#3D Framework</Filter>
     </ClCompile>
     <ClCompile Include="TeicPhysicsCrtCtrl.cpp">
       <Filter>#3D Framework\Control</Filter>
@@ -928,6 +928,12 @@
     </ClCompile>
     <ClCompile Include="DarknessofPlanetMainScene.cpp">
       <Filter>MainGame\GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>#3D Framework\정현 임시저장</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundLoader.cpp">
+      <Filter>#3D Framework\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

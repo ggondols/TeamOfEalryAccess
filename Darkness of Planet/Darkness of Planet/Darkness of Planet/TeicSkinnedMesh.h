@@ -53,6 +53,11 @@ protected:
 	bool m_bCollision;
 	bool  m_bShow;
 public:
+
+	D3DXMATRIX m_matBip01RHand;
+	D3DXMATRIX m_matBip01LHand;
+
+public:
 	float	m_fAttacktiming;
 	float m_fScaleSize;
 	BoundingSquare			m_pBoundingSquare;
@@ -87,6 +92,11 @@ protected:
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
 	void Blending();
+
+	void getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX* pParent);
+
+
+
 public:
 	void MeshRender(ST_BONE * pBone, LPD3DXEFFECT effect);
 	void SetHP(int n) { m_iHp = n; }

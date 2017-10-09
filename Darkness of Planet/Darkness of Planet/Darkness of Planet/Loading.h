@@ -12,6 +12,7 @@ enum LOADING_KIND
 	LOADING_KIND_WAY,
 	LOADING_KIND_WAY2,
 	LOADING_KIND_MESH,
+	LOADING_KIND_SOUND,
 	LOADING_KIND_END
 };
 enum MESHTYPE
@@ -61,9 +62,16 @@ struct tagMesh
 	char   Filename[256];
 	MESHTYPE	type;
 };
+struct tagSoundList
+{
+	string _soundKey, _soundPath, _soundName, _soundType;
+	bool _bgm, _loop;
+	int numberOfTracks;
+};
+
 class LoadItem
 {
-private:
+protected:
 	LOADING_KIND m_kind;
 
 	tagTestResource m_testResource;
@@ -71,23 +79,24 @@ private:
 	tagWay			m_stTagWay;
 	tagWay2			m_stTagWay2;
 	tagMesh			m_stMesh;
+	tagSoundList	m_stSound;
+	
 public:
 	HRESULT AddForTestResource(string keyName, int width, int height);
 	HRESULT InitForHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD  dwBytesPerPixel =1);
 	HRESULT InitForWay(string keyName, HankcGrid*	Node, int StartX, int StartZ, int LastX, int LastZ);
 	HRESULT InitForWay2(string keyName, HankcGrid*	Node, D3DXVECTOR3 start, D3DXVECTOR3 last);
 	HRESULT InitForMesh(string keyName, MESHTYPE type, char* foldername, char* filename);
-
-	
+	HRESULT InitForSound(tagSoundList& sm);
 	
 	int StartZ;
 	int LastX;
 	int LastZ;
 
-	void Release(void);
+	virtual void Release(void);
 
 	//로딩종류 접근자
-	LOADING_KIND GetLoadingKind(void) { return m_kind; }
+	virtual LOADING_KIND GetLoadingKind(void) { return m_kind; }
 
 	//테스트용 리소스 접근자
 	tagTestResource GetTestResource(void) { return m_testResource; }
@@ -95,9 +104,12 @@ public:
 	tagWay			GetWayResource(void) { return m_stTagWay; }
 	tagWay2			GetWayResource2(void) { return m_stTagWay2; }
 	tagMesh			GetMeshResource(void) { return m_stMesh; }
+	tagSoundList	GetSoundResource(void) { return m_stSound; }
 	LoadItem(void);
-	~LoadItem(void);
+	virtual ~LoadItem(void);
 };
+
+
 
 class Loading
 {
@@ -125,6 +137,7 @@ public:
 	void LoadWay(string keyName, HankcGrid*	Node, int StartX, int StartZ, int LastX, int LastZ);
 	void LoadWay2(string keyName, HankcGrid*	Node, D3DXVECTOR3 start, D3DXVECTOR3 last);
 	void LoadMesh(string keyName,MESHTYPE type, char* folername, char* filename);
+	void LoadSound(tagSoundList &sm);
 	BOOL LoadNext(void);
 	
 	Loading();

@@ -6,6 +6,7 @@
 #include "cCrtCtrl.h"
 #include <fstream>
 #include <sstream>
+#include "cSoundLoader.h"
 
 
 HankcDefferedRenderTest::HankcDefferedRenderTest()
@@ -49,25 +50,10 @@ HRESULT HankcDefferedRenderTest::Setup()
 	m_pNode = NODEMANAGER->GetNode();
 	//여기부터
 	
-	string  buffer, token;
-	string scriptPath = "Data/Script/SoundList.txt";
-	ifstream file(scriptPath);
+	cSoundLoader ls;
+	ls.LoadSound();
 
-	if(file.good())
-		while (getline(file, buffer))
-		{
-			istringstream iss(buffer);
 
-			iss >> token;
-
-			if (token == "BGM")
-			{
-				string soundKey, soundName, soundPath;
-				float bgm, loop;
-
-				SOUNDMANAGER->addSound(soundKey, soundPath, soundName, false, false);
-			}
-		}
 	
 	/*SOUNDMANAGER->addSound(soundKey, soundName, false, false);
 	SOUNDMANAGER->GetSoundNamebyTrack(0);*/
@@ -141,8 +127,9 @@ void HankcDefferedRenderTest::Update()
 
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
-
-	}
+		SOUNDMANAGER->play(SOUNDMANAGER->GetSoundNamebyTrack(0));
+		string tt = SOUNDMANAGER->GetSoundNamebyTrack(0);
+;	}
 	else if (KEYMANAGER->isStayKeyDown('N'))
 	{
 
@@ -151,6 +138,8 @@ void HankcDefferedRenderTest::Update()
 	{
 
 	}
+
+	SOUNDMANAGER->Update();
 }
 
 void HankcDefferedRenderTest::Render()

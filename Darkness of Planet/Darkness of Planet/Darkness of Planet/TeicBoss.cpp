@@ -329,6 +329,7 @@ void TeicBoss::UpdateAndRender()
 	}
 	//MakeBoundingBox();
 	
+	AfterImage();
 	ShowSkillCube();
 	
 }
@@ -711,6 +712,85 @@ void TeicBoss::SetDIe(bool on)
 		m_pSkinnedMesh->SetDie(on);
 
 	}
+}
+
+void TeicBoss::AfterImage()
+{
+	//µ¥Å¥ ÃÑ¿ë·® 20°³·ÎÁ¦ÇÑ 
+	if (m_deqRHand.size() > 10) {
+
+		m_deqRHand.pop_front();
+	}
+
+	if (m_deqLHand.size() > 10) {
+
+		m_deqLHand.pop_front();
+	}
+
+	//°Ë±¤ »ö±òÈò»öÁöÁ¤
+	D3DCOLOR c = D3DCOLOR_XRGB(255, 255, 255);
+
+	//¹«±âÀ§Ä¡º¤ÅÍ¿¡³ÖÀ½
+	D3DXVECTOR3 vec3RHand, vec3LHand;
+
+	vec3RHand = D3DXVECTOR3(m_pSkinnedMesh->m_matBip01RHand._41, m_pSkinnedMesh->m_matBip01RHand._42, m_pSkinnedMesh->m_matBip01RHand._43);
+	vec3LHand = D3DXVECTOR3(m_pSkinnedMesh->m_matBip01LHand._41, m_pSkinnedMesh->m_matBip01LHand._42, m_pSkinnedMesh->m_matBip01LHand._43);
+
+	if (m_deqRHand.size() <= 10) {
+		m_deqRHand.push_back(vec3RHand);
+		m_deqLHand.push_back(vec3LHand);
+	}
+
+	vector<ST_PC_VERTEX> vecRHandPos;
+	if (m_deqRHand.size() >= 10) {
+		for (int i = 0; i < 9; ++i) {
+
+			D3DXVECTOR3 result;
+
+			float mull = (i + 1) / 9.0f;
+			D3DXVec3CatmullRom(&result, &m_deqRHand[i], &m_deqRHand[i], &m_deqRHand[i+1], &m_deqRHand[i+1], mull);
+
+			vecRHandPos.push_back(ST_PC_VERTEX(result, c));
+		}
+		D3DXMATRIX matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+		GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
+		GETDEVICE->DrawPrimitiveUP(
+			D3DPT_LINESTRIP,
+			vecRHandPos.size()-1,
+			&vecRHandPos[0],
+			sizeof(ST_PC_VERTEX));
+	}
+
+	vector<ST_PC_VERTEX> vecLHandPos;
+	if (m_deqLHand.size() >= 10) {
+		for (int i = 0; i < 9; ++i) {
+
+			D3DXVECTOR3 result;
+
+			float mull = (i + 1) / 9.0f;
+			D3DXVec3CatmullRom(&result, &m_deqLHand[i], &m_deqLHand[i], &m_deqLHand[i + 1], &m_deqLHand[i + 1], mull);
+
+			vecLHandPos.push_back(ST_PC_VERTEX(result, c));
+		}
+		D3DXMATRIX matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+		GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
+		GETDEVICE->DrawPrimitiveUP(
+			D3DPT_LINESTRIP,
+			vecLHandPos.size() - 1,
+			&vecLHandPos[0],
+			sizeof(ST_PC_VERTEX));
+	}
+
+	GETDEVICE->SetRenderState(D3DRS_POINTSCALEENABLE, false);
+}
+
+DWORD TeicBoss::FtoDw(float f)
+{
+	return *((DWORD*)&f);
 }
 
 void TeicBoss::SkillOn(D3DXVECTOR3 CharacterPos)

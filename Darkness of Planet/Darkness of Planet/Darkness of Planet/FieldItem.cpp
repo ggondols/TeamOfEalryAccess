@@ -26,7 +26,16 @@ void FieldItem::Setup(string name, ITEM_TYPE type)
 
 void FieldItem::Setup(int itemNum)
 {
-	m_eType = ITEMTYPE_PART;
+	// 0~4 업그레이드 조각
+	// 5 소모품 회복아이템
+	if (itemNum == 5)
+	{
+		m_eType = ITEMTYPE_EXPENDABLE;
+	}
+	else
+	{
+		m_eType = ITEMTYPE_PART;
+	}
 	m_pMesh = LoadModel("object/xFile/Item/", "ItemPart.X");
 
 	SetNameNumber(itemNum);
@@ -79,6 +88,9 @@ void FieldItem::SetNameNumber(int nNum)
 		break;
 	case 4:
 		m_sName = "HelmetPart2";
+		break;
+	case 5:
+		m_sName = "HealPack";
 		break;
 	}
 }

@@ -239,15 +239,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 
 	UIOBJECTMANAGER->AddRoot("aimTest", pAimImage, true);
 
-	cUIImageView* pLifeImageDown = new cUIImageView;
-	pLifeImageDown->SetTexture("./UI/lifeBarDown.bmp");
-	pLifeImageDown->SetPosition(10, viewport.Height - 30);
-	cUIImageView* pLifeImageUp = new cUIImageView;
-	pLifeImageUp->SetTexture("./UI/lifeBarUp.bmp");
-
-	UIOBJECTMANAGER->AddRoot("lifeTest", pLifeImageDown, true);
-	UIOBJECTMANAGER->AddChild("lifeTest", pLifeImageUp);
-
 	m_pInventory = new Inventory;
 	m_pInventory->Setup();
 
@@ -256,7 +247,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	for (size_t i = 0; i < 16; i++)
 	{
 		FieldItem* pItem = new FieldItem();
-		pItem->Setup(RND->getInt(5));
+		pItem->Setup(RND->getInt(6));
 		D3DXVECTOR3 vPos;
 		switch (i)
 		{
@@ -565,7 +556,7 @@ void DarknessofPlanetMainScene::Update()
 	m_pBoss->Update(m_pCharacter->GetPosition());
 	BossAttack();
 
-	if (m_pInventory) m_pInventory->Update(CAMERA, m_pCharacter);
+	if (m_pInventory) m_pInventory->Update(m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
 

@@ -209,6 +209,9 @@ void TeicSkinnedMesh::UpdateAndRender()
 		D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
+
+		getAnotherMatrix(m_pRootFrame, NULL);
+
 	}
 }
 
@@ -472,6 +475,31 @@ void TeicSkinnedMesh::Blending()
 			}
 		}
 		
+	}
+}
+
+void TeicSkinnedMesh::getAnotherMatrix(LPD3DXFRAME pFrame, D3DMATRIX * pParent)
+{
+	ST_BONE* pBone = (ST_BONE*)pFrame;
+	D3DXMATRIXA16 matW;
+	D3DXMatrixIdentity(&matW);
+	if (pBone->Name != nullptr &&string(pBone->Name) == string("Bip01RHand"))
+	{
+		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
+		m_matBip01RHand = pBone->CombinedTransformationMatrix;
+	}
+	else if (pBone->Name != nullptr &&string(pBone->Name) == string("Bip01LHand"))
+	{
+		pBone->CombinedTransformationMatrix = pBone->TransformationMatrix * (*pParent);
+		m_matBip01LHand = pBone->CombinedTransformationMatrix;
+	}
+	if (pFrame->pFrameSibling)
+	{
+		getAnotherMatrix(pFrame->pFrameSibling, &pBone->CombinedTransformationMatrix);
+	}
+	if (pFrame->pFrameFirstChild)
+	{
+		getAnotherMatrix(pFrame->pFrameFirstChild, &pBone->CombinedTransformationMatrix);
 	}
 }
 

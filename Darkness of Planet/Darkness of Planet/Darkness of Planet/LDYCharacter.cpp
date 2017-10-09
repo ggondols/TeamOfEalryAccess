@@ -67,6 +67,12 @@ void LDYCharacter::Setup(char* Foldername, char* Filename)
 	m_iMaxHP = 100;
 	m_iHP = 100;
 
+	UIOBJECTMANAGER->AddRoot("characterHP", UITYPE_IMAGE, true);
+	UIOBJECTMANAGER->SetTexture("characterHP", "./UI/HPBarDown.png");
+	UIOBJECTMANAGER->SetPosition("characterHP", 0.01f, 0.95f);
+	UIOBJECTMANAGER->AddChild("characterHP", UITYPE_IMAGE);
+	UIOBJECTMANAGER->SetTexture("characterHP", 1, "./UI/HPBarUp.png");
+
 	//body 상황별 메쉬 셋업 
 
 	//MP5Body
@@ -330,6 +336,7 @@ void LDYCharacter::UpdateAndRender()
 	D3DXMatrixTranslation(&matWeapon, -0.0f, 0.0f, 0.0f);
 	matWeapon = matRX*matRY*matRZ;
 
+	SetGauge(m_iHP, m_iMaxHP);
 
 	switch (m_eStType)
 	{
@@ -3189,3 +3196,9 @@ D3DXVECTOR3 LDYCharacter::getWeaponPos()
 	return D3DXVECTOR3();
 }
 
+void LDYCharacter::SetGauge(int current, int max)
+{
+	//_width = (current / max) * _gaugeDown->getWidth();
+	cUIObject* currentGauge = UIOBJECTMANAGER->GetChildByTag("characterHP", 1);
+	currentGauge->SetSizeWidth(((float)current / (float)max) * UIOBJECTMANAGER->FindRoot("characterHP")->GetSize().fWidth);
+}

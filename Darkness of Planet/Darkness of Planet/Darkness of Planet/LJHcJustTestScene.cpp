@@ -353,7 +353,7 @@ void LJHcJustTestScene::Update()
 {
 	SOUNDMANAGER->Update();
 
-	if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
+	if (m_pInventory) m_pInventory->Update(m_pCharacter);
 	//if (m_pInventory) m_pInventory->Update(m_pCamera, m_pCharacter);
 	//D3DXVECTOR3 testPos = DATABASE->GetTimeToPosition("test", 2.5f);
 

@@ -56,7 +56,7 @@ public:
 	~Inventory();
 
 	void Setup();
-	void Update(LDYCamera* camera, LDYCharacter* character);
+	void Update(LDYCharacter* character);
 	void Render();
 
 	void AddItem(string itemName, ITEM_TYPE type, int count = 1);
