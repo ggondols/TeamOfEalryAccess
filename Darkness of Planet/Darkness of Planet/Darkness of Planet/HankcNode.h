@@ -20,7 +20,8 @@ enum Boundingtype
 {
 	Bounding_Enemy,
 	Bounding_Object,
-	Bounding_Character
+	Bounding_Character,
+	Bounding_Boss
 
 };
 

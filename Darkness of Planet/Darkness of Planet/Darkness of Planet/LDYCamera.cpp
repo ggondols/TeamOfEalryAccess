@@ -44,7 +44,7 @@ void LDYCamera::Setup(D3DXVECTOR3 * pvTarget /*=NULL*/)
 
 }
 
-void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
+void LDYCamera::Update(D3DXVECTOR3 *pvTarget,int num)
 {
 	/*if (UIOBJECTMANAGER->CheckShowState("inventory"))
 	{
@@ -69,6 +69,8 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 		m_vTartget.x = pvTarget->x;
 		m_vTartget.y = pvTarget->y + 8.0f;
 		m_vTartget.z = pvTarget->z;
+
+		
 	}
 	else
 		m_vTartget = D3DXVECTOR3(m_vTartget.x, m_vTartget.y, m_vTartget.z);
@@ -111,7 +113,10 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget)
 			m_fDistance = 12.0f;
 		}*/
 	}
-
+	if (num == 1)
+	{
+		m_fDistance=50;
+	}
 	m_vEye = D3DXVECTOR3(0, 0, -m_fDistance);
 
 	if (UIOBJECTMANAGER->CheckShowState("inventory"))

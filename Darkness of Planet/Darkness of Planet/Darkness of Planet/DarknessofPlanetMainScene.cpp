@@ -24,7 +24,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_bAstarThread2(false)
 	/*, m_pCamera(NULL)*/
 	, m_iBodyUpgrade(1)
-
+	, m_fBossTime(0)
 	, m_pFont(NULL)
 	, m_pCollision(NULL)
 	, m_pShoot(NULL)
@@ -42,6 +42,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_pBloomRenderTarget(NULL)
 	, m_pBloomDepthStencil(NULL)
 	, m_fTime7(0)
+	, m_iCameranum(0)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -96,7 +97,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 	EnterCriticalSection(&cs);
 	DarknessofPlanetMainScene* temp = (DarknessofPlanetMainScene*)lpParam;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -508,11 +509,16 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pBoss->SetPosition(m_pNode->m_vRow[174].m_vCol[74].m_vPosList->m_vCenterPos);
 
 
-	m_pBoss->SetAnimation(0);
+	m_pBoss->SetAnimation(31);
 
 	m_pBoss->SetScaleSize(0.1);
 
+	m_pBoss->SetHp(10000);
+	m_pBoss->SetSpeed(20);
 
+
+	m_pBoss->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, 5));
+	m_pBossMove = new TeicCollisionMove;
 
 
 	SKILLEFFECTMANAGER->AddEffect("Explosion", Skill_Explosion, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
@@ -551,10 +557,13 @@ void DarknessofPlanetMainScene::Release()
 
 void DarknessofPlanetMainScene::Update()
 {
+	
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
+	if(!m_pBoss->m_bAttackOn)
+	m_pBossMove->Update();
 	m_pMap->GetHeight(m_pBoss->GetPositionPointer()->x, m_pBoss->GetPositionPointer()->y, m_pBoss->GetPositionPointer()->z);
 	m_pBoss->Update(m_pCharacter->GetPosition());
-
+	BossAttack();
 
 	if (m_pInventory) m_pInventory->Update(CAMERA, m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
@@ -576,11 +585,21 @@ void DarknessofPlanetMainScene::Update()
 		}
 	}
 
-	CAMERA->Update(&m_pCharacter->GetPosition());
+	
+	
+	if (m_iCameranum == 0)
+	{
+		CAMERA->Update(&m_pCharacter->GetPosition(),0);
+	}
+	else
+	{
+		CAMERA->Update(&m_pBoss->GetPosition(),1);
+	}
+	
 	m_pCharacter->Update(CAMERA->getAngleY());
 	//bool check = ChangeCheckPoint();
 	MakingEnemy();
-	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() < 40)
+	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() < 30)
 	{
 		m_fTime7 = TIMEMANAGER->getWorldTime();
 		MakingFieldEnemy();
@@ -628,7 +647,7 @@ void DarknessofPlanetMainScene::Update()
 	}
 
 	////////// 찾기
-	if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000 && m_vecEnemy.size() < 60)
+	if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000 && m_vecEnemy.size() < 40)
 	{
 		m_fTime = INF;
 		DWORD dwThID1;
@@ -709,6 +728,7 @@ void DarknessofPlanetMainScene::Update()
 							if (m_vecEnemy[i]->GetDie())continue;
 							m_vecEnemy[i]->MakeBoundingBox();
 						}
+						m_pBoss->MakeBoundingBox();
 						m_pCharacter->m_pCtrl->setAttacking(true);
 						m_pShoot->Shoot(m_pCharacter->getWeaponType());
 						CAMERA->rebound();
@@ -892,6 +912,14 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			m_pCharacter->SetAttacking(false);
 		}
 	}
+	else if (number == 5)
+	{
+		if (m_pBoss->GetAninum() == 40)
+		{
+			m_pBoss->m_eType = Boss_Attack;
+			m_iCameranum = 0;
+		}
+	}
 	for (int i = 10; i < 10 + m_vecEnemy.size(); i++)
 	{
 		if (number == i)
@@ -1035,9 +1063,7 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 		if (m_vecEnemy[i]->GetDie())continue;
 		m_vecEnemy[i]->m_PresentGrid = m_vecEnemy[i]->GetNodeNum();
 	}
-
-	/////////// 비교
-
+	///비교
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		if (m_vecEnemy[i]->GetDie())continue;
@@ -1074,7 +1100,61 @@ void DarknessofPlanetMainScene::ChangeGridInfo()
 
 
 
+	//보스
+	m_pBoss->m_PresentGrid = m_pBoss->GetNodeNum();
+	/////////// 비교
+	
+	if (m_pBoss->m_PreviousGrid.x == m_pBoss->m_PresentGrid.x &&
+		m_pBoss->m_PreviousGrid.y == m_pBoss->m_PresentGrid.y)return;
+	
+	for (int a = -1; a < 2; a++)
+	{
+		for (int b = -1; b < 2; b++)
+		{
+			if (m_pBoss->m_PreviousGrid.y + a < 0)continue;
+			if (m_pBoss->m_PreviousGrid.x + b < 0)continue;
+			if (m_pBoss->m_PresentGrid.y + a < 0)continue;
+			if (m_pBoss->m_PresentGrid.x + b < 0)continue;
+			if (m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_pBoss->GetSkinnedMesh() == m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject)
+					{
+						m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding.erase(
+							m_pNode->m_vRow[m_pBoss->m_PreviousGrid.y+a].m_vCol[m_pBoss->m_PreviousGrid.x+b].m_pBoundInfo->m_vecBounding.begin() + j);
 
+					}
+				}
+			}
+
+		}
+	}
+	
+	for (int a = -1; a < 2; a++)
+	{
+		for (int b = -1; b < 2; b++)
+		{
+			if (m_pBoss->m_PreviousGrid.y + a < 0)continue;
+			if (m_pBoss->m_PreviousGrid.x + b < 0)continue;
+			if (m_pBoss->m_PresentGrid.y + a < 0)continue;
+			if (m_pBoss->m_PresentGrid.x + b < 0)continue;
+			if (m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo == NULL)
+			{
+				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo = new nNodeBoundInfo;
+				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo->m_vecBounding.push_back(
+					m_pBoss->GetBoundingSquare());
+			}
+			else
+			{
+				m_pNode->m_vRow[m_pBoss->m_PresentGrid.y+a].m_vCol[m_pBoss->m_PresentGrid.x+b].m_pBoundInfo->m_vecBounding.push_back(
+					m_pBoss->GetBoundingSquare());
+			}
+
+		}
+	}
+
+	m_pBoss->m_PreviousGrid = m_pBoss->GetNodeNum();
 
 
 }
@@ -1083,6 +1163,15 @@ void DarknessofPlanetMainScene::TargetOn()
 {
 	int a = 0;
 
+	if (m_pBoss->m_eType == Boss_Idle)
+	{
+		if (D3DXVec3Length(&(m_pCharacter->GetPositionYZero() - m_pBoss->GetPositionYzero())) < 70.0f)
+		{
+			m_iCameranum = 1;
+			m_pBoss->m_eType = Boss_Show;
+			m_pBoss->SetAnimation(40);
+		}
+	}
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		if (m_vecEnemy[i]->GetDie())continue;
@@ -1339,6 +1428,7 @@ void DarknessofPlanetMainScene::Render()
 
 		pNode->m_pModel->Render(GETDEVICE);
 	}
+	if(m_pBoss->m_eType != Boss_Idle)
 	m_pBoss->UpdateAndRender();
 
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
@@ -1816,6 +1906,49 @@ void DarknessofPlanetMainScene::SetRushAttack()
 	}
 }
 
+void DarknessofPlanetMainScene::BossAttack()
+{
+	if (m_pBoss->m_eType != Boss_Attack)return;
+	float t = D3DXVec3Length(&(m_pCharacter->GetPositionYZero() - m_pBoss->GetPositionYzero()));
+	if (t < 70)
+	{
+		m_pBossMove->Stop();
+		
+		if (TIMEMANAGER->getWorldTime() > m_fBossTime + 10.0f && !m_pBoss->m_bAttackOn)
+		{
+			m_fBossTime = TIMEMANAGER->getWorldTime();
+			m_pBoss->m_bAttackOn = true;
+			m_pBoss->SkillOn(m_pCharacter->GetPosition());
+		}
+		if (!m_pBoss->m_bAttackOn)
+		{
+			if (m_pBoss->GetAninum() != 31)
+			{
+				m_pBoss->SetAnimation(31);
+			}
+		}
+	}
+	else
+	{
+		if (!m_pBoss->m_bAttackOn)
+		{
+			if (m_pBoss->GetAninum() != 33)
+			{
+				m_pBoss->SetAnimation(33);
+			}
+			if (TIMEMANAGER->getWorldTime() > m_fBossTime + 2.0f)
+			{
+				m_pBossMove->SetSkinnedTarget(m_pBoss->GetSkinnedMesh());
+				m_pBossMove->SetSpeed(m_pBoss->m_fSpeed);
+				m_pBossMove->SetFrom(m_pBoss->GetPositionYzero());
+				m_pBossMove->SetTo(m_pCharacter->GetPositionYZero());
+				m_pBossMove->SetRoationAngle(m_pBoss->GetRoationAngle());
+				m_pBossMove->Start();
+			}
+		}
+	}
+}
+
 void DarknessofPlanetMainScene::AfterImage()
 {
 	//데큐 총용량 30개로제한 
@@ -2052,6 +2185,8 @@ D3DXVECTOR3 DarknessofPlanetMainScene::GetWhere(int n)
 	}
 	return temp;
 }
+
+
 
 
 

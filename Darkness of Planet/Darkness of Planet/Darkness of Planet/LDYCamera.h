@@ -21,12 +21,14 @@ public:
 	~LDYCamera();
 
 	void Setup(D3DXVECTOR3 *pvTarget = NULL);
-	void Update(D3DXVECTOR3 *pvTarget);
+	void Update(D3DXVECTOR3 * pvTarget, int num);
+	//void Update(D3DXVECTOR3 *pvTarget);
 	D3DXVECTOR3 getEye(void) { return m_vEye; }
 	D3DXVECTOR3 getLook(void) { return *m_pvTarget; }
 	D3DXVECTOR3 getShootTarget() { return m_vTartget; }
 	float getAngleY(void) { return m_fangleY; }
 	void rebound();
+	void SetTarget(D3DXVECTOR3 * target) { m_pvTarget  = target;}
 	
 };
 
