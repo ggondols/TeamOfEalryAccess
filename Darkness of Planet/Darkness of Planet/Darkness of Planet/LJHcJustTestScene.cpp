@@ -367,11 +367,6 @@ void LJHcJustTestScene::Update()
 		{
 			m_vecItem[i]->SetIsNull(false);
 			m_vecItem[i]->SetNameNumber(RND->getInt(5));
-			/*if (m_vecItem[i]->GetNullTime() >= 500.0f);
-			{
-				m_vecItem[i]->SetIsNull(false);
-				m_vecItem[i]->SetNameNumber(RND->getInt(5));
-			}*/
 		}
 		else if (!m_vecItem[i]->GetIsNull() && D3DXVec3Length(&(m_pCharacter->GetPosition() - m_vecItem[i]->GetPosition())) < 2.0f)
 		{
