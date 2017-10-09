@@ -2040,30 +2040,11 @@ void LDYCharacter::Update(float angle)
 		}
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_SHIFT))
-	{
-		m_bRun = true;
-	}
-	if (KEYMANAGER->isOnceKeyUp(VK_SHIFT))
-	{
-		m_bRun = false;
-	}
-
-	if (m_bRun)
-	{
-		m_pCtrl->SetSpeed(20.0f);
-		////////////////
-	}
-	else {
-		m_pCtrl->SetSpeed(0.5f);
-	}
-
 	if (m_pCtrl->getMoving()) {
 		m_eStType = ST_Move;
 	}
 	else if (m_pCtrl->getAttacking()) {
 		m_eStType = ST_Attack;
-		
 	}
 	else
 	{
@@ -2075,6 +2056,7 @@ void LDYCharacter::Update(float angle)
 		m_bTCallback = false;
 	}
 
+	m_bRun=m_pCtrl->getRunning();
 	if (m_pCtrl != NULL)
 	{
 		SetPosition(*m_pCtrl->GetPosition());

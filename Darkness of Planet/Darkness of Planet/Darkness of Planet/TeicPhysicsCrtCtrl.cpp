@@ -45,15 +45,26 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 	
 
 
-	if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+	//if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+	//{
+	//	m_bAttacking = true;
+	//	m_fSpeed = 0;
+	//}
+	//if (KEYMANAGER->isOnceKeyUp(VK_RBUTTON))
+	//{
+	//	m_bAttacking = false;
+	//	
+	//}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LSHIFT))
 	{
-		m_bAttacking = true;
-		m_fSpeed = 0;
+		m_bRunning = true;
 	}
-	if (KEYMANAGER->isOnceKeyUp(VK_RBUTTON))
+	if (KEYMANAGER->isOnceKeyUp(VK_LSHIFT))
 	{
-		m_bAttacking = false;
+		m_bRunning = false;
 	}
+
 
 	if (!m_bAttacking)
 	{
@@ -66,7 +77,7 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 		}
 		if (KEYMANAGER->isStayKeyDown('S'))
 		{
-			m_fAcceleration -= 0.001f*0.5;
+			m_fAcceleration -= 0.001f*m_fSpeedSetting;
 			m_fAngle = angle - D3DX_PI / 2;
 			m_bMoving = true;
 		}
@@ -88,10 +99,23 @@ void TeicPhysicsCrtCtrl::Update(float angle)
 	}
 
 
+	if (m_bRunning&&m_bMoving)
+	{
+		m_fSpeedSetting = 20.0f;
+	}
+	else if(!m_bRunning&&m_bMoving)
+	{
+		m_fSpeedSetting = 0.5f;
+	}
+
+	
 	m_fAcceleration -= 0.00025f*m_fSpeedSetting;
+	
 	if (m_fAcceleration > 0.001*m_fSpeedSetting) m_fAcceleration = 0.001f*m_fSpeedSetting;
+	if (m_fAcceleration < -0.001*m_fSpeedSetting) m_fAcceleration = -0.001f*m_fSpeedSetting;
 	m_fSpeed += m_fAcceleration;
 	if (m_fSpeed > 0.1*m_fSpeedSetting)m_fSpeed = 0.1*m_fSpeedSetting;
+	if (m_fSpeed < -0.1*m_fSpeedSetting)m_fSpeed = -0.1*m_fSpeedSetting;
 
 
 	if (m_fSpeed < 0)

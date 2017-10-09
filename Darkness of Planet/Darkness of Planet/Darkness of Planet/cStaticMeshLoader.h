@@ -1,5 +1,6 @@
 #pragma once
 class cObjectNode;
+class cHankGrid;
 class cStaticMeshLoader
 {
 private:

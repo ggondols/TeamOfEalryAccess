@@ -11,10 +11,6 @@
 #include "cSkyDome.h"
 #include "cSkyCloud.h"
 #include "Inventory.h"
-#include "FieldItem.h"
-//진짜 최고
-//진짜 최고
-//진짜 최고
 DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	: m_pMap(NULL)
 	, m_pNode(NULL)
@@ -129,7 +125,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetSpeed(15);
 				pSkinnedMesh->SetScaleSize(0.1);
 			}
-			
+
 			pSkinnedMesh->m_eGroup = Rush;
 			temp->m_vecMakingEnemy.push_back(pSkinnedMesh);
 
@@ -451,6 +447,12 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_pGrid->Setup();
 
 	//노드 추가 합니다.
+	m_pNode = NODEMANAGER->GetNode();
+	//대원 -> 노드가 필요해 부득이 이쪽에서 실행
+	for each(auto p in m_ObjNodes)
+	{
+		p->PutBoundBoxtoNodeByPosition(m_pNode);
+	}
 
 
 
@@ -515,7 +517,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	SKILLEFFECTMANAGER->AddEffect("MBlood", Monseter_Blood, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	SKILLEFFECTMANAGER->AddEffect("MChill", Monster_Chill, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 20);
 	SKILLEFFECTMANAGER->AddEffect("Flame", Flame, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 30);
-
 	SKILLEFFECTMANAGER->AddEffect("Laser", Laser, D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), 1);
 
 
@@ -526,7 +527,6 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	{
 		MakingFieldEnemy();
 	}
-
 
 	m_pSkyDome->m_fNowtime = 0;
 	return S_OK;
@@ -642,7 +642,7 @@ void DarknessofPlanetMainScene::Update()
 
 
 	CleanHit();
-	
+
 	float callbacktiming = GetCallbackTime();
 
 	if (TIMEMANAGER->getWorldTime() > m_fTime4 + callbacktiming)
@@ -812,7 +812,7 @@ void DarknessofPlanetMainScene::MakingEnemy()
 		int num = m_vecEnemy.size();
 		for (int i = 0; i < m_vecMakingEnemy.size(); i++)
 		{
-			m_vecMakingEnemy[i]->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, num + i+10));
+			m_vecMakingEnemy[i]->SetCallbackfunction(bind(&DarknessofPlanetMainScene::CallbackOn, this, num + i + 10));
 			m_vecEnemy.push_back(m_vecMakingEnemy[i]);
 		}
 
@@ -1243,7 +1243,7 @@ void DarknessofPlanetMainScene::Render()
 
 	if (m_pCharacter)m_pCharacter->UpdateAndRender();
 	if (m_pInventory) m_pInventory->Render();
-
+	AfterImage();
 
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
@@ -1252,7 +1252,7 @@ void DarknessofPlanetMainScene::Render()
 	}
 
 
-	
+
 	char str[256];
 	sprintf_s(str, "%d %d", m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
 	LPD3DXFONT f;
@@ -1273,11 +1273,11 @@ void DarknessofPlanetMainScene::Render()
 
 	SKILLEFFECTMANAGER->Update();
 	SKILLEFFECTMANAGER->Render();
-	
+
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
-	AfterImage();
+	
 
 	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
@@ -1758,12 +1758,12 @@ void DarknessofPlanetMainScene::SetRushAttack()
 void DarknessofPlanetMainScene::AfterImage()
 {
 	//데큐 총용량 30개로제한 
-	if (m_vecAfterImageMuzzle.size() > 20) {
+	if (m_vecAfterImageMuzzle.size() > 21) {
 
 		m_vecAfterImageMuzzle.pop_front();
 	}
 
-	if (m_vecAfterImageWeapon.size() > 20) {
+	if (m_vecAfterImageWeapon.size() > 21) {
 
 		m_vecAfterImageWeapon.pop_front();
 	}
@@ -1782,7 +1782,7 @@ void DarknessofPlanetMainScene::AfterImage()
 
 			D3DXVECTOR3 result;
 
-			float mull = (i + 1) / 20.f;
+			float mull = (i + 1) / 19.0f;
 			D3DXVec3CatmullRom(&result, &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i], &m_vecAfterImageMuzzle[i + 1], &m_vecAfterImageMuzzle[i + 1], mull);
 
 			vecMuzzlePos.push_back(ST_PC_VERTEX(result, c));
