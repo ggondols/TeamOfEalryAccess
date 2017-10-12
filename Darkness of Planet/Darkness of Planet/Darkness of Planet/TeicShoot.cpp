@@ -163,7 +163,7 @@ void TeicShoot::Shoot(WeaponType type)
 		CalRotation2(start, finish);
 
 		SKILLEFFECTMANAGER->play("Laser", start, finish);
-	
+		SOUNDMANAGER->play("LaserFire");
 		m_vecPoint = m_pBresenham->FindNodeAccuracy(start.x, start.z,
 			finish.x, finish.z);
 		for (int i = 0; i < m_vecPoint.size(); i++)

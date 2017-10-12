@@ -205,7 +205,7 @@ static DWORD WINAPI ThFunc3(LPVOID lpParam)
 
 
 
-HRESULT DarknessofPlanetMainScene::Setup()	
+HRESULT DarknessofPlanetMainScene::Setup()
 {
 	//윈도우 옵션 MOUSEMOVE 전역으로
 	//마우스 설정
@@ -237,9 +237,9 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
 	m_pConsole = new cConsole;
 	m_pConsole->Setup();
-	
 
-	
+
+
 
 	//////////정현
 	D3DVIEWPORT9 viewport;
@@ -699,35 +699,21 @@ void DarknessofPlanetMainScene::Update()
 	}
 	if (KEYMANAGER->isStayKeyDown('Q'))
 	{
-		float fire = GetFireRate();
-		if (TIMEMANAGER->getWorldTime() > m_fTime5 + fire)
+
+		if (!m_pCharacter->GetAttacking())
 		{
-			m_fTime5 = TIMEMANAGER->getWorldTime();
-			if (!m_pCharacter->GetAttacking())
+			m_pCharacter->m_pCtrl->setAttacking(true);
+			m_pCharacter->m_pCtrl->m_fSpeed = 0;
+			m_fTime4 = TIMEMANAGER->getWorldTime();
+
+
+		}
+		else
+		{
+			float fire = GetFireRate();
+			if (TIMEMANAGER->getWorldTime() > m_fTime5 + fire)
 			{
-				m_pCharacter->m_pCtrl->setAttacking(true);
-				m_pCharacter->m_pCtrl->m_fSpeed = 0;
-				m_fTime4 = TIMEMANAGER->getWorldTime();
-				if (m_pCharacter->getWeaponType() == WP_FireGun)
-				{
-					/*m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
-					target.x += RND->getFromFloatTo(-2, 2);
-					target.y += RND->getFromFloatTo(-2, 2);
-					target.z += RND->getFromFloatTo(-2, 2);
-					SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos() );*/
-
-				}
-				else
-				{
-
-					//m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					//CAMERA->rebound();
-				}
-
-			}
-			else
-			{
+				m_fTime5 = TIMEMANAGER->getWorldTime();
 				m_fTime4 = TIMEMANAGER->getWorldTime();
 
 				if (m_pCharacter->m_bTCallback)
@@ -1651,11 +1637,11 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
 
 
-//////////////////////////////
-// 2. 그림자 입히기
-//////////////////////////////
+	//////////////////////////////
+	// 2. 그림자 입히기
+	//////////////////////////////
 
-////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
 	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
@@ -1714,7 +1700,7 @@ void DarknessofPlanetMainScene::Render()
 	sprintf_s(str, "%d %d", m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
 	LPD3DXFONT f;
 	f = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
-//	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
+	//	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
 
 
@@ -2083,7 +2069,7 @@ void DarknessofPlanetMainScene::CleanHit()
 	{
 		if (m_vecEnemy[i]->GetDie())continue;
 
-		
+
 
 
 		if (m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)

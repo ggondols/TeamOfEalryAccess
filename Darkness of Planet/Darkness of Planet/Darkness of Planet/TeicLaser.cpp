@@ -41,7 +41,7 @@ void TeicLaser::Update()
 {
 	if (!m_bStart)return;
 	m_fTime += TIMEMANAGER->getElapsedTime();
-	if (TIMEMANAGER->getWorldTime() > m_fEndtiming + 0.5f)
+	if (TIMEMANAGER->getWorldTime() > m_fEndtiming + 0.1f)
 	{
 		Stop();
 	}
