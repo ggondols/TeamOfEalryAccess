@@ -83,8 +83,8 @@ void TeicShoot::Shoot(WeaponType type)
 	}
 	else if(type == Wp_AA12)
 	{
-
-
+		////·¹ÀÌÀú ÃÑ (Å½Áö + ½¸)
+		/////////////// Å½Áö
 		D3DXVECTOR3 start = m_vShootPosition + m_vShootDir * 10;
 		m_stBulletSquare.m_vCenterPos = (start + m_vFinish) / 2;
 		m_stBulletSquare.m_fSizeZ = D3DXVec3Length(&(m_vFinish - start)) / 2;

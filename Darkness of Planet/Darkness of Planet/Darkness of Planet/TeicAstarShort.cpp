@@ -28,10 +28,7 @@ vector<D3DXVECTOR3> TeicAstarShort::FindWay(int StartX, int StartZ, int LastX, i
 	{
 		return m_Way;
 	}
-	if (StartX == CharX && StartZ == CharZ)
-	{
-		return m_Way;
-	}
+
 	
 	HankcNode* temp = new HankcNode;
 

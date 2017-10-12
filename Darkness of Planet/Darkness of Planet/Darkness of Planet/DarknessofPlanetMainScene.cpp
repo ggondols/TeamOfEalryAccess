@@ -112,7 +112,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetPosition(temp->m_pNode->m_vRow[45 + j].m_vCol[26 + i].m_vPosList->m_vCenterPos);
 				pSkinnedMesh->SetAttack(5);
 				pSkinnedMesh->SetHP(100);
-				pSkinnedMesh->SetSpeed(5);
+				pSkinnedMesh->SetSpeed(15);
 				pSkinnedMesh->m_eName = Wolf;
 			}
 			else if (a < 9)
@@ -121,7 +121,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetPosition(temp->m_pNode->m_vRow[45 + j].m_vCol[26 + i].m_vPosList->m_vCenterPos);
 				pSkinnedMesh->SetAttack(8);
 				pSkinnedMesh->SetHP(200);
-				pSkinnedMesh->SetSpeed(10);
+				pSkinnedMesh->SetSpeed(15);
 				pSkinnedMesh->m_eName = Tiger;
 			}
 			else if (a < 10)
@@ -909,15 +909,15 @@ void DarknessofPlanetMainScene::MakingEnemy()
 		for (int i = 0; i < m_vecMakingEnemy.size(); i++)
 		{
 
-			char str[256];
+			/*char str[256];
 			sprintf_s(str, "SX%dSZ%dLX%dLZ%d", 26 + i % 10, 45 + i / 10, 116, 46);
-			m_vecEnemyWay[num + i] = WAYMANAGER->GetWay(str);
+			m_vecEnemyWay[num + i] = WAYMANAGER->GetWay(str);*/
 
 
 
 			m_vecEnemyCollisionMove[num + i] = new TeicMoveSequence;
 
-			for (int j = 0; j < m_vecEnemyWay[num + i].size(); j++)
+			/*for (int j = 0; j < m_vecEnemyWay[num + i].size(); j++)
 			{
 				if (j + 1 >= m_vecEnemyWay[num + i].size())break;
 				TeicCollisionMove* tempmove;
@@ -929,7 +929,7 @@ void DarknessofPlanetMainScene::MakingEnemy()
 				m_vecEnemyCollisionMove[num + i]->AddAction(tempmove);
 
 			}
-			m_vecEnemyCollisionMove[num + i]->Start();
+			m_vecEnemyCollisionMove[num + i]->Start();*/
 			m_vecEnemyWay[num + i].clear();
 
 		}
