@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TeicShoot.h"
-
+#include "cHeightMap.h"
 
 void TeicShoot::Setup(HankcGrid *node, LDYCamera *camera, LDYCharacter* character)
 {
@@ -32,41 +32,31 @@ void TeicShoot::Shoot(WeaponType type)
 	D3DXVec3Normalize(&m_vShootDir, &m_vShootDir);
 	m_vFinish = m_vShootPosition + m_vShootDir* m_fShootDistance;
 
-	
+
 
 	if (type == WP_FireGun)
 	{
-		
+
 		D3DXVECTOR3 target = m_vShootPosition + m_vShootDir * 30;
 		D3DXVECTOR3 start = m_vShootPosition + m_vShootDir * 10;
 		m_stBulletSquare.m_vCenterPos = (start + target) / 2;
-		m_stBulletSquare.m_fSizeZ =D3DXVec3Length(&(target - start)) / 2;
+		m_stBulletSquare.m_fSizeZ = D3DXVec3Length(&(target - start)) / 2;
 		m_stBulletSquare.m_fSizeY = 1;
 		m_stBulletSquare.m_fSizeX = 3;
 
 		CalRotation();
 
-		m_vecPoint = m_pBresenham->FindNodeAccuracy2(m_vShootPosition.x, m_vShootPosition.z,
+		m_vecPoint = m_pBresenham->FindNodeAccuracy2(start.x, start.z,
 			target.x, target.z);
-		m_vecDeletePoint = m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
-			m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
+
 		for (int i = 0; i < m_vecPoint.size(); i++)
 		{
 			if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
 				m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
-			int a = 0;
-			for (int j = 0; j < m_vecDeletePoint.size(); j++)
-			{
-				if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
-					m_vecPoint[i].y == m_vecDeletePoint[j].y)
-				{
-					a = 1;
-				}
-			}
-			if (a == 0)
-				m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
+
+			m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
 		}
-		
+
 
 		for (int i = 0; i < m_vecTargetNode.size(); i++)
 		{
@@ -85,47 +75,104 @@ void TeicShoot::Shoot(WeaponType type)
 							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_fFireTime = TIMEMANAGER->getWorldTime();
 							m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bFire = true;
 						}
-					
+
 					}
 				}
 			}
 		}
 	}
-	else
+	else if(type == Wp_AA12)
 	{
 
-		m_stBulletSquare.m_vCenterPos = (m_vShootPosition + m_vFinish) / 2;
-		m_stBulletSquare.m_fSizeZ = m_fShootDistance / 2;
+
+		D3DXVECTOR3 start = m_vShootPosition + m_vShootDir * 10;
+		m_stBulletSquare.m_vCenterPos = (start + m_vFinish) / 2;
+		m_stBulletSquare.m_fSizeZ = D3DXVec3Length(&(m_vFinish - start)) / 2;
 		m_stBulletSquare.m_fSizeY = 0.1;
 		m_stBulletSquare.m_fSizeX = 0.1;
 
 		CalRotation();
 
-		m_vecPoint = m_pBresenham->FindNodeAccuracy(m_vShootPosition.x, m_vShootPosition.z,
+		/*	m_vecPoint = m_pBresenham->FindNodeAccuracyHeightMap(start.x, start.z,
+		m_vFinish.x, m_vFinish.z,start,m_vFinish);*/
+		m_vecPoint = m_pBresenham->FindNodeAccuracy(start.x, start.z,
 			m_vFinish.x, m_vFinish.z);
-		m_vecDeletePoint = m_pBresenham->FindNode(m_vShootPosition.x, m_vShootPosition.z,
-			m_pCharacter->GetPositionYZero().x, m_pCharacter->GetPositionYZero().z);
 		for (int i = 0; i < m_vecPoint.size(); i++)
 		{
 			if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
 				m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
-			int a = 0;
-			for (int j = 0; j < m_vecDeletePoint.size(); j++)
+			m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
+		}
+
+
+
+		D3DXVECTOR3 position;
+		
+		int a = 0;
+		for (int i = 0; i < m_vecTargetNode.size(); i++)
+		{
+			if (a != 0) break;
+			if (m_vecTargetNode[i]->m_pBoundInfo != NULL)
 			{
-				if (m_vecPoint[i].x == m_vecDeletePoint[j].x &&
-					m_vecPoint[i].y == m_vecDeletePoint[j].y)
+				for (int j = 0; j < m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding.size(); j++)
 				{
-					a = 1;
+					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
+					{
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type == Bounding_Object)continue;
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->GetDie())continue;
+						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+						a++;
+						break;
+					}
 				}
 			}
-			if (a == 0)
-				m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
 		}
-		D3DXVECTOR3 position;
-		if (type == Wp_AA12)
+		if (a == 0)
 		{
-			SKILLEFFECTMANAGER->play("Laser", m_vShootPosition + m_vShootDir * 20, m_vFinish);
+			cHeightMap* map = HEIGHTMAPMANAGER->GetHeightMap("terrain");
+			for (int i = 10; i < 210; i += 5)
+			{
+				D3DXVECTOR3 Floor = m_vShootPosition + m_vShootDir * i;
+				D3DXVECTOR3 FloorCheck = Floor;
+				map->GetHeight(FloorCheck.x, FloorCheck.y, FloorCheck.z);
+				if (Floor.y < FloorCheck.y)
+				{
+					position = Floor;
+					break;
+				}
+				if (i == 200)
+				{
+					position = Floor;
+					break;
+				}
+			}
 		}
+
+		//////////////////////////// shoot
+
+
+		 start = m_pCharacter->getMuzzlePos();
+		D3DXVECTOR3 dir = position - m_pCharacter->getMuzzlePos();
+		D3DXVec3Normalize(&dir, &dir);
+		D3DXVECTOR3 finish = start + dir * 200;
+		m_stBulletSquare.m_vCenterPos = (start + finish) / 2;
+		m_stBulletSquare.m_fSizeZ = D3DXVec3Length(&(finish - start)) / 2;
+		m_stBulletSquare.m_fSizeY = 0.1;
+		m_stBulletSquare.m_fSizeX = 0.1;
+
+		CalRotation2(start, finish);
+
+		SKILLEFFECTMANAGER->play("Laser", start, finish);
+	
+		m_vecPoint = m_pBresenham->FindNodeAccuracy(start.x, start.z,
+			finish.x, finish.z);
+		for (int i = 0; i < m_vecPoint.size(); i++)
+		{
+			if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
+				m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
+			m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
+		}
+
 
 		for (int i = 0; i < m_vecTargetNode.size(); i++)
 		{
@@ -135,7 +182,57 @@ void TeicShoot::Shoot(WeaponType type)
 				{
 					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
 					{
-						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type==Bounding_Object)continue;
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type == Bounding_Object)continue;
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->GetDie())continue;
+
+						position = GetPosition(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_vecVertex, m_vShootPosition, m_vShootDir);
+						SKILLEFFECTMANAGER->play("MBlood", position, D3DXVECTOR3(0, 0, 0));
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_iHp -= DATABASE->GetItemValue("AA12");
+						m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->m_bHit = true;
+						
+					}
+				}
+			}
+		}
+
+	}
+	else
+	{
+
+
+		D3DXVECTOR3 start = m_vShootPosition + m_vShootDir * 10;
+		m_stBulletSquare.m_vCenterPos = (start + m_vFinish) / 2;
+		m_stBulletSquare.m_fSizeZ = D3DXVec3Length(&(m_vFinish - start)) / 2;
+		m_stBulletSquare.m_fSizeY = 0.1;
+		m_stBulletSquare.m_fSizeX = 0.1;
+
+		CalRotation();
+
+	/*	m_vecPoint = m_pBresenham->FindNodeAccuracyHeightMap(start.x, start.z,
+			m_vFinish.x, m_vFinish.z,start,m_vFinish);*/
+		m_vecPoint = m_pBresenham->FindNodeAccuracy(start.x, start.z,
+			m_vFinish.x, m_vFinish.z);
+		for (int i = 0; i < m_vecPoint.size(); i++)
+		{
+			if (m_vecPoint[i].x <0 || m_vecPoint[i].y <0 ||
+				m_vecPoint[i].x >m_pNode->m_vRow.size() - 1 || m_vecPoint[i].y >m_pNode->m_vRow.size() - 1)break;
+			m_vecTargetNode.push_back(&m_pNode->m_vRow[m_vecPoint[i].y].m_vCol[m_vecPoint[i].x]);
+		}
+
+
+
+		D3DXVECTOR3 position;
+		
+
+		for (int i = 0; i < m_vecTargetNode.size(); i++)
+		{
+			if (m_vecTargetNode[i]->m_pBoundInfo != NULL)
+			{
+				for (int j = 0; j < m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding.size(); j++)
+				{
+					if (m_pObbcollision->CheckCollision(m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j], &m_stBulletSquare) == true)
+					{
+						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->st_Type == Bounding_Object)continue;
 						if (m_vecTargetNode[i]->m_pBoundInfo->m_vecBounding[j]->m_pSkinnedObject->GetDie())continue;
 						switch (type)
 						{
@@ -187,7 +284,7 @@ void TeicShoot::Shoot(WeaponType type)
 }
 void TeicShoot::CalRotation()
 {
-	
+
 
 	D3DXMatrixLookAtLH(&matR,
 		&m_vShootPosition,
@@ -195,7 +292,7 @@ void TeicShoot::CalRotation()
 		&D3DXVECTOR3(0, 1, 0));
 	matR._41 = matR._42 = matR._43 = 0.0f;
 	D3DXMatrixTranspose(&matR, &matR);
-	
+
 	D3DXVec3TransformNormal(&m_stBulletSquare.m_vXdir, &D3DXVECTOR3(1, 0, 0), &matR);
 	D3DXVec3Normalize(&m_stBulletSquare.m_vXdir, &m_stBulletSquare.m_vXdir);
 	D3DXVec3TransformNormal(&m_stBulletSquare.m_vYdir, &D3DXVECTOR3(0, 1, 0), &matR);
@@ -206,7 +303,27 @@ void TeicShoot::CalRotation()
 
 
 }
+void TeicShoot::CalRotation2(D3DXVECTOR3 start,D3DXVECTOR3 finish)
+{
 
+
+	D3DXMatrixLookAtLH(&matR,
+		&start,
+		&finish,
+		&D3DXVECTOR3(0, 1, 0));
+	matR._41 = matR._42 = matR._43 = 0.0f;
+	D3DXMatrixTranspose(&matR, &matR);
+
+	D3DXVec3TransformNormal(&m_stBulletSquare.m_vXdir, &D3DXVECTOR3(1, 0, 0), &matR);
+	D3DXVec3Normalize(&m_stBulletSquare.m_vXdir, &m_stBulletSquare.m_vXdir);
+	D3DXVec3TransformNormal(&m_stBulletSquare.m_vYdir, &D3DXVECTOR3(0, 1, 0), &matR);
+	D3DXVec3Normalize(&m_stBulletSquare.m_vYdir, &m_stBulletSquare.m_vYdir);
+	D3DXVec3TransformNormal(&m_stBulletSquare.m_vZdir, &D3DXVECTOR3(0, 0, 1), &matR);
+	D3DXVec3Normalize(&m_stBulletSquare.m_vZdir, &m_stBulletSquare.m_vZdir);
+
+
+
+}
 D3DXVECTOR3 TeicShoot::GetPosition(vector<ST_PN_VERTEX>  info, D3DXVECTOR3 rayorigin, D3DXVECTOR3 raydir)
 {
 	//// 바닥에 레이저 쏴서 마우스가 바닥 어디 찍었는지 확인하는 함수
@@ -226,7 +343,7 @@ D3DXVECTOR3 TeicShoot::GetPosition(vector<ST_PN_VERTEX>  info, D3DXVECTOR3 rayor
 			{
 				savedistance = distance;
 			}
-			
+
 		}
 
 	}
@@ -282,7 +399,7 @@ void TeicShoot::Render()
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, false);
 	GETDEVICE->SetTexture(0, NULL);
 	GETDEVICE->SetFVF(ST_PC_VERTEX::FVF);
-	GETDEVICE->DrawPrimitiveUP(D3DPT_LINELIST,3, vertex, sizeof(ST_PC_VERTEX));
+	GETDEVICE->DrawPrimitiveUP(D3DPT_LINELIST, 3, vertex, sizeof(ST_PC_VERTEX));
 	GETDEVICE->SetRenderState(D3DRS_LIGHTING, true);
 
 
@@ -291,7 +408,7 @@ void TeicShoot::Render()
 	/*D3DXMATRIX trans;
 	D3DXMatrixTranslation(&trans, 0,0,0);
 	m_stRect = ST_PN_Rectangle(m_stBulletSquare.m_fSizeX , m_stBulletSquare.m_fSizeY , m_stBulletSquare.m_fSizeZ);
-	
+
 	GETDEVICE->SetTransform(D3DTS_WORLD, &(matR*trans));
 	GETDEVICE->SetFVF(ST_PN_VERTEX::FVF);
 	GETDEVICE->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 12, &m_stRect.m_vecVertex[0], sizeof(ST_PN_VERTEX));
@@ -405,7 +522,7 @@ void TeicShoot::MakeBoundingBox()
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMATRIX trans;
 	D3DXMatrixTranslation(&trans, -center.x, -center.y, -center.z);
-	
+
 	matWorld = trans*matR;
 	D3DXMatrixTranslation(&trans, center.x, center.y, center.z);
 	matWorld = matWorld* trans;

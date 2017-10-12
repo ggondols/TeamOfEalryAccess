@@ -1,7 +1,7 @@
 name AA12
 type weapon
-value 13
-fireRate 0.2
+value 20
+fireRate 0.5
 Callbacktime 1.0
 
 name AR6

@@ -44,7 +44,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_fTime7(0)
 	, m_iCameranum(0)
 	, tex(NULL)
-	, m_iSound(0)
+	, m_iSound(1)
 	, m_fTime8(0)
 {
 	m_vecAttackSlot.resize(8, false);
@@ -209,7 +209,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 {
 	//윈도우 옵션 MOUSEMOVE 전역으로
 	//마우스 설정
-	SetCapture(g_hWnd);
+	//SetCapture(g_hWnd);
 
 	////////// 대원
 	//## 초기화 리스트
