@@ -44,7 +44,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_fTime7(0)
 	, m_iCameranum(0)
 	, tex(NULL)
-	, m_iSound(0)
+	, m_iSound(1)
 	, m_fTime8(0)
 {
 	m_vecAttackSlot.resize(8, false);
@@ -100,7 +100,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 	EnterCriticalSection(&cs);
 	DarknessofPlanetMainScene* temp = (DarknessofPlanetMainScene*)lpParam;
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -137,7 +137,6 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 
 			pSkinnedMesh->m_eGroup = Rush;
 			temp->m_vecMakingEnemy.push_back(pSkinnedMesh);
-
 		}
 	}
 
@@ -179,7 +178,6 @@ static DWORD WINAPI ThFunc2(LPVOID lpParam)
 
 static DWORD WINAPI ThFunc3(LPVOID lpParam)
 {
-
 
 	EnterCriticalSection(&cs);
 	DarknessofPlanetMainScene* temp = (DarknessofPlanetMainScene*)lpParam;
@@ -568,6 +566,13 @@ void DarknessofPlanetMainScene::Release()
 void DarknessofPlanetMainScene::Update()
 {
 	SOUNDMANAGER->Update();
+	if (m_pBoss->GetHp() <0 && m_pBoss->m_eType != Boss_die)
+	{
+		m_pBoss->SetHp(0);
+		m_pBoss->SetAnimation(69);
+		m_pBoss->m_eType = Boss_die;
+		SOUNDMANAGER->play("ValakDeath");
+	}
 	m_pMap->GetHeight(m_pCharacter->GetPositionPointer()->x, m_pCharacter->GetPositionPointer()->y, m_pCharacter->GetPositionPointer()->z);
 	if (!m_pBoss->m_bAttackOn)
 		m_pBossMove->Update();
@@ -575,6 +580,7 @@ void DarknessofPlanetMainScene::Update()
 	m_pBoss->Update(m_pCharacter->GetPosition());
 	BossAttack();
 
+	
 	if (m_pInventory) m_pInventory->Update(m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
 	if (m_pSkyCloud)m_pSkyCloud->Update();
@@ -609,7 +615,7 @@ void DarknessofPlanetMainScene::Update()
 	m_pCharacter->Update(CAMERA->getAngleY());
 	//bool check = ChangeCheckPoint();
 	MakingEnemy();
-	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() < 30)
+	if (TIMEMANAGER->getWorldTime() > m_fTime7 + 20 && m_vecEnemy.size() < 20)
 	{
 		m_fTime7 = TIMEMANAGER->getWorldTime();
 		MakingFieldEnemy();
@@ -660,7 +666,7 @@ void DarknessofPlanetMainScene::Update()
 	if (m_pBoss->m_eType == Boss_Idle)
 	{
 		////////// Ã£±â
-		if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000 && m_vecEnemy.size() < 40)
+		if (m_pSkyDome->m_fNowtime > 1 && m_fTime < 1000 && m_vecEnemy.size() < 50)
 		{
 			m_fTime = INF;
 			DWORD dwThID1;
@@ -2238,7 +2244,7 @@ void DarknessofPlanetMainScene::SetRushAttack()
 
 void DarknessofPlanetMainScene::BossAttack()
 {
-
+	if (m_pBoss->m_eType == Boss_die)return;
 	if (TIMEMANAGER->getWorldTime() > m_fTime8 + 1.0f)
 	{
 		m_fTime8 = TIMEMANAGER->getWorldTime();

@@ -29,7 +29,8 @@ enum Boss_type
 {
 	Boss_Idle,
 	Boss_Show,
-	Boss_Attack
+	Boss_Attack,
+	Boss_die
 };
 class TeicBoss
 {

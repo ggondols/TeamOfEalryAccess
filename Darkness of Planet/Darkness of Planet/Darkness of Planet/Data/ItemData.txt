@@ -12,7 +12,7 @@ Callbacktime 1.0
 
 name M4
 type weapon
-value 5
+value 500
 fireRate 0.2
 Callbacktime 1.0
 
