@@ -8,8 +8,11 @@ TeicCharacterBlood::TeicCharacterBlood()
 	m_fDelta = 0.05;
 	m_bStart = false;
 	m_pEffect = NULL;
-
-	m_pTexture = NULL;
+	for (int i = 0; i < 3; i++)
+	{
+		m_pTexture[i] = NULL;
+	}
+	
 
 }
 
@@ -17,8 +20,10 @@ TeicCharacterBlood::TeicCharacterBlood()
 TeicCharacterBlood::~TeicCharacterBlood()
 {
 	SAFE_RELEASE(m_pEffect);
-
-	SAFE_RELEASE(m_pTexture);
+	for (int i = 0; i < 3; i++)
+	{
+		SAFE_RELEASE(m_pTexture[i]);
+	}
 
 }
 
@@ -51,7 +56,7 @@ void TeicCharacterBlood::Render()
 		{
 			m_pEffect->BeginPass(i);
 			{
-				m_pEffect->SetTexture("base_Tex", m_pTexture);
+				
 				m_pEffect->CommitChanges();
 
 
@@ -88,21 +93,24 @@ void TeicCharacterBlood::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_stVertex[4].t = D3DXVECTOR2(1, 1);
 	m_stVertex[5].t = D3DXVECTOR2(0, 1);
 
-	/*for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		char str[128];
-		sprintf_s(str, "sprites/blood%d.jpg", i+1);
-		D3DXCreateTextureFromFile(GETDEVICE, str, &m_pTexture[i]);
-	}*/
-
-	m_pTexture = TEXTUREMANAGER->GetTexture("sprites/bloodfinal.jpg");
+		sprintf_s(str, "sprites/damage_bloodsplat%d.tga", i);
+		//D3DXCreateTextureFromFile(GETDEVICE, str, &m_pTexture[i]);
+		m_pTexture[i] = TEXTUREMANAGER->GetTexture(str); 
+	}
+	int a = RND->getInt(3);
+	m_pEffect->SetTexture("base_Tex", m_pTexture[a]);
+	/*m_pTexture = TEXTUREMANAGER->GetTexture("sprites/bloodfinal.jpg");*/
 
 
 }
 void TeicCharacterBlood::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
 
-
+	int a = RND->getInt(3);
+	m_pEffect->SetTexture("base_Tex", m_pTexture[a]);
 }
 bool TeicCharacterBlood::IsRunning()
 {
