@@ -29,3 +29,4 @@ BGM	M4Fire	Sound/BGM/	M4_Fire_INT_JScottV1_01.ogg	0	0
 BGM	FootStep	Sound/BGM/	FootStep_Rock01.ogg	0	0
 BGM	Firegun	Sound/BGM/	GrenadeLauncher_EXPLO_INT_JScottV2_03m.ogg	0	0
 BGM	M5Fire	Sound/BGM/	MP5_Fire01a_stereo.ogg	0	0
+BGM	LaserFire Sound/BGM/    Laser_Sight03.ogg	0	0

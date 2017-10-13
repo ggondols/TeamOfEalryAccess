@@ -212,7 +212,9 @@ void TeicParticleSystem::Update6()
 void TeicParticleSystem::Render()
 {
 	
+	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 
+	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);

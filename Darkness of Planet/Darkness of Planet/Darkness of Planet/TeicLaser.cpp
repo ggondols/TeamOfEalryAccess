@@ -41,7 +41,7 @@ void TeicLaser::Update()
 {
 	if (!m_bStart)return;
 	m_fTime += TIMEMANAGER->getElapsedTime();
-	if (TIMEMANAGER->getWorldTime() > m_fEndtiming + 0.5f)
+	if (TIMEMANAGER->getWorldTime() > m_fEndtiming + 0.1f)
 	{
 		Stop();
 	}
@@ -118,7 +118,7 @@ void TeicLaser::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 	m_Matworld = m_Matworld*scal *ro;
 
 	D3DXMatrixLookAtLH(&ro,
-		&CAMERA->getEye(),
+		&position,
 		&characterpos,
 		&D3DXVECTOR3(0, 1, 0));
 	ro._41 = ro._42 = ro._43 = 0;
