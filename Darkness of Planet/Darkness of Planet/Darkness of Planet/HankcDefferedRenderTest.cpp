@@ -173,7 +173,7 @@ void HankcDefferedRenderTest::Render()
 
 		//if (!pNode->m_bVisible)
 		//	continue;
-
+		
 
 		D3DXMATRIX matWorld;
 		pNode->GetWorldMatrix(&matWorld);
