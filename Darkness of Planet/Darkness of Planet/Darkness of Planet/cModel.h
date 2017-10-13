@@ -52,6 +52,12 @@ public:
 	HRESULT LoadModel(const string& path, const string & name, LPDIRECT3DDEVICE9 pDevice, bool bSkybox = false);
 	HRESULT cModel::Render(LPDIRECT3DDEVICE9 pDevice);
 
+	void CheckRender(D3DXVECTOR3 center, float radius);
+
+	bool CheckShow(D3DXVECTOR3 center, float radius);
+
+	float FIndMax(float x, float y, float z);
+
 	LPD3DXMESH GetMesh(void) { return m_pMesh; }
 };
 

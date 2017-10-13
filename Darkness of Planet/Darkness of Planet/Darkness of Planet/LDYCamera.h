@@ -15,9 +15,11 @@ private:
 
 	bool getMousePos;
 
-
+	D3DXVECTOR3	  m_Dot[8];
 public:
 	float m_fDistance;
+	
+	D3DXPLANE     g_Plane[6];
 	LDYCamera();
 	~LDYCamera();
 
@@ -29,6 +31,8 @@ public:
 	D3DXVECTOR3 getShootTarget() { return m_vTartget; }
 	float getAngleY(void) { return m_fangleY; }
 	void rebound();
+	void DotWorldSpace();
+	void SetPlane();
 	void SetTarget(D3DXVECTOR3 * target) { m_pvTarget  = target;}
 	
 };

@@ -21,8 +21,7 @@ private:
 	int					m_nTile;
 	vector<D3DXVECTOR3>	m_vecVertex;
 	vector<ST_PNT_VERTEX>	m_vecVertexCopy;
-	D3DXVECTOR3	  m_Dot[8];
-	D3DXPLANE     m_Plane[6];
+
 	vector<LPD3DXMESH> m_vecMesh;
 
 public:
@@ -41,8 +40,7 @@ public:
 	void MeshRender(int num);
 	virtual void MeshRender(D3DXVECTOR3 Characterposition) override;
 	void OnlyMeshRender(int num);
-	void DotWorldSpace();
-	void SetPlane();
+	virtual void NoCullingRender();
 	void CheckRender();
 	bool CheckShow(D3DXVECTOR3 center, float radius);
 };

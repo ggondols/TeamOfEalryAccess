@@ -18,7 +18,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 
 
 {
-	TeicSkinnedMesh* pSkinnedMesh =	SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
+	TeicSkinnedMesh* pSkinnedMesh = SKINMANAGER->GetTeiSkinnedMesh(szFolder, szFilename);
 
 
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
@@ -63,7 +63,7 @@ TeicSkinnedMesh::TeicSkinnedMesh(char* szFolder, char* szFilename)
 	m_bShow = true;
 
 	m_bAnion = true;
-	
+
 }
 TeicSkinnedMesh::TeicSkinnedMesh()
 	: m_pRootFrame(NULL)
@@ -92,8 +92,8 @@ TeicSkinnedMesh::~TeicSkinnedMesh()
 	SAFE_DELETE(m_pmWorkingPalette);
 	SAFE_RELEASE(m_pEffect);
 	SAFE_RELEASE(m_pAnimController);
-	
-	
+
+
 
 }
 void TeicSkinnedMesh::SetNextAni()
@@ -104,7 +104,7 @@ void TeicSkinnedMesh::SetNextAni()
 	m_pAnimController->SetTrackAnimationSet(m_iCurrentAniNum, pAnimset);
 
 
-	
+
 	SAFE_RELEASE(pAnimset);
 
 
@@ -147,22 +147,22 @@ void TeicSkinnedMesh::Load(char* szDirectory, char* szFilename)
 		NULL,
 		(LPD3DXFRAME*)&m_pRootFrame,
 		&m_pAnimController);
-	
+
 	m_pBoundingSquare.m_bIsPicked = false;
-	m_pBoundingSquare.m_fSizeX = (ah.GetMax().x - ah.GetMin().x)/2;
-	m_pBoundingSquare.m_fSizeY = (ah.GetMax().y - ah.GetMin().y)/2;
-	m_pBoundingSquare.m_fSizeZ = (ah.GetMax().z - ah.GetMin().z)/2;
+	m_pBoundingSquare.m_fSizeX = (ah.GetMax().x - ah.GetMin().x) / 2;
+	m_pBoundingSquare.m_fSizeY = (ah.GetMax().y - ah.GetMin().y) / 2;
+	m_pBoundingSquare.m_fSizeZ = (ah.GetMax().z - ah.GetMin().z) / 2;
 	m_pBoundingSquare.m_fControlX = m_pBoundingSquare.m_fControlY = m_pBoundingSquare.m_fControlZ = 0.0f;
 	//m_pBoundingSquare.m_pSkinnedObject = this;
 	m_pBoundingSquare.m_vCenterPos = (ah.GetMin() + ah.GetMax()) / 2;
 	m_pBoundingSquare.m_vXdir = D3DXVECTOR3(ah.GetMax().x - ah.GetMin().x, 0, 0);
-	D3DXVec3Normalize(&m_pBoundingSquare.m_vXdir,&m_pBoundingSquare.m_vXdir);
+	D3DXVec3Normalize(&m_pBoundingSquare.m_vXdir, &m_pBoundingSquare.m_vXdir);
 	m_pBoundingSquare.m_vYdir = D3DXVECTOR3(0, ah.GetMax().y - ah.GetMin().y, 0);
 	D3DXVec3Normalize(&m_pBoundingSquare.m_vYdir, &m_pBoundingSquare.m_vYdir);
 	m_pBoundingSquare.m_vZdir = D3DXVECTOR3(0, 0, ah.GetMax().z - ah.GetMin().z);
 	D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
-	
-	
+
+
 	//m_pBoundingSquare.
 	if (m_pmWorkingPalette)
 		delete[] m_pmWorkingPalette;
@@ -186,15 +186,15 @@ void TeicSkinnedMesh::UpdateAndRender()
 		Blending();
 	}
 
+
 	if (m_pRootFrame)
 	{
-		if (!m_bShow)return;
 		D3DXMATRIXA16 mat;
 		D3DXMATRIX    scal;
-	
+
 		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 		D3DXMatrixScaling(&scal, m_fScaleSize, m_fScaleSize, m_fScaleSize);
-	
+
 		mat = scal* m_RotationMat*mat;
 		D3DXVec3TransformCoord(&m_pBoundingSquare.m_vCenterPos, &m_pCopy.m_vCenterPos, &mat);
 		m_pBoundingSquare.m_fSizeX = m_pCopy.m_fSizeX *m_fScaleSize - m_pBoundingSquare.m_fControlX;
@@ -208,11 +208,14 @@ void TeicSkinnedMesh::UpdateAndRender()
 		D3DXVec3Normalize(&m_pBoundingSquare.m_vYdir, &m_pBoundingSquare.m_vYdir);
 		D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
 		Update(m_pRootFrame, &mat);
-		Render(m_pRootFrame);
+		//Render(m_pRootFrame);
 
-		//getAnotherMatrix(m_pRootFrame, NULL);
+		float radius = FIndMax(m_pBoundingSquare.m_fSizeX, m_pBoundingSquare.m_fSizeY, m_pBoundingSquare.m_fSizeZ);
+
+		CheckRender(m_vPosition, radius);
 
 	}
+
 }
 
 void TeicSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
@@ -428,7 +431,7 @@ void TeicSkinnedMesh::SetAnimationIndex(int nIndex)
 	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
 	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
 	m_pAnimController->SetTrackAnimationSet(m_iCurrentAniNum, pAnimSet);
-	
+
 	SAFE_RELEASE(pAnimSet);
 }
 
@@ -453,7 +456,7 @@ void TeicSkinnedMesh::Blending()
 			m_callback();
 		}
 	}
-	
+
 	if (TIMEMANAGER->getWorldTime() <= m_Starttime + 0.3)
 	{
 		m_fWeight += m_fWeightDivide;
@@ -466,7 +469,7 @@ void TeicSkinnedMesh::Blending()
 
 		m_pAnimController->SetTrackWeight(m_iCurrentAniNum, 1);
 		m_pAnimController->SetTrackWeight(Num, 0);
-		
+
 		if (TIMEMANAGER->getWorldTime() > m_Middletime)
 		{
 			if (m_attackCallback)
@@ -474,7 +477,7 @@ void TeicSkinnedMesh::Blending()
 				m_attackCallback();
 			}
 		}
-		
+
 	}
 }
 
@@ -636,7 +639,7 @@ void TeicSkinnedMesh::ShaderMeshRender(LPD3DXEFFECT effect)
 		D3DXVec3Normalize(&m_pBoundingSquare.m_vYdir, &m_pBoundingSquare.m_vYdir);
 		D3DXVec3Normalize(&m_pBoundingSquare.m_vZdir, &m_pBoundingSquare.m_vZdir);
 		Update(m_pRootFrame, &mat);
-		MeshRender(m_pRootFrame,effect);
+		MeshRender(m_pRootFrame, effect);
 	}
 }
 
@@ -650,7 +653,7 @@ void TeicSkinnedMesh::SetRotationAngle(float angle)
 {
 	m_fAngle = angle;
 	D3DXMatrixRotationY(&m_RotationMat, m_fAngle);
-	
+
 }
 
 void TeicSkinnedMesh::SetAnimation(int num)
@@ -672,17 +675,17 @@ void TeicSkinnedMesh::SetAnimation(int num)
 
 	if (num == 4)
 	{
-		m_Finishtime = m_Starttime + pAnimset->GetPeriod()-0.1;
+		m_Finishtime = m_Starttime + pAnimset->GetPeriod() - 0.1;
 	}
 	else
 	{
 		m_Finishtime = m_Starttime + pAnimset->GetPeriod();
 	}
-	
-	
+
+
 	m_Middletime = m_Starttime + pAnimset->GetPeriod() - m_fAttacktiming;
-	
-	
+
+
 	m_fWeightDivide = TIMEMANAGER->getElapsedTime() / 0.3;
 	m_bBlending = true;
 	SAFE_RELEASE(pAnimset);
@@ -710,3 +713,67 @@ void TeicSkinnedMesh::ChangeAnimation(int num)
 	m_bBlending = true;
 }
 
+
+
+
+
+void TeicSkinnedMesh::CheckRender(D3DXVECTOR3 center, float radius)
+{
+
+
+
+	if (CheckShow(center, radius) == true)
+	{
+
+		if (!m_bShow)return;
+
+		Render(m_pRootFrame);
+
+		//getAnotherMatrix(m_pRootFrame, NULL);
+
+	}
+
+}
+
+bool TeicSkinnedMesh::CheckShow(D3DXVECTOR3 center, float radius)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		float distance;
+		distance = (D3DXPlaneDotCoord(&CAMERA->g_Plane[i], &center));
+		if (distance - radius >= 0)
+			return false;
+	}
+
+	return true;
+}
+
+
+float TeicSkinnedMesh::FIndMax(float x, float y, float z)
+{
+	if (x > y)
+	{
+		if (x > z)
+		{
+			return x;
+		}
+		else
+		{
+			return z;
+		}
+
+	}
+	else
+	{
+		if (y > z)
+		{
+			return y;
+		}
+		else
+		{
+			return z;
+		}
+	}
+
+
+}
