@@ -57,6 +57,7 @@ public:
 	cModel*			m_pModel;
 	//cBoundingSphere m_BoundingSphere;
 	//CAABB			m_BoundingBox;
+	BoundingSquare *m_BoundingSquar;
 
 	bool			m_bVisible;
 	UINT			m_uiIlluminationFlags;
@@ -133,6 +134,9 @@ public:
 
 		node->m_vRow[-(m_vCenterInfo.z / NodeLength)].m_vCol[m_vCenterInfo.x / NodeLength].m_pBoundInfo = new nNodeBoundInfo;
 		node->m_vRow[-(m_vCenterInfo.z / NodeLength)].m_vCol[m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding.push_back(temp);
+		m_BoundingSquar = temp;
+
+
 
 	}
 
