@@ -12,17 +12,55 @@ LoadingScene::~LoadingScene()
 {
 }
 
+static DWORD WINAPI threadFunc1(LPVOID lpParam)
+{
+	LoadingScene* temp = (LoadingScene*)lpParam;
+	EnterCriticalSection(&temp->cs);
+	while (temp->m_bIsthreading)
+	{
+
+		temp->m_pLoading->Update();
+
+		if (!temp->m_pLoading->LoadNext())
+		{
+			temp->m_bIsthreading = false;
+		}
+
+	}
+	LeaveCriticalSection(&temp->cs);
+	return NULL;
+
+
+}
+
+
 HRESULT LoadingScene::Setup()
 {
 	m_pLoading = new Loading;
 	m_pLoading->Setup();
+	m_bIsthreading = true;
+	thread1 = NULL;
+	dwThread1 = 1;
+	InitializeCriticalSection(&cs);
 
-	
+
+
+	unsigned long ulStackSize = 0;
+
+	thread1 = CreateThread(NULL, ulStackSize, threadFunc1, this, CREATE_SUSPENDED, &dwThread1);
+	ResumeThread(thread1);
+
+
+
+
+
+
+
 	D3DXVECTOR3 temp = D3DXVECTOR3(200, 0, -100);
 	/*char str[256];
 	sprintf_s(str, "S(%d,%d,%d)L(0,0,0)", 200, 0, -100);
 	m_pLoading->LoadWay2(str, NODEMANAGER->GetNode(), temp, D3DXVECTOR3(0, 0, 0));*/
-	for (int i = 0; i < 2; i++)
+	/*for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -31,7 +69,7 @@ HRESULT LoadingScene::Setup()
 			m_pLoading->LoadWay(str, NODEMANAGER->GetNode(), 26 + j, 45 + i, 116, 46);
 
 		}
-	}
+	}*/
 
 	
 	//m_pLoading->LoadMesh("", MESH_NORMAL, "object/xFile/", "MP5_Aim_Anims/HeroBodyLv",i,"_MP5.X");
@@ -87,7 +125,7 @@ HRESULT LoadingScene::Setup()
 	D3DXCreateTextureFromFile(GETDEVICE, "UI/cursor/cursorHit.png", &m_cursortex2);
 	m_cursortex->GetSurfaceLevel(0, &surfcursor);
 	GETDEVICE->SetCursorProperties(0, 0, surfcursor);
-	
+
 	return S_OK;
 }
 
@@ -99,9 +137,9 @@ void LoadingScene::Release()
 
 void LoadingScene::Update()
 {
-	m_pLoading->Update();
+	//m_pLoading->Update();
 
-	if (!m_pLoading->LoadNext())
+	if (!m_bIsthreading)
 	{
 		SCENEMANAGER->changeScene("DarknessofPlanetMainScene");
 	}
@@ -111,3 +149,8 @@ void LoadingScene::Render()
 {
 	m_pLoading->Render();
 }
+
+
+
+
+

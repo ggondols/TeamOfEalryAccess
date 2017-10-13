@@ -112,7 +112,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetPosition(temp->m_pNode->m_vRow[45 + j].m_vCol[26 + i].m_vPosList->m_vCenterPos);
 				pSkinnedMesh->SetAttack(5);
 				pSkinnedMesh->SetHP(100);
-				pSkinnedMesh->SetSpeed(5);
+				pSkinnedMesh->SetSpeed(15);
 				pSkinnedMesh->m_eName = Wolf;
 			}
 			else if (a < 9)
@@ -121,7 +121,7 @@ static DWORD WINAPI ThFunc1(LPVOID lpParam)
 				pSkinnedMesh->SetPosition(temp->m_pNode->m_vRow[45 + j].m_vCol[26 + i].m_vPosList->m_vCenterPos);
 				pSkinnedMesh->SetAttack(8);
 				pSkinnedMesh->SetHP(200);
-				pSkinnedMesh->SetSpeed(10);
+				pSkinnedMesh->SetSpeed(15);
 				pSkinnedMesh->m_eName = Tiger;
 			}
 			else if (a < 10)
@@ -203,11 +203,11 @@ static DWORD WINAPI ThFunc3(LPVOID lpParam)
 
 
 
-HRESULT DarknessofPlanetMainScene::Setup()	
+HRESULT DarknessofPlanetMainScene::Setup()
 {
 	//윈도우 옵션 MOUSEMOVE 전역으로
 	//마우스 설정
-	SetCapture(g_hWnd);
+	//SetCapture(g_hWnd);
 
 	////////// 대원
 	//## 초기화 리스트
@@ -235,9 +235,9 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	m_meshList.ScriptLoader("Data/Script/ObjectList.txt", m_ObjNodes);
 	m_pConsole = new cConsole;
 	m_pConsole->Setup();
-	
 
-	
+
+
 
 	//////////정현
 	D3DVIEWPORT9 viewport;
@@ -705,35 +705,21 @@ void DarknessofPlanetMainScene::Update()
 	}
 	if (KEYMANAGER->isStayKeyDown('Q'))
 	{
-		float fire = GetFireRate();
-		if (TIMEMANAGER->getWorldTime() > m_fTime5 + fire)
+
+		if (!m_pCharacter->GetAttacking())
 		{
-			m_fTime5 = TIMEMANAGER->getWorldTime();
-			if (!m_pCharacter->GetAttacking())
+			m_pCharacter->m_pCtrl->setAttacking(true);
+			m_pCharacter->m_pCtrl->m_fSpeed = 0;
+			m_fTime4 = TIMEMANAGER->getWorldTime();
+
+
+		}
+		else
+		{
+			float fire = GetFireRate();
+			if (TIMEMANAGER->getWorldTime() > m_fTime5 + fire)
 			{
-				m_pCharacter->m_pCtrl->setAttacking(true);
-				m_pCharacter->m_pCtrl->m_fSpeed = 0;
-				m_fTime4 = TIMEMANAGER->getWorldTime();
-				if (m_pCharacter->getWeaponType() == WP_FireGun)
-				{
-					/*m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
-					target.x += RND->getFromFloatTo(-2, 2);
-					target.y += RND->getFromFloatTo(-2, 2);
-					target.z += RND->getFromFloatTo(-2, 2);
-					SKILLEFFECTMANAGER->play("Flame", target, m_pCharacter->getMuzzlePos() );*/
-
-				}
-				else
-				{
-
-					//m_pShoot->Shoot(m_pCharacter->getWeaponType());
-					//CAMERA->rebound();
-				}
-
-			}
-			else
-			{
+				m_fTime5 = TIMEMANAGER->getWorldTime();
 				m_fTime4 = TIMEMANAGER->getWorldTime();
 
 				if (m_pCharacter->m_bTCallback)
@@ -929,15 +915,15 @@ void DarknessofPlanetMainScene::MakingEnemy()
 		for (int i = 0; i < m_vecMakingEnemy.size(); i++)
 		{
 
-			char str[256];
+			/*char str[256];
 			sprintf_s(str, "SX%dSZ%dLX%dLZ%d", 26 + i % 10, 45 + i / 10, 116, 46);
-			m_vecEnemyWay[num + i] = WAYMANAGER->GetWay(str);
+			m_vecEnemyWay[num + i] = WAYMANAGER->GetWay(str);*/
 
 
 
 			m_vecEnemyCollisionMove[num + i] = new TeicMoveSequence;
 
-			for (int j = 0; j < m_vecEnemyWay[num + i].size(); j++)
+			/*for (int j = 0; j < m_vecEnemyWay[num + i].size(); j++)
 			{
 				if (j + 1 >= m_vecEnemyWay[num + i].size())break;
 				TeicCollisionMove* tempmove;
@@ -949,7 +935,7 @@ void DarknessofPlanetMainScene::MakingEnemy()
 				m_vecEnemyCollisionMove[num + i]->AddAction(tempmove);
 
 			}
-			m_vecEnemyCollisionMove[num + i]->Start();
+			m_vecEnemyCollisionMove[num + i]->Start();*/
 			m_vecEnemyWay[num + i].clear();
 
 		}
@@ -1657,11 +1643,11 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&m_fFogDensity));
 
 
-//////////////////////////////
-// 2. 그림자 입히기
-//////////////////////////////
+	//////////////////////////////
+	// 2. 그림자 입히기
+	//////////////////////////////
 
-////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
+	////// 하드웨어 백버퍼/깊이버퍼를 사용한다.
 	GETDEVICE->SetRenderTarget(0, pHWBackBuffer);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
@@ -1720,7 +1706,7 @@ void DarknessofPlanetMainScene::Render()
 	sprintf_s(str, "%d %d", m_pCharacter->GetNodeNum().x, m_pCharacter->GetNodeNum().y);
 	LPD3DXFONT f;
 	f = FONTMANAGER->GetFont(cFontManager::E_NORMAL);
-//	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
+	//	f->DrawTextA(NULL, str, strlen(str), &RectMake(100, 200, 100, 100), DT_NOCLIP | DT_LEFT | DT_TOP, D3DCOLOR_XRGB(255, 0, 0));
 
 
 
@@ -2089,7 +2075,7 @@ void DarknessofPlanetMainScene::CleanHit()
 	{
 		if (m_vecEnemy[i]->GetDie())continue;
 
-		
+
 
 
 		if (m_vecEnemy[i]->GetSkinnedMesh()->m_bHit)

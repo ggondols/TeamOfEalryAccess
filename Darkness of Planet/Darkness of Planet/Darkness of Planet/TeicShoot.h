@@ -42,6 +42,7 @@ public:
 	void Shoot(WeaponType type);
 	void Render();
 	void CalRotation();
+	void CalRotation2(D3DXVECTOR3 start, D3DXVECTOR3 finish);
 	D3DXVECTOR3 GetPosition(vector<ST_PN_VERTEX> info, D3DXVECTOR3 rayorigin, D3DXVECTOR3 raydir);
 public:
 	TeicShoot();

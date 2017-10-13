@@ -44,7 +44,7 @@ unsigned long cTimeManager::getFrame(void)
 
 void cTimeManager::Render()
 {
-	if(!_showFrame) return;
+	//if(!_showFrame) return;
 
 	char str[256];
 	std::string strFrame;

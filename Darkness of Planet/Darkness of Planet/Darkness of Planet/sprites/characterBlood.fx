@@ -74,17 +74,8 @@ struct PS_INPUT
 float4 Textured_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
    float4 color= tex2D( baseMap, Input.Texcoord );
-   if(color.x >0.8 && color.y >0.8 && color.z >0.8)
-   {
-     	color.x=1.0;
-	color.y=0.0;
-	color.z=0.0;
-	color.w = 0.1;
-   }
-   else
-   {
-      color.w -= alpha;
-   }
+   color.w -= alpha;
+   
    return color;
 }
 

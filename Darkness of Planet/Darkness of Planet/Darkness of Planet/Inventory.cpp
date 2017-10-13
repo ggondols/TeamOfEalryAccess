@@ -51,6 +51,12 @@ void Inventory::Setup()
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_WEAPON, "M4"));
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_HELMET, "Helmet"));
 	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_EXPENDABLE, "HealPack"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_EXPENDABLE, "HealPack"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart1"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart2"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "FullArmorPart3"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "HelmetPart1"));
+	m_vecItems.push_back(ST_INVENTORY_ITEM(1, ITEMTYPE_PART, "HelmetPart2"));
 
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_HELMET, "Mask"));
 	m_vecEquipments.push_back(ST_EQUIPMENT_ITEM(ITEMTYPE_ARMOR, "Armor"));
@@ -67,6 +73,10 @@ void Inventory::Update(LDYCharacter* character)
 		bool showState = !UIOBJECTMANAGER->CheckShowState("inventory");
 		UIOBJECTMANAGER->SetShowState("inventory", showState);
 		UIOBJECTMANAGER->SetShowState("equipment", showState);
+		if (g_bCursor == true)
+		{
+			int a = 0;
+		}
 	}
 
 	for (size_t i = 0; i < m_vecItems.size(); i++)
