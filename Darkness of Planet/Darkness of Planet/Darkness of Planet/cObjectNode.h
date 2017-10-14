@@ -57,11 +57,12 @@ public:
 	cModel*			m_pModel;
 	//cBoundingSphere m_BoundingSphere;
 	//CAABB			m_BoundingBox;
+	BoundingSquare *m_BoundingSquar;
 
 	bool			m_bVisible;
 	UINT			m_uiIlluminationFlags;
 	UINT			m_uiShadowFlags;
-
+	D3DXVECTOR3     m_vCenterInfo;
 public:
 	cObjectNode()
 		: m_pModel(NULL),
@@ -128,11 +129,14 @@ public:
 		scalledMeshCenter.z = m_pModel->m_centerPos.z * m_scalling.z;
 
 		temp->m_vCenterPos = m_position + scalledMeshCenter;
-
+		m_vCenterInfo = temp->m_vCenterPos;
 		temp->st_Type = Bounding_Object;
 
-		node->m_vRow[-(m_position.z / NodeLength)].m_vCol[m_position.x / NodeLength].m_pBoundInfo = new nNodeBoundInfo;
-		node->m_vRow[-(m_position.z / NodeLength)].m_vCol[m_position.x / NodeLength].m_pBoundInfo->m_vecBounding.push_back(temp);
+		node->m_vRow[-(m_vCenterInfo.z / NodeLength)].m_vCol[m_vCenterInfo.x / NodeLength].m_pBoundInfo = new nNodeBoundInfo;
+		node->m_vRow[-(m_vCenterInfo.z / NodeLength)].m_vCol[m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding.push_back(temp);
+		m_BoundingSquar = temp;
+
+
 
 	}
 

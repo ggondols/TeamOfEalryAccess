@@ -46,6 +46,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, tex(NULL)
 	, m_iSound(1)
 	, m_fTime8(0)
+	, m_fTime9(0)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -565,6 +566,16 @@ void DarknessofPlanetMainScene::Release()
 
 void DarknessofPlanetMainScene::Update()
 {
+
+	if (m_iCameranum == 0)
+	{
+		CAMERA->Update(&m_pCharacter->GetPosition(), 0);
+	}
+	else
+	{
+		CAMERA->Update(&m_pBoss->GetPosition(), 1);
+	}
+	
 	SOUNDMANAGER->Update();
 	if (m_pBoss->GetHp() <0 && m_pBoss->m_eType != Boss_die)
 	{
@@ -603,14 +614,7 @@ void DarknessofPlanetMainScene::Update()
 
 
 
-	if (m_iCameranum == 0)
-	{
-		CAMERA->Update(&m_pCharacter->GetPosition(), 0);
-	}
-	else
-	{
-		CAMERA->Update(&m_pBoss->GetPosition(), 1);
-	}
+	
 
 	m_pCharacter->Update(CAMERA->getAngleY());
 	//bool check = ChangeCheckPoint();
@@ -726,8 +730,11 @@ void DarknessofPlanetMainScene::Update()
 				{
 					if (m_pCharacter->getWeaponType() == WP_FireGun)
 					{
-						SOUNDMANAGER->play("Firegun");
-
+						if (TIMEMANAGER->getWorldTime() > m_fTime9 + 0.2)
+						{
+							SOUNDMANAGER->play("Firegun");
+							m_fTime9 = TIMEMANAGER->getWorldTime();
+						}
 						m_pCharacter->m_pCtrl->setAttacking(true);
 						m_pShoot->Shoot(m_pCharacter->getWeaponType());
 						D3DXVECTOR3 target = m_pShoot->GetStartPosition() + m_pShoot->GetDir() * 20;
@@ -1631,7 +1638,7 @@ void DarknessofPlanetMainScene::Render()
 
 	D3DCOLOR m_d3dFogColor = D3DCOLOR_XRGB(217, 217, 217);
 	float start = 0.0f;
-	float end = 200.0f;
+	float end = 100.0f;
 	float m_fFogDensity = 0.01f;
 	GETDEVICE->SetRenderState(D3DRS_FOGENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
@@ -1721,11 +1728,16 @@ void DarknessofPlanetMainScene::Render()
 	for (std::list<cObjectNode*>::iterator i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
 		cObjectNode* pNode = *i;
-		D3DXMATRIX matWorld;
-		pNode->GetWorldMatrix(&matWorld);
-		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+		float radius = FIndMax(m_pNode->m_vRow[-(pNode->m_vCenterInfo.z / NodeLength)].m_vCol[pNode->m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding[0]->m_fSizeX,
+			m_pNode->m_vRow[-(pNode->m_vCenterInfo.z / NodeLength)].m_vCol[pNode->m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding[0]->m_fSizeY,
+			m_pNode->m_vRow[-(pNode->m_vCenterInfo.z / NodeLength)].m_vCol[pNode->m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding[0]->m_fSizeZ);
+		
+		CheckRender(pNode->m_vCenterInfo,radius, pNode);
+		/*GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 
-		pNode->m_pModel->Render(GETDEVICE);
+		pNode->m_pModel->Render(GETDEVICE);*/
+		
+		
 	}
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
@@ -2593,6 +2605,79 @@ void DarknessofPlanetMainScene::Push2(TeicEnemy * A, TeicEnemy * B)
 	}
 
 
+
+
+}
+
+
+
+
+
+
+
+
+void DarknessofPlanetMainScene::CheckRender(D3DXVECTOR3 center, float radius, cObjectNode* node)
+{
+
+
+
+	if (CheckShow(center, radius) == true)
+	{
+		D3DXMATRIX matWorld;
+		node->GetWorldMatrix(&matWorld);
+		GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
+
+		node->m_pModel->Render(GETDEVICE);
+
+		
+
+		
+
+	}
+
+}
+
+bool DarknessofPlanetMainScene::CheckShow(D3DXVECTOR3 center, float radius)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		float distance;
+		distance = (D3DXPlaneDotCoord(&CAMERA->g_Plane[i], &center));
+		if (distance - radius >= 0)
+			return false;
+	}
+
+	return true;
+}
+
+
+
+
+float DarknessofPlanetMainScene::FIndMax(float x, float y, float z)
+{
+	if (x > y)
+	{
+		if (x > z)
+		{
+			return x;
+		}
+		else
+		{
+			return z;
+		}
+
+	}
+	else
+	{
+		if (y > z)
+		{
+			return y;
+		}
+		else
+		{
+			return z;
+		}
+	}
 
 
 }

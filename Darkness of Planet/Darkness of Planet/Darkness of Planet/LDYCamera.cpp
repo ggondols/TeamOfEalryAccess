@@ -46,6 +46,7 @@ void LDYCamera::Setup(D3DXVECTOR3 * pvTarget /*=NULL*/)
 
 void LDYCamera::Update(D3DXVECTOR3 *pvTarget,int num)
 {
+	
 	/*if (UIOBJECTMANAGER->CheckShowState("inventory"))
 	{
 		m_ptPrevMouse = g_ptMouse;
@@ -160,10 +161,69 @@ void LDYCamera::Update(D3DXVECTOR3 *pvTarget,int num)
 
 	m_ptPrevMouse = g_ptMouse;
 
-	
+	DotWorldSpace();
+	SetPlane();
 }
 
 void LDYCamera::rebound()
 {
 	m_fBoundingX -= RND->getFromFloatTo(1.0, 2.0);
+}
+
+
+
+
+
+void LDYCamera::DotWorldSpace()
+{
+	//				   5---------6
+	//				  /|	   / |
+	//               / |      /  |
+	//				/  4-----/---7
+	//				1-------2   
+	//				|		|
+	//				|		|
+	//				0-------3
+
+	m_Dot[0] = D3DXVECTOR3(-1, -1, 0);
+	m_Dot[1] = D3DXVECTOR3(-1, 1, 0);
+	m_Dot[2] = D3DXVECTOR3(1, 1, 0);
+	m_Dot[3] = D3DXVECTOR3(1, -1, 0);
+
+	m_Dot[4] = D3DXVECTOR3(-1, -1, 1);
+	m_Dot[5] = D3DXVECTOR3(-1, 1, 1);
+	m_Dot[6] = D3DXVECTOR3(1, 1, 1);
+	m_Dot[7] = D3DXVECTOR3(1, -1, 1);
+
+	D3DXMATRIX PorjectionInverse;
+	GETDEVICE->GetTransform(D3DTS_PROJECTION, &PorjectionInverse);
+	D3DXMatrixInverse(&PorjectionInverse, NULL, &PorjectionInverse);
+
+	for (int i = 0; i < 8; i++)
+	{
+		D3DXVec3TransformCoord(&m_Dot[i], &m_Dot[i], &PorjectionInverse);
+	}
+	D3DXMATRIX ViewSpace;
+	GETDEVICE->GetTransform(D3DTS_VIEW, &ViewSpace);
+	D3DXMatrixInverse(&ViewSpace, NULL, &ViewSpace);
+	for (int i = 0; i < 8; i++)
+	{
+		D3DXVec3TransformCoord(&m_Dot[i], &m_Dot[i], &ViewSpace);
+	}
+}
+
+void LDYCamera::SetPlane()
+{
+	///앞쪽 평면    
+	D3DXPlaneFromPoints(&g_Plane[0], &m_Dot[1], &m_Dot[2], &m_Dot[3]);
+	//위쪽 평면
+	D3DXPlaneFromPoints(&g_Plane[1], &m_Dot[1], &m_Dot[5], &m_Dot[6]);
+	//오른쪽 평면
+	D3DXPlaneFromPoints(&g_Plane[2], &m_Dot[2], &m_Dot[6], &m_Dot[7]);
+	//아래쪽 평면
+	D3DXPlaneFromPoints(&g_Plane[3], &m_Dot[0], &m_Dot[3], &m_Dot[7]);
+	//왼쪽 평면
+	D3DXPlaneFromPoints(&g_Plane[4], &m_Dot[5], &m_Dot[1], &m_Dot[0]);
+	//뒤쪽 평면
+	D3DXPlaneFromPoints(&g_Plane[5], &m_Dot[6], &m_Dot[5], &m_Dot[4]);
 }

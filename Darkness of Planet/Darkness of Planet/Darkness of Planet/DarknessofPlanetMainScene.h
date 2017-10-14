@@ -60,6 +60,7 @@ private:
 	float					m_fTime7; //// 필드 몬스터 생성 시간 (20초 간격)
 	float					m_fBossTime;
 	float					m_fTime8;    ///보스 어택 시간
+	float					m_fTime9; ////화염방사기 사운드 시간 (너무 짧아서 깨져서 추가)
 	int						m_iBodyUpgrade;
 	
 	LPDIRECT3DTEXTURE9		tex;
@@ -141,7 +142,7 @@ private:
 
 	vector<ST_RHWT_VERTEX>	m_vecVertex;
 
-
+	
 public:
 	int			m_iSound;
 	int			m_iCameranum;
@@ -158,6 +159,17 @@ public:
 	void CallbackOn(int number);
 	bool CollisionCheck(TeicEnemy* A, TeicEnemy* B);
 	void Push2(TeicEnemy* A, TeicEnemy* B);
+
+	void CheckRender(D3DXVECTOR3 center, float radius, cObjectNode* node);
+
+	bool CheckShow(D3DXVECTOR3 center, float radius);
+
+	float FIndMax(float x, float y, float z);
+
+
+
+
+	
 	void TotalPushCheck2();
 	void ChangeGridInfo();
 	void TargetOn();

@@ -52,6 +52,8 @@ protected:
 	D3DXMATRIX					m_RotationMat;
 	bool m_bCollision;
 	bool  m_bShow;
+
+
 public:
 
 	D3DXMATRIX m_matBip01RHand;
@@ -77,6 +79,20 @@ public:
 	
 	void SetAnimation(int num);
 	void ChangeAnimation(int num);
+
+	void DotWorldSpace();
+
+	void SetPlane();
+
+	void CheckRender(D3DXVECTOR3 center, float radius);
+
+	bool CheckShow(D3DXVECTOR3 center, float radius);
+
+	float FIndMax(float x, float y, float z);
+
+
+
+
 
 
 	

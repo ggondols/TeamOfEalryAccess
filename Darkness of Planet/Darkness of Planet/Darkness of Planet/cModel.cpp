@@ -76,7 +76,7 @@ HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVI
 
 				if (bSkybox)
 				{
-				//	textureFileName = string(skyName + "_" + textureFileName);
+					//	textureFileName = string(skyName + "_" + textureFileName);
 				}
 
 				D3DXIMAGE_INFO tempInfo;
@@ -97,7 +97,7 @@ HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVI
 				// don't bother double checking this.  If it's flagged as an error, it'll show up in the log anyway.  
 				// Not all meshes have normal maps so it's not really an error, just a means of checking whether we should use normal mapping shaders
 				//TEXTUREMANAGER->GetTextureEx(normalTexName);
-				LPDIRECT3DTEXTURE9 pNormalTex = TEXTUREMANAGER->GetTextureEx(normalTexName,  &tempInfo);
+				LPDIRECT3DTEXTURE9 pNormalTex = TEXTUREMANAGER->GetTextureEx(normalTexName, &tempInfo);
 
 				m_bHasNormals = pNormalTex ? true : false;
 
@@ -207,7 +207,7 @@ HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVI
 	m_pMesh->GetDeclaration(decl);
 	UINT vertSize = D3DXGetDeclVertexSize(decl, 0);
 
-	
+
 	D3DXComputeBoundingBox((D3DXVECTOR3*)v,
 		m_pMesh->GetNumVertices(),
 		vertSize,
@@ -218,10 +218,10 @@ HRESULT cModel::LoadModel(const string& path, const string& name, LPDIRECT3DDEVI
 
 	m_centerPos = m_vMin + m_vMax;	//두개 더해서 반으로 나눔
 	m_centerPos = m_centerPos * 0.5; //센터점 찾기
-	m_fSizeX = (m_vMax.x - m_vMin.x)/2;	//사이즈 구함
-	m_fSizeY = (m_vMax.y - m_vMin.y)/2;
-	m_fSizeZ = (m_vMax.z - m_vMin.z)/2;
-	
+	m_fSizeX = (m_vMax.x - m_vMin.x) / 2;	//사이즈 구함
+	m_fSizeY = (m_vMax.y - m_vMin.y) / 2;
+	m_fSizeZ = (m_vMax.z - m_vMin.z) / 2;
+
 
 	//이밑은 아님
 	/*
@@ -242,14 +242,102 @@ HRESULT cModel::Render(LPDIRECT3DDEVICE9 pDevice)
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 
+
+
+
 	for (unsigned int i = 0; i < m_mtrls.size(); i++)
 	{
 		// deprecated
-		pDevice->SetMaterial(&m_mtrls[i]);
-		pDevice->SetTexture(0, m_pTextures[i]);
+		GETDEVICE->SetMaterial(&m_mtrls[i]);
+		GETDEVICE->SetTexture(0, m_pTextures[i]);
 		m_pMesh->DrawSubset(i);
 	}
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
+
+	/*float radius = FIndMax(m_fSizeX, m_fSizeY, m_fSizeZ);
+	CheckRender(m_centerPos, radius);*/
 	return hr;
+}
+
+
+
+
+
+void cModel::CheckRender(D3DXVECTOR3 center, float radius)
+{
+
+
+
+	if (CheckShow(center, radius) == true)
+	{
+
+
+
+		GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+		GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+
+
+
+
+		for (unsigned int i = 0; i < m_mtrls.size(); i++)
+		{
+			// deprecated
+			GETDEVICE->SetMaterial(&m_mtrls[i]);
+			GETDEVICE->SetTexture(0, m_pTextures[i]);
+			m_pMesh->DrawSubset(i);
+		}
+		GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+		GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
+		//getAnotherMatrix(m_pRootFrame, NULL);
+
+	}
+
+}
+
+bool cModel::CheckShow(D3DXVECTOR3 center, float radius)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		float distance;
+		distance = (D3DXPlaneDotCoord(&CAMERA->g_Plane[i], &center));
+		if (distance - radius >= 0)
+			return false;
+	}
+
+	return true;
+}
+
+
+
+
+float cModel::FIndMax(float x, float y, float z)
+{
+	if (x > y)
+	{
+		if (x > z)
+		{
+			return x;
+		}
+		else
+		{
+			return z;
+		}
+
+	}
+	else
+	{
+		if (y > z)
+		{
+			return y;
+		}
+		else
+		{
+			return z;
+		}
+	}
+
+
 }
