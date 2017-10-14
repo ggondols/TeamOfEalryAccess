@@ -579,7 +579,7 @@ void DarknessofPlanetMainScene::Update()
 	m_pMap->GetHeight(m_pBoss->GetPositionPointer()->x, m_pBoss->GetPositionPointer()->y, m_pBoss->GetPositionPointer()->z);
 	m_pBoss->Update(m_pCharacter->GetPosition());
 	BossAttack();
-
+	//º¸½ºÁ×À½
 	
 	if (m_pInventory) m_pInventory->Update(m_pCharacter);
 	if (m_pSkyDome)m_pSkyDome->Update();
