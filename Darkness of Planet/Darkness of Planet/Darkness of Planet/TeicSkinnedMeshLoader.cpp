@@ -3,7 +3,7 @@
 #include "LDYSkinnedMesh.h"
 #include "LDYSkinnedMesh_Weapon.h"
 #include "LDYSkinnedMesh_Head.h"
-
+#include "TeicSkinnedMesh.h"
 
 
 void TeicSkinnedMeshLoader::Destroy()
@@ -35,6 +35,25 @@ void TeicSkinnedMeshLoader::AddSkinnedMesh(const char * keyname,  char * foldern
 		
 	}
 }
+
+
+void TeicSkinnedMeshLoader::AddSkinnedMeshTei(const char * keyname, char * foldername, char * filename)
+{
+
+	m_iterSkinnedMesh = m_mapSkinnedMesh.find(keyname);
+
+	if (m_iterSkinnedMesh != m_mapSkinnedMesh.end())
+	{
+	}
+	else
+	{
+		TeicSkinnedMesh* temp = new TeicSkinnedMesh(foldername, filename);
+		m_mapSkinnedMeshTei.insert(make_pair(keyname, temp));
+
+	}
+}
+
+
 
 void TeicSkinnedMeshLoader::AddSkinnedMeshHead(const char * keyname, char * foldername, char * filename)
 {
@@ -79,7 +98,19 @@ LDYSkinnedMesh * TeicSkinnedMeshLoader::GetSkinnedMesh(char * keyname)
 
 	return NULL;
 }
+TeicSkinnedMesh * TeicSkinnedMeshLoader::GetSkinnedMeshTei(char * keyname)
+{
+	m_iterSkinnedMeshTei = m_mapSkinnedMeshTei.find(keyname);
 
+	//키 값 찾으면....
+	if (m_iterSkinnedMeshTei != m_mapSkinnedMeshTei.end())
+	{
+		return m_iterSkinnedMeshTei->second;
+	}
+
+
+	return NULL;
+}
 LDYSkinnedMesh_Head * TeicSkinnedMeshLoader::GetSkinnedMeshHead(char * keyname)
 {
 	m_iterSkinnedMesh_Head = m_mapSkinnedMesh_Head.find(keyname);

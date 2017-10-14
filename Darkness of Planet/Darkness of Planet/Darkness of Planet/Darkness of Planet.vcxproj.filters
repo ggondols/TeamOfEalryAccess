@@ -196,6 +196,9 @@
     <Filter Include="#3D Framework\Utility">
       <UniqueIdentifier>{7f9f5694-fa36-4ca5-94f8-3ff7278daf07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\GameMain\Scene">
+      <UniqueIdentifier>{f19eb3fb-3f44-4bde-acf8-c14a15231df4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -531,9 +534,6 @@
     <ClInclude Include="TeicEffectManager.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingScene.h">
-      <Filter>테스트용 폴더</Filter>
-    </ClInclude>
     <ClInclude Include="TeicIceblizzard.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
@@ -567,14 +567,17 @@
     <ClInclude Include="LDYAfterMarks.h">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClInclude>
-    <ClInclude Include="DarknessofPlanetMainScene.h">
-      <Filter>MainGame\GameMain</Filter>
-    </ClInclude>
     <ClInclude Include="cGameObject.h">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClInclude>
     <ClInclude Include="cSoundLoader.h">
       <Filter>#3D Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="DarknessofPlanetMainScene.h">
+      <Filter>MainGame\GameMain\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>MainGame\GameMain\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -887,9 +890,6 @@
     <ClCompile Include="TeicEffectManager.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingScene.cpp">
-      <Filter>테스트용 폴더</Filter>
-    </ClCompile>
     <ClCompile Include="HankcDefferedRenderTest.cpp">
       <Filter>테스트용 폴더\Hank 디퍼드 렌더링</Filter>
     </ClCompile>
@@ -926,14 +926,17 @@
     <ClCompile Include="LDYAfterMarks.cpp">
       <Filter>#3D Framework\Manager\EffectManager</Filter>
     </ClCompile>
-    <ClCompile Include="DarknessofPlanetMainScene.cpp">
-      <Filter>MainGame\GameMain</Filter>
-    </ClCompile>
     <ClCompile Include="cGameObject.cpp">
       <Filter>#3D Framework\정현 임시저장</Filter>
     </ClCompile>
     <ClCompile Include="cSoundLoader.cpp">
       <Filter>#3D Framework\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="DarknessofPlanetMainScene.cpp">
+      <Filter>MainGame\GameMain\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>MainGame\GameMain\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

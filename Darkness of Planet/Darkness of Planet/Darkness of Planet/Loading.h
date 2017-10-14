@@ -19,7 +19,8 @@ enum MESHTYPE
 {
 	MESH_NORMAL,
 	MESH_HEAD,
-	MESH_WEAPON
+	MESH_WEAPON,
+	MESH_TEI
 };
 struct tagTestResource
 {

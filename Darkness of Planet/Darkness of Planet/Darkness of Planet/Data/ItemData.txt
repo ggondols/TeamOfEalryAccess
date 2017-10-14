@@ -1,32 +1,32 @@
 name AA12
 type weapon
-value 20
+value 100
 fireRate 0.5
-Callbacktime 1.0
+Callbacktime 0.5
 
 name AR6
 type weapon
-value 3
+value 10
 fireRate 0.2
-Callbacktime 1.0
+Callbacktime 0.5
 
 name M4
 type weapon
-value 500
+value 20
 fireRate 0.2
-Callbacktime 1.0
+Callbacktime 0.5
 
 name MP5
 type weapon
-value 3
+value 10
 fireRate 0.2
-Callbacktime 1.0
+Callbacktime 0.5
 
 name FireGun
 type weapon
-value 10
+value 5
 fireRate 0.05
-Callbacktime 1.0
+Callbacktime 0.5
 
 name Mask
 type helmet

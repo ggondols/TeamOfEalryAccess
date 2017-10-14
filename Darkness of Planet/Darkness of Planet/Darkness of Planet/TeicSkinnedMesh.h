@@ -80,9 +80,7 @@ public:
 	void SetAnimation(int num);
 	void ChangeAnimation(int num);
 
-	void DotWorldSpace();
 
-	void SetPlane();
 
 	void CheckRender(D3DXVECTOR3 center, float radius);
 

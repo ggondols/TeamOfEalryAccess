@@ -73,9 +73,14 @@ HRESULT LoadingScene::Setup()
 
 	
 	//m_pLoading->LoadMesh("", MESH_NORMAL, "object/xFile/", "MP5_Aim_Anims/HeroBodyLv",i,"_MP5.X");
-	
 
-	
+	m_pLoading->LoadMesh("ice_FallRock.X", MESH_TEI, "sprites/", "ice_FallRock.X");
+	m_pLoading->LoadMesh("ice_Boom.X", MESH_TEI, "sprites/", "ice_Boom.X");
+	m_pLoading->LoadMesh("IceEffect.X", MESH_TEI, "sprites/", "IceEffect.X");
+	m_pLoading->LoadMesh("wolf.X", MESH_TEI, "object/xFile/wolf/", "wolf.X");
+	m_pLoading->LoadMesh("tiger.X", MESH_TEI, "object/xFile/tiger/", "tiger.X");
+	m_pLoading->LoadMesh("ArgoniteGiant.X", MESH_TEI, "object/xFile/ArgoniteGiant/", "ArgoniteGiant.X");
+	m_pLoading->LoadMesh("Valak.X", MESH_TEI, "object/xFile/Valak/", "Valak.X");
 	m_pLoading->LoadMesh("HeroHead/HeroHeadLv1.X", MESH_HEAD, "object/xFile/", "HeroHead/HeroHeadLv1.X");
 	m_pLoading->LoadMesh("HeroHead/HeroHeadLv2.X", MESH_HEAD, "object/xFile/", "HeroHead/HeroHeadLv2.X");
 	m_pLoading->LoadMesh("HeroHead/HeroHeadLv4.X", MESH_HEAD, "object/xFile/", "HeroHead/HeroHeadLv4.X");

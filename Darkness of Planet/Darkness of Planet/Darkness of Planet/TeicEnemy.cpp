@@ -181,7 +181,11 @@ BoundingSquare * TeicEnemy::GetBoundingSquare()
 void TeicEnemy::Setup(char* Foldername, char* Filename)
 {
 
+	
+
+
 	m_pSkinnedMesh = new TeicSkinnedMesh(Foldername, Filename);
+	//m_pSkinnedMesh = MESHLOADER->GetSkinnedMeshTei(Filename);
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0, 0));
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetCallbackfunction(bind(&TeicEnemy::CallbackOn, this, 0));

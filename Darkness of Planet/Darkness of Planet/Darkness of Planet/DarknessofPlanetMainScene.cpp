@@ -1728,11 +1728,10 @@ void DarknessofPlanetMainScene::Render()
 	for (std::list<cObjectNode*>::iterator i = m_ObjNodes.begin(); i != m_ObjNodes.end(); ++i)
 	{
 		cObjectNode* pNode = *i;
-		float radius = FIndMax(m_pNode->m_vRow[-(pNode->m_vCenterInfo.z / NodeLength)].m_vCol[pNode->m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding[0]->m_fSizeX,
-			m_pNode->m_vRow[-(pNode->m_vCenterInfo.z / NodeLength)].m_vCol[pNode->m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding[0]->m_fSizeY,
-			m_pNode->m_vRow[-(pNode->m_vCenterInfo.z / NodeLength)].m_vCol[pNode->m_vCenterInfo.x / NodeLength].m_pBoundInfo->m_vecBounding[0]->m_fSizeZ);
+		float radius = FIndMax(pNode->m_BoundingSquar.m_fSizeX, pNode->m_BoundingSquar.m_fSizeY, pNode->m_BoundingSquar.m_fSizeZ);
+			
 		
-		CheckRender(pNode->m_vCenterInfo,radius, pNode);
+		CheckRender(pNode->m_BoundingSquar.m_vCenterPos,radius, pNode);
 		/*GETDEVICE->SetTransform(D3DTS_WORLD, &matWorld);
 
 		pNode->m_pModel->Render(GETDEVICE);*/
@@ -1743,7 +1742,7 @@ void DarknessofPlanetMainScene::Render()
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
 
-	AfterImage();
+	//AfterImage();
 
 	GETDEVICE->SetRenderTarget(0, pHWBackBufferBloom);
 	GETDEVICE->SetDepthStencilSurface(pHWDepthStencilBufferBloom);
@@ -2124,6 +2123,9 @@ void DarknessofPlanetMainScene::CleanHit()
 		if (m_vecEnemy[i]->GetDie())continue;
 		m_vecEnemy[i]->GetSkinnedMesh()->m_bHit = false;
 	}
+	
+	m_pBoss->GetSkinnedMesh()->m_bHit = false;
+	
 }
 
 bool DarknessofPlanetMainScene::SameVector(D3DXVECTOR3 A, D3DXVECTOR3 B)

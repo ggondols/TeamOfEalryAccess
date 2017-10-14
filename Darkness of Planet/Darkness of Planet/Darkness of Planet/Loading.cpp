@@ -265,6 +265,10 @@ BOOL Loading::LoadNext(void)
 			{
 				MESHLOADER->AddSkinnedWeapon(ir.keyName.c_str(), ir.Foldername, ir.Filename);
 			}
+			else if (ir.type == MESH_TEI)
+			{
+				MESHLOADER->AddSkinnedMeshTei(ir.keyName.c_str(), ir.Foldername, ir.Filename);
+			}
 			break;
 		}
 		case LOADING_KIND_SOUND:
