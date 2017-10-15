@@ -88,12 +88,14 @@ TeicSkinnedMesh::TeicSkinnedMesh()
 TeicSkinnedMesh::~TeicSkinnedMesh()
 {
 	SAFE_RELEASE(m_pAnimController);
-	SAFE_DELETE(m_pRootFrame);
-	SAFE_DELETE(m_pmWorkingPalette);
-	SAFE_RELEASE(m_pEffect);
-	SAFE_RELEASE(m_pAnimController);
+//	SAFE_DELETE(m_pRootFrame);
+//	SAFE_DELETE(m_pmWorkingPalette);
+//	SAFE_RELEASE(m_pEffect);
+//	SAFE_RELEASE(m_pAnimController);
 
-
+	
+	
+	
 
 }
 void TeicSkinnedMesh::SetNextAni()

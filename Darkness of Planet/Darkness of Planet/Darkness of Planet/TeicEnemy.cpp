@@ -26,6 +26,7 @@ TeicEnemy::TeicEnemy()
 
 TeicEnemy::~TeicEnemy()
 {
+	SAFE_DELETE(m_pSkinnedMesh);
 }
 
 

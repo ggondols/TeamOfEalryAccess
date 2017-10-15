@@ -54,6 +54,8 @@ public:
 	void Stop();
 	void SetFrom(D3DXVECTOR3 from);
 	void SetTo(D3DXVECTOR3 to);
+	void SetFrom2(D3DXVECTOR3 from);
+	void SetTo2(D3DXVECTOR3 to);
 	void SetRoationAngle(float f) { m_fRotationAngle = f; }
 	float GetRotationAngle() { return m_fRotationAngle; }
 public:

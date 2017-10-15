@@ -9,6 +9,7 @@
 #include "LoadingScene.h"
 #include "HankcDefferedRenderTest.h"
 #include "DarknessofPlanetMainScene.h"
+#include "StartScene.h"
 cMainGame::cMainGame()
 {
 }
@@ -33,6 +34,7 @@ HRESULT cMainGame::Setup()
 	SCENEMANAGER->addScene("DarknessofPlanetMainScene", new DarknessofPlanetMainScene);
 	
 	SCENEMANAGER->addScene("LoadingScene", new LoadingScene);
+	SCENEMANAGER->addScene("StartScene", new StartScene);
 	
 	//////////////////커밋 전에 항상 저스트 테스트 씬으로 바꾸세요~~
 	//여기서 씬 교체

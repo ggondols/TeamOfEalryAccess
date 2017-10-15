@@ -152,6 +152,21 @@ void TeicCollisionMove::SetTo(D3DXVECTOR3 to)
 	m_To.y = 0;
 }
 
+
+void TeicCollisionMove::SetFrom2(D3DXVECTOR3 from)
+{
+	m_From = from;
+	
+	m_previous = m_From;
+}
+
+void TeicCollisionMove::SetTo2(D3DXVECTOR3 to)
+{
+	m_To = to;
+
+}
+
+
 void TeicCollisionMove::Update()
 {
 	if (!m_bStart)return;

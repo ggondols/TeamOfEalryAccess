@@ -17,6 +17,7 @@ private:
 	float		m_fTimeChange;
 	bool				m_bStart;
 	D3DXHANDLE hTech;
+	D3DXVECTOR3 m_vWhere;
 public:
 	void Setup(char* Textfilename, float size,int Xnum, int Ynum);
 	virtual	void Update();

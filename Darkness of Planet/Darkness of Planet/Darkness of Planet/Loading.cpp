@@ -113,9 +113,9 @@ void Loading::Setup(void)
 	pLoadingImageUp->SetTexture("./UI/lifeBarUp.bmp");
 	pLoadingImageUp->SetSizeWidth(0);
 
-	cUIImageView* pLodingBgImage = new cUIImageView;
+	/*cUIImageView* pLodingBgImage = new cUIImageView;
 	pLodingBgImage->SetTexture("./UI/loadingBg.png");
-	UIOBJECTMANAGER->AddRoot("LoadingBg", pLodingBgImage, true);
+	UIOBJECTMANAGER->AddRoot("LoadingBg", pLodingBgImage, true);*/
 
 	UIOBJECTMANAGER->AddRoot("LoadingBar", pLoadingImageDown, true);
 	UIOBJECTMANAGER->AddChild("LoadingBar", pLoadingImageUp);
@@ -129,7 +129,34 @@ void Loading::Setup(void)
 	//89, 231, 53
 	UIOBJECTMANAGER->SetFontType("LoadingText", cFontManager::E_LODING);
 
+
+	UIOBJECTMANAGER->AddRoot("StoryText", UITYPE_TEXT, true);
+	UIOBJECTMANAGER->SetPosition("StoryText", 0.01f, 0.3f);
+	UIOBJECTMANAGER->SetDrawTextFormat("StoryText", DT_LEFT | DT_TOP | DT_NOCLIP);
+	UIOBJECTMANAGER->SetTextColor("StoryText", D3DCOLOR_XRGB(255, 255, 255));
+	//0, 0, 0
+	//218, 149, 31
+	//89, 231, 53
+	UIOBJECTMANAGER->SetFontType("StoryText", cFontManager::E_LODING);
+
+
 	m_pFont = FONTMANAGER->GetFont(cFontManager::E_LODING);
+	
+	sprintf_s(m_cStory, "서기 2110년 우주로 진출한\n"
+		"인류가 활발한 활동을 \n"
+		"이어가는 가운데 주인공\n"
+		"진철은 위험지정 생물\n"
+		"E-T13호의 본 행성 운송을\n"
+		"위한 항해 중 UT - 23성운의\n"
+		"갑작스런 운석 충돌에 맞아\n"
+		"고장 난 운송선에서 가까스로\n"
+		"탈출용 포드를 타고\n"
+		"탈출 하게 된다.");
+
+
+	m_iLength = 0;
+	m_fTime = 0;
+	m_fTimeSound = 0;
 }
 
 void Loading::Release(void)
@@ -140,28 +167,56 @@ void Loading::Release(void)
 		SAFE_DELETE(*iter);
 	}
 
-	UIOBJECTMANAGER->ReleaseRoot("LoadingBg");
+//	UIOBJECTMANAGER->ReleaseRoot("LoadingBg");
 	UIOBJECTMANAGER->ReleaseRoot("LoadingBar");
 	UIOBJECTMANAGER->ReleaseRoot("LoadingText");
-	
+	UIOBJECTMANAGER->ReleaseRoot("StoryText");
 }
 
 void Loading::Update(void)
 {
-	UIOBJECTMANAGER->Update("LoadingBg");
+	//	UIOBJECTMANAGER->Update("LoadingBg");
 	UIOBJECTMANAGER->Update("LoadingBar");
 	UIOBJECTMANAGER->Update("LoadingText");
+	
 }
 
 void Loading::Render(void)
 {
-	UIOBJECTMANAGER->Render("LoadingBg");
+//	UIOBJECTMANAGER->Render("LoadingBg");
 	UIOBJECTMANAGER->Render("LoadingBar");
 	UIOBJECTMANAGER->Render("LoadingText");
-	
+	UIOBJECTMANAGER->Render("StoryText");
 	
 	//RECT rc = RectMake(200, 500, 1000, 1000);
 	//m_pFont->DrawTextA(NULL, str, strlen(str), &rc, DT_CENTER, D3DCOLOR_XRGB(0, 0, 0));
+}
+
+void Loading::UpdateStory()
+{
+	UIOBJECTMANAGER->Update("StoryText");
+	if (TIMEMANAGER->getWorldTime() > m_fTime + 0.05)
+	{
+		m_fTime = TIMEMANAGER->getWorldTime();
+		if (TIMEMANAGER->getWorldTime() > m_fTimeSound + 3)
+		{
+			SOUNDMANAGER->stop("Taja");
+			m_fTimeSound = TIMEMANAGER->getWorldTime();
+			SOUNDMANAGER->play("Taja");
+		}
+		
+		m_iLength += 1;
+		if (m_iLength > strlen(m_cStory))
+		{
+			SOUNDMANAGER->stop("Taja");
+			m_iLength = strlen(m_cStory);
+			m_fTime = INF;
+		}
+	}
+
+	strncpy_s(m_cStoryShow, 1024, m_cStory, m_iLength);
+
+	UIOBJECTMANAGER->SetText("StoryText", m_cStoryShow);
 }
 
 void Loading::LoadTestResource(string keyName, int width, int height)

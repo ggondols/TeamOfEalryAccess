@@ -125,14 +125,18 @@ private:
 	LPD3DXFONT	m_pFont;
 	int m_nCurrent;
 	char	str[512];
+	char    m_cStory[1024];
+	char    m_cStoryShow[1024];
 	void SetGauge(float current, float max);
-
+	int		m_iLength;
+	float	m_fTime;
+	float	m_fTimeSound;
 public:
 	void Setup(void);
 	void Release(void);
 	void Update(void);
 	void Render(void);
-
+	void UpdateStory();
 	void LoadTestResource(string keyName, int width, int height);
 	void LoadHeightMap(string keyName, string szFolder, string szFile, string szTexture, DWORD  dwBytesPerPixel = 1);
 	void LoadWay(string keyName, HankcGrid*	Node, int StartX, int StartZ, int LastX, int LastZ);

@@ -25,7 +25,7 @@ TeicEffect::~TeicEffect()
 
 void TeicEffect::Setup(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
-	Setup("", 10, 1, 1);
+	Setup("", 0.3, 1, 1);
 
 }
 
@@ -84,26 +84,26 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 		m_vecVertex.push_back(ST_PNT_VERTEX(p, n,t));
 	}
 
-	//D3DXMATRIX ro;
-	//D3DXMatrixRotationY(&ro, D3DX_PI/2 /**4.0 / 3.0*/);
-	//for (size_t i = 0; i < vecIndex.size(); ++i)
-	//{
-	//	D3DXVECTOR3 p = vecVertex[vecIndex[i]];
-	//	D3DXVec3TransformCoord(&p, &p, &ro);
-	//	D3DXVECTOR3 n = vecNormal[i / 6];
-	//	D3DXVECTOR2	t = vecTex[i];
-	//	m_vecVertex.push_back(ST_PNT_VERTEX(p, n, t));
-	//}
+	D3DXMATRIX ro;
+	D3DXMatrixRotationY(&ro, D3DX_PI/2 /**4.0 / 3.0*/);
+	for (size_t i = 0; i < vecIndex.size(); ++i)
+	{
+		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
+		D3DXVec3TransformCoord(&p, &p, &ro);
+		D3DXVECTOR3 n = vecNormal[i / 6];
+		D3DXVECTOR2	t = vecTex[i];
+		m_vecVertex.push_back(ST_PNT_VERTEX(p, n, t));
+	}
 	
-	//D3DXMatrixRotationY(&ro, D3DX_PI*2.0 / 3.0);
-	//for (size_t i = 0; i < vecIndex.size(); ++i)
-	//{
-	//	D3DXVECTOR3 p = vecVertex[vecIndex[i]];
-	//	D3DXVec3TransformCoord(&p, &p, &ro);
-	//	D3DXVECTOR3 n = vecNormal[i / 6];
-	//	D3DXVECTOR2	t = vecTex[i];
-	//	m_vecVertex.push_back(ST_PNT_VERTEX(p, n, t));
-	//}
+	D3DXMatrixRotationY(&ro, D3DX_PI*2.0 / 3.0);
+	for (size_t i = 0; i < vecIndex.size(); ++i)
+	{
+		D3DXVECTOR3 p = vecVertex[vecIndex[i]];
+		D3DXVec3TransformCoord(&p, &p, &ro);
+		D3DXVECTOR3 n = vecNormal[i / 6];
+		D3DXVECTOR2	t = vecTex[i];
+		m_vecVertex.push_back(ST_PNT_VERTEX(p, n, t));
+	}
 
 
 
@@ -136,6 +136,7 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 	m_pMesh->LockAttributeBuffer(0, &pA);
 	for (int i = 0; i < m_vecVertex.size()/3; i++)
 	{
+		//pA[i] = 0;
 		if (i < vecIndex.size() / 3.0)
 		{
 			pA[i] = 0;
@@ -165,11 +166,11 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 
 
 	m_pEffect = LoadEffect("Fire2.fx");
-	m_pFlame = TEXTUREMANAGER->GetTexture("sprites/Flame.tga");
-	m_pNoise = TEXTUREMANAGER->GetTexture("sprites/NoiseVolume.dds");
+	m_pFlame = TEXTUREMANAGER->GetTexture("sprites/FireBase.tga");
+	m_pNoise = TEXTUREMANAGER->GetTexture("sprites/FireDistortion.tga");
 	m_pfire_opacity = TEXTUREMANAGER->GetTexture("sprites/FireOpacity.tga");
 	hTech = 0;
-	hTech = m_pEffect->GetTechniqueByName("Explosion");
+	hTech = m_pEffect->GetTechniqueByName("Fire");
 	
 	
 
@@ -179,8 +180,8 @@ void TeicEffect::Setup(char * Textfilename, float size, int Xnum, int Ynum)
 
 void TeicEffect::Update()
 {
-	if (m_bStart == true)
-		m_bStart = false;
+	/*if (m_bStart == true)
+		m_bStart = false;*/
 }
 
 void TeicEffect::Render()
@@ -190,10 +191,11 @@ void TeicEffect::Render()
 	m_fTimeChange += 0.01;
 
 
-	D3DXMATRIXA16 matWorld,matView, matProjection;
+	D3DXMATRIXA16 matWorld,matView, matProjection,ro,tran;
 //	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixTranslation(&matWorld, 100, 40, -100);
-
+	D3DXMatrixTranslation(&tran, m_vWhere.x, m_vWhere.y, m_vWhere.z);
+	D3DXMatrixRotationZ(&ro, D3DX_PI / 2);
+	matWorld  =ro*tran;
 	GETDEVICE->GetTransform(D3DTS_VIEW, &matView);
 	GETDEVICE->GetTransform(D3DTS_PROJECTION, &matProjection);
 
@@ -212,10 +214,10 @@ void TeicEffect::Render()
 	m_pEffect->SetMatrix("matViewProjection", &(matView*matProjection));
 	m_pEffect->SetMatrix("matWorldViewProjection", &(matWorld*matView*matProjection));*/
 	m_pEffect->SetFloat("time_0_X", 2);
-	m_pEffect->SetFloat("Fire_Effects_Explosion_Single_Pass_Pixel_Shader_time_0_X", m_fTimeChange);
+	m_pEffect->SetFloat("Fire_Effects_Fire_Single_Pass_Vertex_Shader_time_0_X", m_fTimeChange);
 	m_pEffect->SetFloat("timeSampleDist", m_fTimeChange);
-	m_pEffect->SetTexture("Flame_Tex", m_pFlame);
-	m_pEffect->SetTexture("Noise_Tex", m_pNoise);
+	m_pEffect->SetTexture("fire_base_Tex", m_pFlame);
+	m_pEffect->SetTexture("fire_distortion_Tex", m_pNoise);
 	m_pEffect->SetTexture("fire_opacity_Tex", m_pfire_opacity);
 	m_pEffect->SetMatrix("matWorldViewProjectionMatrix", &(matWorld*matView*matProjection));
 	m_pEffect->SetTechnique(hTech);
@@ -258,6 +260,8 @@ void TeicEffect::Render()
 
 void TeicEffect::Start()
 {
+	if (m_bStart)return;
+	m_bStart = true;
 }
 
 void TeicEffect::Stop()
@@ -313,4 +317,5 @@ LPD3DXEFFECT TeicEffect::LoadEffect(const char* szFileName)
 
 void TeicEffect::SetPosition(D3DXVECTOR3 position, D3DXVECTOR3 characterpos)
 {
+	m_vWhere = position;
 }

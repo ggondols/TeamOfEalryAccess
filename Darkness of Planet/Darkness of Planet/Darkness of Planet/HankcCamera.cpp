@@ -21,6 +21,7 @@ namespace Hank
 
 	void cCamera::Setup(D3DXVECTOR3 * pvTarget /*=NULL*/)
 	{
+		m_bTwist = false;
 		m_ptPrevMouse.x = 0;
 		m_ptPrevMouse.y = 0;
 
@@ -146,8 +147,17 @@ namespace Hank
 			vTarget = *m_pvTarget;
 		}
 
-		m_vEye = m_vEye + vTarget;
+		
+		if (m_bTwist)
+		{
+			vTarget += D3DXVECTOR3(RND->getFromFloatTo(-0.25, 0.25), RND->getFromFloatTo(-0.25, 0.25), 0);
+			m_vEye = m_vEye + vTarget ;
+		}
+		else
+		{
+			m_vEye = m_vEye + vTarget ;
 
+		}
 
 		D3DXMATRIXA16 matView;
 		D3DXMatrixLookAtLH(&matView,

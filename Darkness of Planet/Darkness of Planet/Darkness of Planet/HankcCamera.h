@@ -16,7 +16,8 @@ namespace Hank
 		D3DXVECTOR3 m_vDir;
 
 		bool getMousePos;
-
+	public:
+		bool m_bTwist;
 
 	public:
 		cCamera();
@@ -24,6 +25,7 @@ namespace Hank
 
 		void Setup(D3DXVECTOR3 *pvTarget = NULL);
 		void Update();
+		
 		D3DXVECTOR3 getEye(void) { return m_vEye; }
 		D3DXVECTOR3 getLook(void) { return *m_pvTarget; }
 		D3DXVECTOR3 getDir(void) { return m_vEye - *m_pvTarget; }
