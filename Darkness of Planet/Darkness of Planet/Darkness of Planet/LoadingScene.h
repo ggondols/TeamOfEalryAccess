@@ -21,15 +21,16 @@ private:
 
 	TeicMoveSequence*	m_vecEnemyCollisionMove[10];
 
-	std::vector< D3DXVECTOR3 >		m_BoundingBoxVertices;
+	LPDIRECT3DTEXTURE9 m_pTextures;
+	/*std::vector< D3DXVECTOR3 >		m_BoundingBoxVertices;
 
 	std::vector< D3DMATERIAL9 >			m_mtrls;
 	std::vector< LPDIRECT3DTEXTURE9 >	m_pTextures;
-	std::vector< LPDIRECT3DTEXTURE9 >	m_pNormalTextures;
+	std::vector< LPDIRECT3DTEXTURE9 >	m_pNormalTextures;*/
 	D3DXVECTOR3  m_vcenter;
 	//////////
 
-	LPDIRECT3DVERTEXDECLARATION9	m_pVertexDeclaration;
+//	LPDIRECT3DVERTEXDECLARATION9	m_pVertexDeclaration;
 
 	bool							m_bHasNormals;
 	bool							m_bHasEmissive;
@@ -38,9 +39,9 @@ private:
 	void CallbacOn(int n);
 public:
 	//Model infomation for bounding box
-	D3DXVECTOR3 m_vMin, m_vMax;
-	D3DXVECTOR3 m_centerPos;
-	float		m_fSizeX, m_fSizeY, m_fSizeZ;
+	//D3DXVECTOR3 m_vMin, m_vMax;
+	//D3DXVECTOR3 m_centerPos;
+	//float		m_fSizeX, m_fSizeY, m_fSizeZ;
 
 	float		m_fAttacktime;
 
@@ -62,6 +63,8 @@ public:
 	HRESULT LoadModel(const string & path, const string & name, LPDIRECT3DDEVICE9 pDevice, bool bSkybox);
 
 	LPD3DXEFFECT LoadEffect(const char * szFileName);
+
+	LPD3DXMESH LoadModel(const char * filename);
 
 	virtual void Update();
 

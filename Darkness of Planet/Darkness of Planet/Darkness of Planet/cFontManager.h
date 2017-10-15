@@ -12,6 +12,8 @@ public:
 		E_CONSOLE,
 		E_LODING,
 		E_END,
+		E_ENDING,
+		E_INFO
 	};
 
 private:

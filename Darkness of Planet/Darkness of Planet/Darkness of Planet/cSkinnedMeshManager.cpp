@@ -24,6 +24,25 @@ void cSkinnedMeshManager::Destroy()
 	}
 }
 
+void cSkinnedMeshManager::DeleteMesh(char * szFolder, char * szFilename)
+{
+	std::string sFullPath(szFolder);
+	sFullPath += std::string(szFilename);
+	m_iterTeiSkinnedMesh = m_mapTeiSkinnedMesh.begin();
+
+	for (m_iterTeiSkinnedMesh; m_iterTeiSkinnedMesh != m_mapTeiSkinnedMesh.end(); ++m_iterTeiSkinnedMesh)
+	{
+		if (sFullPath == m_iterTeiSkinnedMesh->first)
+		{
+			SAFE_DELETE(m_iterTeiSkinnedMesh->second);
+		}
+		m_mapTeiSkinnedMesh.erase(m_iterTeiSkinnedMesh);
+		return;
+	}
+
+
+}
+
 cSkinnedMesh* cSkinnedMeshManager::GetSkinnedMesh( char* szFolder, char* szFilename )
 {
 	std::string sFullPath(szFolder);

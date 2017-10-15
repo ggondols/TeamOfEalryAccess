@@ -86,6 +86,53 @@ LPD3DXFONT cFontManager::GetFont(eFontType e)
 			//OCR A Extended
 			//Rockwell
 		}
+		else if (e == E_ENDING)
+		{
+			fd.Height = 100;
+			fd.Width = 100;
+			fd.Weight = FW_NORMAL;
+			fd.Italic = false;
+			fd.CharSet = DEFAULT_CHARSET;
+			fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+			fd.PitchAndFamily = FF_DONTCARE;
+			//AddFontResource("umberto.ttf");
+			strcpy_s(fd.FaceName, "Algerian");	//글꼴 스타일
+
+												//Algerian
+												//Book Antiqua
+												//Bradley Hand ITC
+												//Castellar
+												//Comic Sans MS
+												//Copperplate Gothic Light
+												//Forte
+												//OCR A Extended
+												//Rockwell
+		}
+		else if (e == E_INFO)
+		{
+			fd.Height = 15;
+			fd.Width = 15;
+			fd.Weight = FW_NORMAL;
+			fd.Italic = false;
+			fd.CharSet = DEFAULT_CHARSET;
+			fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+			fd.PitchAndFamily = FF_DONTCARE;
+			//AddFontResource("umberto.ttf");
+			strcpy_s(fd.FaceName, "Algerian");	//글꼴 스타일
+
+												//Algerian
+												//Book Antiqua
+												//Bradley Hand ITC
+												//Castellar
+												//Comic Sans MS
+												//Copperplate Gothic Light
+												//Forte
+												//OCR A Extended
+												//Rockwell
+		}
+
+
+		
 		D3DXCreateFontIndirect(GETDEVICE, &fd, &m_mapFont[e]);
 	}
 

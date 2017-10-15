@@ -187,6 +187,7 @@
     <ClInclude Include="cUITextView.h" />
     <ClInclude Include="DarknessofPlanetMainScene.h" />
     <ClInclude Include="DataBase.h" />
+    <ClInclude Include="EndingScene.h" />
     <ClInclude Include="FieldItem.h" />
     <ClInclude Include="HankcCamera.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -313,6 +314,7 @@
     <ClCompile Include="cUITextView.cpp" />
     <ClCompile Include="DarknessofPlanetMainScene.cpp" />
     <ClCompile Include="DataBase.cpp" />
+    <ClCompile Include="EndingScene.cpp" />
     <ClCompile Include="FieldItem.cpp" />
     <ClCompile Include="HankcCamera.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />

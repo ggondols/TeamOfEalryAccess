@@ -63,7 +63,7 @@ DarknessofPlanetMainScene::~DarknessofPlanetMainScene()
 	SAFE_DELETE(m_pMap);
 	SAFE_DELETE(m_pCharacter);
 	SAFE_DELETE(m_pInventory);
-
+	UIOBJECTMANAGER->ReleaseRoot("InfoText");
 	for (int i = 0; i < m_vecEnemy.size(); i++)
 	{
 		SAFE_DELETE(m_vecEnemy[i]);
@@ -214,6 +214,22 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	//## 초기화 리스트
 	//## StaticMeshLoader, Object List controler
 	//## 메쉬를 불러와서, 컨트롤러에 저장하고 뿌린다.
+
+
+	UIOBJECTMANAGER->AddRoot("InfoText", UITYPE_TEXT, true);
+	UIOBJECTMANAGER->SetPosition("InfoText", 0.3f, 0.1f);
+	UIOBJECTMANAGER->SetDrawTextFormat("InfoText", DT_LEFT | DT_TOP | DT_NOCLIP);
+	UIOBJECTMANAGER->SetTextColor("InfoText", D3DCOLOR_XRGB(0, 0, 255));
+	//0, 0, 0
+	//218, 149, 31
+	//89, 231, 53
+	UIOBJECTMANAGER->SetFontType("InfoText", cFontManager::E_LODING);
+	UIOBJECTMANAGER->SetText("InfoText", "당신의 장비들은 행성 곳곳에 흩어졌습니다.\n"
+										"행성 생명체들로 부터 살아남아 장비를 모으십시오\n"
+										"장비가 부족한 상태에서 E-T13호와 마주치면 위헙합니다.");
+
+
+
 	m_pNode = NODEMANAGER->GetNode();
 
 	TeicEnemy* pSkinnedMesh = new TeicEnemy;
@@ -544,6 +560,7 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	}
 
 	m_pSkyDome->m_fNowtime = 0;
+	SOUNDMANAGER->stop("BGM_Avenge");
 	SOUNDMANAGER->play("BGM_Walk");
 
 	//콘솔 링크
@@ -566,7 +583,7 @@ void DarknessofPlanetMainScene::Release()
 
 void DarknessofPlanetMainScene::Update()
 {
-
+	UIOBJECTMANAGER->Update("InfoText");
 	if (m_iCameranum == 0)
 	{
 		CAMERA->Update(&m_pCharacter->GetPosition(), 0);
@@ -1045,6 +1062,10 @@ void DarknessofPlanetMainScene::CallbackOn(int number)
 			SOUNDMANAGER->play("BGM_BattleRage");
 			SOUNDMANAGER->stop("BGM_Walk");
 			SOUNDMANAGER->stop("BGM_Suspence");
+		}
+		if (m_pBoss->GetAninum() == 69)
+		{
+			SCENEMANAGER->changeScene("EndingScene");
 		}
 		if (m_pBoss->GetAninum() == 6)
 		{
@@ -1535,7 +1556,7 @@ void DarknessofPlanetMainScene::Render()
 {
 	GETDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	GETDEVICE->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-
+	
 	////블룸용 변수들
 	LPDIRECT3DSURFACE9 pHWBackBufferBloom = NULL;
 	LPDIRECT3DSURFACE9 pHWDepthStencilBufferBloom = NULL;
@@ -1823,7 +1844,7 @@ void DarknessofPlanetMainScene::Render()
 
 
 
-
+	UIOBJECTMANAGER->Render("InfoText");
 	UIOBJECTMANAGER->Render();
 
 	m_pConsole->Render();

@@ -582,6 +582,9 @@
     <ClInclude Include="StartScene.h">
       <Filter>MainGame\GameMain\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="EndingScene.h">
+      <Filter>MainGame\GameMain\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DarknessofPlanet.cpp">
@@ -942,6 +945,9 @@
       <Filter>MainGame\GameMain\Scene</Filter>
     </ClCompile>
     <ClCompile Include="StartScene.cpp">
+      <Filter>MainGame\GameMain\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingScene.cpp">
       <Filter>MainGame\GameMain\Scene</Filter>
     </ClCompile>
   </ItemGroup>
