@@ -47,6 +47,7 @@ DarknessofPlanetMainScene::DarknessofPlanetMainScene()
 	, m_iSound(1)
 	, m_fTime8(0)
 	, m_fTime9(0)
+	, m_iCheck(0)
 {
 	m_vecAttackSlot.resize(8, false);
 	m_ObjNodes.clear();
@@ -219,11 +220,11 @@ HRESULT DarknessofPlanetMainScene::Setup()
 	UIOBJECTMANAGER->AddRoot("InfoText", UITYPE_TEXT, true);
 	UIOBJECTMANAGER->SetPosition("InfoText", 0.3f, 0.1f);
 	UIOBJECTMANAGER->SetDrawTextFormat("InfoText", DT_LEFT | DT_TOP | DT_NOCLIP);
-	UIOBJECTMANAGER->SetTextColor("InfoText", D3DCOLOR_XRGB(0, 0, 255));
+	UIOBJECTMANAGER->SetTextColor("InfoText", D3DCOLOR_XRGB(255, 255, 0));
 	//0, 0, 0
 	//218, 149, 31
 	//89, 231, 53
-	UIOBJECTMANAGER->SetFontType("InfoText", cFontManager::E_LODING);
+	UIOBJECTMANAGER->SetFontType("InfoText", cFontManager::E_INFO);
 	UIOBJECTMANAGER->SetText("InfoText", "당신의 장비들은 행성 곳곳에 흩어졌습니다.\n"
 										"행성 생명체들로 부터 살아남아 장비를 모으십시오\n"
 										"장비가 부족한 상태에서 E-T13호와 마주치면 위헙합니다.");
@@ -583,6 +584,16 @@ void DarknessofPlanetMainScene::Release()
 
 void DarknessofPlanetMainScene::Update()
 {
+	if (m_pCharacter->m_iBodyLv>=1 && m_pCharacter->m_iHeadLv >=1      && m_iCheck==0)
+	{
+		m_iCheck = 1;
+		UIOBJECTMANAGER->SetText("InfoText", "이제 어느정도 장비를 갖추었으니\n"
+			" E-T13호가 더 성장하기 전에 찾아서 포획하십시오\n"
+			);
+
+
+	}
+
 	UIOBJECTMANAGER->Update("InfoText");
 	if (m_iCameranum == 0)
 	{

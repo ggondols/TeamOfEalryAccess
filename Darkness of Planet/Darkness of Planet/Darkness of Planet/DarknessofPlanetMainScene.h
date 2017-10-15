@@ -62,7 +62,7 @@ private:
 	float					m_fTime8;    ///보스 어택 시간
 	float					m_fTime9; ////화염방사기 사운드 시간 (너무 짧아서 깨져서 추가)
 	int						m_iBodyUpgrade;
-	
+	int						m_iCheck;
 	LPDIRECT3DTEXTURE9		tex;
 	// 인벤토리 추가
 	Inventory*				m_pInventory;

@@ -111,7 +111,7 @@ LPD3DXFONT cFontManager::GetFont(eFontType e)
 		else if (e == E_INFO)
 		{
 			fd.Height = 15;
-			fd.Width = 15;
+			fd.Width = 20;
 			fd.Weight = FW_NORMAL;
 			fd.Italic = false;
 			fd.CharSet = DEFAULT_CHARSET;

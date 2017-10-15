@@ -29,6 +29,9 @@ HRESULT EndingScene::Setup()
 
 
 	m_rt2 = RectMake(200, 650, 1000, 1000);
+	SOUNDMANAGER->stop("BGM_BattleRage");
+	SOUNDMANAGER->play("BGM_Resting");
+	
 	return S_OK;
 }
 
